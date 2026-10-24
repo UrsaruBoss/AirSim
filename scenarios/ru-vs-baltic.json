@@ -1,0 +1,867 @@
+{
+ "name": "Rusia → NATO Est (Baltica și Polonia): lovituri asupra apărării aeriene, bazelor și nodurilor logistice",
+ "dtSeconds": 0.5,
+ "durationSeconds": 28800,
+ "defenseIntervalSeconds": 1.0,
+ "cheapestFirst": true,
+ "localTracking": true,
+ "airspaceMap": "world",
+ "countries": {
+  "RU": "attacker",
+  "BY": "attackerAlly",
+  "PL": "defender",
+  "LT": "defender",
+  "LV": "defender",
+  "EE": "defender",
+  "AL": "defenderAlly",
+  "BE": "defenderAlly",
+  "BG": "defenderAlly",
+  "CA": "defenderAlly",
+  "HR": "defenderAlly",
+  "CZ": "defenderAlly",
+  "DK": "defenderAlly",
+  "FI": "defenderAlly",
+  "FR": "defenderAlly",
+  "DE": "defenderAlly",
+  "GR": "defenderAlly",
+  "HU": "defenderAlly",
+  "IS": "defenderAlly",
+  "IT": "defenderAlly",
+  "LU": "defenderAlly",
+  "ME": "defenderAlly",
+  "NL": "defenderAlly",
+  "MK": "defenderAlly",
+  "NO": "defenderAlly",
+  "PT": "defenderAlly",
+  "RO": "defenderAlly",
+  "SK": "defenderAlly",
+  "SI": "defenderAlly",
+  "ES": "defenderAlly",
+  "SE": "defenderAlly",
+  "TR": "defenderAlly",
+  "GB": "defenderAlly",
+  "US": "defenderAlly",
+  "UA": "defenderAlly",
+  "MD": "defenderAlly"
+ },
+ "launchSites": [
+  {
+   "id": "L01",
+   "name": "Kaliningrad",
+   "latDeg": 54.7,
+   "lonDeg": 20.5,
+   "altM": 0
+  },
+  {
+   "id": "L02",
+   "name": "Baltiysk (nave)",
+   "latDeg": 54.65,
+   "lonDeg": 19.9,
+   "altM": 0
+  },
+  {
+   "id": "L03",
+   "name": "Grodno (Belarus)",
+   "latDeg": 53.7,
+   "lonDeg": 23.8,
+   "altM": 0
+  },
+  {
+   "id": "L04",
+   "name": "Brest (Belarus)",
+   "latDeg": 52.1,
+   "lonDeg": 23.7,
+   "altM": 0
+  },
+  {
+   "id": "L05",
+   "name": "Pskov",
+   "latDeg": 57.8,
+   "lonDeg": 28.4,
+   "altM": 0
+  },
+  {
+   "id": "L06",
+   "name": "Mozîr (Belarus)",
+   "latDeg": 52.05,
+   "lonDeg": 29.25,
+   "altM": 0
+  },
+  {
+   "id": "L07",
+   "name": "Marea Baltică (Kh-101)",
+   "latDeg": 57.0,
+   "lonDeg": 19.5,
+   "altM": 0
+  },
+  {
+   "id": "L08",
+   "name": "Gomel (Belarus)",
+   "latDeg": 52.4,
+   "lonDeg": 31.0,
+   "altM": 0
+  }
+ ],
+ "targets": [
+  {
+   "id": "T01",
+   "name": "Vilnius",
+   "kind": "city",
+   "latDeg": 54.69,
+   "lonDeg": 25.28
+  },
+  {
+   "id": "T02",
+   "name": "Riga",
+   "kind": "city",
+   "latDeg": 56.95,
+   "lonDeg": 24.1
+  },
+  {
+   "id": "T03",
+   "name": "Tallinn",
+   "kind": "city",
+   "latDeg": 59.44,
+   "lonDeg": 24.75
+  },
+  {
+   "id": "T04",
+   "name": "Varșovia",
+   "kind": "city",
+   "latDeg": 52.23,
+   "lonDeg": 21.01
+  },
+  {
+   "id": "T05",
+   "name": "Gdańsk",
+   "kind": "city",
+   "latDeg": 54.35,
+   "lonDeg": 18.65
+  },
+  {
+   "id": "T06",
+   "name": "Rzeszów (nod logistic)",
+   "kind": "military_base",
+   "latDeg": 50.11,
+   "lonDeg": 22.02,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T07",
+   "name": "Baza aeriană Šiauliai",
+   "kind": "military_base",
+   "latDeg": 55.89,
+   "lonDeg": 23.39,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T08",
+   "name": "Baza aeriană Ämari",
+   "kind": "military_base",
+   "latDeg": 59.26,
+   "lonDeg": 24.2,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T09",
+   "name": "Baza aeriană Lielvārde",
+   "kind": "military_base",
+   "latDeg": 56.77,
+   "lonDeg": 24.85,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T10",
+   "name": "Baza aeriană Łask",
+   "kind": "military_base",
+   "latDeg": 51.55,
+   "lonDeg": 19.18,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T11",
+   "name": "Baza Orzysz (NATO)",
+   "kind": "military_base",
+   "latDeg": 53.81,
+   "lonDeg": 21.95,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T12",
+   "name": "Baza navală Gdynia",
+   "kind": "military_base",
+   "latDeg": 54.53,
+   "lonDeg": 18.55,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T13",
+   "name": "Pasul Suwałki (nod rutier)",
+   "kind": "field",
+   "latDeg": 54.1,
+   "lonDeg": 22.93
+  },
+  {
+   "id": "X01",
+   "name": "Lovitura asupra: Radar Varșovia",
+   "kind": "military_base",
+   "latDeg": 52.3,
+   "lonDeg": 21.0,
+   "radiusM": 50,
+   "impactsToDestroy": 3
+  },
+  {
+   "id": "X02",
+   "name": "Lovitura asupra: Radar Vilnius",
+   "kind": "military_base",
+   "latDeg": 54.6,
+   "lonDeg": 25.2,
+   "radiusM": 50,
+   "impactsToDestroy": 3
+  },
+  {
+   "id": "X03",
+   "name": "Lovitura asupra: Radar Riga",
+   "kind": "military_base",
+   "latDeg": 56.9,
+   "lonDeg": 24.1,
+   "radiusM": 50,
+   "impactsToDestroy": 3
+  },
+  {
+   "id": "X04",
+   "name": "Lovitura asupra: Radar Tallinn",
+   "kind": "military_base",
+   "latDeg": 59.4,
+   "lonDeg": 24.8,
+   "radiusM": 50,
+   "impactsToDestroy": 3
+  },
+  {
+   "id": "X05",
+   "name": "Lovitura asupra: Radar Gdańsk",
+   "kind": "military_base",
+   "latDeg": 54.4,
+   "lonDeg": 18.6,
+   "radiusM": 50,
+   "impactsToDestroy": 3
+  },
+  {
+   "id": "X06",
+   "name": "Lovitura asupra: Radar Orzysz",
+   "kind": "military_base",
+   "latDeg": 53.8,
+   "lonDeg": 22.0,
+   "radiusM": 50,
+   "impactsToDestroy": 3
+  }
+ ],
+ "waves": [
+  {
+   "id": "W1",
+   "unit": "iskander-m",
+   "siteIds": [
+    "L01",
+    "L01",
+    "L03"
+   ],
+   "targetIds": [
+    "X01",
+    "X02",
+    "X03",
+    "X05",
+    "X06"
+   ],
+   "count": 30,
+   "startTimeSeconds": 1493,
+   "intervalSeconds": 10,
+   "spreadMeters": 150
+  },
+  {
+   "id": "W1B",
+   "unit": "iskander-m",
+   "siteIds": [
+    "L05"
+   ],
+   "targetIds": [
+    "X02",
+    "X03",
+    "X04"
+   ],
+   "count": 10,
+   "startTimeSeconds": 1537,
+   "intervalSeconds": 10,
+   "spreadMeters": 150
+  },
+  {
+   "id": "W2",
+   "unit": "iskander-m",
+   "siteIds": [
+    "L01",
+    "L03"
+   ],
+   "targetIds": [
+    "T01",
+    "T02",
+    "T04",
+    "T07",
+    "T09",
+    "T11",
+    "T13"
+   ],
+   "count": 24,
+   "startTimeSeconds": 1820,
+   "intervalSeconds": 10,
+   "spreadMeters": 200
+  },
+  {
+   "id": "W2B",
+   "unit": "iskander-m",
+   "siteIds": [
+    "L05"
+   ],
+   "targetIds": [
+    "T01",
+    "T02",
+    "T03",
+    "T08",
+    "T09"
+   ],
+   "count": 10,
+   "startTimeSeconds": 1852,
+   "intervalSeconds": 10,
+   "spreadMeters": 200
+  },
+  {
+   "id": "W2C",
+   "unit": "iskander-m",
+   "siteIds": [
+    "L04"
+   ],
+   "targetIds": [
+    "T04",
+    "T06",
+    "T11",
+    "T13"
+   ],
+   "count": 10,
+   "startTimeSeconds": 1902,
+   "intervalSeconds": 10,
+   "spreadMeters": 200
+  },
+  {
+   "id": "W3",
+   "unit": "kalibr-3m14",
+   "siteIds": [
+    "L02",
+    "L07"
+   ],
+   "targetIds": [
+    "T04",
+    "T05",
+    "T12",
+    "T02",
+    "T03",
+    "T01",
+    "T06"
+   ],
+   "count": 40,
+   "startTimeSeconds": 413,
+   "intervalSeconds": 20,
+   "spreadMeters": 250,
+   "retarget": true
+  },
+  {
+   "id": "W4",
+   "unit": "kh-101",
+   "siteIds": [
+    "L07"
+   ],
+   "targetIds": [
+    "T04",
+    "T06",
+    "T10",
+    "T01",
+    "T02"
+   ],
+   "count": 30,
+   "startTimeSeconds": 20,
+   "intervalSeconds": 25,
+   "spreadMeters": 250,
+   "retarget": true
+  },
+  {
+   "id": "W5",
+   "unit": "shahed-136",
+   "siteIds": [
+    "L03",
+    "L04",
+    "L06",
+    "L08"
+   ],
+   "targetIds": [
+    "T01",
+    "T02",
+    "T03",
+    "T04",
+    "T05",
+    "T06",
+    "T07",
+    "T08",
+    "T09",
+    "T10",
+    "T11",
+    "T12",
+    "T13"
+   ],
+   "count": 200,
+   "startTimeSeconds": 3335,
+   "intervalSeconds": 8,
+   "spreadMeters": 400,
+   "retarget": true
+  }
+ ],
+ "defenses": [
+  {
+   "id": "R01",
+   "type": "radar-ew-long",
+   "name": "Radar Varșovia",
+   "latDeg": 52.3,
+   "lonDeg": 21.0
+  },
+  {
+   "id": "R02",
+   "type": "radar-ew-long",
+   "name": "Radar Vilnius",
+   "latDeg": 54.6,
+   "lonDeg": 25.2
+  },
+  {
+   "id": "R03",
+   "type": "radar-ew-long",
+   "name": "Radar Riga",
+   "latDeg": 56.9,
+   "lonDeg": 24.1
+  },
+  {
+   "id": "R04",
+   "type": "radar-ew-long",
+   "name": "Radar Tallinn",
+   "latDeg": 59.4,
+   "lonDeg": 24.8
+  },
+  {
+   "id": "R05",
+   "type": "radar-ew-long",
+   "name": "Radar Gdańsk",
+   "latDeg": 54.4,
+   "lonDeg": 18.6
+  },
+  {
+   "id": "R06",
+   "type": "radar-ew-long",
+   "name": "Radar Rzeszów",
+   "latDeg": 50.1,
+   "lonDeg": 22.0
+  },
+  {
+   "id": "R07",
+   "type": "radar-ew-long",
+   "name": "Radar Orzysz",
+   "latDeg": 53.8,
+   "lonDeg": 22.0
+  },
+  {
+   "id": "R08",
+   "type": "radar-ew-long",
+   "name": "Radar Suwałki",
+   "latDeg": 54.1,
+   "lonDeg": 22.9
+  },
+  {
+   "id": "PT01",
+   "type": "patriot-pac3-mse",
+   "name": "Patriot Varșovia 01",
+   "latDeg": 52.0774,
+   "lonDeg": 21.0829
+  },
+  {
+   "id": "PT02",
+   "type": "patriot-pac3-mse",
+   "name": "Patriot Varșovia 02",
+   "latDeg": 52.2114,
+   "lonDeg": 20.7216
+  },
+  {
+   "id": "PT03",
+   "type": "patriot-pac3-mse",
+   "name": "Patriot Varșovia 03",
+   "latDeg": 52.3947,
+   "lonDeg": 20.9709
+  },
+  {
+   "id": "PT04",
+   "type": "patriot-pac3-mse",
+   "name": "Patriot Varșovia 04",
+   "latDeg": 52.2426,
+   "lonDeg": 21.1675
+  },
+  {
+   "id": "PT05",
+   "type": "patriot-pac3-mse",
+   "name": "Patriot Rzeszów 05",
+   "latDeg": 50.0973,
+   "lonDeg": 22.0736
+  },
+  {
+   "id": "PT06",
+   "type": "patriot-pac3-mse",
+   "name": "Patriot Rzeszów 06",
+   "latDeg": 50.1285,
+   "lonDeg": 21.9387
+  },
+  {
+   "id": "PT07",
+   "type": "patriot-pac3-mse",
+   "name": "Patriot Gdańsk",
+   "latDeg": 54.38,
+   "lonDeg": 18.7
+  },
+  {
+   "id": "PT08",
+   "type": "patriot-pac3-mse",
+   "name": "Patriot Vilnius",
+   "latDeg": 54.7,
+   "lonDeg": 25.3
+  },
+  {
+   "id": "NS01",
+   "type": "nasams",
+   "name": "NASAMS Lituania 01",
+   "latDeg": 54.6591,
+   "lonDeg": 23.2162
+  },
+  {
+   "id": "NS02",
+   "type": "nasams",
+   "name": "NASAMS Lituania 02",
+   "latDeg": 55.2581,
+   "lonDeg": 23.9064
+  },
+  {
+   "id": "NS03",
+   "type": "nasams",
+   "name": "NASAMS Lituania 03",
+   "latDeg": 54.905,
+   "lonDeg": 24.9832
+  },
+  {
+   "id": "NS04",
+   "type": "nasams",
+   "name": "NASAMS Polonia 04",
+   "latDeg": 52.604,
+   "lonDeg": 22.2706
+  },
+  {
+   "id": "NS05",
+   "type": "nasams",
+   "name": "NASAMS Polonia 05",
+   "latDeg": 52.8607,
+   "lonDeg": 20.97
+  },
+  {
+   "id": "NS06",
+   "type": "nasams",
+   "name": "NASAMS Polonia 06",
+   "latDeg": 53.5319,
+   "lonDeg": 21.6761
+  },
+  {
+   "id": "IR01",
+   "type": "iris-t-slm",
+   "name": "IRIS-T Riga 01",
+   "latDeg": 57.0437,
+   "lonDeg": 23.9454
+  },
+  {
+   "id": "IR02",
+   "type": "iris-t-slm",
+   "name": "IRIS-T Riga 02",
+   "latDeg": 56.9765,
+   "lonDeg": 24.3283
+  },
+  {
+   "id": "IR03",
+   "type": "iris-t-slm",
+   "name": "IRIS-T Riga 03",
+   "latDeg": 56.9143,
+   "lonDeg": 24.0665
+  },
+  {
+   "id": "IR04",
+   "type": "iris-t-slm",
+   "name": "IRIS-T Tallinn 04",
+   "latDeg": 59.5358,
+   "lonDeg": 24.6061
+  },
+  {
+   "id": "IR05",
+   "type": "iris-t-slm",
+   "name": "IRIS-T Tallinn 05",
+   "latDeg": 59.4426,
+   "lonDeg": 24.8209
+  },
+  {
+   "id": "IR06",
+   "type": "iris-t-slm",
+   "name": "IRIS-T Tallinn 06",
+   "latDeg": 59.3458,
+   "lonDeg": 24.6356
+  },
+  {
+   "id": "IR07",
+   "type": "iris-t-slm",
+   "name": "IRIS-T Vilnius 07",
+   "latDeg": 54.5895,
+   "lonDeg": 25.3719
+  },
+  {
+   "id": "IR08",
+   "type": "iris-t-slm",
+   "name": "IRIS-T Vilnius 08",
+   "latDeg": 54.7418,
+   "lonDeg": 25.2293
+  },
+  {
+   "id": "SP01",
+   "type": "samp-t",
+   "name": "SAMP/T Varșovia",
+   "latDeg": 52.2,
+   "lonDeg": 21.2
+  },
+  {
+   "id": "SK01",
+   "type": "skynex-35mm",
+   "name": "Skynex Vilnius 01",
+   "latDeg": 54.6761,
+   "lonDeg": 25.19
+  },
+  {
+   "id": "SK02",
+   "type": "skynex-35mm",
+   "name": "Skynex Vilnius 02",
+   "latDeg": 54.7739,
+   "lonDeg": 25.216
+  },
+  {
+   "id": "SK03",
+   "type": "skynex-35mm",
+   "name": "Skynex Vilnius 03",
+   "latDeg": 54.7228,
+   "lonDeg": 25.4364
+  },
+  {
+   "id": "SK04",
+   "type": "skynex-35mm",
+   "name": "Skynex Vilnius 04",
+   "latDeg": 54.5906,
+   "lonDeg": 25.3314
+  },
+  {
+   "id": "SK05",
+   "type": "skynex-35mm",
+   "name": "Skynex Riga 05",
+   "latDeg": 56.9124,
+   "lonDeg": 24.1058
+  },
+  {
+   "id": "SK06",
+   "type": "skynex-35mm",
+   "name": "Skynex Riga 06",
+   "latDeg": 56.9659,
+   "lonDeg": 23.9087
+  },
+  {
+   "id": "SK07",
+   "type": "skynex-35mm",
+   "name": "Skynex Riga 07",
+   "latDeg": 57.0019,
+   "lonDeg": 24.0962
+  },
+  {
+   "id": "SK08",
+   "type": "skynex-35mm",
+   "name": "Skynex Riga 08",
+   "latDeg": 56.9444,
+   "lonDeg": 24.2629
+  },
+  {
+   "id": "SK09",
+   "type": "skynex-35mm",
+   "name": "Skynex Tallinn 09",
+   "latDeg": 59.4301,
+   "lonDeg": 24.6075
+  },
+  {
+   "id": "SK10",
+   "type": "skynex-35mm",
+   "name": "Skynex Tallinn 10",
+   "latDeg": 59.4658,
+   "lonDeg": 24.7333
+  },
+  {
+   "id": "SK11",
+   "type": "skynex-35mm",
+   "name": "Skynex Tallinn 11",
+   "latDeg": 59.4567,
+   "lonDeg": 24.9304
+  },
+  {
+   "id": "SK12",
+   "type": "skynex-35mm",
+   "name": "Skynex Tallinn 12",
+   "latDeg": 59.395,
+   "lonDeg": 24.786
+  },
+  {
+   "id": "MG01",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Polonia 01",
+   "latDeg": 52.9194,
+   "lonDeg": 21.5928
+  },
+  {
+   "id": "MG02",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Polonia 02",
+   "latDeg": 52.2111,
+   "lonDeg": 21.554
+  },
+  {
+   "id": "MG03",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Polonia 03",
+   "latDeg": 52.8741,
+   "lonDeg": 21.2949
+  },
+  {
+   "id": "MG04",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Polonia 04",
+   "latDeg": 52.8397,
+   "lonDeg": 19.9856
+  },
+  {
+   "id": "MG05",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Polonia 05",
+   "latDeg": 53.1604,
+   "lonDeg": 20.8168
+  },
+  {
+   "id": "MG06",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Polonia 06",
+   "latDeg": 53.7101,
+   "lonDeg": 20.6562
+  },
+  {
+   "id": "MG07",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Polonia 07",
+   "latDeg": 53.2668,
+   "lonDeg": 21.5269
+  },
+  {
+   "id": "MG08",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Polonia 08",
+   "latDeg": 53.8271,
+   "lonDeg": 22.3909
+  },
+  {
+   "id": "MG09",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Polonia 09",
+   "latDeg": 53.1757,
+   "lonDeg": 22.4316
+  },
+  {
+   "id": "MG10",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Polonia 10",
+   "latDeg": 52.869,
+   "lonDeg": 22.2424
+  },
+  {
+   "id": "AB01",
+   "type": "airbase",
+   "name": "Baza Łask",
+   "latDeg": 51.55,
+   "lonDeg": 19.18
+  },
+  {
+   "id": "AB02",
+   "type": "airbase",
+   "name": "Baza Krzesiny",
+   "latDeg": 52.33,
+   "lonDeg": 16.97
+  },
+  {
+   "id": "AB03",
+   "type": "airbase",
+   "name": "Baza Šiauliai",
+   "latDeg": 55.89,
+   "lonDeg": 23.39
+  },
+  {
+   "id": "AB04",
+   "type": "airbase",
+   "name": "Baza Ämari",
+   "latDeg": 59.26,
+   "lonDeg": 24.2
+  },
+  {
+   "id": "AB05",
+   "type": "airbase",
+   "name": "Baza Lielvārde",
+   "latDeg": 56.77,
+   "lonDeg": 24.85
+  },
+  {
+   "id": "PA01",
+   "type": "f-16-patrol",
+   "name": "F-16 Polonia centru",
+   "latDeg": 52.4,
+   "lonDeg": 19.5
+  },
+  {
+   "id": "PA02",
+   "type": "f-16-patrol",
+   "name": "F-16 Polonia est",
+   "latDeg": 53.8,
+   "lonDeg": 22.0
+  },
+  {
+   "id": "PA03",
+   "type": "f-16-patrol",
+   "name": "Patrulă NATO Lituania",
+   "latDeg": 55.5,
+   "lonDeg": 23.8
+  },
+  {
+   "id": "PA04",
+   "type": "f-16-patrol",
+   "name": "Patrulă NATO Estonia",
+   "latDeg": 58.5,
+   "lonDeg": 24.5
+  }
+ ]
+}

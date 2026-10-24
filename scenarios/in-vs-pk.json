@@ -1,0 +1,603 @@
+{
+ "name": "India → Pakistan: lovitură asupra bazelor aeriene și apărării aeriene",
+ "dtSeconds": 0.5,
+ "durationSeconds": 14400,
+ "defenseIntervalSeconds": 1.0,
+ "cheapestFirst": true,
+ "localTracking": true,
+ "airspaceMap": "world",
+ "countries": {
+  "IN": "attacker",
+  "PK": "defender",
+  "CN": "defenderAlly",
+  "AF": "neutral",
+  "IR": "neutral"
+ },
+ "launchSites": [
+  {
+   "id": "L01",
+   "name": "Pathankot",
+   "latDeg": 32.23,
+   "lonDeg": 75.63,
+   "altM": 0
+  },
+  {
+   "id": "L02",
+   "name": "Ambala",
+   "latDeg": 30.37,
+   "lonDeg": 76.78,
+   "altM": 0
+  },
+  {
+   "id": "L03",
+   "name": "Jaisalmer",
+   "latDeg": 26.9,
+   "lonDeg": 70.9,
+   "altM": 0
+  },
+  {
+   "id": "L04",
+   "name": "Bhuj",
+   "latDeg": 23.25,
+   "lonDeg": 69.67,
+   "altM": 0
+  },
+  {
+   "id": "L05",
+   "name": "Jodhpur",
+   "latDeg": 26.25,
+   "lonDeg": 73.05,
+   "altM": 0
+  },
+  {
+   "id": "L06",
+   "name": "Srinagar",
+   "latDeg": 34.08,
+   "lonDeg": 74.8,
+   "altM": 0
+  },
+  {
+   "id": "L07",
+   "name": "Sirsa",
+   "latDeg": 29.55,
+   "lonDeg": 75.0,
+   "altM": 0
+  }
+ ],
+ "targets": [
+  {
+   "id": "T01",
+   "name": "Islamabad",
+   "kind": "city",
+   "latDeg": 33.69,
+   "lonDeg": 73.06
+  },
+  {
+   "id": "T02",
+   "name": "Lahore",
+   "kind": "city",
+   "latDeg": 31.55,
+   "lonDeg": 74.34
+  },
+  {
+   "id": "T03",
+   "name": "Karachi",
+   "kind": "city",
+   "latDeg": 24.86,
+   "lonDeg": 67.0
+  },
+  {
+   "id": "T04",
+   "name": "Rawalpindi (comandament)",
+   "kind": "military_base",
+   "latDeg": 33.6,
+   "lonDeg": 73.05,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T05",
+   "name": "Baza aeriana Nur Khan",
+   "kind": "military_base",
+   "latDeg": 33.62,
+   "lonDeg": 73.1,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T06",
+   "name": "Baza aeriana Sargodha (Mushaf)",
+   "kind": "military_base",
+   "latDeg": 32.05,
+   "lonDeg": 72.67,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T07",
+   "name": "Baza aeriana Rafiqui",
+   "kind": "military_base",
+   "latDeg": 30.76,
+   "lonDeg": 72.28,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T08",
+   "name": "Baza aeriana Bholari",
+   "kind": "military_base",
+   "latDeg": 25.0,
+   "lonDeg": 68.4,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T09",
+   "name": "Baza aeriana Jacobabad",
+   "kind": "military_base",
+   "latDeg": 28.28,
+   "lonDeg": 68.45,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T11",
+   "name": "Kahuta",
+   "kind": "military_base",
+   "latDeg": 33.59,
+   "lonDeg": 73.39,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "X01",
+   "name": "Lovitura asupra: Radar Islamabad",
+   "kind": "military_base",
+   "latDeg": 33.7,
+   "lonDeg": 73.0,
+   "radiusM": 50,
+   "impactsToDestroy": 3
+  },
+  {
+   "id": "X02",
+   "name": "Lovitura asupra: Radar Lahore",
+   "kind": "military_base",
+   "latDeg": 31.55,
+   "lonDeg": 74.3,
+   "radiusM": 50,
+   "impactsToDestroy": 3
+  },
+  {
+   "id": "X03",
+   "name": "Lovitura asupra: Radar Sargodha",
+   "kind": "military_base",
+   "latDeg": 32.05,
+   "lonDeg": 72.7,
+   "radiusM": 50,
+   "impactsToDestroy": 3
+  },
+  {
+   "id": "X04",
+   "name": "Lovitura asupra: HQ-9 Islamabad",
+   "kind": "military_base",
+   "latDeg": 33.7,
+   "lonDeg": 73.1,
+   "radiusM": 50,
+   "impactsToDestroy": 3
+  },
+  {
+   "id": "X05",
+   "name": "Lovitura asupra: HQ-9 Lahore",
+   "kind": "military_base",
+   "latDeg": 31.5,
+   "lonDeg": 74.4,
+   "radiusM": 50,
+   "impactsToDestroy": 3
+  },
+  {
+   "id": "X06",
+   "name": "Lovitura asupra: HQ-9 Sargodha",
+   "kind": "military_base",
+   "latDeg": 32.1,
+   "lonDeg": 72.7,
+   "radiusM": 50,
+   "impactsToDestroy": 3
+  }
+ ],
+ "waves": [
+  {
+   "id": "W1",
+   "unit": "brahmos",
+   "siteIds": [
+    "L01",
+    "L01",
+    "L06"
+   ],
+   "targetIds": [
+    "T01",
+    "T02",
+    "T04",
+    "T05",
+    "T06",
+    "T07",
+    "T11"
+   ],
+   "count": 60,
+   "startTimeSeconds": 1331,
+   "intervalSeconds": 6,
+   "spreadMeters": 100,
+   "retarget": true
+  },
+  {
+   "id": "W2",
+   "unit": "pralay",
+   "siteIds": [
+    "L01",
+    "L07"
+   ],
+   "targetIds": [
+    "T02",
+    "T04",
+    "T05",
+    "T06",
+    "T07",
+    "T11"
+   ],
+   "count": 24,
+   "startTimeSeconds": 1401,
+   "intervalSeconds": 15,
+   "spreadMeters": 150
+  },
+  {
+   "id": "W2S",
+   "unit": "pralay",
+   "siteIds": [
+    "L03"
+   ],
+   "targetIds": [
+    "T07",
+    "T08",
+    "T09"
+   ],
+   "count": 8,
+   "startTimeSeconds": 1484,
+   "intervalSeconds": 20,
+   "spreadMeters": 150
+  },
+  {
+   "id": "W3",
+   "unit": "scalp-eg",
+   "siteIds": [
+    "L01",
+    "L02",
+    "L07"
+   ],
+   "targetIds": [
+    "T04",
+    "T05",
+    "T06",
+    "T07"
+   ],
+   "count": 30,
+   "startTimeSeconds": 500,
+   "intervalSeconds": 10,
+   "spreadMeters": 150,
+   "retarget": true
+  },
+  {
+   "id": "W3S",
+   "unit": "scalp-eg",
+   "siteIds": [
+    "L03",
+    "L05"
+   ],
+   "targetIds": [
+    "T07",
+    "T08",
+    "T09"
+   ],
+   "count": 12,
+   "startTimeSeconds": 427,
+   "intervalSeconds": 15,
+   "spreadMeters": 150,
+   "retarget": true
+  },
+  {
+   "id": "WS",
+   "unit": "harop",
+   "siteIds": [
+    "L01",
+    "L02",
+    "L07"
+   ],
+   "targetIds": [
+    "X01",
+    "X02",
+    "X03",
+    "X04",
+    "X05",
+    "X06"
+   ],
+   "count": 40,
+   "startTimeSeconds": 0,
+   "intervalSeconds": 5,
+   "spreadMeters": 100,
+   "retarget": true
+  }
+ ],
+ "defenses": [
+  {
+   "id": "R01",
+   "type": "radar-ew-long",
+   "name": "Radar Islamabad",
+   "latDeg": 33.7,
+   "lonDeg": 73.0
+  },
+  {
+   "id": "R02",
+   "type": "radar-ew-long",
+   "name": "Radar Lahore",
+   "latDeg": 31.55,
+   "lonDeg": 74.3
+  },
+  {
+   "id": "R03",
+   "type": "radar-ew-long",
+   "name": "Radar Karachi",
+   "latDeg": 24.9,
+   "lonDeg": 67.1
+  },
+  {
+   "id": "R04",
+   "type": "radar-ew-long",
+   "name": "Radar Sargodha",
+   "latDeg": 32.05,
+   "lonDeg": 72.7
+  },
+  {
+   "id": "R05",
+   "type": "radar-ew-long",
+   "name": "Radar Multan",
+   "latDeg": 30.2,
+   "lonDeg": 71.5
+  },
+  {
+   "id": "R06",
+   "type": "radar-ew-long",
+   "name": "Radar Jacobabad",
+   "latDeg": 28.3,
+   "lonDeg": 68.45
+  },
+  {
+   "id": "HQ01",
+   "type": "hq-9",
+   "name": "HQ-9 Islamabad",
+   "latDeg": 33.7,
+   "lonDeg": 73.1
+  },
+  {
+   "id": "HQ02",
+   "type": "hq-9",
+   "name": "HQ-9 Lahore",
+   "latDeg": 31.5,
+   "lonDeg": 74.4
+  },
+  {
+   "id": "HQ03",
+   "type": "hq-9",
+   "name": "HQ-9 Karachi",
+   "latDeg": 24.9,
+   "lonDeg": 67.1
+  },
+  {
+   "id": "HQ04",
+   "type": "hq-9",
+   "name": "HQ-9 Sargodha",
+   "latDeg": 32.1,
+   "lonDeg": 72.7
+  },
+  {
+   "id": "H601",
+   "type": "hq-16",
+   "name": "HQ-16 Islamabad 01",
+   "latDeg": 33.607,
+   "lonDeg": 72.8962
+  },
+  {
+   "id": "H602",
+   "type": "hq-16",
+   "name": "HQ-16 Islamabad 02",
+   "latDeg": 33.8098,
+   "lonDeg": 72.9754
+  },
+  {
+   "id": "H603",
+   "type": "hq-16",
+   "name": "HQ-16 Islamabad 03",
+   "latDeg": 33.7395,
+   "lonDeg": 73.157
+  },
+  {
+   "id": "H604",
+   "type": "hq-16",
+   "name": "HQ-16 Islamabad 04",
+   "latDeg": 33.6282,
+   "lonDeg": 73.1137
+  },
+  {
+   "id": "H605",
+   "type": "hq-16",
+   "name": "HQ-16 Lahore 05",
+   "latDeg": 31.6311,
+   "lonDeg": 74.346
+  },
+  {
+   "id": "H606",
+   "type": "hq-16",
+   "name": "HQ-16 Lahore 06",
+   "latDeg": 31.5238,
+   "lonDeg": 74.5228
+  },
+  {
+   "id": "H607",
+   "type": "hq-16",
+   "name": "HQ-16 Lahore 07",
+   "latDeg": 31.4193,
+   "lonDeg": 74.3024
+  },
+  {
+   "id": "H608",
+   "type": "hq-16",
+   "name": "HQ-16 Lahore 08",
+   "latDeg": 31.555,
+   "lonDeg": 74.2901
+  },
+  {
+   "id": "H609",
+   "type": "hq-16",
+   "name": "HQ-16 Karachi 09",
+   "latDeg": 24.9899,
+   "lonDeg": 66.9025
+  },
+  {
+   "id": "H610",
+   "type": "hq-16",
+   "name": "HQ-16 Karachi 10",
+   "latDeg": 24.8774,
+   "lonDeg": 67.1177
+  },
+  {
+   "id": "H611",
+   "type": "hq-16",
+   "name": "HQ-16 Karachi 11",
+   "latDeg": 24.8113,
+   "lonDeg": 66.9874
+  },
+  {
+   "id": "MG01",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Pakistan 01",
+   "latDeg": 31.6381,
+   "lonDeg": 72.7707
+  },
+  {
+   "id": "MG02",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Pakistan 02",
+   "latDeg": 30.0532,
+   "lonDeg": 72.4237
+  },
+  {
+   "id": "MG03",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Pakistan 03",
+   "latDeg": 30.9618,
+   "lonDeg": 71.413
+  },
+  {
+   "id": "MG04",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Pakistan 04",
+   "latDeg": 31.8588,
+   "lonDeg": 72.1376
+  },
+  {
+   "id": "MG05",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Pakistan 05",
+   "latDeg": 32.3873,
+   "lonDeg": 71.3602
+  },
+  {
+   "id": "MG06",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Pakistan 06",
+   "latDeg": 32.5615,
+   "lonDeg": 71.9261
+  },
+  {
+   "id": "MG07",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Pakistan 07",
+   "latDeg": 33.1191,
+   "lonDeg": 72.5345
+  },
+  {
+   "id": "MG08",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Pakistan 08",
+   "latDeg": 33.5557,
+   "lonDeg": 73.6949
+  },
+  {
+   "id": "MG09",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Pakistan 09",
+   "latDeg": 32.6065,
+   "lonDeg": 74.134
+  },
+  {
+   "id": "MG10",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Pakistan 10",
+   "latDeg": 31.5252,
+   "lonDeg": 73.7584
+  },
+  {
+   "id": "AB01",
+   "type": "airbase",
+   "name": "Baza Nur Khan",
+   "latDeg": 33.62,
+   "lonDeg": 73.1
+  },
+  {
+   "id": "AB02",
+   "type": "airbase",
+   "name": "Baza Sargodha",
+   "latDeg": 32.05,
+   "lonDeg": 72.67
+  },
+  {
+   "id": "AB03",
+   "type": "airbase",
+   "name": "Baza Rafiqui",
+   "latDeg": 30.76,
+   "lonDeg": 72.28
+  },
+  {
+   "id": "AB04",
+   "type": "airbase",
+   "name": "Baza Bholari",
+   "latDeg": 25.0,
+   "lonDeg": 68.4
+  },
+  {
+   "id": "PA01",
+   "type": "f-16-patrol",
+   "name": "JF-17 / F-16 Islamabad",
+   "latDeg": 33.3,
+   "lonDeg": 72.8
+  },
+  {
+   "id": "PA02",
+   "type": "f-16-patrol",
+   "name": "JF-17 / F-16 Lahore",
+   "latDeg": 31.7,
+   "lonDeg": 73.7
+  },
+  {
+   "id": "PA03",
+   "type": "f-16-patrol",
+   "name": "JF-17 / F-16 Sargodha",
+   "latDeg": 32.3,
+   "lonDeg": 72.2
+  },
+  {
+   "id": "PA04",
+   "type": "f-16-patrol",
+   "name": "JF-17 / F-16 Sud",
+   "latDeg": 25.2,
+   "lonDeg": 68.0
+  }
+ ]
+}

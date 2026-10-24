@@ -1,0 +1,225 @@
+{
+  "name": "Exemplu catalog - tipuri reale (Shahed, Iskander, Kalibr vs Patriot, IRIS-T, Gepard, F-16, Sting)",
+  "dtSeconds": 0.1,
+  "durationSeconds": 21600,
+  "defenseIntervalSeconds": 1.0,
+  "cheapestFirst": true,
+  "airspaceMap": "europe",
+  "countries": {
+    "RO": "defender",
+    "BG": "defenderAlly",
+    "HU": "defenderAlly",
+    "MD": "neutral",
+    "RS": "neutral",
+    "UA": "defenderAlly",
+    "RU": "attacker",
+    "BY": "attackerAlly"
+  },
+  "launchSites": [
+    {
+      "id": "L1",
+      "name": "Lansare Marea Neagră Nord",
+      "latDeg": 43.2,
+      "lonDeg": 31.5,
+      "altM": 0
+    },
+    {
+      "id": "L2",
+      "name": "Lansare Marea Neagră Sud",
+      "latDeg": 42.5,
+      "lonDeg": 30.0,
+      "altM": 0
+    },
+    {
+      "id": "L3",
+      "name": "Lansare balistice",
+      "latDeg": 44.9,
+      "lonDeg": 31.0,
+      "altM": 0
+    }
+  ],
+  "targets": [
+    {
+      "id": "T1",
+      "name": "Tinta oras",
+      "kind": "city",
+      "latDeg": 44.43,
+      "lonDeg": 26.1,
+      "altM": 80
+    },
+    {
+      "id": "T2",
+      "name": "Baza aeriana",
+      "kind": "military_base",
+      "latDeg": 44.36,
+      "lonDeg": 28.49,
+      "altM": 30,
+      "radiusM": 800
+    }
+  ],
+  "waves": [
+    {
+      "id": "W1",
+      "unit": "shahed-136",
+      "siteId": "L1",
+      "targetId": "T1",
+      "count": 300,
+      "startTimeSeconds": 0,
+      "intervalSeconds": 0.5,
+      "spreadMeters": 500
+    },
+    {
+      "id": "W2",
+      "unit": "shahed-136",
+      "siteId": "L2",
+      "targetId": "T1",
+      "count": 200,
+      "startTimeSeconds": 60,
+      "intervalSeconds": 0.5,
+      "spreadMeters": 500
+    },
+    {
+      "id": "W3",
+      "unit": "geran-2-90kg",
+      "siteId": "L1",
+      "targetId": "T2",
+      "count": 100,
+      "startTimeSeconds": 120,
+      "intervalSeconds": 0.5,
+      "spreadMeters": 600
+    },
+    {
+      "id": "W4",
+      "unit": "iskander-m",
+      "siteId": "L3",
+      "targetId": "T1",
+      "count": 6,
+      "startTimeSeconds": 600,
+      "intervalSeconds": 20,
+      "spreadMeters": 300
+    },
+    {
+      "id": "W5",
+      "unit": "kalibr-3m14",
+      "siteId": "L2",
+      "targetId": "T2",
+      "count": 8,
+      "startTimeSeconds": 300,
+      "intervalSeconds": 15,
+      "spreadMeters": 300
+    },
+    {
+      "id": "W6",
+      "unit": "su-34-fab500",
+      "siteId": "L2",
+      "targetId": "T1",
+      "count": 6,
+      "startTimeSeconds": 900,
+      "intervalSeconds": 20,
+      "spreadMeters": 400
+    }
+  ],
+  "defenses": [
+    {
+      "id": "R1",
+      "type": "trml-4d",
+      "latDeg": 44.2,
+      "lonDeg": 28.6,
+      "name": "Radar Constanța"
+    },
+    {
+      "id": "R2",
+      "type": "an-mpq-65",
+      "latDeg": 44.45,
+      "lonDeg": 26.0,
+      "name": "Radar București"
+    },
+    {
+      "id": "S1",
+      "type": "patriot-pac3-mse",
+      "latDeg": 44.43,
+      "lonDeg": 26.1,
+      "name": "Patriot București"
+    },
+    {
+      "id": "S2",
+      "type": "iris-t-slm",
+      "latDeg": 44.3,
+      "lonDeg": 27.2,
+      "name": "IRIS-T Est"
+    },
+    {
+      "id": "S3",
+      "type": "iris-t-slm",
+      "latDeg": 44.5,
+      "lonDeg": 26.0,
+      "name": "IRIS-T București",
+      "magazine": 16
+    },
+    {
+      "id": "G1",
+      "type": "gepard-35mm",
+      "latDeg": 44.445,
+      "lonDeg": 26.12,
+      "name": "Gepard Nord"
+    },
+    {
+      "id": "G2",
+      "type": "gepard-35mm",
+      "latDeg": 44.415,
+      "lonDeg": 26.07,
+      "name": "Gepard Sud"
+    },
+    {
+      "id": "K1",
+      "type": "skynex-35mm",
+      "latDeg": 44.37,
+      "lonDeg": 28.45,
+      "name": "Skynex bază"
+    },
+    {
+      "id": "P1",
+      "type": "f-16-patrol",
+      "latDeg": 44.3,
+      "lonDeg": 27.6,
+      "name": "F-16 Est"
+    },
+    {
+      "id": "P2",
+      "type": "f-16-patrol",
+      "latDeg": 44.5,
+      "lonDeg": 27.0,
+      "name": "F-16 Centru"
+    },
+    {
+      "id": "B1",
+      "type": "sting-interceptor",
+      "latDeg": 44.25,
+      "lonDeg": 27.9,
+      "name": "Sting Est",
+      "rangeKm": 50
+    },
+    {
+      "id": "B2",
+      "type": "sting-interceptor",
+      "latDeg": 44.5,
+      "lonDeg": 26.5,
+      "name": "Sting București",
+      "rangeKm": 50
+    },
+    {
+      "id": "AB1",
+      "type": "airbase",
+      "latDeg": 44.36,
+      "lonDeg": 28.49,
+      "name": "Baza Kogălniceanu"
+    },
+    {
+      "id": "AB2",
+      "type": "airbase",
+      "latDeg": 44.57,
+      "lonDeg": 26.08,
+      "name": "Baza Otopeni"
+    }
+  ]
+}

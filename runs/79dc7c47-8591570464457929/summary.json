@@ -1,0 +1,240 @@
+﻿{
+  "total": 620,
+  "launched": 620,
+  "detected": 620,
+  "intercepted": 119,
+  "missed": 99,
+  "impacted": 501,
+  "violations": 206,
+  "classes": [
+    {
+      "class": "city",
+      "impacts": 433,
+      "killed": {
+        "mean": 203.172,
+        "p5": 63,
+        "p95": 448
+      },
+      "injured": {
+        "mean": 609.4265,
+        "p5": 187,
+        "p95": 1336
+      }
+    },
+    {
+      "class": "military_base",
+      "impacts": 47,
+      "killed": {
+        "mean": 5.4445,
+        "p5": 1,
+        "p95": 14
+      },
+      "injured": {
+        "mean": 7.627,
+        "p5": 1,
+        "p95": 19
+      }
+    },
+    {
+      "class": "field",
+      "impacts": 21,
+      "killed": {
+        "mean": 0.028,
+        "p5": 0,
+        "p95": 0
+      },
+      "injured": {
+        "mean": 0.0515,
+        "p5": 0,
+        "p95": 0
+      }
+    }
+  ],
+  "killed": {
+    "mean": 208.6445,
+    "p5": 65,
+    "p95": 454
+  },
+  "injured": {
+    "mean": 617.105,
+    "p5": 193,
+    "p95": 1358
+  },
+  "violationsByCountry": [
+    {
+      "code": "BG",
+      "count": 206
+    }
+  ],
+  "defenses": [
+    {
+      "id": "R1",
+      "name": "Radar Constan\u021Ba",
+      "kind": "radar",
+      "detected": 420,
+      "shots": 0,
+      "hits": 0,
+      "misses": 0,
+      "lost": 0,
+      "returns": 0,
+      "magazineStart": 0
+    },
+    {
+      "id": "R2",
+      "name": "Radar Bucure\u0219ti",
+      "kind": "radar",
+      "detected": 200,
+      "shots": 0,
+      "hits": 0,
+      "misses": 0,
+      "lost": 0,
+      "returns": 0,
+      "magazineStart": 0
+    },
+    {
+      "id": "S1",
+      "name": "Patriot Bucure\u0219ti",
+      "kind": "sam",
+      "detected": 0,
+      "shots": 9,
+      "hits": 6,
+      "misses": 3,
+      "lost": 0,
+      "returns": 0,
+      "magazineStart": 16
+    },
+    {
+      "id": "S2",
+      "name": "IRIS-T Est",
+      "kind": "sam",
+      "detected": 0,
+      "shots": 5,
+      "hits": 5,
+      "misses": 0,
+      "lost": 0,
+      "returns": 0,
+      "magazineStart": 8
+    },
+    {
+      "id": "S3",
+      "name": "IRIS-T Bucure\u0219ti",
+      "kind": "sam",
+      "detected": 0,
+      "shots": 13,
+      "hits": 11,
+      "misses": 2,
+      "lost": 0,
+      "returns": 0,
+      "magazineStart": 16
+    },
+    {
+      "id": "G1",
+      "name": "Gepard Nord",
+      "kind": "aaGun",
+      "detected": 0,
+      "shots": 36,
+      "hits": 11,
+      "misses": 25,
+      "lost": 0,
+      "returns": 0,
+      "magazineStart": 36
+    },
+    {
+      "id": "G2",
+      "name": "Gepard Sud",
+      "kind": "aaGun",
+      "detected": 0,
+      "shots": 36,
+      "hits": 11,
+      "misses": 25,
+      "lost": 0,
+      "returns": 0,
+      "magazineStart": 36
+    },
+    {
+      "id": "K1",
+      "name": "Skynex baz\u0103",
+      "kind": "aaGun",
+      "detected": 0,
+      "shots": 60,
+      "hits": 32,
+      "misses": 28,
+      "lost": 0,
+      "returns": 0,
+      "magazineStart": 60
+    },
+    {
+      "id": "P1",
+      "name": "F-16 Est",
+      "kind": "patrol",
+      "detected": 0,
+      "shots": 10,
+      "hits": 8,
+      "misses": 2,
+      "lost": 0,
+      "returns": 2,
+      "magazineStart": 6
+    },
+    {
+      "id": "P2",
+      "name": "F-16 Centru",
+      "kind": "patrol",
+      "detected": 0,
+      "shots": 10,
+      "hits": 8,
+      "misses": 2,
+      "lost": 0,
+      "returns": 1,
+      "magazineStart": 6
+    },
+    {
+      "id": "B1",
+      "name": "Sting Est",
+      "kind": "interceptorBase",
+      "detected": 0,
+      "shots": 20,
+      "hits": 14,
+      "misses": 5,
+      "lost": 1,
+      "returns": 0,
+      "magazineStart": 20
+    },
+    {
+      "id": "B2",
+      "name": "Sting Bucure\u0219ti",
+      "kind": "interceptorBase",
+      "detected": 0,
+      "shots": 20,
+      "hits": 13,
+      "misses": 7,
+      "lost": 0,
+      "returns": 0,
+      "magazineStart": 20
+    },
+    {
+      "id": "AB1",
+      "name": "Baza Kog\u0103lniceanu",
+      "kind": "airbase",
+      "detected": 0,
+      "shots": 0,
+      "hits": 0,
+      "misses": 0,
+      "lost": 0,
+      "returns": 0,
+      "magazineStart": 0
+    },
+    {
+      "id": "AB2",
+      "name": "Baza Otopeni",
+      "kind": "airbase",
+      "detected": 0,
+      "shots": 0,
+      "hits": 0,
+      "misses": 0,
+      "lost": 0,
+      "returns": 0,
+      "magazineStart": 0
+    }
+  ],
+  "trials": 2000
+}

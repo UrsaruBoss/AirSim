@@ -1,0 +1,828 @@
+{
+ "name": "Iran → Israel (cu proxy-uri): salvă coordonată cu Hezbollah (Liban), Gaza, Houthi (Yemen) și miliții din Irak",
+ "dtSeconds": 0.5,
+ "durationSeconds": 43200,
+ "defenseIntervalSeconds": 1.0,
+ "cheapestFirst": true,
+ "localTracking": true,
+ "airspaceMap": "world",
+ "countries": {
+  "IR": "attacker",
+  "LB": "attackerAlly",
+  "PS": "attackerAlly",
+  "YE": "attackerAlly",
+  "IQ": "attackerAlly",
+  "IL": "defender",
+  "US": "defenderAlly",
+  "GB": "defenderAlly",
+  "FR": "defenderAlly",
+  "JO": "neutral",
+  "SY": "neutral"
+ },
+ "launchSites": [
+  {
+   "id": "I1",
+   "name": "Kermanshah",
+   "latDeg": 34.31,
+   "lonDeg": 47.07,
+   "altM": 0
+  },
+  {
+   "id": "I2",
+   "name": "Tabriz",
+   "latDeg": 38.08,
+   "lonDeg": 46.29,
+   "altM": 0
+  },
+  {
+   "id": "I3",
+   "name": "Ilam",
+   "latDeg": 33.63,
+   "lonDeg": 46.42,
+   "altM": 0
+  },
+  {
+   "id": "I4",
+   "name": "Khorramabad",
+   "latDeg": 33.49,
+   "lonDeg": 48.35,
+   "altM": 0
+  },
+  {
+   "id": "I5",
+   "name": "Isfahan",
+   "latDeg": 32.65,
+   "lonDeg": 51.67,
+   "altM": 0
+  },
+  {
+   "id": "P1",
+   "name": "Sudul Libanului",
+   "latDeg": 33.15,
+   "lonDeg": 35.35,
+   "altM": 0
+  },
+  {
+   "id": "P2",
+   "name": "Valea Bekaa",
+   "latDeg": 33.85,
+   "lonDeg": 36.0,
+   "altM": 0
+  },
+  {
+   "id": "P3",
+   "name": "Gaza",
+   "latDeg": 31.5,
+   "lonDeg": 34.45,
+   "altM": 0
+  },
+  {
+   "id": "P4",
+   "name": "Saada (Yemen)",
+   "latDeg": 16.94,
+   "lonDeg": 43.76,
+   "altM": 0
+  },
+  {
+   "id": "P5",
+   "name": "Hodeidah (Yemen)",
+   "latDeg": 14.8,
+   "lonDeg": 42.95,
+   "altM": 0
+  },
+  {
+   "id": "P6",
+   "name": "Sanaa (Yemen)",
+   "latDeg": 15.35,
+   "lonDeg": 44.2,
+   "altM": 0
+  },
+  {
+   "id": "P7",
+   "name": "Irak de vest",
+   "latDeg": 33.0,
+   "lonDeg": 41.5,
+   "altM": 0
+  },
+  {
+   "id": "P8",
+   "name": "Irak de sud",
+   "latDeg": 31.3,
+   "lonDeg": 46.3,
+   "altM": 0
+  }
+ ],
+ "targets": [
+  {
+   "id": "T01",
+   "name": "Tel Aviv",
+   "kind": "city",
+   "latDeg": 32.0853,
+   "lonDeg": 34.7818
+  },
+  {
+   "id": "T02",
+   "name": "Ierusalim",
+   "kind": "city",
+   "latDeg": 31.7683,
+   "lonDeg": 35.2137
+  },
+  {
+   "id": "T03",
+   "name": "Haifa",
+   "kind": "city",
+   "latDeg": 32.794,
+   "lonDeg": 34.99
+  },
+  {
+   "id": "T04",
+   "name": "Beersheba",
+   "kind": "city",
+   "latDeg": 31.253,
+   "lonDeg": 34.791
+  },
+  {
+   "id": "T05",
+   "name": "Eilat",
+   "kind": "city",
+   "latDeg": 29.558,
+   "lonDeg": 34.952
+  },
+  {
+   "id": "T06",
+   "name": "Baza aeriana Nevatim",
+   "kind": "military_base",
+   "latDeg": 31.208,
+   "lonDeg": 35.012,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T07",
+   "name": "Baza aeriana Ramon",
+   "kind": "military_base",
+   "latDeg": 30.776,
+   "lonDeg": 34.667,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T08",
+   "name": "Baza aeriana Tel Nof",
+   "kind": "military_base",
+   "latDeg": 31.839,
+   "lonDeg": 34.82,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T09",
+   "name": "Baza aeriana Hatzerim",
+   "kind": "military_base",
+   "latDeg": 31.234,
+   "lonDeg": 34.66,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T10",
+   "name": "Baza aeriana Ramat David",
+   "kind": "military_base",
+   "latDeg": 32.665,
+   "lonDeg": 35.18,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T11",
+   "name": "Dimona (centru nuclear)",
+   "kind": "military_base",
+   "latDeg": 31.0,
+   "lonDeg": 35.15,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T12",
+   "name": "Kirya (Tel Aviv, comandament)",
+   "kind": "military_base",
+   "latDeg": 32.07,
+   "lonDeg": 34.79,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T13",
+   "name": "Rafinaria Haifa",
+   "kind": "field",
+   "latDeg": 32.8,
+   "lonDeg": 35.05
+  },
+  {
+   "id": "T14",
+   "name": "Kiryat Shmona",
+   "kind": "city",
+   "latDeg": 33.207,
+   "lonDeg": 35.571
+  },
+  {
+   "id": "T15",
+   "name": "Nahariya",
+   "kind": "city",
+   "latDeg": 33.01,
+   "lonDeg": 35.095
+  },
+  {
+   "id": "T16",
+   "name": "Safed",
+   "kind": "city",
+   "latDeg": 32.96,
+   "lonDeg": 35.5
+  },
+  {
+   "id": "T17",
+   "name": "Sderot",
+   "kind": "city",
+   "latDeg": 31.525,
+   "lonDeg": 34.596
+  },
+  {
+   "id": "T18",
+   "name": "Ashkelon",
+   "kind": "city",
+   "latDeg": 31.669,
+   "lonDeg": 34.574
+  },
+  {
+   "id": "T19",
+   "name": "Ashdod",
+   "kind": "city",
+   "latDeg": 31.804,
+   "lonDeg": 34.655
+  }
+ ],
+ "waves": [
+  {
+   "id": "WI1",
+   "unit": "shahed-136",
+   "siteIds": [
+    "I1",
+    "I1",
+    "I2",
+    "I2",
+    "I3",
+    "I3",
+    "I4",
+    "I4",
+    "I5"
+   ],
+   "targetIds": [
+    "T01",
+    "T02",
+    "T03",
+    "T04",
+    "T05",
+    "T06",
+    "T07",
+    "T08",
+    "T09",
+    "T10",
+    "T11",
+    "T12",
+    "T13"
+   ],
+   "count": 150,
+   "startTimeSeconds": 10816,
+   "intervalSeconds": 10,
+   "spreadMeters": 400,
+   "retarget": true
+  },
+  {
+   "id": "WI2",
+   "unit": "paveh",
+   "siteIds": [
+    "I1",
+    "I1",
+    "I2",
+    "I2",
+    "I3",
+    "I3",
+    "I4",
+    "I4",
+    "I5"
+   ],
+   "targetIds": [
+    "T01",
+    "T03",
+    "T06",
+    "T08",
+    "T10",
+    "T12"
+   ],
+   "count": 30,
+   "startTimeSeconds": 30642,
+   "intervalSeconds": 30,
+   "spreadMeters": 300,
+   "retarget": true
+  },
+  {
+   "id": "WI3",
+   "unit": "ghadr-110",
+   "siteIds": [
+    "I1",
+    "I1",
+    "I2",
+    "I2",
+    "I3",
+    "I3",
+    "I4",
+    "I4",
+    "I5"
+   ],
+   "targetIds": [
+    "T01",
+    "T02",
+    "T03",
+    "T04",
+    "T06",
+    "T07",
+    "T08",
+    "T09",
+    "T10",
+    "T11",
+    "T12"
+   ],
+   "count": 60,
+   "startTimeSeconds": 35053,
+   "intervalSeconds": 15,
+   "spreadMeters": 300
+  },
+  {
+   "id": "WI4",
+   "unit": "khorramshahr-4",
+   "siteIds": [
+    "I1",
+    "I1",
+    "I2",
+    "I2",
+    "I3",
+    "I3",
+    "I4",
+    "I4",
+    "I5"
+   ],
+   "targetIds": [
+    "T01",
+    "T03",
+    "T06",
+    "T07",
+    "T11",
+    "T12"
+   ],
+   "count": 30,
+   "startTimeSeconds": 35385,
+   "intervalSeconds": 20,
+   "spreadMeters": 300
+  },
+  {
+   "id": "WP1",
+   "unit": "rocket-122",
+   "siteIds": [
+    "P1"
+   ],
+   "targetIds": [
+    "T14",
+    "T15",
+    "T16"
+   ],
+   "count": 200,
+   "startTimeSeconds": 35337,
+   "intervalSeconds": 4,
+   "spreadMeters": 500
+  },
+  {
+   "id": "WP2",
+   "unit": "fajr-5",
+   "siteIds": [
+    "P1"
+   ],
+   "targetIds": [
+    "T03",
+    "T03",
+    "T10",
+    "T14",
+    "T15",
+    "T16",
+    "T13"
+   ],
+   "count": 80,
+   "startTimeSeconds": 35342,
+   "intervalSeconds": 10,
+   "spreadMeters": 400
+  },
+  {
+   "id": "WP3",
+   "unit": "fateh-110",
+   "siteIds": [
+    "P1",
+    "P2"
+   ],
+   "targetIds": [
+    "T01",
+    "T03",
+    "T10",
+    "T12"
+   ],
+   "count": 30,
+   "startTimeSeconds": 35472,
+   "intervalSeconds": 20,
+   "spreadMeters": 300
+  },
+  {
+   "id": "WP4",
+   "unit": "rocket-122",
+   "siteIds": [
+    "P3"
+   ],
+   "targetIds": [
+    "T17",
+    "T18",
+    "T19"
+   ],
+   "count": 150,
+   "startTimeSeconds": 35362,
+   "intervalSeconds": 5,
+   "spreadMeters": 500
+  },
+  {
+   "id": "WP5",
+   "unit": "fajr-5",
+   "siteIds": [
+    "P3"
+   ],
+   "targetIds": [
+    "T01",
+    "T19",
+    "T08"
+   ],
+   "count": 40,
+   "startTimeSeconds": 35583,
+   "intervalSeconds": 12,
+   "spreadMeters": 400
+  },
+  {
+   "id": "WP6",
+   "unit": "samad-3",
+   "siteIds": [
+    "P4"
+   ],
+   "targetIds": [
+    "T05"
+   ],
+   "count": 40,
+   "startTimeSeconds": 2295,
+   "intervalSeconds": 20,
+   "spreadMeters": 400,
+   "retarget": true
+  },
+  {
+   "id": "WP7",
+   "unit": "houthi-ballistic",
+   "siteIds": [
+    "P4",
+    "P5"
+   ],
+   "targetIds": [
+    "T05",
+    "T05",
+    "T07"
+   ],
+   "count": 20,
+   "startTimeSeconds": 34785,
+   "intervalSeconds": 40,
+   "spreadMeters": 300
+  },
+  {
+   "id": "WP8",
+   "unit": "shahed-136",
+   "siteIds": [
+    "P7",
+    "P8"
+   ],
+   "targetIds": [
+    "T03",
+    "T10",
+    "T13",
+    "T14"
+   ],
+   "count": 60,
+   "startTimeSeconds": 19384,
+   "intervalSeconds": 15,
+   "spreadMeters": 400,
+   "retarget": true
+  }
+ ],
+ "defenses": [
+  {
+   "id": "R01",
+   "type": "radar-ew-long",
+   "name": "Radar Tel Aviv",
+   "latDeg": 32.0,
+   "lonDeg": 34.85
+  },
+  {
+   "id": "R02",
+   "type": "radar-ew-long",
+   "name": "Radar Muntele Meron",
+   "latDeg": 33.0,
+   "lonDeg": 35.4
+  },
+  {
+   "id": "R03",
+   "type": "radar-ew-long",
+   "name": "Radar Mitzpe Ramon",
+   "latDeg": 30.6,
+   "lonDeg": 34.8
+  },
+  {
+   "id": "R04",
+   "type": "radar-ew-long",
+   "name": "Radar Eilat",
+   "latDeg": 29.6,
+   "lonDeg": 34.95
+  },
+  {
+   "id": "R05",
+   "type": "radar-ew-long",
+   "name": "Radar Negev",
+   "latDeg": 31.3,
+   "lonDeg": 34.8
+  },
+  {
+   "id": "R06",
+   "type": "radar-ew-long",
+   "name": "Radar Haifa",
+   "latDeg": 32.7,
+   "lonDeg": 35.0
+  },
+  {
+   "id": "ID01",
+   "type": "iron-dome",
+   "name": "Iron Dome Tel Aviv",
+   "latDeg": 32.05,
+   "lonDeg": 34.8
+  },
+  {
+   "id": "ID02",
+   "type": "iron-dome",
+   "name": "Iron Dome Haifa",
+   "latDeg": 32.78,
+   "lonDeg": 34.99
+  },
+  {
+   "id": "ID03",
+   "type": "iron-dome",
+   "name": "Iron Dome Beersheba",
+   "latDeg": 31.25,
+   "lonDeg": 34.79
+  },
+  {
+   "id": "ID04",
+   "type": "iron-dome",
+   "name": "Iron Dome Eilat",
+   "latDeg": 29.56,
+   "lonDeg": 34.95
+  },
+  {
+   "id": "ID05",
+   "type": "iron-dome",
+   "name": "Iron Dome Ierusalim",
+   "latDeg": 31.77,
+   "lonDeg": 35.2
+  },
+  {
+   "id": "ID06",
+   "type": "iron-dome",
+   "name": "Iron Dome Ashdod",
+   "latDeg": 31.8,
+   "lonDeg": 34.66
+  },
+  {
+   "id": "ID07",
+   "type": "iron-dome",
+   "name": "Iron Dome Nevatim",
+   "latDeg": 31.21,
+   "lonDeg": 35.0
+  },
+  {
+   "id": "ID08",
+   "type": "iron-dome",
+   "name": "Iron Dome Ramon",
+   "latDeg": 30.78,
+   "lonDeg": 34.67
+  },
+  {
+   "id": "DS01",
+   "type": "davids-sling",
+   "name": "David's Sling centru",
+   "latDeg": 32.0,
+   "lonDeg": 34.9
+  },
+  {
+   "id": "DS02",
+   "type": "davids-sling",
+   "name": "David's Sling nord",
+   "latDeg": 32.75,
+   "lonDeg": 35.0
+  },
+  {
+   "id": "DS03",
+   "type": "davids-sling",
+   "name": "David's Sling sud",
+   "latDeg": 31.3,
+   "lonDeg": 34.85
+  },
+  {
+   "id": "A301",
+   "type": "arrow-3",
+   "name": "Arrow 3 centru",
+   "latDeg": 31.9,
+   "lonDeg": 34.85
+  },
+  {
+   "id": "A302",
+   "type": "arrow-3",
+   "name": "Arrow 3 nord",
+   "latDeg": 32.7,
+   "lonDeg": 35.1
+  },
+  {
+   "id": "A303",
+   "type": "arrow-3",
+   "name": "Arrow 3 Negev",
+   "latDeg": 31.1,
+   "lonDeg": 34.8
+  },
+  {
+   "id": "A201",
+   "type": "arrow-2",
+   "name": "Arrow 2 centru",
+   "latDeg": 32.1,
+   "lonDeg": 34.9
+  },
+  {
+   "id": "A202",
+   "type": "arrow-2",
+   "name": "Arrow 2 Ierusalim",
+   "latDeg": 31.6,
+   "lonDeg": 35.0
+  },
+  {
+   "id": "A203",
+   "type": "arrow-2",
+   "name": "Arrow 2 nord",
+   "latDeg": 32.6,
+   "lonDeg": 35.2
+  },
+  {
+   "id": "PT01",
+   "type": "patriot-pac3-mse",
+   "name": "Patriot Tel Aviv",
+   "latDeg": 32.1,
+   "lonDeg": 34.75
+  },
+  {
+   "id": "PT02",
+   "type": "patriot-pac3-mse",
+   "name": "Patriot Haifa",
+   "latDeg": 32.8,
+   "lonDeg": 35.0
+  },
+  {
+   "id": "PT03",
+   "type": "patriot-pac3-mse",
+   "name": "Patriot Negev",
+   "latDeg": 31.3,
+   "lonDeg": 34.9
+  },
+  {
+   "id": "TH01",
+   "type": "thaad",
+   "name": "THAAD (SUA, Negev)",
+   "latDeg": 31.05,
+   "lonDeg": 34.85
+  },
+  {
+   "id": "AB01",
+   "type": "airbase",
+   "name": "Baza Tel Nof",
+   "latDeg": 31.839,
+   "lonDeg": 34.82
+  },
+  {
+   "id": "AB02",
+   "type": "airbase",
+   "name": "Baza Nevatim",
+   "latDeg": 31.208,
+   "lonDeg": 35.012
+  },
+  {
+   "id": "AB03",
+   "type": "airbase",
+   "name": "Baza Ramon",
+   "latDeg": 30.776,
+   "lonDeg": 34.667
+  },
+  {
+   "id": "AB04",
+   "type": "airbase",
+   "name": "Baza Ramat David",
+   "latDeg": 32.665,
+   "lonDeg": 35.18
+  },
+  {
+   "id": "PA01",
+   "type": "f-16-patrol",
+   "name": "Patrula F-16/F-15 centru",
+   "latDeg": 31.8,
+   "lonDeg": 34.9
+  },
+  {
+   "id": "PA02",
+   "type": "f-16-patrol",
+   "name": "Patrula F-35I Negev",
+   "latDeg": 31.2,
+   "lonDeg": 35.1
+  },
+  {
+   "id": "PA03",
+   "type": "f-16-patrol",
+   "name": "Patrula F-16 nord",
+   "latDeg": 32.5,
+   "lonDeg": 35.2
+  },
+  {
+   "id": "PA04",
+   "type": "f-16-patrol",
+   "name": "Patrula F-35I sud",
+   "latDeg": 30.6,
+   "lonDeg": 34.8
+  },
+  {
+   "id": "ID09",
+   "type": "iron-dome",
+   "name": "Iron Dome Kiryat Shmona",
+   "latDeg": 33.2,
+   "lonDeg": 35.57
+  },
+  {
+   "id": "ID10",
+   "type": "iron-dome",
+   "name": "Iron Dome Nahariya",
+   "latDeg": 33.0,
+   "lonDeg": 35.1
+  },
+  {
+   "id": "ID11",
+   "type": "iron-dome",
+   "name": "Iron Dome Safed",
+   "latDeg": 32.96,
+   "lonDeg": 35.5
+  },
+  {
+   "id": "ID12",
+   "type": "iron-dome",
+   "name": "Iron Dome Karmiel",
+   "latDeg": 32.9,
+   "lonDeg": 35.3
+  },
+  {
+   "id": "ID13",
+   "type": "iron-dome",
+   "name": "Iron Dome Sderot",
+   "latDeg": 31.52,
+   "lonDeg": 34.6
+  },
+  {
+   "id": "ID14",
+   "type": "iron-dome",
+   "name": "Iron Dome Ashkelon",
+   "latDeg": 31.67,
+   "lonDeg": 34.57
+  },
+  {
+   "id": "ID15",
+   "type": "iron-dome",
+   "name": "Iron Dome Haifa Sud",
+   "latDeg": 32.7,
+   "lonDeg": 35.0
+  },
+  {
+   "id": "ID16",
+   "type": "iron-dome",
+   "name": "Iron Dome Tel Aviv Sud",
+   "latDeg": 31.95,
+   "lonDeg": 34.8
+  }
+ ]
+}

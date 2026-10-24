@@ -1,0 +1,46 @@
+﻿{
+  "name": "Exemplu - val de drone",
+  "dtSeconds": 0.1,
+  "durationSeconds": 1800,
+  "launchSites": [
+    {
+      "id": "L1",
+      "name": "Punct lansare A",
+      "latDeg": 46,
+      "lonDeg": 34,
+      "altM": 0
+    }
+  ],
+  "targets": [
+    {
+      "id": "T1",
+      "name": "Tinta oras",
+      "kind": "city",
+      "latDeg": 44.4,
+      "lonDeg": 26.1,
+      "altM": 80
+    },
+    {
+      "id": "T2",
+      "name": "Tinta baza",
+      "kind": "military_base",
+      "latDeg": 45,
+      "lonDeg": 28,
+      "altM": 20
+    }
+  ],
+  "waves": [
+    {
+      "id": "W1",
+      "siteId": "L1",
+      "targetId": "T1",
+      "kind": "drone",
+      "count": 2000,
+      "startTimeSeconds": 0,
+      "intervalSeconds": 0.5,
+      "speedMps": 55,
+      "altitudeM": 400,
+      "spreadMeters": 500
+    }
+  ]
+}

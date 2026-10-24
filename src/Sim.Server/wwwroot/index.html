@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AirSim - client de test</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font-family: system-ui, sans-serif; margin: 16px; max-width: 960px; }
+  h1 { font-size: 18px; margin: 0 0 12px; }
+  .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 10px; }
+  button, select, input { font: inherit; padding: 4px 8px; }
+  pre { margin: 0 0 10px; padding: 8px; background: rgba(127,127,127,.12); border-radius: 6px; font-size: 13px; min-height: 5.5em; white-space: pre-wrap; }
+  canvas { width: 100%; height: auto; border: 1px solid rgba(127,127,127,.4); border-radius: 6px; background: #0d1117; display: block; }
+  .err { color: #e5534b; }
+</style>
+</head>
+<body>
+<h1>AirSim — client de test</h1>
+
+<div class="row">
+  <select id="scn"></select>
+  <label>seed <input id="seed" size="8" placeholder="auto"></label>
+  <button id="start">Start</button>
+  <button id="pause">Pauză</button>
+  <button id="resume">Reia</button>
+  <button id="stop">Stop</button>
+  <button id="save">Salvează</button>
+  <label>viteză
+    <select id="speed">
+      <option>1</option><option>10</option><option>50</option>
+      <option selected>100</option><option>500</option>
+    </select>
+  </label>
+</div>
+
+<pre id="status">se conectează…</pre>
+<canvas id="map" width="900" height="520"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr@8.0.7/dist/browser/signalr.min.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const canvas = $('map'), ctx = canvas.getContext('2d');
+const W = canvas.width, H = canvas.height, PAD = 30;
+
+let scenario = null, bounds = null, drones = [], impacts = [], lastEpoch = -1, lastStatus = null, lastError = '';
+
+async function api(path, method = 'GET', body) {
+  const res = await fetch('/api' + path, {
+    method,
+    headers: body ? { 'Content-Type': 'application/json' } : undefined,
+    body: body ? JSON.stringify(body) : undefined
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || res.statusText);
+  return data;
+}
+
+async function act(fn) {
+  try { lastError = ''; await fn(); } catch (e) { lastError = e.message; renderStatus(); }
+}
+
+function computeBounds(s) {
+  const pts = [...s.launchSites, ...s.targets];
+  let minLat = Math.min(...pts.map(p => p.latDeg)), maxLat = Math.max(...pts.map(p => p.latDeg));
+  let minLon = Math.min(...pts.map(p => p.lonDeg)), maxLon = Math.max(...pts.map(p => p.lonDeg));
+  const dLat = Math.max(maxLat - minLat, 0.5) * 0.15, dLon = Math.max(maxLon - minLon, 0.5) * 0.15;
+  return { minLat: minLat - dLat, maxLat: maxLat + dLat, minLon: minLon - dLon, maxLon: maxLon + dLon };
+}
+const sx = lon => PAD + (lon - bounds.minLon) / (bounds.maxLon - bounds.minLon) * (W - 2 * PAD);
+const sy = lat => H - PAD - (lat - bounds.minLat) / (bounds.maxLat - bounds.minLat) * (H - 2 * PAD);
+
+function draw() {
+  ctx.clearRect(0, 0, W, H);
+  if (!scenario || !bounds) return;
+
+  ctx.fillStyle = '#4c9aff';
+  for (const s of scenario.launchSites) { ctx.beginPath(); ctx.arc(sx(s.lonDeg), sy(s.latDeg), 5, 0, 7); ctx.fill(); label(s.name, sx(s.lonDeg), sy(s.latDeg)); }
+  ctx.fillStyle = '#ff6b6b';
+  for (const t of scenario.targets) { ctx.fillRect(sx(t.lonDeg) - 5, sy(t.latDeg) - 5, 10, 10); label(t.name, sx(t.lonDeg), sy(t.latDeg)); }
+
+  ctx.fillStyle = 'rgba(255,107,107,.55)';
+  for (const i of impacts) ctx.fillRect(sx(i.lonDeg) - 1, sy(i.latDeg) - 1, 2, 2);
+
+  ctx.fillStyle = '#ffd166';
+  for (const d of drones) ctx.fillRect(sx(d.lon) - 1, sy(d.lat) - 1, 3, 3);
+}
+function label(text, x, y) { ctx.save(); ctx.fillStyle = '#9aa4b2'; ctx.font = '12px system-ui'; ctx.fillText(text, x + 8, y - 8); ctx.restore(); }
+
+function decode(b64) {
+  const bin = atob(b64), u8 = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
+  const v = new DataView(u8.buffer);
+  const n = v.getInt32(16, true), pts = new Array(n);
+  for (let i = 0; i < n; i++) {
+    const o = 24 + i * 16;
+    pts[i] = { id: v.getInt32(o, true), lat: v.getFloat32(o + 4, true), lon: v.getFloat32(o + 8, true), alt: v.getFloat32(o + 12, true) };
+  }
+  return pts;
+}
+
+function renderStatus() {
+  const s = lastStatus;
+  let text = s
+    ? `stare: ${s.state}   scenariu: ${s.scenarioName || '-'}   seed: ${s.seed || '-'}   run: ${s.runId || '-'}\n` +
+      `timp simulat: ${s.simTimeS.toFixed(1)} s   viteză: ${s.speed}x   tick: ${s.tick}\n` +
+      `drone: ${s.totalDrones}   în zbor: ${s.flying}   impact: ${s.impacted}` +
+      (s.savedRunId ? `\nsalvat în runs/${s.savedRunId}` : '')
+    : 'se conectează…';
+  const el = $('status');
+  el.textContent = text + (lastError ? `\n\neroare: ${lastError}` : '');
+  el.classList.toggle('err', !!lastError);
+}
+
+async function loadScenario(id) {
+  if (!id) { scenario = null; bounds = null; return; }
+  try { scenario = await api('/scenarios/' + encodeURIComponent(id)); bounds = computeBounds(scenario); }
+  catch { scenario = null; bounds = null; }
+  draw();
+}
+
+async function init() {
+  const list = await api('/scenarios');
+  const sel = $('scn');
+  for (const s of list) {
+    const o = document.createElement('option');
+    o.value = s.id; o.textContent = `${s.name} (${s.totalUnits})` + (s.valid ? '' : ' - INVALID');
+    o.disabled = !s.valid; sel.appendChild(o);
+  }
+  if (list.length) loadScenario(sel.value);
+  sel.onchange = () => loadScenario(sel.value);
+
+  $('start').onclick = () => act(async () => {
+    const seedText = $('seed').value.trim();
+    await api('/sim/start', 'POST', { scenario: sel.value, seed: seedText ? Number(seedText) : null });
+    await api('/sim/speed', 'POST', { value: Number($('speed').value) });
+  });
+  $('pause').onclick = () => act(() => api('/sim/pause', 'POST'));
+  $('resume').onclick = () => act(() => api('/sim/resume', 'POST'));
+  $('stop').onclick = () => act(() => api('/sim/stop', 'POST'));
+  $('save').onclick = () => act(() => api('/sim/save', 'POST'));
+  $('speed').onchange = () => act(() => api('/sim/speed', 'POST', { value: Number($('speed').value) }));
+
+  const conn = new signalR.HubConnectionBuilder().withUrl('/hubs/sim').withAutomaticReconnect().build();
+
+  conn.on('snapshot', b64 => { drones = decode(b64); draw(); });
+  conn.on('events', evs => { for (const e of evs) if (e.type === 'impact') impacts.push(e); });
+  conn.on('status', async s => {
+    if (s.epoch !== lastEpoch) {
+      lastEpoch = s.epoch; impacts = []; drones = [];
+      if (s.scenarioId) await loadScenario(s.scenarioId);
+    }
+    if (s.state === 'idle') { drones = []; impacts = []; draw(); }
+    lastStatus = s; renderStatus();
+  });
+
+  await conn.start();
+}
+init().catch(e => { lastError = e.message; renderStatus(); });
+</script>
+</body>
+</html>

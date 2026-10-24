@@ -1,0 +1,546 @@
+{
+ "name": "Pakistan → India: salvă balistică și de croazieră asupra bazelor aeriene și orașelor din nord",
+ "dtSeconds": 0.5,
+ "durationSeconds": 14400,
+ "defenseIntervalSeconds": 1.0,
+ "cheapestFirst": true,
+ "localTracking": true,
+ "airspaceMap": "world",
+ "countries": {
+  "PK": "attacker",
+  "IN": "defender",
+  "AF": "neutral",
+  "CN": "neutral"
+ },
+ "launchSites": [
+  {
+   "id": "L01",
+   "name": "Sialkot",
+   "latDeg": 32.5,
+   "lonDeg": 74.5,
+   "altM": 0
+  },
+  {
+   "id": "L02",
+   "name": "Multan",
+   "latDeg": 30.2,
+   "lonDeg": 71.5,
+   "altM": 0
+  },
+  {
+   "id": "L03",
+   "name": "Sargodha",
+   "latDeg": 32.0,
+   "lonDeg": 72.7,
+   "altM": 0
+  },
+  {
+   "id": "L04",
+   "name": "Karachi",
+   "latDeg": 24.9,
+   "lonDeg": 67.0,
+   "altM": 0
+  },
+  {
+   "id": "L05",
+   "name": "Rahim Yar Khan",
+   "latDeg": 28.4,
+   "lonDeg": 70.3,
+   "altM": 0
+  },
+  {
+   "id": "L06",
+   "name": "Peshawar",
+   "latDeg": 34.0,
+   "lonDeg": 71.5,
+   "altM": 0
+  }
+ ],
+ "targets": [
+  {
+   "id": "T01",
+   "name": "Delhi",
+   "kind": "city",
+   "latDeg": 28.61,
+   "lonDeg": 77.21
+  },
+  {
+   "id": "T02",
+   "name": "Amritsar",
+   "kind": "city",
+   "latDeg": 31.63,
+   "lonDeg": 74.87
+  },
+  {
+   "id": "T03",
+   "name": "Jammu",
+   "kind": "city",
+   "latDeg": 32.73,
+   "lonDeg": 74.86
+  },
+  {
+   "id": "T04",
+   "name": "Baza aeriana Pathankot",
+   "kind": "military_base",
+   "latDeg": 32.23,
+   "lonDeg": 75.63,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T05",
+   "name": "Baza aeriana Adampur",
+   "kind": "military_base",
+   "latDeg": 31.43,
+   "lonDeg": 75.76,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T06",
+   "name": "Baza aeriana Ambala",
+   "kind": "military_base",
+   "latDeg": 30.37,
+   "lonDeg": 76.82,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T07",
+   "name": "Baza aeriana Bhuj",
+   "kind": "military_base",
+   "latDeg": 23.29,
+   "lonDeg": 69.67,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T08",
+   "name": "Baza aeriana Jaisalmer",
+   "kind": "military_base",
+   "latDeg": 26.89,
+   "lonDeg": 70.87,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T09",
+   "name": "Baza aeriana Sirsa",
+   "kind": "military_base",
+   "latDeg": 29.55,
+   "lonDeg": 75.0,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T10",
+   "name": "Mumbai",
+   "kind": "city",
+   "latDeg": 19.08,
+   "lonDeg": 72.88
+  },
+  {
+   "id": "T11",
+   "name": "Rafinaria Jamnagar",
+   "kind": "field",
+   "latDeg": 22.47,
+   "lonDeg": 70.07
+  },
+  {
+   "id": "T12",
+   "name": "Chandigarh",
+   "kind": "city",
+   "latDeg": 30.73,
+   "lonDeg": 76.78
+  }
+ ],
+ "waves": [
+  {
+   "id": "W1",
+   "unit": "fatah-2",
+   "siteIds": [
+    "L01",
+    "L01",
+    "L03"
+   ],
+   "targetIds": [
+    "T02",
+    "T03",
+    "T04",
+    "T05",
+    "T09"
+   ],
+   "count": 60,
+   "startTimeSeconds": 1382,
+   "intervalSeconds": 6,
+   "spreadMeters": 200
+  },
+  {
+   "id": "W2",
+   "unit": "babur",
+   "siteIds": [
+    "L01",
+    "L02",
+    "L03",
+    "L05"
+   ],
+   "targetIds": [
+    "T01",
+    "T02",
+    "T04",
+    "T06",
+    "T09"
+   ],
+   "count": 50,
+   "startTimeSeconds": 397,
+   "intervalSeconds": 12,
+   "spreadMeters": 250,
+   "retarget": true
+  },
+  {
+   "id": "W3",
+   "unit": "shaheen-1a",
+   "siteIds": [
+    "L02",
+    "L05"
+   ],
+   "targetIds": [
+    "T01",
+    "T07",
+    "T08",
+    "T09",
+    "T11"
+   ],
+   "count": 14,
+   "startTimeSeconds": 1649,
+   "intervalSeconds": 25,
+   "spreadMeters": 250
+  },
+  {
+   "id": "W3S",
+   "unit": "shaheen-1a",
+   "siteIds": [
+    "L04"
+   ],
+   "targetIds": [
+    "T07",
+    "T08",
+    "T11"
+   ],
+   "count": 8,
+   "startTimeSeconds": 1803,
+   "intervalSeconds": 25,
+   "spreadMeters": 250
+  }
+ ],
+ "defenses": [
+  {
+   "id": "R01",
+   "type": "radar-ew-long",
+   "name": "Radar Delhi",
+   "latDeg": 28.6,
+   "lonDeg": 77.2
+  },
+  {
+   "id": "R02",
+   "type": "radar-ew-long",
+   "name": "Radar Amritsar",
+   "latDeg": 31.6,
+   "lonDeg": 74.9
+  },
+  {
+   "id": "R03",
+   "type": "radar-ew-long",
+   "name": "Radar Ambala",
+   "latDeg": 30.4,
+   "lonDeg": 76.8
+  },
+  {
+   "id": "R04",
+   "type": "radar-ew-long",
+   "name": "Radar Jaisalmer",
+   "latDeg": 26.9,
+   "lonDeg": 70.9
+  },
+  {
+   "id": "R05",
+   "type": "radar-ew-long",
+   "name": "Radar Bhuj",
+   "latDeg": 23.3,
+   "lonDeg": 69.7
+  },
+  {
+   "id": "R06",
+   "type": "radar-ew-long",
+   "name": "Radar Mumbai",
+   "latDeg": 19.1,
+   "lonDeg": 72.9
+  },
+  {
+   "id": "S401",
+   "type": "s-400",
+   "name": "S-400 Delhi",
+   "latDeg": 28.7,
+   "lonDeg": 77.1
+  },
+  {
+   "id": "S402",
+   "type": "s-400",
+   "name": "S-400 Ambala",
+   "latDeg": 30.4,
+   "lonDeg": 76.7
+  },
+  {
+   "id": "S403",
+   "type": "s-400",
+   "name": "S-400 Pathankot",
+   "latDeg": 32.25,
+   "lonDeg": 75.55
+  },
+  {
+   "id": "S404",
+   "type": "s-400",
+   "name": "S-400 Jodhpur",
+   "latDeg": 26.3,
+   "lonDeg": 73.0
+  },
+  {
+   "id": "AK01",
+   "type": "akash",
+   "name": "Akash Delhi 01",
+   "latDeg": 28.6169,
+   "lonDeg": 77.3467
+  },
+  {
+   "id": "AK02",
+   "type": "akash",
+   "name": "Akash Delhi 02",
+   "latDeg": 28.4325,
+   "lonDeg": 77.2191
+  },
+  {
+   "id": "AK03",
+   "type": "akash",
+   "name": "Akash Delhi 03",
+   "latDeg": 28.6008,
+   "lonDeg": 76.9655
+  },
+  {
+   "id": "AK04",
+   "type": "akash",
+   "name": "Akash Delhi 04",
+   "latDeg": 28.7984,
+   "lonDeg": 77.2519
+  },
+  {
+   "id": "AK05",
+   "type": "akash",
+   "name": "Akash Amritsar 05",
+   "latDeg": 31.5693,
+   "lonDeg": 74.8025
+  },
+  {
+   "id": "AK06",
+   "type": "akash",
+   "name": "Akash Amritsar 06",
+   "latDeg": 31.7424,
+   "lonDeg": 74.8137
+  },
+  {
+   "id": "AK07",
+   "type": "akash",
+   "name": "Akash Amritsar 07",
+   "latDeg": 31.5945,
+   "lonDeg": 75.021
+  },
+  {
+   "id": "AK08",
+   "type": "akash",
+   "name": "Akash Jaisalmer 08",
+   "latDeg": 26.8846,
+   "lonDeg": 70.8347
+  },
+  {
+   "id": "AK09",
+   "type": "akash",
+   "name": "Akash Jaisalmer 09",
+   "latDeg": 26.9034,
+   "lonDeg": 70.9861
+  },
+  {
+   "id": "MR01",
+   "type": "mrsam",
+   "name": "MRSAM Delhi 01",
+   "latDeg": 28.5205,
+   "lonDeg": 76.9865
+  },
+  {
+   "id": "MR02",
+   "type": "mrsam",
+   "name": "MRSAM Delhi 02",
+   "latDeg": 28.8206,
+   "lonDeg": 77.2359
+  },
+  {
+   "id": "MR03",
+   "type": "mrsam",
+   "name": "MRSAM Delhi 03",
+   "latDeg": 28.5552,
+   "lonDeg": 77.3054
+  },
+  {
+   "id": "MR04",
+   "type": "mrsam",
+   "name": "MRSAM Mumbai 04",
+   "latDeg": 19.1634,
+   "lonDeg": 72.9283
+  },
+  {
+   "id": "MR05",
+   "type": "mrsam",
+   "name": "MRSAM Mumbai 05",
+   "latDeg": 18.9368,
+   "lonDeg": 72.8177
+  },
+  {
+   "id": "MR06",
+   "type": "mrsam",
+   "name": "MRSAM Pathankot 06",
+   "latDeg": 32.2936,
+   "lonDeg": 75.7219
+  },
+  {
+   "id": "MR07",
+   "type": "mrsam",
+   "name": "MRSAM Pathankot 07",
+   "latDeg": 32.1736,
+   "lonDeg": 75.554
+  },
+  {
+   "id": "MG01",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil India 01",
+   "latDeg": 29.7169,
+   "lonDeg": 76.9405
+  },
+  {
+   "id": "MG02",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil India 02",
+   "latDeg": 29.9536,
+   "lonDeg": 75.7817
+  },
+  {
+   "id": "MG03",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil India 03",
+   "latDeg": 29.2708,
+   "lonDeg": 75.3876
+  },
+  {
+   "id": "MG04",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil India 04",
+   "latDeg": 29.8664,
+   "lonDeg": 74.9252
+  },
+  {
+   "id": "MG05",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil India 05",
+   "latDeg": 30.2756,
+   "lonDeg": 73.4366
+  },
+  {
+   "id": "MG06",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil India 06",
+   "latDeg": 30.6624,
+   "lonDeg": 75.0925
+  },
+  {
+   "id": "MG07",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil India 07",
+   "latDeg": 31.5629,
+   "lonDeg": 74.7072
+  },
+  {
+   "id": "MG08",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil India 08",
+   "latDeg": 31.0329,
+   "lonDeg": 75.5677
+  },
+  {
+   "id": "MG09",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil India 09",
+   "latDeg": 30.7149,
+   "lonDeg": 75.7377
+  },
+  {
+   "id": "MG10",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil India 10",
+   "latDeg": 30.6879,
+   "lonDeg": 77.2254
+  },
+  {
+   "id": "AB01",
+   "type": "airbase",
+   "name": "Baza Pathankot",
+   "latDeg": 32.23,
+   "lonDeg": 75.63
+  },
+  {
+   "id": "AB02",
+   "type": "airbase",
+   "name": "Baza Ambala",
+   "latDeg": 30.37,
+   "lonDeg": 76.82
+  },
+  {
+   "id": "AB03",
+   "type": "airbase",
+   "name": "Baza Jaisalmer",
+   "latDeg": 26.89,
+   "lonDeg": 70.87
+  },
+  {
+   "id": "AB04",
+   "type": "airbase",
+   "name": "Baza Bhuj",
+   "latDeg": 23.29,
+   "lonDeg": 69.67
+  },
+  {
+   "id": "PA01",
+   "type": "su-30sm-patrol",
+   "name": "Su-30MKI / Rafale Nord",
+   "latDeg": 32.0,
+   "lonDeg": 75.6
+  },
+  {
+   "id": "PA02",
+   "type": "su-30sm-patrol",
+   "name": "Su-30MKI / Rafale Ambala",
+   "latDeg": 30.3,
+   "lonDeg": 76.5
+  },
+  {
+   "id": "PA03",
+   "type": "su-30sm-patrol",
+   "name": "Su-30MKI Vest",
+   "latDeg": 26.8,
+   "lonDeg": 71.5
+  },
+  {
+   "id": "PA04",
+   "type": "su-30sm-patrol",
+   "name": "Su-30MKI Sud",
+   "latDeg": 23.5,
+   "lonDeg": 70.0
+  }
+ ]
+}

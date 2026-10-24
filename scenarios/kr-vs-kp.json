@@ -1,0 +1,450 @@
+{
+ "name": "Coreea de Sud → Coreea de Nord: lovitură de răspuns asupra Phenianului și obiectivelor strategice",
+ "dtSeconds": 0.5,
+ "durationSeconds": 14400,
+ "defenseIntervalSeconds": 1.0,
+ "cheapestFirst": true,
+ "localTracking": true,
+ "airspaceMap": "world",
+ "countries": {
+  "KR": "attacker",
+  "US": "attackerAlly",
+  "KP": "defender",
+  "CN": "defenderAlly",
+  "RU": "defenderAlly"
+ },
+ "launchSites": [
+  {
+   "id": "L01",
+   "name": "Gangwon (Hyunmoo)",
+   "latDeg": 37.75,
+   "lonDeg": 128.0,
+   "altM": 0
+  },
+  {
+   "id": "L02",
+   "name": "Gyeonggi Nord",
+   "latDeg": 37.85,
+   "lonDeg": 127.15,
+   "altM": 0
+  },
+  {
+   "id": "L03",
+   "name": "Paju",
+   "latDeg": 37.8,
+   "lonDeg": 126.8,
+   "altM": 0
+  },
+  {
+   "id": "L04",
+   "name": "Chungju",
+   "latDeg": 36.95,
+   "lonDeg": 127.9,
+   "altM": 0
+  },
+  {
+   "id": "L05",
+   "name": "Baza aeriana Seosan",
+   "latDeg": 36.7,
+   "lonDeg": 126.5,
+   "altM": 0
+  }
+ ],
+ "targets": [
+  {
+   "id": "T01",
+   "name": "Phenian",
+   "kind": "city",
+   "latDeg": 39.039,
+   "lonDeg": 125.762
+  },
+  {
+   "id": "T02",
+   "name": "Yongbyon (centru nuclear)",
+   "kind": "military_base",
+   "latDeg": 39.8,
+   "lonDeg": 125.75,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T03",
+   "name": "Baza aeriana Sunan",
+   "kind": "military_base",
+   "latDeg": 39.2,
+   "lonDeg": 125.67,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T04",
+   "name": "Wonsan (baza)",
+   "kind": "military_base",
+   "latDeg": 39.15,
+   "lonDeg": 127.45,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T05",
+   "name": "Punggye-ri",
+   "kind": "military_base",
+   "latDeg": 41.28,
+   "lonDeg": 129.08,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T06",
+   "name": "Sohae (lansare)",
+   "kind": "military_base",
+   "latDeg": 39.66,
+   "lonDeg": 124.7,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T07",
+   "name": "Artilerie Kaesong",
+   "kind": "military_base",
+   "latDeg": 37.95,
+   "lonDeg": 126.65,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T08",
+   "name": "Baza submarine Sinpo",
+   "kind": "military_base",
+   "latDeg": 40.03,
+   "lonDeg": 128.18,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T09",
+   "name": "Hamhung",
+   "kind": "city",
+   "latDeg": 39.92,
+   "lonDeg": 127.54
+  },
+  {
+   "id": "T10",
+   "name": "Nampo",
+   "kind": "military_base",
+   "latDeg": 38.73,
+   "lonDeg": 125.4,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  }
+ ],
+ "waves": [
+  {
+   "id": "W1",
+   "unit": "hyunmoo-2b",
+   "siteIds": [
+    "L01",
+    "L02",
+    "L03",
+    "L04"
+   ],
+   "targetIds": [
+    "T01",
+    "T02",
+    "T03",
+    "T04",
+    "T07",
+    "T10"
+   ],
+   "count": 80,
+   "startTimeSeconds": 1202,
+   "intervalSeconds": 4,
+   "spreadMeters": 150
+  },
+  {
+   "id": "W2",
+   "unit": "hyunmoo-4",
+   "siteIds": [
+    "L01",
+    "L01",
+    "L04"
+   ],
+   "targetIds": [
+    "T02",
+    "T05",
+    "T08",
+    "T06"
+   ],
+   "count": 30,
+   "startTimeSeconds": 1173,
+   "intervalSeconds": 10,
+   "spreadMeters": 150
+  },
+  {
+   "id": "W3",
+   "unit": "hyunmoo-3",
+   "siteIds": [
+    "L01",
+    "L02",
+    "L05"
+   ],
+   "targetIds": [
+    "T01",
+    "T02",
+    "T03",
+    "T04",
+    "T05",
+    "T06",
+    "T08",
+    "T09",
+    "T10",
+    "T07"
+   ],
+   "count": 40,
+   "startTimeSeconds": 566,
+   "intervalSeconds": 8,
+   "spreadMeters": 200,
+   "retarget": true
+  }
+ ],
+ "defenses": [
+  {
+   "id": "R01",
+   "type": "radar-ew-long",
+   "name": "Radar Phenian",
+   "latDeg": 39.0,
+   "lonDeg": 125.8
+  },
+  {
+   "id": "R02",
+   "type": "radar-ew-long",
+   "name": "Radar Sariwon",
+   "latDeg": 38.4,
+   "lonDeg": 126.5
+  },
+  {
+   "id": "R03",
+   "type": "radar-ew-long",
+   "name": "Radar Wonsan",
+   "latDeg": 39.15,
+   "lonDeg": 127.45
+  },
+  {
+   "id": "R04",
+   "type": "radar-ew-long",
+   "name": "Radar Sinpo",
+   "latDeg": 40.0,
+   "lonDeg": 128.2
+  },
+  {
+   "id": "KN01",
+   "type": "kn-06",
+   "name": "KN-06 Phenian 01",
+   "latDeg": 39.0018,
+   "lonDeg": 125.5217
+  },
+  {
+   "id": "KN02",
+   "type": "kn-06",
+   "name": "KN-06 Phenian 02",
+   "latDeg": 39.1558,
+   "lonDeg": 125.644
+  },
+  {
+   "id": "KN03",
+   "type": "kn-06",
+   "name": "KN-06 Phenian 03",
+   "latDeg": 39.2192,
+   "lonDeg": 125.8235
+  },
+  {
+   "id": "KN04",
+   "type": "kn-06",
+   "name": "KN-06 Phenian 04",
+   "latDeg": 39.0974,
+   "lonDeg": 125.9718
+  },
+  {
+   "id": "KN05",
+   "type": "kn-06",
+   "name": "KN-06 Phenian 05",
+   "latDeg": 38.9386,
+   "lonDeg": 125.8751
+  },
+  {
+   "id": "KN06",
+   "type": "kn-06",
+   "name": "KN-06 Phenian 06",
+   "latDeg": 38.9792,
+   "lonDeg": 125.7396
+  },
+  {
+   "id": "KN07",
+   "type": "kn-06",
+   "name": "KN-06 Yongbyon",
+   "latDeg": 39.8,
+   "lonDeg": 125.72
+  },
+  {
+   "id": "KN08",
+   "type": "kn-06",
+   "name": "KN-06 Wonsan",
+   "latDeg": 39.15,
+   "lonDeg": 127.4
+  },
+  {
+   "id": "KN09",
+   "type": "kn-06",
+   "name": "KN-06 Sinpo",
+   "latDeg": 40.0,
+   "lonDeg": 128.15
+  },
+  {
+   "id": "MG01",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Phenian 01",
+   "latDeg": 39.1207,
+   "lonDeg": 125.6444
+  },
+  {
+   "id": "MG02",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Phenian 02",
+   "latDeg": 39.1242,
+   "lonDeg": 125.7291
+  },
+  {
+   "id": "MG03",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Phenian 03",
+   "latDeg": 39.1412,
+   "lonDeg": 125.8459
+  },
+  {
+   "id": "MG04",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Phenian 04",
+   "latDeg": 39.1042,
+   "lonDeg": 125.9583
+  },
+  {
+   "id": "MG05",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Phenian 05",
+   "latDeg": 39.0015,
+   "lonDeg": 125.9528
+  },
+  {
+   "id": "MG06",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Phenian 06",
+   "latDeg": 38.9051,
+   "lonDeg": 125.906
+  },
+  {
+   "id": "MG07",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Phenian 07",
+   "latDeg": 38.8755,
+   "lonDeg": 125.8158
+  },
+  {
+   "id": "MG08",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Phenian 08",
+   "latDeg": 38.9067,
+   "lonDeg": 125.6412
+  },
+  {
+   "id": "MG09",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Phenian 09",
+   "latDeg": 38.9767,
+   "lonDeg": 125.5462
+  },
+  {
+   "id": "MG10",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Phenian 10",
+   "latDeg": 39.0585,
+   "lonDeg": 125.555
+  },
+  {
+   "id": "MG11",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil frontiera 11",
+   "latDeg": 38.1083,
+   "lonDeg": 126.6737
+  },
+  {
+   "id": "MG12",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil frontiera 12",
+   "latDeg": 38.0871,
+   "lonDeg": 126.4377
+  },
+  {
+   "id": "MG13",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil frontiera 13",
+   "latDeg": 38.3116,
+   "lonDeg": 126.4291
+  },
+  {
+   "id": "MG14",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil frontiera 14",
+   "latDeg": 38.5511,
+   "lonDeg": 126.512
+  },
+  {
+   "id": "MG15",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil frontiera 15",
+   "latDeg": 38.5003,
+   "lonDeg": 126.7827
+  },
+  {
+   "id": "MG16",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil frontiera 16",
+   "latDeg": 38.2505,
+   "lonDeg": 126.8742
+  },
+  {
+   "id": "AB01",
+   "type": "airbase",
+   "name": "Baza Sunan",
+   "latDeg": 39.2,
+   "lonDeg": 125.67
+  },
+  {
+   "id": "AB02",
+   "type": "airbase",
+   "name": "Baza Kalma",
+   "latDeg": 39.17,
+   "lonDeg": 127.48
+  },
+  {
+   "id": "AB03",
+   "type": "airbase",
+   "name": "Baza Sondok",
+   "latDeg": 38.4,
+   "lonDeg": 125.9
+  },
+  {
+   "id": "PA01",
+   "type": "mig-29-patrol",
+   "name": "MiG-29 Phenian",
+   "latDeg": 39.4,
+   "lonDeg": 125.8
+  },
+  {
+   "id": "PA02",
+   "type": "mig-29-patrol",
+   "name": "MiG-29 Wonsan",
+   "latDeg": 39.4,
+   "lonDeg": 127.4
+  }
+ ]
+}

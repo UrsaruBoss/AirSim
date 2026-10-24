@@ -1,0 +1,70 @@
+﻿{
+  "total": 664,
+  "launched": 664,
+  "detected": 664,
+  "intercepted": 184,
+  "missed": 677,
+  "impacted": 480,
+  "violations": 200,
+  "classes": [
+    {
+      "class": "city",
+      "impacts": 324,
+      "killed": {
+        "mean": 137.183,
+        "p5": 41,
+        "p95": 313
+      },
+      "injured": {
+        "mean": 411.5305,
+        "p5": 126,
+        "p95": 942
+      }
+    },
+    {
+      "class": "military_base",
+      "impacts": 89,
+      "killed": {
+        "mean": 7.172,
+        "p5": 1,
+        "p95": 18
+      },
+      "injured": {
+        "mean": 10.0365,
+        "p5": 2,
+        "p95": 23
+      }
+    },
+    {
+      "class": "field",
+      "impacts": 67,
+      "killed": {
+        "mean": 0.0615,
+        "p5": 0,
+        "p95": 1
+      },
+      "injured": {
+        "mean": 0.087,
+        "p5": 0,
+        "p95": 1
+      }
+    }
+  ],
+  "killed": {
+    "mean": 144.4165,
+    "p5": 46,
+    "p95": 322
+  },
+  "injured": {
+    "mean": 421.654,
+    "p5": 135,
+    "p95": 956
+  },
+  "violationsByCountry": [
+    {
+      "code": "BG",
+      "count": 200
+    }
+  ],
+  "trials": 2000
+}

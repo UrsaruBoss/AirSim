@@ -1,0 +1,67 @@
+﻿{
+  "name": "Exemplu - spa\u021Biu aerian (RO/BG)",
+  "dtSeconds": 0.1,
+  "durationSeconds": 1800,
+  "airspaceMap": "europe",
+  "countries": {
+    "BG": "defenderAlly",
+    "HU": "defenderAlly",
+    "MD": "neutral",
+    "RO": "defender",
+    "RS": "neutral",
+    "RU": "attacker",
+    "UA": "attackerAlly"
+  },
+  "launchSites": [
+    {
+      "id": "L1",
+      "name": "Lansare Marea Neagr\u0103 Nord",
+      "latDeg": 43.2,
+      "lonDeg": 31.5,
+      "altM": 0
+    },
+    {
+      "id": "L2",
+      "name": "Lansare Marea Neagr\u0103 Sud",
+      "latDeg": 42.5,
+      "lonDeg": 30,
+      "altM": 0
+    }
+  ],
+  "targets": [
+    {
+      "id": "T1",
+      "name": "Tinta oras",
+      "kind": "city",
+      "latDeg": 44.43,
+      "lonDeg": 26.1,
+      "altM": 80
+    }
+  ],
+  "waves": [
+    {
+      "id": "W1",
+      "siteId": "L1",
+      "targetId": "T1",
+      "kind": "drone",
+      "count": 300,
+      "startTimeSeconds": 0,
+      "intervalSeconds": 0.5,
+      "speedMps": 55,
+      "altitudeM": 400,
+      "spreadMeters": 500
+    },
+    {
+      "id": "W2",
+      "siteId": "L2",
+      "targetId": "T1",
+      "kind": "drone",
+      "count": 200,
+      "startTimeSeconds": 60,
+      "intervalSeconds": 0.5,
+      "speedMps": 55,
+      "altitudeM": 400,
+      "spreadMeters": 500
+    }
+  ]
+}

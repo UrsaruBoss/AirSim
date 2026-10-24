@@ -1,0 +1,4 @@
+jamScale,runs,interceptedMean,interceptedSd,impactsMean,impactsSd,impactsP5,impactsP95,jammedMean,crashedMean,destroyedMean,killedMean
+0.5,30,885.7,27.8,639.3,23.5,616.9,682.9,418.7,172.4,4.67,234.1
+1,30,826.6,26.5,463.5,24.9,431.6,509.1,656.7,169.2,3.67,173.7
+1.5,30,778.3,23.9,363.7,20.2,334.8,401.6,807.8,166.2,3.30,147.6

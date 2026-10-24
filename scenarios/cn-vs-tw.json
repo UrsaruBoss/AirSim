@@ -1,0 +1,703 @@
+{
+ "name": "China → Taiwan: salvă balistică și de croazieră, cu lovitură inițială asupra radarelor și bateriilor",
+ "dtSeconds": 0.5,
+ "durationSeconds": 21600,
+ "defenseIntervalSeconds": 1.0,
+ "cheapestFirst": true,
+ "localTracking": true,
+ "airspaceMap": "world",
+ "countries": {
+  "CN": "attacker",
+  "TW": "defender",
+  "US": "defenderAlly",
+  "JP": "defenderAlly",
+  "PH": "defenderAlly"
+ },
+ "launchSites": [
+  {
+   "id": "L01",
+   "name": "Fuding",
+   "latDeg": 27.32,
+   "lonDeg": 120.2,
+   "altM": 0
+  },
+  {
+   "id": "L02",
+   "name": "Fuzhou",
+   "latDeg": 26.07,
+   "lonDeg": 119.3,
+   "altM": 0
+  },
+  {
+   "id": "L03",
+   "name": "Zhangzhou",
+   "latDeg": 24.5,
+   "lonDeg": 117.7,
+   "altM": 0
+  },
+  {
+   "id": "L04",
+   "name": "Shantou",
+   "latDeg": 23.4,
+   "lonDeg": 116.7,
+   "altM": 0
+  },
+  {
+   "id": "L05",
+   "name": "Leping (Jiangxi)",
+   "latDeg": 28.97,
+   "lonDeg": 117.1,
+   "altM": 0
+  },
+  {
+   "id": "L06",
+   "name": "Ganzhou",
+   "latDeg": 25.8,
+   "lonDeg": 114.9,
+   "altM": 0
+  }
+ ],
+ "targets": [
+  {
+   "id": "T01",
+   "name": "Taipei - centru",
+   "kind": "city",
+   "latDeg": 25.033,
+   "lonDeg": 121.565
+  },
+  {
+   "id": "T02",
+   "name": "Taoyuan",
+   "kind": "city",
+   "latDeg": 25.0,
+   "lonDeg": 121.2
+  },
+  {
+   "id": "T03",
+   "name": "Hsinchu (parc stiintific)",
+   "kind": "city",
+   "latDeg": 24.78,
+   "lonDeg": 121.0
+  },
+  {
+   "id": "T04",
+   "name": "Taichung",
+   "kind": "city",
+   "latDeg": 24.147,
+   "lonDeg": 120.67
+  },
+  {
+   "id": "T05",
+   "name": "Tainan",
+   "kind": "city",
+   "latDeg": 22.99,
+   "lonDeg": 120.2
+  },
+  {
+   "id": "T06",
+   "name": "Kaohsiung",
+   "kind": "city",
+   "latDeg": 22.627,
+   "lonDeg": 120.3
+  },
+  {
+   "id": "T07",
+   "name": "Baza aeriana Songshan",
+   "kind": "military_base",
+   "latDeg": 25.07,
+   "lonDeg": 121.55,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T08",
+   "name": "Baza aeriana Taoyuan",
+   "kind": "military_base",
+   "latDeg": 25.07,
+   "lonDeg": 121.23,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T09",
+   "name": "Baza aeriana Ching Chuan Kang",
+   "kind": "military_base",
+   "latDeg": 24.26,
+   "lonDeg": 120.62,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T10",
+   "name": "Baza aeriana Chiayi",
+   "kind": "military_base",
+   "latDeg": 23.46,
+   "lonDeg": 120.39,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T11",
+   "name": "Baza aeriana Tainan",
+   "kind": "military_base",
+   "latDeg": 22.95,
+   "lonDeg": 120.21,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T12",
+   "name": "Baza aeriana Hualien",
+   "kind": "military_base",
+   "latDeg": 24.02,
+   "lonDeg": 121.62,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T13",
+   "name": "Baza aeriana Taitung",
+   "kind": "military_base",
+   "latDeg": 22.75,
+   "lonDeg": 121.1,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T14",
+   "name": "Baza navala Zuoying",
+   "kind": "military_base",
+   "latDeg": 22.68,
+   "lonDeg": 120.27,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T15",
+   "name": "Baza navala Suao",
+   "kind": "military_base",
+   "latDeg": 24.6,
+   "lonDeg": 121.86,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "X01",
+   "name": "Lovitura asupra: Radar Leshan",
+   "kind": "military_base",
+   "latDeg": 24.7,
+   "lonDeg": 121.1,
+   "radiusM": 50,
+   "impactsToDestroy": 3
+  },
+  {
+   "id": "X02",
+   "name": "Lovitura asupra: Radar Taipei Nord",
+   "kind": "military_base",
+   "latDeg": 25.2,
+   "lonDeg": 121.6,
+   "radiusM": 50,
+   "impactsToDestroy": 3
+  },
+  {
+   "id": "X03",
+   "name": "Lovitura asupra: Radar Taichung",
+   "kind": "military_base",
+   "latDeg": 24.2,
+   "lonDeg": 120.8,
+   "radiusM": 50,
+   "impactsToDestroy": 3
+  },
+  {
+   "id": "X04",
+   "name": "Lovitura asupra: Radar Kaohsiung",
+   "kind": "military_base",
+   "latDeg": 22.9,
+   "lonDeg": 120.4,
+   "radiusM": 50,
+   "impactsToDestroy": 3
+  },
+  {
+   "id": "X05",
+   "name": "Lovitura asupra: Radar Hualien",
+   "kind": "military_base",
+   "latDeg": 23.95,
+   "lonDeg": 121.5,
+   "radiusM": 50,
+   "impactsToDestroy": 3
+  },
+  {
+   "id": "X06",
+   "name": "Lovitura asupra: Radar Taitung",
+   "kind": "military_base",
+   "latDeg": 22.75,
+   "lonDeg": 121.1,
+   "radiusM": 50,
+   "impactsToDestroy": 3
+  },
+  {
+   "id": "X07",
+   "name": "Lovitura asupra: Patriot Taipei 01",
+   "kind": "military_base",
+   "latDeg": 25.0628,
+   "lonDeg": 121.6674,
+   "radiusM": 50,
+   "impactsToDestroy": 3
+  },
+  {
+   "id": "X08",
+   "name": "Lovitura asupra: Patriot Taipei 02",
+   "kind": "military_base",
+   "latDeg": 24.9692,
+   "lonDeg": 121.6505,
+   "radiusM": 50,
+   "impactsToDestroy": 3
+  },
+  {
+   "id": "X09",
+   "name": "Lovitura asupra: Tien Kung Taipei 01",
+   "kind": "military_base",
+   "latDeg": 24.8083,
+   "lonDeg": 121.4935,
+   "radiusM": 50,
+   "impactsToDestroy": 3
+  },
+  {
+   "id": "X10",
+   "name": "Lovitura asupra: Tien Kung Taipei 02",
+   "kind": "military_base",
+   "latDeg": 24.9675,
+   "lonDeg": 121.3814,
+   "radiusM": 50,
+   "impactsToDestroy": 3
+  }
+ ],
+ "waves": [
+  {
+   "id": "W1",
+   "unit": "df-15b",
+   "siteIds": [
+    "L01",
+    "L02",
+    "L02",
+    "L03",
+    "L03",
+    "L04"
+   ],
+   "targetIds": [
+    "X01",
+    "X02",
+    "X03",
+    "X04",
+    "X05",
+    "X06",
+    "X07",
+    "X08",
+    "X09",
+    "X10"
+   ],
+   "count": 60,
+   "startTimeSeconds": 910,
+   "intervalSeconds": 3,
+   "spreadMeters": 150
+  },
+  {
+   "id": "W2",
+   "unit": "df-15b",
+   "siteIds": [
+    "L01",
+    "L02",
+    "L02",
+    "L03",
+    "L03",
+    "L04"
+   ],
+   "targetIds": [
+    "T01",
+    "T02",
+    "T03",
+    "T04",
+    "T05",
+    "T06",
+    "T07",
+    "T08",
+    "T09",
+    "T10",
+    "T11",
+    "T12",
+    "T13",
+    "T14",
+    "T15"
+   ],
+   "count": 120,
+   "startTimeSeconds": 1422,
+   "intervalSeconds": 3,
+   "spreadMeters": 250
+  },
+  {
+   "id": "W3",
+   "unit": "df-16",
+   "siteIds": [
+    "L02",
+    "L03",
+    "L04",
+    "L05",
+    "L06"
+   ],
+   "targetIds": [
+    "T01",
+    "T02",
+    "T03",
+    "T04",
+    "T05",
+    "T06",
+    "T07",
+    "T08",
+    "T09",
+    "T10",
+    "T11",
+    "T12",
+    "T13",
+    "T14",
+    "T15"
+   ],
+   "count": 80,
+   "startTimeSeconds": 1719,
+   "intervalSeconds": 4,
+   "spreadMeters": 250
+  },
+  {
+   "id": "W4",
+   "unit": "cj-10",
+   "siteIds": [
+    "L02",
+    "L03",
+    "L04",
+    "L05",
+    "L06"
+   ],
+   "targetIds": [
+    "T07",
+    "T08",
+    "T09",
+    "T10",
+    "T11",
+    "T12",
+    "T13",
+    "T14",
+    "T15",
+    "T01",
+    "T06",
+    "T03"
+   ],
+   "count": 60,
+   "startTimeSeconds": 194,
+   "intervalSeconds": 8,
+   "spreadMeters": 300,
+   "retarget": true
+  }
+ ],
+ "defenses": [
+  {
+   "id": "R01",
+   "type": "radar-ew-long",
+   "name": "Radar Leshan",
+   "latDeg": 24.7,
+   "lonDeg": 121.1
+  },
+  {
+   "id": "R02",
+   "type": "radar-ew-long",
+   "name": "Radar Taipei Nord",
+   "latDeg": 25.2,
+   "lonDeg": 121.6
+  },
+  {
+   "id": "R03",
+   "type": "radar-ew-long",
+   "name": "Radar Taichung",
+   "latDeg": 24.2,
+   "lonDeg": 120.8
+  },
+  {
+   "id": "R04",
+   "type": "radar-ew-long",
+   "name": "Radar Kaohsiung",
+   "latDeg": 22.9,
+   "lonDeg": 120.4
+  },
+  {
+   "id": "R05",
+   "type": "radar-ew-long",
+   "name": "Radar Hualien",
+   "latDeg": 23.95,
+   "lonDeg": 121.5
+  },
+  {
+   "id": "R06",
+   "type": "radar-ew-long",
+   "name": "Radar Taitung",
+   "latDeg": 22.75,
+   "lonDeg": 121.1
+  },
+  {
+   "id": "PT01",
+   "type": "patriot-pac3-mse",
+   "name": "Patriot Taipei 01",
+   "latDeg": 25.0628,
+   "lonDeg": 121.6674
+  },
+  {
+   "id": "PT02",
+   "type": "patriot-pac3-mse",
+   "name": "Patriot Taipei 02",
+   "latDeg": 24.9692,
+   "lonDeg": 121.6505
+  },
+  {
+   "id": "PT03",
+   "type": "patriot-pac3-mse",
+   "name": "Patriot Taipei 03",
+   "latDeg": 24.8759,
+   "lonDeg": 121.5139
+  },
+  {
+   "id": "PT04",
+   "type": "patriot-pac3-mse",
+   "name": "Patriot Taipei 04",
+   "latDeg": 25.0099,
+   "lonDeg": 121.4677
+  },
+  {
+   "id": "PT05",
+   "type": "patriot-pac3-mse",
+   "name": "Patriot Taipei 05",
+   "latDeg": 25.1227,
+   "lonDeg": 121.3916
+  },
+  {
+   "id": "PT06",
+   "type": "patriot-pac3-mse",
+   "name": "Patriot Taipei 06",
+   "latDeg": 25.1009,
+   "lonDeg": 121.5613
+  },
+  {
+   "id": "PT07",
+   "type": "patriot-pac3-mse",
+   "name": "Patriot Hsinchu",
+   "latDeg": 24.8,
+   "lonDeg": 121.0
+  },
+  {
+   "id": "PT08",
+   "type": "patriot-pac3-mse",
+   "name": "Patriot Taichung",
+   "latDeg": 24.15,
+   "lonDeg": 120.68
+  },
+  {
+   "id": "PT09",
+   "type": "patriot-pac3-mse",
+   "name": "Patriot Kaohsiung",
+   "latDeg": 22.65,
+   "lonDeg": 120.32
+  },
+  {
+   "id": "PT10",
+   "type": "patriot-pac3-mse",
+   "name": "Patriot Tainan",
+   "latDeg": 22.98,
+   "lonDeg": 120.22
+  },
+  {
+   "id": "TK01",
+   "type": "tien-kung-3",
+   "name": "Tien Kung Taipei 01",
+   "latDeg": 24.8083,
+   "lonDeg": 121.4935
+  },
+  {
+   "id": "TK02",
+   "type": "tien-kung-3",
+   "name": "Tien Kung Taipei 02",
+   "latDeg": 24.9675,
+   "lonDeg": 121.3814
+  },
+  {
+   "id": "TK03",
+   "type": "tien-kung-3",
+   "name": "Tien Kung Taipei 03",
+   "latDeg": 25.1989,
+   "lonDeg": 121.3855
+  },
+  {
+   "id": "TK04",
+   "type": "tien-kung-3",
+   "name": "Tien Kung Taipei 04",
+   "latDeg": 25.1951,
+   "lonDeg": 121.6124
+  },
+  {
+   "id": "TK05",
+   "type": "tien-kung-3",
+   "name": "Tien Kung Taipei 05",
+   "latDeg": 25.0443,
+   "lonDeg": 121.6429
+  },
+  {
+   "id": "TK06",
+   "type": "tien-kung-3",
+   "name": "Tien Kung Taipei 06",
+   "latDeg": 24.9316,
+   "lonDeg": 121.6807
+  },
+  {
+   "id": "TK07",
+   "type": "tien-kung-3",
+   "name": "Tien Kung Hsinchu",
+   "latDeg": 24.76,
+   "lonDeg": 121.05
+  },
+  {
+   "id": "TK08",
+   "type": "tien-kung-3",
+   "name": "Tien Kung Taichung",
+   "latDeg": 24.12,
+   "lonDeg": 120.7
+  },
+  {
+   "id": "TK09",
+   "type": "tien-kung-3",
+   "name": "Tien Kung Kaohsiung",
+   "latDeg": 22.6,
+   "lonDeg": 120.33
+  },
+  {
+   "id": "TK10",
+   "type": "tien-kung-3",
+   "name": "Tien Kung Hualien",
+   "latDeg": 24.0,
+   "lonDeg": 121.6
+  },
+  {
+   "id": "TK11",
+   "type": "tien-kung-3",
+   "name": "Tien Kung Taitung",
+   "latDeg": 22.77,
+   "lonDeg": 121.12
+  },
+  {
+   "id": "NS01",
+   "type": "nasams",
+   "name": "NASAMS Taiwan 01",
+   "latDeg": 24.526,
+   "lonDeg": 120.8029
+  },
+  {
+   "id": "NS02",
+   "type": "nasams",
+   "name": "NASAMS Taiwan 02",
+   "latDeg": 23.8463,
+   "lonDeg": 121.3313
+  },
+  {
+   "id": "NS03",
+   "type": "nasams",
+   "name": "NASAMS Taiwan 03",
+   "latDeg": 23.3851,
+   "lonDeg": 120.855
+  },
+  {
+   "id": "NS04",
+   "type": "nasams",
+   "name": "NASAMS Taiwan 04",
+   "latDeg": 23.7319,
+   "lonDeg": 120.2095
+  },
+  {
+   "id": "MG01",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Taipei 01",
+   "latDeg": 25.0427,
+   "lonDeg": 121.4668
+  },
+  {
+   "id": "MG02",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Taipei 02",
+   "latDeg": 25.1433,
+   "lonDeg": 121.4755
+  },
+  {
+   "id": "MG03",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Taipei 03",
+   "latDeg": 25.1381,
+   "lonDeg": 121.653
+  },
+  {
+   "id": "MG04",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Taipei 04",
+   "latDeg": 25.0354,
+   "lonDeg": 121.6576
+  },
+  {
+   "id": "MG05",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Taipei 05",
+   "latDeg": 24.9975,
+   "lonDeg": 121.5632
+  },
+  {
+   "id": "MG06",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Taipei 06",
+   "latDeg": 24.9681,
+   "lonDeg": 121.5126
+  },
+  {
+   "id": "AB01",
+   "type": "airbase",
+   "name": "Baza Chiayi",
+   "latDeg": 23.46,
+   "lonDeg": 120.39
+  },
+  {
+   "id": "AB02",
+   "type": "airbase",
+   "name": "Baza Hualien",
+   "latDeg": 24.02,
+   "lonDeg": 121.62
+  },
+  {
+   "id": "AB03",
+   "type": "airbase",
+   "name": "Baza Taitung",
+   "latDeg": 22.75,
+   "lonDeg": 121.1
+  },
+  {
+   "id": "PA01",
+   "type": "f-16-patrol",
+   "name": "F-16V Chiayi",
+   "latDeg": 23.6,
+   "lonDeg": 120.6
+  },
+  {
+   "id": "PA02",
+   "type": "f-16-patrol",
+   "name": "F-16V Hualien",
+   "latDeg": 24.2,
+   "lonDeg": 121.4
+  },
+  {
+   "id": "PA03",
+   "type": "f-16-patrol",
+   "name": "F-16V Taitung",
+   "latDeg": 22.9,
+   "lonDeg": 121.0
+  }
+ ]
+}

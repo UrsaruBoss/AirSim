@@ -1,0 +1,571 @@
+{
+ "name": "Coreea de Nord → Coreea de Sud: salvă de rachete balistice și de croazieră spre zona Seul",
+ "dtSeconds": 0.5,
+ "durationSeconds": 21600,
+ "defenseIntervalSeconds": 1.0,
+ "cheapestFirst": true,
+ "localTracking": true,
+ "airspaceMap": "world",
+ "countries": {
+  "KP": "attacker",
+  "KR": "defender",
+  "US": "defenderAlly",
+  "JP": "defenderAlly"
+ },
+ "launchSites": [
+  {
+   "id": "L01",
+   "name": "Kaesong",
+   "latDeg": 37.97,
+   "lonDeg": 126.55,
+   "altM": 0
+  },
+  {
+   "id": "L02",
+   "name": "Sunan (Phenian)",
+   "latDeg": 39.2,
+   "lonDeg": 125.67,
+   "altM": 0
+  },
+  {
+   "id": "L03",
+   "name": "Wonsan",
+   "latDeg": 39.15,
+   "lonDeg": 127.45,
+   "altM": 0
+  },
+  {
+   "id": "L04",
+   "name": "Hamhung",
+   "latDeg": 39.9,
+   "lonDeg": 127.5,
+   "altM": 0
+  },
+  {
+   "id": "L05",
+   "name": "Sinpo",
+   "latDeg": 40.03,
+   "lonDeg": 128.18,
+   "altM": 0
+  },
+  {
+   "id": "L06",
+   "name": "Nampo",
+   "latDeg": 38.73,
+   "lonDeg": 125.4,
+   "altM": 0
+  }
+ ],
+ "targets": [
+  {
+   "id": "T01",
+   "name": "Seul - centru",
+   "kind": "city",
+   "latDeg": 37.5665,
+   "lonDeg": 126.978
+  },
+  {
+   "id": "T02",
+   "name": "Seul - Gangnam",
+   "kind": "city",
+   "latDeg": 37.5172,
+   "lonDeg": 127.0473
+  },
+  {
+   "id": "T03",
+   "name": "Incheon",
+   "kind": "city",
+   "latDeg": 37.4563,
+   "lonDeg": 126.7052
+  },
+  {
+   "id": "T04",
+   "name": "Camp Humphreys (Pyeongtaek)",
+   "kind": "military_base",
+   "latDeg": 36.96,
+   "lonDeg": 127.03,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T05",
+   "name": "Baza aeriana Osan",
+   "kind": "military_base",
+   "latDeg": 37.09,
+   "lonDeg": 127.03,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T06",
+   "name": "Baza aeriana Seul (Seongnam)",
+   "kind": "military_base",
+   "latDeg": 37.44,
+   "lonDeg": 127.11,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T07",
+   "name": "Baza aeriana Gunsan",
+   "kind": "military_base",
+   "latDeg": 35.9,
+   "lonDeg": 126.62,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T08",
+   "name": "Daegu",
+   "kind": "city",
+   "latDeg": 35.87,
+   "lonDeg": 128.6
+  },
+  {
+   "id": "T09",
+   "name": "Busan",
+   "kind": "city",
+   "latDeg": 35.18,
+   "lonDeg": 129.07
+  },
+  {
+   "id": "T10",
+   "name": "Baza navala Jinhae",
+   "kind": "military_base",
+   "latDeg": 35.14,
+   "lonDeg": 128.66,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T11",
+   "name": "Camp Casey (Dongducheon)",
+   "kind": "military_base",
+   "latDeg": 37.9,
+   "lonDeg": 127.06,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "T12",
+   "name": "Daejeon (comandament)",
+   "kind": "military_base",
+   "latDeg": 36.35,
+   "lonDeg": 127.38,
+   "radiusM": 50,
+   "impactsToDestroy": 10
+  }
+ ],
+ "waves": [
+  {
+   "id": "W1",
+   "unit": "kn-25",
+   "siteIds": [
+    "L01",
+    "L02",
+    "L06"
+   ],
+   "targetIds": [
+    "T01",
+    "T02",
+    "T03",
+    "T04",
+    "T05",
+    "T06",
+    "T11"
+   ],
+   "count": 120,
+   "startTimeSeconds": 1466,
+   "intervalSeconds": 3,
+   "spreadMeters": 250
+  },
+  {
+   "id": "W2",
+   "unit": "kn-23",
+   "siteIds": [
+    "L02",
+    "L03",
+    "L04",
+    "L05"
+   ],
+   "targetIds": [
+    "T01",
+    "T02",
+    "T03",
+    "T04",
+    "T05",
+    "T06",
+    "T07",
+    "T08",
+    "T09",
+    "T10",
+    "T11",
+    "T12"
+   ],
+   "count": 60,
+   "startTimeSeconds": 1336,
+   "intervalSeconds": 8,
+   "spreadMeters": 300
+  },
+  {
+   "id": "W3",
+   "unit": "hwasal-2",
+   "siteIds": [
+    "L03",
+    "L05",
+    "L06"
+   ],
+   "targetIds": [
+    "T01",
+    "T05",
+    "T07",
+    "T09",
+    "T10",
+    "T04"
+   ],
+   "count": 40,
+   "startTimeSeconds": 652,
+   "intervalSeconds": 12,
+   "spreadMeters": 300,
+   "retarget": true
+  }
+ ],
+ "defenses": [
+  {
+   "id": "R01",
+   "type": "radar-ew-long",
+   "name": "Radar Seul Nord",
+   "latDeg": 37.6,
+   "lonDeg": 126.9
+  },
+  {
+   "id": "R02",
+   "type": "radar-ew-long",
+   "name": "Radar Seul Sud",
+   "latDeg": 37.3,
+   "lonDeg": 127.1
+  },
+  {
+   "id": "R03",
+   "type": "radar-ew-long",
+   "name": "Radar Chuncheon",
+   "latDeg": 37.8,
+   "lonDeg": 127.6
+  },
+  {
+   "id": "R04",
+   "type": "radar-ew-long",
+   "name": "Radar Daejeon",
+   "latDeg": 36.4,
+   "lonDeg": 127.4
+  },
+  {
+   "id": "R05",
+   "type": "radar-ew-long",
+   "name": "Radar Daegu",
+   "latDeg": 35.9,
+   "lonDeg": 128.5
+  },
+  {
+   "id": "R06",
+   "type": "radar-ew-long",
+   "name": "Radar Busan",
+   "latDeg": 35.2,
+   "lonDeg": 129.0
+  },
+  {
+   "id": "R07",
+   "type": "radar-ew-long",
+   "name": "Radar Gunsan",
+   "latDeg": 35.9,
+   "lonDeg": 126.6
+  },
+  {
+   "id": "PT01",
+   "type": "patriot-pac3-mse",
+   "name": "Patriot Seul 01",
+   "latDeg": 37.5172,
+   "lonDeg": 127.1654
+  },
+  {
+   "id": "PT02",
+   "type": "patriot-pac3-mse",
+   "name": "Patriot Seul 02",
+   "latDeg": 37.4484,
+   "lonDeg": 127.087
+  },
+  {
+   "id": "PT03",
+   "type": "patriot-pac3-mse",
+   "name": "Patriot Seul 03",
+   "latDeg": 37.3224,
+   "lonDeg": 126.9086
+  },
+  {
+   "id": "PT04",
+   "type": "patriot-pac3-mse",
+   "name": "Patriot Seul 04",
+   "latDeg": 37.4266,
+   "lonDeg": 126.7367
+  },
+  {
+   "id": "PT05",
+   "type": "patriot-pac3-mse",
+   "name": "Patriot Seul 05",
+   "latDeg": 37.6158,
+   "lonDeg": 126.7881
+  },
+  {
+   "id": "PT06",
+   "type": "patriot-pac3-mse",
+   "name": "Patriot Seul 06",
+   "latDeg": 37.742,
+   "lonDeg": 126.847
+  },
+  {
+   "id": "PT07",
+   "type": "patriot-pac3-mse",
+   "name": "Patriot Seul 07",
+   "latDeg": 37.725,
+   "lonDeg": 127.0896
+  },
+  {
+   "id": "PT08",
+   "type": "patriot-pac3-mse",
+   "name": "Patriot Seul 08",
+   "latDeg": 37.6691,
+   "lonDeg": 127.1954
+  },
+  {
+   "id": "PT09",
+   "type": "patriot-pac3-mse",
+   "name": "Patriot Osan",
+   "latDeg": 37.12,
+   "lonDeg": 127.0
+  },
+  {
+   "id": "PT10",
+   "type": "patriot-pac3-mse",
+   "name": "Patriot Camp Humphreys",
+   "latDeg": 36.97,
+   "lonDeg": 127.05
+  },
+  {
+   "id": "PT11",
+   "type": "patriot-pac3-mse",
+   "name": "Patriot Gunsan",
+   "latDeg": 35.93,
+   "lonDeg": 126.65
+  },
+  {
+   "id": "PT12",
+   "type": "patriot-pac3-mse",
+   "name": "Patriot Daegu",
+   "latDeg": 35.88,
+   "lonDeg": 128.6
+  },
+  {
+   "id": "PT13",
+   "type": "patriot-pac3-mse",
+   "name": "Patriot Busan",
+   "latDeg": 35.2,
+   "lonDeg": 129.05
+  },
+  {
+   "id": "KM01",
+   "type": "cheongung-m-sam",
+   "name": "Cheongung Seul 01",
+   "latDeg": 37.7712,
+   "lonDeg": 127.0372
+  },
+  {
+   "id": "KM02",
+   "type": "cheongung-m-sam",
+   "name": "Cheongung Seul 02",
+   "latDeg": 37.5877,
+   "lonDeg": 127.0851
+  },
+  {
+   "id": "KM03",
+   "type": "cheongung-m-sam",
+   "name": "Cheongung Seul 03",
+   "latDeg": 37.5235,
+   "lonDeg": 127.2672
+  },
+  {
+   "id": "KM04",
+   "type": "cheongung-m-sam",
+   "name": "Cheongung Seul 04",
+   "latDeg": 37.512,
+   "lonDeg": 127.0364
+  },
+  {
+   "id": "KM05",
+   "type": "cheongung-m-sam",
+   "name": "Cheongung Seul 05",
+   "latDeg": 37.4213,
+   "lonDeg": 126.9569
+  },
+  {
+   "id": "KM06",
+   "type": "cheongung-m-sam",
+   "name": "Cheongung Seul 06",
+   "latDeg": 37.4221,
+   "lonDeg": 126.8025
+  },
+  {
+   "id": "KM07",
+   "type": "cheongung-m-sam",
+   "name": "Cheongung Seul 07",
+   "latDeg": 37.592,
+   "lonDeg": 126.7557
+  },
+  {
+   "id": "KM08",
+   "type": "cheongung-m-sam",
+   "name": "Cheongung Seul 08",
+   "latDeg": 37.6401,
+   "lonDeg": 126.898
+  },
+  {
+   "id": "KM09",
+   "type": "cheongung-m-sam",
+   "name": "Cheongung Daejeon",
+   "latDeg": 36.37,
+   "lonDeg": 127.35
+  },
+  {
+   "id": "KM10",
+   "type": "cheongung-m-sam",
+   "name": "Cheongung Busan",
+   "latDeg": 35.15,
+   "lonDeg": 129.0
+  },
+  {
+   "id": "KM11",
+   "type": "cheongung-m-sam",
+   "name": "Cheongung Daegu",
+   "latDeg": 35.85,
+   "lonDeg": 128.55
+  },
+  {
+   "id": "TH01",
+   "type": "thaad",
+   "name": "THAAD Seongju (SUA)",
+   "latDeg": 35.99,
+   "lonDeg": 128.45
+  },
+  {
+   "id": "MG01",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Seul 01",
+   "latDeg": 37.6127,
+   "lonDeg": 127.0448
+  },
+  {
+   "id": "MG02",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Seul 02",
+   "latDeg": 37.5656,
+   "lonDeg": 127.2204
+  },
+  {
+   "id": "MG03",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Seul 03",
+   "latDeg": 37.4577,
+   "lonDeg": 127.1362
+  },
+  {
+   "id": "MG04",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Seul 04",
+   "latDeg": 37.3781,
+   "lonDeg": 127.0404
+  },
+  {
+   "id": "MG05",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Seul 05",
+   "latDeg": 37.447,
+   "lonDeg": 126.9175
+  },
+  {
+   "id": "MG06",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Seul 06",
+   "latDeg": 37.5378,
+   "lonDeg": 126.8068
+  },
+  {
+   "id": "MG07",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Seul 07",
+   "latDeg": 37.6098,
+   "lonDeg": 126.8714
+  },
+  {
+   "id": "MG08",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Seul 08",
+   "latDeg": 37.6795,
+   "lonDeg": 126.9589
+  },
+  {
+   "id": "AB01",
+   "type": "airbase",
+   "name": "Baza Osan",
+   "latDeg": 37.09,
+   "lonDeg": 127.03
+  },
+  {
+   "id": "AB02",
+   "type": "airbase",
+   "name": "Baza Gunsan",
+   "latDeg": 35.9,
+   "lonDeg": 126.62
+  },
+  {
+   "id": "AB03",
+   "type": "airbase",
+   "name": "Baza Daegu",
+   "latDeg": 35.9,
+   "lonDeg": 128.66
+  },
+  {
+   "id": "AB04",
+   "type": "airbase",
+   "name": "Baza Suwon",
+   "latDeg": 37.24,
+   "lonDeg": 127.0
+  },
+  {
+   "id": "PA01",
+   "type": "f-16-patrol",
+   "name": "KF-16 Osan",
+   "latDeg": 37.2,
+   "lonDeg": 126.9
+  },
+  {
+   "id": "PA02",
+   "type": "f-16-patrol",
+   "name": "KF-16 Gunsan",
+   "latDeg": 36.1,
+   "lonDeg": 126.7
+  },
+  {
+   "id": "PA03",
+   "type": "f-16-patrol",
+   "name": "KF-16 Daegu",
+   "latDeg": 35.95,
+   "lonDeg": 128.5
+  },
+  {
+   "id": "PA04",
+   "type": "f-16-patrol",
+   "name": "KF-16 Seul",
+   "latDeg": 37.55,
+   "lonDeg": 127.3
+  }
+ ]
+}

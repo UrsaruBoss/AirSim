@@ -1,0 +1,145 @@
+{
+  "name": "Exemplu - aparare (radar + SAM + tunuri)",
+  "dtSeconds": 0.1,
+  "durationSeconds": 21600,
+  "defenseIntervalSeconds": 1.0,
+  "airspaceMap": "europe",
+  "countries": {
+    "RO": "defender",
+    "BG": "defenderAlly",
+    "HU": "defenderAlly",
+    "MD": "neutral",
+    "RS": "neutral",
+    "UA": "defenderAlly",
+    "RU": "attacker",
+    "BY": "attackerAlly"
+  },
+  "launchSites": [
+    {
+      "id": "L1",
+      "name": "Lansare Marea Neagră Nord",
+      "latDeg": 43.2,
+      "lonDeg": 31.5,
+      "altM": 0
+    },
+    {
+      "id": "L2",
+      "name": "Lansare Marea Neagră Sud",
+      "latDeg": 42.5,
+      "lonDeg": 30.0,
+      "altM": 0
+    }
+  ],
+  "targets": [
+    {
+      "id": "T1",
+      "name": "Tinta oras",
+      "kind": "city",
+      "latDeg": 44.43,
+      "lonDeg": 26.1,
+      "altM": 80
+    },
+    {
+      "id": "T2",
+      "name": "Baza aeriană",
+      "kind": "military_base",
+      "latDeg": 44.36,
+      "lonDeg": 28.49,
+      "altM": 30,
+      "radiusM": 800
+    }
+  ],
+  "defenses": [
+    {
+      "id": "R1",
+      "name": "Radar Constanța",
+      "kind": "radar",
+      "latDeg": 44.2,
+      "lonDeg": 28.6,
+      "rangeKm": 150
+    },
+    {
+      "id": "S1",
+      "name": "SAM București",
+      "kind": "sam",
+      "latDeg": 44.43,
+      "lonDeg": 26.1,
+      "rangeKm": 30,
+      "magazine": 40,
+      "pk": 0.75,
+      "reloadSeconds": 2
+    },
+    {
+      "id": "S2",
+      "name": "SAM Est",
+      "kind": "sam",
+      "latDeg": 44.3,
+      "lonDeg": 27.2,
+      "rangeKm": 30,
+      "magazine": 30,
+      "pk": 0.7,
+      "reloadSeconds": 2
+    },
+    {
+      "id": "G1",
+      "name": "Tun AA Nord",
+      "kind": "aaGun",
+      "latDeg": 44.445,
+      "lonDeg": 26.12,
+      "rangeKm": 5,
+      "magazine": 400,
+      "pk": 0.15,
+      "reloadSeconds": 0
+    },
+    {
+      "id": "G2",
+      "name": "Tun AA Sud",
+      "kind": "aaGun",
+      "latDeg": 44.415,
+      "lonDeg": 26.07,
+      "rangeKm": 5,
+      "magazine": 400,
+      "pk": 0.15,
+      "reloadSeconds": 0
+    }
+  ],
+  "waves": [
+    {
+      "id": "W1",
+      "siteId": "L1",
+      "targetId": "T1",
+      "kind": "drone",
+      "count": 300,
+      "startTimeSeconds": 0,
+      "intervalSeconds": 0.5,
+      "speedMps": 55,
+      "altitudeM": 400,
+      "spreadMeters": 500
+    },
+    {
+      "id": "W2",
+      "siteId": "L2",
+      "targetId": "T1",
+      "kind": "drone",
+      "count": 200,
+      "startTimeSeconds": 60,
+      "intervalSeconds": 0.5,
+      "speedMps": 55,
+      "altitudeM": 400,
+      "spreadMeters": 500
+    },
+    {
+      "id": "W3",
+      "siteId": "L1",
+      "targetId": "T2",
+      "kind": "drone",
+      "count": 150,
+      "startTimeSeconds": 120,
+      "intervalSeconds": 0.5,
+      "speedMps": 55,
+      "altitudeM": 400,
+      "spreadMeters": 600,
+      "warheadKg": 40
+    }
+  ]
+}

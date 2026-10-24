@@ -1,0 +1,2529 @@
+{
+ "name": "Rusia → Ucraina: raid masiv (~2000 drone + rachete) cu multiple direcții, ținte în Kiev și alte orașe",
+ "dtSeconds": 0.5,
+ "durationSeconds": 28800,
+ "defenseIntervalSeconds": 1.0,
+ "cheapestFirst": true,
+ "localTracking": true,
+ "airspaceMap": "europe",
+ "countries": {
+  "RU": "attacker",
+  "BY": "attackerAlly",
+  "UA": "defender",
+  "AL": "defenderAlly",
+  "BE": "defenderAlly",
+  "BG": "defenderAlly",
+  "HR": "defenderAlly",
+  "CZ": "defenderAlly",
+  "DK": "defenderAlly",
+  "EE": "defenderAlly",
+  "FI": "defenderAlly",
+  "FR": "defenderAlly",
+  "DE": "defenderAlly",
+  "GR": "defenderAlly",
+  "HU": "defenderAlly",
+  "IS": "defenderAlly",
+  "IT": "defenderAlly",
+  "LV": "defenderAlly",
+  "LT": "defenderAlly",
+  "LU": "defenderAlly",
+  "ME": "defenderAlly",
+  "NL": "defenderAlly",
+  "MK": "defenderAlly",
+  "NO": "defenderAlly",
+  "PL": "defenderAlly",
+  "PT": "defenderAlly",
+  "RO": "defenderAlly",
+  "SK": "defenderAlly",
+  "SI": "defenderAlly",
+  "ES": "defenderAlly",
+  "SE": "defenderAlly",
+  "TR": "defenderAlly",
+  "GB": "defenderAlly",
+  "MD": "defenderAlly"
+ },
+ "launchSites": [
+  {
+   "id": "L01",
+   "name": "Primorsko-Akhtarsk",
+   "latDeg": 46.05,
+   "lonDeg": 38.17,
+   "altM": 0
+  },
+  {
+   "id": "L02",
+   "name": "Capul Ceauda (Crimeea)",
+   "latDeg": 45.0,
+   "lonDeg": 35.8,
+   "altM": 0
+  },
+  {
+   "id": "L03",
+   "name": "Millerovo",
+   "latDeg": 48.95,
+   "lonDeg": 40.3,
+   "altM": 0
+  },
+  {
+   "id": "L04",
+   "name": "Navlea (Briansk)",
+   "latDeg": 52.83,
+   "lonDeg": 34.5,
+   "altM": 0
+  },
+  {
+   "id": "L05",
+   "name": "Orel",
+   "latDeg": 52.97,
+   "lonDeg": 36.07,
+   "altM": 0
+  },
+  {
+   "id": "L06",
+   "name": "Kursk",
+   "latDeg": 51.7,
+   "lonDeg": 36.2,
+   "altM": 0
+  },
+  {
+   "id": "L07",
+   "name": "Şatalovo (Smolensk)",
+   "latDeg": 54.2,
+   "lonDeg": 32.4,
+   "altM": 0
+  },
+  {
+   "id": "L08",
+   "name": "Marea Neagră (nave)",
+   "latDeg": 43.8,
+   "lonDeg": 33.5,
+   "altM": 0
+  },
+  {
+   "id": "L09",
+   "name": "Zona de lansare Kh-101 (Volga)",
+   "latDeg": 51.8,
+   "lonDeg": 46.5,
+   "altM": 0
+  },
+  {
+   "id": "L10",
+   "name": "Briansk (Iskander)",
+   "latDeg": 52.1,
+   "lonDeg": 33.2,
+   "altM": 0
+  },
+  {
+   "id": "L11",
+   "name": "Crimeea (Iskander)",
+   "latDeg": 45.4,
+   "lonDeg": 34.3,
+   "altM": 0
+  },
+  {
+   "id": "L12",
+   "name": "Belgorod (Iskander)",
+   "latDeg": 50.6,
+   "lonDeg": 36.3,
+   "altM": 0
+  },
+  {
+   "id": "L13",
+   "name": "Aerodrom Belgorod",
+   "latDeg": 50.64,
+   "lonDeg": 36.59,
+   "altM": 0
+  }
+ ],
+ "targets": [
+  {
+   "id": "K01",
+   "name": "Kiev - centru guvernamental",
+   "kind": "city",
+   "latDeg": 50.4501,
+   "lonDeg": 30.5234
+  },
+  {
+   "id": "K02",
+   "name": "Kiev - Darnytsia",
+   "kind": "city",
+   "latDeg": 50.43,
+   "lonDeg": 30.65
+  },
+  {
+   "id": "K03",
+   "name": "Kiev - Obolon",
+   "kind": "city",
+   "latDeg": 50.52,
+   "lonDeg": 30.5
+  },
+  {
+   "id": "K04",
+   "name": "Kiev - Troieshchyna",
+   "kind": "city",
+   "latDeg": 50.52,
+   "lonDeg": 30.61
+  },
+  {
+   "id": "K05",
+   "name": "Kiev - Sviatoshyn",
+   "kind": "city",
+   "latDeg": 50.455,
+   "lonDeg": 30.37
+  },
+  {
+   "id": "K06",
+   "name": "Kiev - Lipki",
+   "kind": "city",
+   "latDeg": 50.425,
+   "lonDeg": 30.54
+  },
+  {
+   "id": "K07",
+   "name": "Kiev - Podil",
+   "kind": "city",
+   "latDeg": 50.465,
+   "lonDeg": 30.515
+  },
+  {
+   "id": "K08",
+   "name": "Kiev - Teremky",
+   "kind": "city",
+   "latDeg": 50.37,
+   "lonDeg": 30.48
+  },
+  {
+   "id": "K09",
+   "name": "CET-5 Kiev",
+   "kind": "military_base",
+   "latDeg": 50.4,
+   "lonDeg": 30.66,
+   "radiusM": 800,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "K10",
+   "name": "CET Trypilska",
+   "kind": "military_base",
+   "latDeg": 50.1,
+   "lonDeg": 30.75,
+   "radiusM": 800,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "K11",
+   "name": "Aerodrom Vasylkiv",
+   "kind": "military_base",
+   "latDeg": 50.22,
+   "lonDeg": 30.3,
+   "radiusM": 800,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "K12",
+   "name": "Boryspil",
+   "kind": "military_base",
+   "latDeg": 50.345,
+   "lonDeg": 30.894,
+   "radiusM": 800,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "H01",
+   "name": "Harkov - centru",
+   "kind": "city",
+   "latDeg": 49.9935,
+   "lonDeg": 36.2304
+  },
+  {
+   "id": "H02",
+   "name": "Harkov - Saltivka",
+   "kind": "city",
+   "latDeg": 50.04,
+   "lonDeg": 36.3
+  },
+  {
+   "id": "D01",
+   "name": "Dnipro",
+   "kind": "city",
+   "latDeg": 48.4647,
+   "lonDeg": 35.0462
+  },
+  {
+   "id": "D02",
+   "name": "Dnipro - industrial",
+   "kind": "military_base",
+   "latDeg": 48.4,
+   "lonDeg": 34.95,
+   "radiusM": 800,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "O01",
+   "name": "Odesa - port",
+   "kind": "military_base",
+   "latDeg": 46.49,
+   "lonDeg": 30.74,
+   "radiusM": 800,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "O02",
+   "name": "Odesa - centru",
+   "kind": "city",
+   "latDeg": 46.4825,
+   "lonDeg": 30.7233
+  },
+  {
+   "id": "Z01",
+   "name": "Zaporojie",
+   "kind": "city",
+   "latDeg": 47.8388,
+   "lonDeg": 35.1396
+  },
+  {
+   "id": "Z02",
+   "name": "Zaporojie - hidrocentrala",
+   "kind": "military_base",
+   "latDeg": 47.87,
+   "lonDeg": 35.09,
+   "radiusM": 800,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "V01",
+   "name": "Liov",
+   "kind": "city",
+   "latDeg": 49.8397,
+   "lonDeg": 24.0297
+  },
+  {
+   "id": "V02",
+   "name": "CET Burshtyn",
+   "kind": "military_base",
+   "latDeg": 49.21,
+   "lonDeg": 24.66,
+   "radiusM": 800,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "P01",
+   "name": "Poltava",
+   "kind": "city",
+   "latDeg": 49.5883,
+   "lonDeg": 34.5514
+  },
+  {
+   "id": "P02",
+   "name": "Rafinărie Kremenciug",
+   "kind": "military_base",
+   "latDeg": 49.07,
+   "lonDeg": 33.42,
+   "radiusM": 800,
+   "impactsToDestroy": 10
+  },
+  {
+   "id": "M01",
+   "name": "Mikolaiv",
+   "kind": "city",
+   "latDeg": 46.975,
+   "lonDeg": 31.9946
+  },
+  {
+   "id": "S01",
+   "name": "Sumî",
+   "kind": "city",
+   "latDeg": 50.9077,
+   "lonDeg": 34.7981
+  },
+  {
+   "id": "C01",
+   "name": "Cernihiv",
+   "kind": "city",
+   "latDeg": 51.4982,
+   "lonDeg": 31.2893
+  },
+  {
+   "id": "X01",
+   "name": "Lovitura asupra: Radar Kiev",
+   "kind": "military_base",
+   "latDeg": 50.45,
+   "lonDeg": 30.5,
+   "radiusM": 50,
+   "impactsToDestroy": 3
+  },
+  {
+   "id": "X02",
+   "name": "Lovitura asupra: Radar Vasylkiv",
+   "kind": "military_base",
+   "latDeg": 50.22,
+   "lonDeg": 30.31,
+   "radiusM": 50,
+   "impactsToDestroy": 3
+  },
+  {
+   "id": "X03",
+   "name": "Lovitura asupra: Radar Nord-Est",
+   "kind": "military_base",
+   "latDeg": 51.3,
+   "lonDeg": 32.1,
+   "radiusM": 50,
+   "impactsToDestroy": 3
+  },
+  {
+   "id": "X04",
+   "name": "Lovitura asupra: Radar Harkov",
+   "kind": "military_base",
+   "latDeg": 49.95,
+   "lonDeg": 36.3,
+   "radiusM": 50,
+   "impactsToDestroy": 3
+  },
+  {
+   "id": "X05",
+   "name": "Lovitura asupra: Radar Centru-Vest",
+   "kind": "military_base",
+   "latDeg": 50.0,
+   "lonDeg": 28.0,
+   "radiusM": 50,
+   "impactsToDestroy": 3
+  },
+  {
+   "id": "X06",
+   "name": "Lovitura asupra: Patriot Kiev Nord",
+   "kind": "military_base",
+   "latDeg": 50.55,
+   "lonDeg": 30.45,
+   "radiusM": 50,
+   "impactsToDestroy": 3
+  },
+  {
+   "id": "X07",
+   "name": "Lovitura asupra: Patriot Kiev Sud",
+   "kind": "military_base",
+   "latDeg": 50.35,
+   "lonDeg": 30.55,
+   "radiusM": 50,
+   "impactsToDestroy": 3
+  },
+  {
+   "id": "X08",
+   "name": "Lovitura asupra: Baza Vasylkiv",
+   "kind": "military_base",
+   "latDeg": 50.21,
+   "lonDeg": 30.31,
+   "radiusM": 50,
+   "impactsToDestroy": 3
+  },
+  {
+   "id": "X09",
+   "name": "Lovitura asupra: NASAMS Kiev",
+   "kind": "military_base",
+   "latDeg": 50.5,
+   "lonDeg": 30.6,
+   "radiusM": 50,
+   "impactsToDestroy": 3
+  },
+  {
+   "id": "Y01",
+   "name": "Lovitura asupra: Radar Sumî",
+   "kind": "military_base",
+   "latDeg": 50.6,
+   "lonDeg": 35.0,
+   "radiusM": 50,
+   "impactsToDestroy": 3
+  },
+  {
+   "id": "Y02",
+   "name": "Lovitura asupra: Radar Zaporojie",
+   "kind": "military_base",
+   "latDeg": 47.8,
+   "lonDeg": 35.2,
+   "radiusM": 50,
+   "impactsToDestroy": 3
+  },
+  {
+   "id": "Y03",
+   "name": "Lovitura asupra: Radar Odesa",
+   "kind": "military_base",
+   "latDeg": 46.5,
+   "lonDeg": 30.7,
+   "radiusM": 50,
+   "impactsToDestroy": 3
+  },
+  {
+   "id": "Y04",
+   "name": "Lovitura asupra: Radar Liov",
+   "kind": "military_base",
+   "latDeg": 49.8,
+   "lonDeg": 24.1,
+   "radiusM": 50,
+   "impactsToDestroy": 3
+  },
+  {
+   "id": "Y05",
+   "name": "Lovitura asupra: Radar Dnipro",
+   "kind": "military_base",
+   "latDeg": 48.4,
+   "lonDeg": 35.1,
+   "radiusM": 50,
+   "impactsToDestroy": 3
+  },
+  {
+   "id": "Y06",
+   "name": "Lovitura asupra: Radar Poltava",
+   "kind": "military_base",
+   "latDeg": 49.6,
+   "lonDeg": 34.5,
+   "radiusM": 50,
+   "impactsToDestroy": 3
+  },
+  {
+   "id": "Y07",
+   "name": "Lovitura asupra: Radar Mikolaiv",
+   "kind": "military_base",
+   "latDeg": 47.0,
+   "lonDeg": 32.0,
+   "radiusM": 50,
+   "impactsToDestroy": 3
+  },
+  {
+   "id": "Y08",
+   "name": "Lovitura asupra: Patriot Odesa",
+   "kind": "military_base",
+   "latDeg": 46.45,
+   "lonDeg": 30.75,
+   "radiusM": 50,
+   "impactsToDestroy": 3
+  },
+  {
+   "id": "Y09",
+   "name": "Lovitura asupra: Baza Myrhorod",
+   "kind": "military_base",
+   "latDeg": 49.97,
+   "lonDeg": 33.62,
+   "radiusM": 50,
+   "impactsToDestroy": 3
+  },
+  {
+   "id": "Y10",
+   "name": "Lovitura asupra: Baza Ivano-Frankivsk",
+   "kind": "military_base",
+   "latDeg": 48.88,
+   "lonDeg": 24.69,
+   "radiusM": 50,
+   "impactsToDestroy": 3
+  }
+ ],
+ "waves": [
+  {
+   "id": "WS1",
+   "unit": "shahed-136",
+   "siteIds": [
+    "L01",
+    "L01",
+    "L02",
+    "L03"
+   ],
+   "targetIds": [
+    "K01",
+    "K01",
+    "K01",
+    "K01",
+    "K01",
+    "K01",
+    "K01",
+    "K01",
+    "K01",
+    "K02",
+    "K02",
+    "K02",
+    "K02",
+    "K02",
+    "K02",
+    "K03",
+    "K03",
+    "K03",
+    "K03",
+    "K03",
+    "K03",
+    "K04",
+    "K04",
+    "K04",
+    "K05",
+    "K05",
+    "K05",
+    "K05",
+    "K05",
+    "K05",
+    "K06",
+    "K06",
+    "K06",
+    "K06",
+    "K06",
+    "K06",
+    "K07",
+    "K07",
+    "K07",
+    "K08",
+    "K08",
+    "K08",
+    "K09",
+    "K09",
+    "K09",
+    "K09",
+    "K09",
+    "K09",
+    "K10",
+    "K10",
+    "K10",
+    "K11",
+    "K11",
+    "K11",
+    "K12",
+    "K12",
+    "K12",
+    "D01",
+    "D01",
+    "D01",
+    "D01",
+    "Z01",
+    "Z01",
+    "Z01",
+    "O02",
+    "O02",
+    "O02",
+    "P01",
+    "P01",
+    "P01",
+    "D02"
+   ],
+   "count": 420,
+   "startTimeSeconds": 0,
+   "intervalSeconds": 5,
+   "spreadMeters": 200,
+   "retarget": true
+  },
+  {
+   "id": "WS2",
+   "unit": "shahed-136",
+   "siteIds": [
+    "L04",
+    "L04",
+    "L05",
+    "L06",
+    "L07"
+   ],
+   "targetIds": [
+    "K01",
+    "K01",
+    "K01",
+    "K01",
+    "K01",
+    "K01",
+    "K01",
+    "K01",
+    "K01",
+    "K02",
+    "K02",
+    "K02",
+    "K02",
+    "K02",
+    "K02",
+    "K03",
+    "K03",
+    "K03",
+    "K03",
+    "K03",
+    "K03",
+    "K04",
+    "K04",
+    "K04",
+    "K05",
+    "K05",
+    "K05",
+    "K05",
+    "K05",
+    "K05",
+    "K06",
+    "K06",
+    "K06",
+    "K06",
+    "K06",
+    "K06",
+    "K07",
+    "K07",
+    "K07",
+    "K08",
+    "K08",
+    "K08",
+    "K09",
+    "K09",
+    "K09",
+    "K09",
+    "K09",
+    "K09",
+    "K10",
+    "K10",
+    "K10",
+    "K11",
+    "K11",
+    "K11",
+    "K12",
+    "K12",
+    "K12",
+    "H01",
+    "H01",
+    "H01",
+    "H01",
+    "H01",
+    "H02",
+    "H02",
+    "H02",
+    "C01",
+    "C01",
+    "C01",
+    "S01",
+    "S01",
+    "V01",
+    "V01",
+    "V01",
+    "V01"
+   ],
+   "count": 300,
+   "startTimeSeconds": 300,
+   "intervalSeconds": 5,
+   "spreadMeters": 200,
+   "retarget": true
+  },
+  {
+   "id": "WS3",
+   "unit": "shahed-136",
+   "siteIds": [
+    "L02",
+    "L02",
+    "L01"
+   ],
+   "targetIds": [
+    "O01",
+    "O01",
+    "O01",
+    "O02",
+    "O02",
+    "O02",
+    "M01",
+    "M01",
+    "M01",
+    "Z01",
+    "Z01",
+    "Z01",
+    "Z02",
+    "D01",
+    "D01",
+    "D01",
+    "K01",
+    "K02",
+    "K03",
+    "K04",
+    "K05",
+    "K06",
+    "K07",
+    "K08"
+   ],
+   "count": 180,
+   "startTimeSeconds": 600,
+   "intervalSeconds": 5,
+   "spreadMeters": 200,
+   "retarget": true
+  },
+  {
+   "id": "WG2",
+   "unit": "geran-2-90kg",
+   "siteIds": [
+    "L04",
+    "L05",
+    "L06",
+    "L07"
+   ],
+   "targetIds": [
+    "K01",
+    "K01",
+    "K01",
+    "K02",
+    "K02",
+    "K03",
+    "K03",
+    "K04",
+    "K05",
+    "K05",
+    "K06",
+    "K06",
+    "K07",
+    "K08",
+    "K09",
+    "K09",
+    "K10",
+    "K11",
+    "K12",
+    "H01",
+    "H01",
+    "H01",
+    "P01",
+    "P01",
+    "S01",
+    "C01"
+   ],
+   "count": 300,
+   "startTimeSeconds": 900,
+   "intervalSeconds": 4,
+   "spreadMeters": 200,
+   "retarget": true
+  },
+  {
+   "id": "WD",
+   "unit": "gerbera",
+   "siteIds": [
+    "L04",
+    "L05",
+    "L06",
+    "L07"
+   ],
+   "targetIds": [
+    "K01",
+    "K01",
+    "K01",
+    "K02",
+    "K02",
+    "K03",
+    "K03",
+    "K04",
+    "K05",
+    "K05",
+    "K06",
+    "K06",
+    "K07",
+    "K08",
+    "H01",
+    "H01",
+    "H01",
+    "C01",
+    "C01",
+    "S01",
+    "P01",
+    "P01"
+   ],
+   "count": 642,
+   "startTimeSeconds": 0,
+   "intervalSeconds": 3,
+   "spreadMeters": 400
+  },
+  {
+   "id": "WG3",
+   "unit": "geran-3",
+   "siteIds": [
+    "L04",
+    "L06",
+    "L07"
+   ],
+   "targetIds": [
+    "K01",
+    "K01",
+    "K01",
+    "K02",
+    "K02",
+    "K03",
+    "K03",
+    "K04",
+    "K05",
+    "K05",
+    "K06",
+    "K06",
+    "K07",
+    "K08",
+    "K09",
+    "K09",
+    "K10",
+    "K11",
+    "K12",
+    "D01",
+    "D01",
+    "V01",
+    "V01"
+   ],
+   "count": 60,
+   "startTimeSeconds": 10348,
+   "intervalSeconds": 10,
+   "spreadMeters": 100
+  },
+  {
+   "id": "WK",
+   "unit": "kalibr-3m14",
+   "siteIds": [
+    "L08"
+   ],
+   "targetIds": [
+    "O01",
+    "O01",
+    "O01",
+    "O02",
+    "M01",
+    "M01",
+    "D01",
+    "D01",
+    "Z02",
+    "K09",
+    "K01",
+    "K10"
+   ],
+   "count": 24,
+   "startTimeSeconds": 12765,
+   "intervalSeconds": 12,
+   "spreadMeters": 60,
+   "retarget": true
+  },
+  {
+   "id": "WH",
+   "unit": "kh-101",
+   "siteIds": [
+    "L09"
+   ],
+   "targetIds": [
+    "K09",
+    "K09",
+    "K09",
+    "K10",
+    "K10",
+    "K11",
+    "K12",
+    "V02",
+    "V02",
+    "V02",
+    "P02",
+    "P02",
+    "V01",
+    "K01"
+   ],
+   "count": 40,
+   "startTimeSeconds": 9966,
+   "intervalSeconds": 15,
+   "spreadMeters": 60,
+   "retarget": true
+  },
+  {
+   "id": "WI1",
+   "unit": "iskander-m",
+   "siteIds": [
+    "L10"
+   ],
+   "targetIds": [
+    "K09",
+    "K09",
+    "K09",
+    "K10",
+    "K10",
+    "K11",
+    "K12",
+    "K01",
+    "K01",
+    "K06",
+    "C01"
+   ],
+   "count": 10,
+   "startTimeSeconds": 15629,
+   "intervalSeconds": 20,
+   "spreadMeters": 80
+  },
+  {
+   "id": "WI2",
+   "unit": "iskander-m",
+   "siteIds": [
+    "L11"
+   ],
+   "targetIds": [
+    "O01",
+    "O01",
+    "M01",
+    "Z02",
+    "D02"
+   ],
+   "count": 6,
+   "startTimeSeconds": 15644,
+   "intervalSeconds": 20,
+   "spreadMeters": 80
+  },
+  {
+   "id": "WI3",
+   "unit": "iskander-m",
+   "siteIds": [
+    "L12"
+   ],
+   "targetIds": [
+    "H01",
+    "H01",
+    "H02",
+    "P01",
+    "S01"
+   ],
+   "count": 6,
+   "startTimeSeconds": 15776,
+   "intervalSeconds": 20,
+   "spreadMeters": 80
+  },
+  {
+   "id": "WA",
+   "unit": "su-34-fab500",
+   "siteIds": [
+    "L13"
+   ],
+   "targetIds": [
+    "H01",
+    "H01",
+    "H02",
+    "H02"
+   ],
+   "count": 12,
+   "startTimeSeconds": 14828,
+   "intervalSeconds": 30,
+   "spreadMeters": 200,
+   "retarget": true
+  },
+  {
+   "id": "WX1",
+   "unit": "geran-2-90kg",
+   "siteIds": [
+    "L04",
+    "L06"
+   ],
+   "targetIds": [
+    "X01",
+    "X02",
+    "X03",
+    "X04",
+    "X05",
+    "X06",
+    "X07",
+    "X08",
+    "X09"
+   ],
+   "count": 90,
+   "startTimeSeconds": 4104,
+   "intervalSeconds": 3,
+   "spreadMeters": 80
+  },
+  {
+   "id": "WX2",
+   "unit": "iskander-m",
+   "siteIds": [
+    "L10"
+   ],
+   "targetIds": [
+    "X01",
+    "X02",
+    "X03",
+    "X04",
+    "X05",
+    "X06",
+    "X07",
+    "X08",
+    "X09"
+   ],
+   "count": 12,
+   "startTimeSeconds": 13525,
+   "intervalSeconds": 15,
+   "spreadMeters": 50
+  },
+  {
+   "id": "WX3",
+   "unit": "kalibr-3m14",
+   "siteIds": [
+    "L08"
+   ],
+   "targetIds": [
+    "Y05",
+    "Y06",
+    "Y07",
+    "Y08",
+    "Y09",
+    "Y10"
+   ],
+   "count": 14,
+   "startTimeSeconds": 10698,
+   "intervalSeconds": 12,
+   "spreadMeters": 50
+  }
+ ],
+ "defenses": [
+  {
+   "id": "R01",
+   "type": "trml-4d",
+   "name": "Radar Kiev",
+   "latDeg": 50.45,
+   "lonDeg": 30.5
+  },
+  {
+   "id": "R02",
+   "type": "trml-4d",
+   "name": "Radar Vasylkiv",
+   "latDeg": 50.22,
+   "lonDeg": 30.31
+  },
+  {
+   "id": "R03",
+   "type": "radar-ew-long",
+   "name": "Radar Nord-Est",
+   "latDeg": 51.3,
+   "lonDeg": 32.1
+  },
+  {
+   "id": "R04",
+   "type": "trml-4d",
+   "name": "Radar Sumî",
+   "latDeg": 50.6,
+   "lonDeg": 35.0
+  },
+  {
+   "id": "R05",
+   "type": "trml-4d",
+   "name": "Radar Harkov",
+   "latDeg": 49.95,
+   "lonDeg": 36.3
+  },
+  {
+   "id": "R06",
+   "type": "trml-4d",
+   "name": "Radar Zaporojie",
+   "latDeg": 47.8,
+   "lonDeg": 35.2
+  },
+  {
+   "id": "R07",
+   "type": "trml-4d",
+   "name": "Radar Odesa",
+   "latDeg": 46.5,
+   "lonDeg": 30.7
+  },
+  {
+   "id": "R08",
+   "type": "trml-4d",
+   "name": "Radar Liov",
+   "latDeg": 49.8,
+   "lonDeg": 24.1
+  },
+  {
+   "id": "R09",
+   "type": "trml-4d",
+   "name": "Radar Dnipro",
+   "latDeg": 48.4,
+   "lonDeg": 35.1
+  },
+  {
+   "id": "R10",
+   "type": "trml-4d",
+   "name": "Radar Poltava",
+   "latDeg": 49.6,
+   "lonDeg": 34.5
+  },
+  {
+   "id": "R11",
+   "type": "trml-4d",
+   "name": "Radar Mikolaiv",
+   "latDeg": 47.0,
+   "lonDeg": 32.0
+  },
+  {
+   "id": "R12",
+   "type": "radar-ew-long",
+   "name": "Radar Centru-Vest",
+   "latDeg": 50.0,
+   "lonDeg": 28.0
+  },
+  {
+   "id": "R13",
+   "type": "radar-ew-long",
+   "name": "Radar Est",
+   "latDeg": 48.9,
+   "lonDeg": 38.5
+  },
+  {
+   "id": "R14",
+   "type": "radar-ew-long",
+   "name": "Radar Sud-Est",
+   "latDeg": 47.5,
+   "lonDeg": 37.5
+  },
+  {
+   "id": "R15",
+   "type": "an-mpq-65",
+   "name": "Radar Patriot Kiev Nord",
+   "latDeg": 50.56,
+   "lonDeg": 30.46
+  },
+  {
+   "id": "R16",
+   "type": "an-mpq-65",
+   "name": "Radar Patriot Kiev Sud",
+   "latDeg": 50.34,
+   "lonDeg": 30.56
+  },
+  {
+   "id": "PT01",
+   "type": "patriot-pac3-mse",
+   "name": "Patriot Kiev Nord",
+   "latDeg": 50.55,
+   "lonDeg": 30.45
+  },
+  {
+   "id": "PT02",
+   "type": "patriot-pac3-mse",
+   "name": "Patriot Kiev Sud",
+   "latDeg": 50.35,
+   "lonDeg": 30.55
+  },
+  {
+   "id": "PT03",
+   "type": "patriot-pac3-mse",
+   "name": "Patriot Odesa",
+   "latDeg": 46.45,
+   "lonDeg": 30.75
+  },
+  {
+   "id": "NS01",
+   "type": "nasams",
+   "name": "NASAMS Kiev",
+   "latDeg": 50.5,
+   "lonDeg": 30.6
+  },
+  {
+   "id": "NS02",
+   "type": "nasams",
+   "name": "NASAMS Odesa",
+   "latDeg": 46.5,
+   "lonDeg": 30.65
+  },
+  {
+   "id": "NS03",
+   "type": "nasams",
+   "name": "NASAMS Liov",
+   "latDeg": 49.85,
+   "lonDeg": 24.05
+  },
+  {
+   "id": "NS04",
+   "type": "nasams",
+   "name": "NASAMS Dnipro",
+   "latDeg": 48.45,
+   "lonDeg": 35.05
+  },
+  {
+   "id": "IT01",
+   "type": "iris-t-slm",
+   "name": "IRIS-T Kiev Vest",
+   "latDeg": 50.4,
+   "lonDeg": 30.45
+  },
+  {
+   "id": "IT02",
+   "type": "iris-t-slm",
+   "name": "IRIS-T Kiev Nord",
+   "latDeg": 50.5,
+   "lonDeg": 30.4
+  },
+  {
+   "id": "IT03",
+   "type": "iris-t-slm",
+   "name": "IRIS-T Harkov",
+   "latDeg": 50.0,
+   "lonDeg": 36.2
+  },
+  {
+   "id": "IT04",
+   "type": "iris-t-slm",
+   "name": "IRIS-T Zaporojie",
+   "latDeg": 47.85,
+   "lonDeg": 35.15
+  },
+  {
+   "id": "IT05",
+   "type": "iris-t-slm",
+   "name": "IRIS-T Mikolaiv",
+   "latDeg": 46.97,
+   "lonDeg": 32.0
+  },
+  {
+   "id": "IT06",
+   "type": "iris-t-slm",
+   "name": "IRIS-T Poltava",
+   "latDeg": 49.6,
+   "lonDeg": 34.55
+  },
+  {
+   "id": "IT07",
+   "type": "iris-t-slm",
+   "name": "IRIS-T Odesa",
+   "latDeg": 46.5,
+   "lonDeg": 30.8
+  },
+  {
+   "id": "GP01",
+   "type": "gepard-35mm",
+   "name": "Gepard Kiev 01",
+   "latDeg": 50.5294,
+   "lonDeg": 30.6363
+  },
+  {
+   "id": "GP02",
+   "type": "gepard-35mm",
+   "name": "Gepard Kiev 02",
+   "latDeg": 50.4444,
+   "lonDeg": 30.6555
+  },
+  {
+   "id": "GP03",
+   "type": "gepard-35mm",
+   "name": "Gepard Kiev 03",
+   "latDeg": 50.3794,
+   "lonDeg": 30.6592
+  },
+  {
+   "id": "GP04",
+   "type": "gepard-35mm",
+   "name": "Gepard Kiev 04",
+   "latDeg": 50.3268,
+   "lonDeg": 30.5241
+  },
+  {
+   "id": "GP05",
+   "type": "gepard-35mm",
+   "name": "Gepard Kiev 05",
+   "latDeg": 50.3628,
+   "lonDeg": 30.3898
+  },
+  {
+   "id": "GP06",
+   "type": "gepard-35mm",
+   "name": "Gepard Kiev 06",
+   "latDeg": 50.4544,
+   "lonDeg": 30.3294
+  },
+  {
+   "id": "GP07",
+   "type": "gepard-35mm",
+   "name": "Gepard Kiev 07",
+   "latDeg": 50.5155,
+   "lonDeg": 30.4143
+  },
+  {
+   "id": "GP08",
+   "type": "gepard-35mm",
+   "name": "Gepard Kiev 08",
+   "latDeg": 50.5369,
+   "lonDeg": 30.5193
+  },
+  {
+   "id": "GP09",
+   "type": "gepard-35mm",
+   "name": "Gepard Odesa 09",
+   "latDeg": 46.5093,
+   "lonDeg": 30.6308
+  },
+  {
+   "id": "GP10",
+   "type": "gepard-35mm",
+   "name": "Gepard Odesa 10",
+   "latDeg": 46.4485,
+   "lonDeg": 30.8198
+  },
+  {
+   "id": "GP11",
+   "type": "gepard-35mm",
+   "name": "Gepard Harkov 11",
+   "latDeg": 50.0151,
+   "lonDeg": 36.3485
+  },
+  {
+   "id": "GP12",
+   "type": "gepard-35mm",
+   "name": "Gepard Harkov 12",
+   "latDeg": 49.9804,
+   "lonDeg": 36.116
+  },
+  {
+   "id": "MG01",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Kyiv 01",
+   "latDeg": 50.4859,
+   "lonDeg": 30.5201
+  },
+  {
+   "id": "MG02",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Kyiv 02",
+   "latDeg": 50.5409,
+   "lonDeg": 30.5435
+  },
+  {
+   "id": "MG03",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Kyiv 03",
+   "latDeg": 50.5253,
+   "lonDeg": 30.5644
+  },
+  {
+   "id": "MG04",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Kyiv 04",
+   "latDeg": 50.5313,
+   "lonDeg": 30.6348
+  },
+  {
+   "id": "MG05",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Kyiv 05",
+   "latDeg": 50.4695,
+   "lonDeg": 30.5555
+  },
+  {
+   "id": "MG06",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Kyiv 06",
+   "latDeg": 50.4812,
+   "lonDeg": 30.6175
+  },
+  {
+   "id": "MG07",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Kyiv 07",
+   "latDeg": 50.4744,
+   "lonDeg": 30.6291
+  },
+  {
+   "id": "MG08",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Kyiv 08",
+   "latDeg": 50.457,
+   "lonDeg": 30.6534
+  },
+  {
+   "id": "MG09",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Kyiv 09",
+   "latDeg": 50.4503,
+   "lonDeg": 30.6553
+  },
+  {
+   "id": "MG10",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Kyiv 10",
+   "latDeg": 50.4137,
+   "lonDeg": 30.6615
+  },
+  {
+   "id": "MG11",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Kyiv 11",
+   "latDeg": 50.3833,
+   "lonDeg": 30.7027
+  },
+  {
+   "id": "MG12",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Kyiv 12",
+   "latDeg": 50.4031,
+   "lonDeg": 30.614
+  },
+  {
+   "id": "MG13",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Kyiv 13",
+   "latDeg": 50.3776,
+   "lonDeg": 30.5837
+  },
+  {
+   "id": "MG14",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Kyiv 14",
+   "latDeg": 50.4226,
+   "lonDeg": 30.539
+  },
+  {
+   "id": "MG15",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Kyiv 15",
+   "latDeg": 50.4097,
+   "lonDeg": 30.5388
+  },
+  {
+   "id": "MG16",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Kyiv 16",
+   "latDeg": 50.3415,
+   "lonDeg": 30.5419
+  },
+  {
+   "id": "MG17",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Kyiv 17",
+   "latDeg": 50.4129,
+   "lonDeg": 30.501
+  },
+  {
+   "id": "MG18",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Kyiv 18",
+   "latDeg": 50.3762,
+   "lonDeg": 30.464
+  },
+  {
+   "id": "MG19",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Kyiv 19",
+   "latDeg": 50.4063,
+   "lonDeg": 30.4709
+  },
+  {
+   "id": "MG20",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Kyiv 20",
+   "latDeg": 50.3911,
+   "lonDeg": 30.3927
+  },
+  {
+   "id": "MG21",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Kyiv 21",
+   "latDeg": 50.408,
+   "lonDeg": 30.4097
+  },
+  {
+   "id": "MG22",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Kyiv 22",
+   "latDeg": 50.422,
+   "lonDeg": 30.3008
+  },
+  {
+   "id": "MG23",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Kyiv 23",
+   "latDeg": 50.4412,
+   "lonDeg": 30.3755
+  },
+  {
+   "id": "MG24",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Kyiv 24",
+   "latDeg": 50.4594,
+   "lonDeg": 30.4222
+  },
+  {
+   "id": "MG25",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Kyiv 25",
+   "latDeg": 50.483,
+   "lonDeg": 30.3958
+  },
+  {
+   "id": "MG26",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Kyiv 26",
+   "latDeg": 50.5141,
+   "lonDeg": 30.3416
+  },
+  {
+   "id": "MG27",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Kyiv 27",
+   "latDeg": 50.4901,
+   "lonDeg": 30.447
+  },
+  {
+   "id": "MG28",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Kyiv 28",
+   "latDeg": 50.4737,
+   "lonDeg": 30.489
+  },
+  {
+   "id": "MG29",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Kyiv 29",
+   "latDeg": 50.54,
+   "lonDeg": 30.4638
+  },
+  {
+   "id": "MG30",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Kyiv 30",
+   "latDeg": 50.5359,
+   "lonDeg": 30.4893
+  },
+  {
+   "id": "MG31",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Kharkiv 31",
+   "latDeg": 49.942,
+   "lonDeg": 36.2261
+  },
+  {
+   "id": "MG32",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Kharkiv 32",
+   "latDeg": 49.9384,
+   "lonDeg": 36.1603
+  },
+  {
+   "id": "MG33",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Kharkiv 33",
+   "latDeg": 49.9922,
+   "lonDeg": 36.0864
+  },
+  {
+   "id": "MG34",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Kharkiv 34",
+   "latDeg": 50.0573,
+   "lonDeg": 36.114
+  },
+  {
+   "id": "MG35",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Kharkiv 35",
+   "latDeg": 50.0426,
+   "lonDeg": 36.2322
+  },
+  {
+   "id": "MG36",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Kharkiv 36",
+   "latDeg": 50.0134,
+   "lonDeg": 36.2703
+  },
+  {
+   "id": "MG37",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Kharkiv 37",
+   "latDeg": 49.9911,
+   "lonDeg": 36.3708
+  },
+  {
+   "id": "MG38",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Kharkiv 38",
+   "latDeg": 49.9478,
+   "lonDeg": 36.3041
+  },
+  {
+   "id": "MG39",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Odesa 39",
+   "latDeg": 46.5597,
+   "lonDeg": 30.7198
+  },
+  {
+   "id": "MG40",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Odesa 40",
+   "latDeg": 46.5063,
+   "lonDeg": 30.754
+  },
+  {
+   "id": "MG41",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Odesa 41",
+   "latDeg": 46.4963,
+   "lonDeg": 30.8114
+  },
+  {
+   "id": "MG42",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Odesa 42",
+   "latDeg": 46.4475,
+   "lonDeg": 30.8265
+  },
+  {
+   "id": "MG43",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Odesa 43",
+   "latDeg": 46.4264,
+   "lonDeg": 30.7493
+  },
+  {
+   "id": "MG44",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Odesa 44",
+   "latDeg": 46.4555,
+   "lonDeg": 30.7136
+  },
+  {
+   "id": "MG45",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Odesa 45",
+   "latDeg": 46.4633,
+   "lonDeg": 30.608
+  },
+  {
+   "id": "MG46",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Odesa 46",
+   "latDeg": 46.5135,
+   "lonDeg": 30.6294
+  },
+  {
+   "id": "MG47",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Dnipro 47",
+   "latDeg": 48.4584,
+   "lonDeg": 35.162
+  },
+  {
+   "id": "MG48",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Dnipro 48",
+   "latDeg": 48.3966,
+   "lonDeg": 35.0914
+  },
+  {
+   "id": "MG49",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Dnipro 49",
+   "latDeg": 48.4286,
+   "lonDeg": 35.0212
+  },
+  {
+   "id": "MG50",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Dnipro 50",
+   "latDeg": 48.4558,
+   "lonDeg": 34.9542
+  },
+  {
+   "id": "MG51",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Dnipro 51",
+   "latDeg": 48.5377,
+   "lonDeg": 34.9916
+  },
+  {
+   "id": "MG52",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Dnipro 52",
+   "latDeg": 48.5232,
+   "lonDeg": 35.1031
+  },
+  {
+   "id": "MG53",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Zap 53",
+   "latDeg": 47.8859,
+   "lonDeg": 35.2064
+  },
+  {
+   "id": "MG54",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Zap 54",
+   "latDeg": 47.8041,
+   "lonDeg": 35.25
+  },
+  {
+   "id": "MG55",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Zap 55",
+   "latDeg": 47.8083,
+   "lonDeg": 35.1495
+  },
+  {
+   "id": "MG56",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Zap 56",
+   "latDeg": 47.7862,
+   "lonDeg": 35.0404
+  },
+  {
+   "id": "MG57",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Zap 57",
+   "latDeg": 47.8731,
+   "lonDeg": 35.024
+  },
+  {
+   "id": "MG58",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Zap 58",
+   "latDeg": 47.8912,
+   "lonDeg": 35.1202
+  },
+  {
+   "id": "MG59",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Lviv 59",
+   "latDeg": 49.8542,
+   "lonDeg": 23.9731
+  },
+  {
+   "id": "MG60",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Lviv 60",
+   "latDeg": 49.8722,
+   "lonDeg": 24.0148
+  },
+  {
+   "id": "MG61",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Lviv 61",
+   "latDeg": 49.8564,
+   "lonDeg": 24.0693
+  },
+  {
+   "id": "MG62",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Lviv 62",
+   "latDeg": 49.8244,
+   "lonDeg": 24.1024
+  },
+  {
+   "id": "MG63",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Lviv 63",
+   "latDeg": 49.8115,
+   "lonDeg": 24.0337
+  },
+  {
+   "id": "MG64",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Lviv 64",
+   "latDeg": 49.8101,
+   "lonDeg": 23.9726
+  },
+  {
+   "id": "MG65",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Poltava 65",
+   "latDeg": 49.5808,
+   "lonDeg": 34.598
+  },
+  {
+   "id": "MG66",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Poltava 66",
+   "latDeg": 49.5428,
+   "lonDeg": 34.5138
+  },
+  {
+   "id": "MG67",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Poltava 67",
+   "latDeg": 49.6039,
+   "lonDeg": 34.5023
+  },
+  {
+   "id": "MG68",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Poltava 68",
+   "latDeg": 49.6338,
+   "lonDeg": 34.5741
+  },
+  {
+   "id": "MG69",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Mykolaiv 69",
+   "latDeg": 46.9389,
+   "lonDeg": 32.0609
+  },
+  {
+   "id": "MG70",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Mykolaiv 70",
+   "latDeg": 46.929,
+   "lonDeg": 31.963
+  },
+  {
+   "id": "MG71",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Mykolaiv 71",
+   "latDeg": 47.0002,
+   "lonDeg": 31.9
+  },
+  {
+   "id": "MG72",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Mykolaiv 72",
+   "latDeg": 47.0171,
+   "lonDeg": 32.0205
+  },
+  {
+   "id": "MG73",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Sumy 73",
+   "latDeg": 50.9381,
+   "lonDeg": 34.7266
+  },
+  {
+   "id": "MG74",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Sumy 74",
+   "latDeg": 50.9386,
+   "lonDeg": 34.87
+  },
+  {
+   "id": "MG75",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Sumy 75",
+   "latDeg": 50.8787,
+   "lonDeg": 34.793
+  },
+  {
+   "id": "MG76",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Chernihiv 76",
+   "latDeg": 51.4561,
+   "lonDeg": 31.2706
+  },
+  {
+   "id": "MG77",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Chernihiv 77",
+   "latDeg": 51.5244,
+   "lonDeg": 31.2548
+  },
+  {
+   "id": "MG78",
+   "type": "mobile-fire-group",
+   "name": "Grup mobil Chernihiv 78",
+   "latDeg": 51.5097,
+   "lonDeg": 31.354
+  },
+  {
+   "id": "ST01",
+   "type": "sting-interceptor",
+   "name": "Sting Kyiv 01",
+   "latDeg": 50.3975,
+   "lonDeg": 30.5643,
+   "rangeKm": 40
+  },
+  {
+   "id": "ST02",
+   "type": "sting-interceptor",
+   "name": "Sting Kyiv 02",
+   "latDeg": 50.4499,
+   "lonDeg": 30.3964,
+   "rangeKm": 40
+  },
+  {
+   "id": "ST03",
+   "type": "sting-interceptor",
+   "name": "Sting Kyiv 03",
+   "latDeg": 50.5282,
+   "lonDeg": 30.5892,
+   "rangeKm": 40
+  },
+  {
+   "id": "ST04",
+   "type": "sting-interceptor",
+   "name": "Sting Kharkiv 04",
+   "latDeg": 50.0044,
+   "lonDeg": 36.0956,
+   "rangeKm": 40
+  },
+  {
+   "id": "ST05",
+   "type": "sting-interceptor",
+   "name": "Sting Odesa 05",
+   "latDeg": 46.4516,
+   "lonDeg": 30.811,
+   "rangeKm": 40
+  },
+  {
+   "id": "ST06",
+   "type": "sting-interceptor",
+   "name": "Sting Dnipro 06",
+   "latDeg": 48.5012,
+   "lonDeg": 34.8918,
+   "rangeKm": 40
+  },
+  {
+   "id": "ST07",
+   "type": "sting-interceptor",
+   "name": "Sting Lviv 07",
+   "latDeg": 49.9029,
+   "lonDeg": 23.8668,
+   "rangeKm": 40
+  },
+  {
+   "id": "ST08",
+   "type": "sting-interceptor",
+   "name": "Sting Poltava 08",
+   "latDeg": 49.6525,
+   "lonDeg": 34.465,
+   "rangeKm": 40
+  },
+  {
+   "id": "ST09",
+   "type": "sting-interceptor",
+   "name": "Sting Mykolaiv 09",
+   "latDeg": 47.0008,
+   "lonDeg": 31.8472,
+   "rangeKm": 40
+  },
+  {
+   "id": "AB01",
+   "type": "airbase",
+   "name": "Baza Vasylkiv",
+   "latDeg": 50.21,
+   "lonDeg": 30.31
+  },
+  {
+   "id": "AB02",
+   "type": "airbase",
+   "name": "Baza Starokostiantyniv",
+   "latDeg": 49.75,
+   "lonDeg": 27.27
+  },
+  {
+   "id": "AB03",
+   "type": "airbase",
+   "name": "Baza Myrhorod",
+   "latDeg": 49.97,
+   "lonDeg": 33.62
+  },
+  {
+   "id": "AB04",
+   "type": "airbase",
+   "name": "Baza Ivano-Frankivsk",
+   "latDeg": 48.88,
+   "lonDeg": 24.69
+  },
+  {
+   "id": "AB05",
+   "type": "airbase",
+   "name": "Baza Kulbakino",
+   "latDeg": 46.93,
+   "lonDeg": 32.0
+  },
+  {
+   "id": "PA01",
+   "type": "f-16-patrol",
+   "name": "F-16 Kiev",
+   "latDeg": 50.4,
+   "lonDeg": 30.5
+  },
+  {
+   "id": "PA02",
+   "type": "f-16-patrol",
+   "name": "F-16 Vest",
+   "latDeg": 49.9,
+   "lonDeg": 25.5
+  },
+  {
+   "id": "PA03",
+   "type": "f-16-patrol",
+   "name": "F-16 Est",
+   "latDeg": 49.9,
+   "lonDeg": 35.5
+  },
+  {
+   "id": "PA04",
+   "type": "mig-29-patrol",
+   "name": "MiG-29 Sud",
+   "latDeg": 46.7,
+   "lonDeg": 31.0
+  },
+  {
+   "id": "PA05",
+   "type": "mig-29-patrol",
+   "name": "MiG-29 Centru",
+   "latDeg": 49.5,
+   "lonDeg": 31.5
+  },
+  {
+   "id": "PA06",
+   "type": "mig-29-patrol",
+   "name": "MiG-29 Zaporojie",
+   "latDeg": 47.9,
+   "lonDeg": 34.8
+  },
+  {
+   "id": "EM01",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Kiev (interior) 01",
+   "latDeg": 50.4908,
+   "lonDeg": 30.5012
+  },
+  {
+   "id": "EM02",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Kiev (interior) 02",
+   "latDeg": 50.5269,
+   "lonDeg": 30.5714
+  },
+  {
+   "id": "EM03",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Kiev (interior) 03",
+   "latDeg": 50.4697,
+   "lonDeg": 30.5708
+  },
+  {
+   "id": "EM04",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Kiev (interior) 04",
+   "latDeg": 50.4392,
+   "lonDeg": 30.6476
+  },
+  {
+   "id": "EM05",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Kiev (interior) 05",
+   "latDeg": 50.4183,
+   "lonDeg": 30.577
+  },
+  {
+   "id": "EM06",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Kiev (interior) 06",
+   "latDeg": 50.3989,
+   "lonDeg": 30.5449
+  },
+  {
+   "id": "EM07",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Kiev (interior) 07",
+   "latDeg": 50.4159,
+   "lonDeg": 30.4974
+  },
+  {
+   "id": "EM08",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Kiev (interior) 08",
+   "latDeg": 50.3789,
+   "lonDeg": 30.3654
+  },
+  {
+   "id": "EM09",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Kiev (interior) 09",
+   "latDeg": 50.4479,
+   "lonDeg": 30.3713
+  },
+  {
+   "id": "EM10",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Kiev (interior) 10",
+   "latDeg": 50.5185,
+   "lonDeg": 30.409
+  },
+  {
+   "id": "EM11",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Kiev (aproape) 11",
+   "latDeg": 50.5538,
+   "lonDeg": 30.9456
+  },
+  {
+   "id": "EM12",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Kiev (aproape) 12",
+   "latDeg": 50.4558,
+   "lonDeg": 31.1435
+  },
+  {
+   "id": "EM13",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Kiev (aproape) 13",
+   "latDeg": 50.3538,
+   "lonDeg": 30.8439
+  },
+  {
+   "id": "EM14",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Kiev (aproape) 14",
+   "latDeg": 50.3377,
+   "lonDeg": 30.667
+  },
+  {
+   "id": "EM15",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Kiev (aproape) 15",
+   "latDeg": 50.042,
+   "lonDeg": 30.6524
+  },
+  {
+   "id": "EM16",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Kiev (aproape) 16",
+   "latDeg": 50.2052,
+   "lonDeg": 30.3825
+  },
+  {
+   "id": "EM17",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Kiev (aproape) 17",
+   "latDeg": 50.3186,
+   "lonDeg": 30.3849
+  },
+  {
+   "id": "EM18",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Kiev (aproape) 18",
+   "latDeg": 50.3648,
+   "lonDeg": 30.297
+  },
+  {
+   "id": "EM19",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Kiev (aproape) 19",
+   "latDeg": 50.4787,
+   "lonDeg": 30.0311
+  },
+  {
+   "id": "EM20",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Kiev (aproape) 20",
+   "latDeg": 50.5875,
+   "lonDeg": 30.2119
+  },
+  {
+   "id": "EM21",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Kiev (aproape) 21",
+   "latDeg": 50.7244,
+   "lonDeg": 30.253
+  },
+  {
+   "id": "EM22",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Kiev (aproape) 22",
+   "latDeg": 50.772,
+   "lonDeg": 30.4494
+  },
+  {
+   "id": "EM23",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Kiev (aproape) 23",
+   "latDeg": 50.6613,
+   "lonDeg": 30.6557
+  },
+  {
+   "id": "EM24",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Kiev (aproape) 24",
+   "latDeg": 50.6713,
+   "lonDeg": 30.7788
+  },
+  {
+   "id": "EM25",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Kharkiv 25",
+   "latDeg": 50.1892,
+   "lonDeg": 36.222
+  },
+  {
+   "id": "EM26",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Kharkiv 26",
+   "latDeg": 50.0939,
+   "lonDeg": 36.4927
+  },
+  {
+   "id": "EM27",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Kharkiv 27",
+   "latDeg": 49.9251,
+   "lonDeg": 36.4095
+  },
+  {
+   "id": "EM28",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Kharkiv 28",
+   "latDeg": 49.8649,
+   "lonDeg": 36.2312
+  },
+  {
+   "id": "EM29",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Kharkiv 29",
+   "latDeg": 49.9103,
+   "lonDeg": 36.0452
+  },
+  {
+   "id": "EM30",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Kharkiv 30",
+   "latDeg": 50.0412,
+   "lonDeg": 35.9271
+  },
+  {
+   "id": "EM31",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Odesa 31",
+   "latDeg": 46.3969,
+   "lonDeg": 31.0331
+  },
+  {
+   "id": "EM32",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Odesa 32",
+   "latDeg": 46.2779,
+   "lonDeg": 30.8469
+  },
+  {
+   "id": "EM33",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Odesa 33",
+   "latDeg": 46.2936,
+   "lonDeg": 30.4929
+  },
+  {
+   "id": "EM34",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Odesa 34",
+   "latDeg": 46.5113,
+   "lonDeg": 30.5587
+  },
+  {
+   "id": "EM35",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Odesa 35",
+   "latDeg": 46.6803,
+   "lonDeg": 30.6529
+  },
+  {
+   "id": "EM36",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Odesa 36",
+   "latDeg": 46.6249,
+   "lonDeg": 30.8952
+  },
+  {
+   "id": "EM37",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Dnipro 37",
+   "latDeg": 48.5472,
+   "lonDeg": 35.1478
+  },
+  {
+   "id": "EM38",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Dnipro 38",
+   "latDeg": 48.386,
+   "lonDeg": 35.2687
+  },
+  {
+   "id": "EM39",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Dnipro 39",
+   "latDeg": 48.3111,
+   "lonDeg": 35.0537
+  },
+  {
+   "id": "EM40",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Dnipro 40",
+   "latDeg": 48.4328,
+   "lonDeg": 34.883
+  },
+  {
+   "id": "EM41",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Dnipro 41",
+   "latDeg": 48.5605,
+   "lonDeg": 34.9491
+  },
+  {
+   "id": "EM42",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Zap 42",
+   "latDeg": 47.8814,
+   "lonDeg": 35.3434
+  },
+  {
+   "id": "EM43",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Zap 43",
+   "latDeg": 47.649,
+   "lonDeg": 35.2805
+  },
+  {
+   "id": "EM44",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Zap 44",
+   "latDeg": 47.7591,
+   "lonDeg": 35.0155
+  },
+  {
+   "id": "EM45",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Zap 45",
+   "latDeg": 47.8657,
+   "lonDeg": 35.0405
+  },
+  {
+   "id": "EM46",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Zap 46",
+   "latDeg": 47.9348,
+   "lonDeg": 35.1386
+  },
+  {
+   "id": "EM47",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Lviv 47",
+   "latDeg": 49.7404,
+   "lonDeg": 24.0611
+  },
+  {
+   "id": "EM48",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Lviv 48",
+   "latDeg": 49.8384,
+   "lonDeg": 23.7947
+  },
+  {
+   "id": "EM49",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Lviv 49",
+   "latDeg": 49.9843,
+   "lonDeg": 24.0214
+  },
+  {
+   "id": "EM50",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Lviv 50",
+   "latDeg": 49.8593,
+   "lonDeg": 24.3666
+  },
+  {
+   "id": "EM51",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Poltava 51",
+   "latDeg": 49.4597,
+   "lonDeg": 34.5454
+  },
+  {
+   "id": "EM52",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Poltava 52",
+   "latDeg": 49.6454,
+   "lonDeg": 34.4448
+  },
+  {
+   "id": "EM53",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Poltava 53",
+   "latDeg": 49.6077,
+   "lonDeg": 34.6163
+  },
+  {
+   "id": "EM54",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Mykolaiv 54",
+   "latDeg": 47.144,
+   "lonDeg": 31.9525
+  },
+  {
+   "id": "EM55",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Mykolaiv 55",
+   "latDeg": 46.9017,
+   "lonDeg": 32.2039
+  },
+  {
+   "id": "EM56",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Mykolaiv 56",
+   "latDeg": 46.8836,
+   "lonDeg": 31.7804
+  },
+  {
+   "id": "EM57",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Sumy 57",
+   "latDeg": 50.7955,
+   "lonDeg": 34.8992
+  },
+  {
+   "id": "EM58",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Sumy 58",
+   "latDeg": 51.0007,
+   "lonDeg": 34.6764
+  },
+  {
+   "id": "EM59",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Chernihiv 59",
+   "latDeg": 51.4547,
+   "lonDeg": 31.4212
+  },
+  {
+   "id": "EM60",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Chernihiv 60",
+   "latDeg": 51.4513,
+   "lonDeg": 31.1157
+  },
+  {
+   "id": "EM61",
+   "type": "ew-mobile",
+   "name": "Bruiaj mobil Chernihiv 61",
+   "latDeg": 51.6511,
+   "lonDeg": 31.3041
+  },
+  {
+   "id": "EF01",
+   "type": "ew-fixed",
+   "name": "Bruiaj fix NE",
+   "latDeg": 51.5,
+   "lonDeg": 34.0
+  },
+  {
+   "id": "EF02",
+   "type": "ew-fixed",
+   "name": "Bruiaj fix Harkov",
+   "latDeg": 50.5,
+   "lonDeg": 35.8
+  },
+  {
+   "id": "EF03",
+   "type": "ew-fixed",
+   "name": "Bruiaj fix Est",
+   "latDeg": 49.0,
+   "lonDeg": 38.0
+  },
+  {
+   "id": "EF04",
+   "type": "ew-fixed",
+   "name": "Bruiaj fix Sud-Est",
+   "latDeg": 46.8,
+   "lonDeg": 34.5
+  },
+  {
+   "id": "EF05",
+   "type": "ew-fixed",
+   "name": "Bruiaj fix Sud",
+   "latDeg": 46.0,
+   "lonDeg": 32.5
+  },
+  {
+   "id": "EF06",
+   "type": "ew-fixed",
+   "name": "Bruiaj fix Centru",
+   "latDeg": 49.0,
+   "lonDeg": 31.5
+  },
+  {
+   "id": "EF07",
+   "type": "ew-fixed",
+   "name": "Bruiaj fix Vest-Kiev",
+   "latDeg": 50.8,
+   "lonDeg": 29.0
+  },
+  {
+   "id": "EF08",
+   "type": "ew-fixed",
+   "name": "Bruiaj fix Donbas",
+   "latDeg": 48.0,
+   "lonDeg": 36.5
+  }
+ ]
+}

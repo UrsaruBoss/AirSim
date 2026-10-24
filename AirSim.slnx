@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Sim.Analytics/Sim.Analytics.csproj" />
+    <Project Path="src/Sim.Core/Sim.Core.csproj" />
+    <Project Path="src/Sim.Server/Sim.Server.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Sim.Core.Benchmarks/Sim.Core.Benchmarks.csproj" />
+    <Project Path="tests/Sim.Core.Tests/Sim.Core.Tests.csproj" />
+  </Folder>
+</Solution>
