@@ -74,7 +74,7 @@ export default function Gallery({ onOpen, onBack }: Props) {
         {items === null && !error && <div className="muted">{t('gallery.loadingList')}</div>}
         {items?.length === 0 && <div className="muted">{t('gallery.empty')}</div>}
 
-        <div className="modes">
+        <div className="modes gallery-grid">
           {groups.map((g) => {
             const first = g.single ?? g.variants.day ?? g.variants.night
             if (!first) return null

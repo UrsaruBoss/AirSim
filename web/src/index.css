@@ -288,7 +288,8 @@ dd {
 .home {
   height: 100%;
   display: grid;
-  place-items: center;
+  place-items: safe center;
+  overflow-y: auto;
   background: radial-gradient(ellipse at 50% 30%, #162033 0%, #0d1117 70%);
 }
 
@@ -299,6 +300,7 @@ dd {
   align-items: center;
   gap: 10px;
   text-align: center;
+  padding: 32px 0 48px;
 }
 
 .home h1 {
@@ -318,6 +320,16 @@ dd {
 .modes-1 {
   grid-template-columns: minmax(0, 420px);
   justify-content: center;
+}
+
+/* gallery: every card has the same height (the tallest title decides), buttons stay at the bottom */
+.gallery-grid {
+  grid-auto-rows: 1fr;
+}
+
+.gallery-grid .variant-btns {
+  margin-top: auto;
+  padding-top: 6px;
 }
 
 .mode {
@@ -378,7 +390,7 @@ dd {
 }
 
 .resume {
-  margin-top: 8px;
+  margin-top: 16px;
 }
 
 @media (max-width: 760px) {
