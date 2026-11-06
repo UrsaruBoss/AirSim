@@ -285,3 +285,7 @@ scenarios             shipped scenarios (JSON)
 tools                 scenario generators (Python)
 docs/img              screenshots used in this README
 ```
+
+## License
+
+[MIT](LICENSE) © 2026 Luca Rusin. You can use, modify and redistribute this code freely, as long as you keep the copyright notice and the license text. The 3D globe uses [CesiumJS](https://cesium.com/platform/cesiumjs/), which has its own license (Apache 2.0).
