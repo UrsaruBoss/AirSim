@@ -11,6 +11,8 @@
 ![xUnit](https://img.shields.io/badge/tests-xUnit-5E2D91)
 ![Deterministic](https://img.shields.io/badge/runs-deterministic-2ea44f)
 
+**Live demo:** https://airsim.rusin.ro (precomputed runs, day and night variants of 18 scenarios)
+
 A deterministic simulator of drone, cruise-missile and ballistic-missile attacks against layered air defenses, with a 3D globe, a time-of-day and weather model, and a statistical after-action report.
 
 The scenarios are loosely based on public reporting on recent conflicts. **All parameters are illustrative, not calibrated against real events** (see [Assumptions and limits](#assumptions-and-limits)). This is a portfolio project: the point is the engineering (determinism, an analysis pipeline, a precomputed public mode), not a prediction of any real outcome.
