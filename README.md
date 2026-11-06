@@ -15,7 +15,7 @@ A deterministic simulator of drone, cruise-missile and ballistic-missile attacks
 
 The scenarios are loosely based on public reporting on recent conflicts. **All parameters are illustrative, not calibrated against real events** (see [Assumptions and limits](#assumptions-and-limits)). This is a portfolio project: the point is the engineering (determinism, an analysis pipeline, a precomputed public mode), not a prediction of any real outcome.
 
-**[Live demo](https://airsim.rusin.ro)** (precomputed runs of 18 scenarios, day and night variants, with the full after-action report). For the complete feature set (live simulation, your own scenarios, A/B comparison, batch runs) [run it locally](#quick-start); see [the comparison below](#live-demo-vs-running-it-locally).
+**[Live demo](https://airsim.rusin.ro)** (precomputed runs of 12 scenarios, day and night variants, with the full after-action report). For the complete feature set (live simulation, your own scenarios, A/B comparison, batch runs) [run it locally](#quick-start); see [the comparison below](#live-demo-vs-running-it-locally).
 
 ![China to Taiwan scenario paused at 0:18:28: missiles in flight, radar and SAM coverage rings, legend, state panel and event log](docs/img/map.png)
 
@@ -97,7 +97,7 @@ The core is a fixed-step simulation (0.1 s by default). Drones are processed in 
 
 ## Scenarios
 
-18 scenarios are shipped in `scenarios/`, and each has a day and a night variant in the public build. The first twelve are loosely based on public reporting on recent conflicts; the last six are small examples that exercise one feature each.
+18 scenarios are shipped in `scenarios/`. Twelve are loosely based on public reporting on recent conflicts, and each of those has a day and a night variant in the live demo. The other six are small examples that exercise one feature each; they live in the repository (the tests use them) and can be run locally, but they are not part of the public demo.
 
 | Scenario | What it models |
 |---|---|
@@ -111,7 +111,7 @@ The core is a fixed-step simulation (0.1 s by default). Drones are processed in 
 | `in-vs-pk` / `pk-vs-in` | India to Pakistan, and Pakistan to India: strikes on air bases, air defenses and cities |
 | `ru-vs-baltic` | Russia to NATO East (the Baltics and Poland): strikes on air defenses, bases and logistics hubs |
 | `ru-vs-natose` | Russia to NATO South-East (Black Sea): Romania, Bulgaria, Greece and Turkey |
-| `example-*` | `basic`, `defense`, `full`, `catalog`, `airspace` and `counter`: small scenarios for learning the tool and for the tests |
+| `example-*` | `basic`, `defense`, `full`, `catalog`, `airspace` and `counter`: small scenarios for learning the tool and for the tests (local only) |
 
 The scenario files are plain JSON, and `tools/` has the Python scripts that generated the larger ones. You can also build a scenario from scratch in the setup screen (local mode only).
 
@@ -163,7 +163,7 @@ The hosted demo is a **public mode** on purpose: it has no live simulation and n
 
 | | Live demo (public mode) | Local (full) |
 |---|---|---|
-| Shipped scenarios | all 18, each with a day and a night run | all 18 |
+| Shipped scenarios | the 12 conflict scenarios, each with a day and a night run | all 18, including the small examples |
 | Playback | pause, speed from 1x to 500x, seek | pause, speed from 1x to 500x |
 | 3D globe, coverage rings, event log | yes | yes |
 | After-action charts, casualty estimate, public warning, sensitivity | yes, precomputed (seed 1) | yes, computed for each run |
@@ -223,7 +223,7 @@ dotnet run -c Release --project src/Sim.Server -- batch scenario=ru-vs-ua runs=3
 
 ## Public mode and deployment
 
-This is how the live demo is hosted. The public build serves the 18 scenarios, each with a day and a night run, as precomputed playback. There is no live simulation and no user-supplied scenario, so there is no server-side compute to abuse.
+This is how the live demo is hosted. The public build serves the 12 conflict scenarios, each with a day and a night run, as precomputed playback. There is no live simulation and no user-supplied scenario, so there is no server-side compute to abuse.
 
 ```bash
 Sim__Mode=public   # no simulation routes, no hub, read-only API, rate limit 300 requests/min per IP
