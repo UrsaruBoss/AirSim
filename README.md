@@ -38,7 +38,6 @@ The scenarios are loosely based on public reporting on recent conflicts. **All p
 - [HTTP API](#http-api)
 - [Assumptions and limits](#assumptions-and-limits)
 - [Project layout](#project-layout)
-- [Roadmap](#roadmap)
 
 ## What it does
 
@@ -264,9 +263,4 @@ data                  unit catalog, country maps, alliances
 scenarios             shipped scenarios (JSON)
 tools                 scenario generators (Python)
 docs/img              screenshots used in this README
-archive/immersive     an earlier first-person command-bunker view, kept out of the build
 ```
-
-## Roadmap
-
-v1 is the simulator described above. v2 turns it into a game on top of the same deterministic core: declarative objectives in the scenario (protect a target, keep weighted losses under a threshold), a budget with real trade-offs, incomplete information for the defender, and then chained missions.

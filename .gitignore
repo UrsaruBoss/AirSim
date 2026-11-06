@@ -14,3 +14,7 @@ precomputed/
 tools/__pycache__/
 .vs/
 .idea/
+BenchmarkDotNet.Artifacts/
+web/.env
+web/.env.*
+!web/.env.example
