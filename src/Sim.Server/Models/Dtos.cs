@@ -2,22 +2,22 @@ using MessagePack;
 
 namespace Sim.Server.Models;
 
-/// <summary>Calea absoluta a folderelor de scenarii, rulari salvate, harti de tari si catalog de tipuri.</summary>
+/// <summary>Absolute paths of the folders for scenarios, saved runs, country maps and the type catalog.</summary>
 public sealed record SimPaths(string ScenariosDir, string RunsDir, string CountriesDir, string CatalogDir);
 
 public sealed record StartRequest(string Scenario, ulong? Seed);
 
-/// <summary>Scenariul e JSON brut (obiectul scenariului), rezolvat si validat pe server.</summary>
+/// <summary>The scenario is raw JSON (the scenario object), resolved and validated on the server.</summary>
 public sealed record CustomStartRequest(System.Text.Json.JsonElement Scenario, ulong? Seed);
 
 public sealed record SpeedRequest(double Value);
 
 public sealed record ScenarioInfo(string Id, string Name, bool Valid, string? Error, int TotalUnits);
 
-// StatusDto si EventDto merg si prin SignalR cu MessagePack, unde cheile ar iesi in PascalCase.
-// [Key] le fixeaza explicit in camelCase, identic cu varianta JSON (pagina de test) si cu tipurile din web/src/types.ts.
+// StatusDto and EventDto also travel over SignalR with MessagePack, where the keys would come out in PascalCase.
+// [Key] pins them explicitly to camelCase, identical to the JSON variant (test page) and to the types in web/src/types.ts.
 
-/// <summary>Seed-ul e string ca sa nu piarda precizie in JavaScript (numerele peste 2^53).</summary>
+/// <summary>The seed is a string so it does not lose precision in JavaScript (numbers above 2^53).</summary>
 [MessagePackObject]
 public sealed record StatusDto(
     [property: Key("state")] string State,

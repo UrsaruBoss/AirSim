@@ -5,8 +5,8 @@ using System.Linq;
 namespace Sim.Core.Airspace;
 
 /// <summary>
-/// Geografia (harta + raster, partajabila intre rulari) plus rolurile tarilor dintr-un scenariu.
-/// Imutabila dupa constructie: poate fi citita fara blocari.
+/// Geography (map + raster, shareable between runs) plus the country roles of one scenario.
+/// Immutable after construction: can be read without locking.
 /// </summary>
 public sealed class AirspaceModel
 {
@@ -16,12 +16,12 @@ public sealed class AirspaceModel
 
     public CountryMap Map { get; }
 
-    /// <param name="roles">Cod ISO2 -> rol. Tarile nementionate sunt Neutral. Un cod care nu exista in harta e eroare.</param>
+    /// <param name="roles">ISO2 code -> role. Countries not mentioned are Neutral. A code that does not exist in the map is an error.</param>
     public AirspaceModel(CountryMap map, CountryRaster raster, IReadOnlyDictionary<string, CountryRole> roles)
     {
         Map = map;
         _raster = raster;
-        _roles = new CountryRole[map.Countries.Count]; // implicit Neutral (0)
+        _roles = new CountryRole[map.Countries.Count]; // Neutral (0) by default
         _violationForAttackers = new bool[map.Countries.Count];
 
         var unknown = new List<string>();
@@ -36,13 +36,13 @@ public sealed class AirspaceModel
 
         if (unknown.Count > 0)
             throw new InvalidDataException(
-                $"Coduri de tara necunoscute in harta: {string.Join(", ", unknown.OrderBy(c => c, System.StringComparer.Ordinal))}.");
+                $"Unknown country codes in the map: {string.Join(", ", unknown.OrderBy(c => c, System.StringComparer.Ordinal))}.");
 
         for (int i = 0; i < _roles.Length; i++)
             _violationForAttackers[i] = AirspacePolicy.IsViolationForAttackers(_roles[i]);
     }
 
-    /// <summary>Indexul tarii in punctul dat, sau -1 (mare / in afara hartii).</summary>
+    /// <summary>Index of the country at the given point, or -1 (sea / outside the map).</summary>
     public int CountryIndexAt(double latDeg, double lonDeg) => _raster.IndexAt(latDeg, lonDeg);
 
     public string CodeOf(int countryIndex) => Map.Countries[countryIndex].Iso2;

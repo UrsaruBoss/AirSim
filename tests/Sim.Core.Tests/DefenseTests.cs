@@ -8,8 +8,8 @@ namespace Sim.Core.Tests;
 
 public class DefenseTests
 {
-    // Drone de la (44, 24) la (44, 26), ~160 km la 100 m/s => ~1600 s de zbor, toate lansate la t=0.
-    // Defensiva la (44, 25): drona trece prin raza ei.
+    // Drones from (44, 24) to (44, 26), ~160 km at 100 m/s => ~1600 s of flight, all launched at t=0.
+    // Defense at (44, 25): the drone passes through its range.
     private static Defense Radar(string id = "R1", double rangeKm = 100, double lon = 25.0) =>
         new() { Id = id, Name = id, Kind = DefenseKind.Radar, LatDeg = 44.0, LonDeg = lon, RangeKm = rangeKm };
 
@@ -118,7 +118,7 @@ public class DefenseTests
     [Fact]
     public void Reload_limits_the_rate_of_fire()
     {
-        // fereastra de ~50 km la 100 m/s = ~1000 s; cu reincarcare de 400 s => cel mult 3 tiruri
+        // a window of ~50 km at 100 m/s = ~1000 s; with a 400 s reload => at most 3 shots
         var sim = Run(Make(10, Radar(), Sam(magazine: 50, pk: 1.0, reload: 400)));
 
         Assert.InRange(sim.ShotsFired, 2, 3);
@@ -186,7 +186,7 @@ public class DefenseTests
     {
         string[] Errors(params Defense[] d) => ScenarioLoader.Validate(Make(1, d)).ToArray();
 
-        Assert.Contains(Errors(Sam("S1"), Sam("S1")), e => e.Contains("duplicat"));
+        Assert.Contains(Errors(Sam("S1"), Sam("S1")), e => e.Contains("duplicate"));
         Assert.Contains(Errors(Sam(pk: 1.5)), e => e.Contains("Pk"));
         Assert.Contains(Errors(Sam(magazine: -1)), e => e.Contains("Magazine"));
         Assert.Contains(Errors(Sam(rangeKm: 0)), e => e.Contains("RangeKm"));

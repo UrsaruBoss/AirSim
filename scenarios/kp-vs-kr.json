@@ -1,5 +1,5 @@
 {
- "name": "Coreea de Nord → Coreea de Sud: salvă de rachete balistice și de croazieră spre zona Seul",
+ "name": "North Korea → South Korea: ballistic and cruise missile salvo toward the Seoul area",
  "dtSeconds": 0.5,
  "durationSeconds": 21600,
  "defenseIntervalSeconds": 1.0,
@@ -22,7 +22,7 @@
   },
   {
    "id": "L02",
-   "name": "Sunan (Phenian)",
+   "name": "Sunan (Pyongyang)",
    "latDeg": 39.2,
    "lonDeg": 125.67,
    "altM": 0
@@ -59,14 +59,14 @@
  "targets": [
   {
    "id": "T01",
-   "name": "Seul - centru",
+   "name": "Seoul - center",
    "kind": "city",
    "latDeg": 37.5665,
    "lonDeg": 126.978
   },
   {
    "id": "T02",
-   "name": "Seul - Gangnam",
+   "name": "Seoul - Gangnam",
    "kind": "city",
    "latDeg": 37.5172,
    "lonDeg": 127.0473
@@ -89,7 +89,7 @@
   },
   {
    "id": "T05",
-   "name": "Baza aeriana Osan",
+   "name": "Air base Osan",
    "kind": "military_base",
    "latDeg": 37.09,
    "lonDeg": 127.03,
@@ -98,7 +98,7 @@
   },
   {
    "id": "T06",
-   "name": "Baza aeriana Seul (Seongnam)",
+   "name": "Air base Seoul (Seongnam)",
    "kind": "military_base",
    "latDeg": 37.44,
    "lonDeg": 127.11,
@@ -107,7 +107,7 @@
   },
   {
    "id": "T07",
-   "name": "Baza aeriana Gunsan",
+   "name": "Air base Gunsan",
    "kind": "military_base",
    "latDeg": 35.9,
    "lonDeg": 126.62,
@@ -130,7 +130,7 @@
   },
   {
    "id": "T10",
-   "name": "Baza navala Jinhae",
+   "name": "Naval base Jinhae",
    "kind": "military_base",
    "latDeg": 35.14,
    "lonDeg": 128.66,
@@ -148,7 +148,7 @@
   },
   {
    "id": "T12",
-   "name": "Daejeon (comandament)",
+   "name": "Daejeon (command)",
    "kind": "military_base",
    "latDeg": 36.35,
    "lonDeg": 127.38,
@@ -234,14 +234,14 @@
   {
    "id": "R01",
    "type": "radar-ew-long",
-   "name": "Radar Seul Nord",
+   "name": "Radar Seoul North",
    "latDeg": 37.6,
    "lonDeg": 126.9
   },
   {
    "id": "R02",
    "type": "radar-ew-long",
-   "name": "Radar Seul Sud",
+   "name": "Radar Seoul South",
    "latDeg": 37.3,
    "lonDeg": 127.1
   },
@@ -283,56 +283,56 @@
   {
    "id": "PT01",
    "type": "patriot-pac3-mse",
-   "name": "Patriot Seul 01",
+   "name": "Patriot Seoul 01",
    "latDeg": 37.5172,
    "lonDeg": 127.1654
   },
   {
    "id": "PT02",
    "type": "patriot-pac3-mse",
-   "name": "Patriot Seul 02",
+   "name": "Patriot Seoul 02",
    "latDeg": 37.4484,
    "lonDeg": 127.087
   },
   {
    "id": "PT03",
    "type": "patriot-pac3-mse",
-   "name": "Patriot Seul 03",
+   "name": "Patriot Seoul 03",
    "latDeg": 37.3224,
    "lonDeg": 126.9086
   },
   {
    "id": "PT04",
    "type": "patriot-pac3-mse",
-   "name": "Patriot Seul 04",
+   "name": "Patriot Seoul 04",
    "latDeg": 37.4266,
    "lonDeg": 126.7367
   },
   {
    "id": "PT05",
    "type": "patriot-pac3-mse",
-   "name": "Patriot Seul 05",
+   "name": "Patriot Seoul 05",
    "latDeg": 37.6158,
    "lonDeg": 126.7881
   },
   {
    "id": "PT06",
    "type": "patriot-pac3-mse",
-   "name": "Patriot Seul 06",
+   "name": "Patriot Seoul 06",
    "latDeg": 37.742,
    "lonDeg": 126.847
   },
   {
    "id": "PT07",
    "type": "patriot-pac3-mse",
-   "name": "Patriot Seul 07",
+   "name": "Patriot Seoul 07",
    "latDeg": 37.725,
    "lonDeg": 127.0896
   },
   {
    "id": "PT08",
    "type": "patriot-pac3-mse",
-   "name": "Patriot Seul 08",
+   "name": "Patriot Seoul 08",
    "latDeg": 37.6691,
    "lonDeg": 127.1954
   },
@@ -374,56 +374,56 @@
   {
    "id": "KM01",
    "type": "cheongung-m-sam",
-   "name": "Cheongung Seul 01",
+   "name": "Cheongung Seoul 01",
    "latDeg": 37.7712,
    "lonDeg": 127.0372
   },
   {
    "id": "KM02",
    "type": "cheongung-m-sam",
-   "name": "Cheongung Seul 02",
+   "name": "Cheongung Seoul 02",
    "latDeg": 37.5877,
    "lonDeg": 127.0851
   },
   {
    "id": "KM03",
    "type": "cheongung-m-sam",
-   "name": "Cheongung Seul 03",
+   "name": "Cheongung Seoul 03",
    "latDeg": 37.5235,
    "lonDeg": 127.2672
   },
   {
    "id": "KM04",
    "type": "cheongung-m-sam",
-   "name": "Cheongung Seul 04",
+   "name": "Cheongung Seoul 04",
    "latDeg": 37.512,
    "lonDeg": 127.0364
   },
   {
    "id": "KM05",
    "type": "cheongung-m-sam",
-   "name": "Cheongung Seul 05",
+   "name": "Cheongung Seoul 05",
    "latDeg": 37.4213,
    "lonDeg": 126.9569
   },
   {
    "id": "KM06",
    "type": "cheongung-m-sam",
-   "name": "Cheongung Seul 06",
+   "name": "Cheongung Seoul 06",
    "latDeg": 37.4221,
    "lonDeg": 126.8025
   },
   {
    "id": "KM07",
    "type": "cheongung-m-sam",
-   "name": "Cheongung Seul 07",
+   "name": "Cheongung Seoul 07",
    "latDeg": 37.592,
    "lonDeg": 126.7557
   },
   {
    "id": "KM08",
    "type": "cheongung-m-sam",
-   "name": "Cheongung Seul 08",
+   "name": "Cheongung Seoul 08",
    "latDeg": 37.6401,
    "lonDeg": 126.898
   },
@@ -451,91 +451,91 @@
   {
    "id": "TH01",
    "type": "thaad",
-   "name": "THAAD Seongju (SUA)",
+   "name": "THAAD Seongju (USA)",
    "latDeg": 35.99,
    "lonDeg": 128.45
   },
   {
    "id": "MG01",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Seul 01",
+   "name": "Mobile group Seoul 01",
    "latDeg": 37.6127,
    "lonDeg": 127.0448
   },
   {
    "id": "MG02",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Seul 02",
+   "name": "Mobile group Seoul 02",
    "latDeg": 37.5656,
    "lonDeg": 127.2204
   },
   {
    "id": "MG03",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Seul 03",
+   "name": "Mobile group Seoul 03",
    "latDeg": 37.4577,
    "lonDeg": 127.1362
   },
   {
    "id": "MG04",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Seul 04",
+   "name": "Mobile group Seoul 04",
    "latDeg": 37.3781,
    "lonDeg": 127.0404
   },
   {
    "id": "MG05",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Seul 05",
+   "name": "Mobile group Seoul 05",
    "latDeg": 37.447,
    "lonDeg": 126.9175
   },
   {
    "id": "MG06",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Seul 06",
+   "name": "Mobile group Seoul 06",
    "latDeg": 37.5378,
    "lonDeg": 126.8068
   },
   {
    "id": "MG07",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Seul 07",
+   "name": "Mobile group Seoul 07",
    "latDeg": 37.6098,
    "lonDeg": 126.8714
   },
   {
    "id": "MG08",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Seul 08",
+   "name": "Mobile group Seoul 08",
    "latDeg": 37.6795,
    "lonDeg": 126.9589
   },
   {
    "id": "AB01",
    "type": "airbase",
-   "name": "Baza Osan",
+   "name": "Base Osan",
    "latDeg": 37.09,
    "lonDeg": 127.03
   },
   {
    "id": "AB02",
    "type": "airbase",
-   "name": "Baza Gunsan",
+   "name": "Base Gunsan",
    "latDeg": 35.9,
    "lonDeg": 126.62
   },
   {
    "id": "AB03",
    "type": "airbase",
-   "name": "Baza Daegu",
+   "name": "Base Daegu",
    "latDeg": 35.9,
    "lonDeg": 128.66
   },
   {
    "id": "AB04",
    "type": "airbase",
-   "name": "Baza Suwon",
+   "name": "Base Suwon",
    "latDeg": 37.24,
    "lonDeg": 127.0
   },
@@ -563,7 +563,7 @@
   {
    "id": "PA04",
    "type": "f-16-patrol",
-   "name": "KF-16 Seul",
+   "name": "KF-16 Seoul",
    "latDeg": 37.55,
    "lonDeg": 127.3
   }

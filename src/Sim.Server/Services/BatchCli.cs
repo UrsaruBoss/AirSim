@@ -10,9 +10,9 @@ using Sim.Server.Models;
 namespace Sim.Server.Services;
 
 /// <summary>
-/// Mod linie de comanda, fara server web:
-/// dotnet run --project src/Sim.Server -- batch scenario=ru-vs-ua runs=30 [seed=1] [threads=4] [out=cale] [retarget=off]
-/// Scrie runs/batch-&lt;scenariu&gt;-&lt;seed&gt;-&lt;rulari&gt;.json si .csv (sau in out=) si afiseaza tabelul rezumat.
+/// Command-line mode, no web server:
+/// dotnet run --project src/Sim.Server -- batch scenario=ru-vs-ua runs=30 [seed=1] [threads=4] [out=path] [retarget=off] [sens=0.2] [jam=0.5,1,1.5]
+/// Writes runs/batch-&lt;scenario&gt;-&lt;seed&gt;-&lt;runs&gt;.json and .csv (or into out=) and prints the summary table.
 /// </summary>
 public static class BatchCli
 {
@@ -25,7 +25,7 @@ public static class BatchCli
 
             if (!opts.TryGetValue("scenario", out var scenarioArg))
             {
-                Console.Error.WriteLine("Utilizare: batch scenario=<id> runs=<n> [seed=<n>] [threads=<n>] [out=<folder>]");
+                Console.Error.WriteLine("Usage: batch scenario=<id> runs=<n> [seed=<n>] [threads=<n>] [out=<folder>]");
                 return 2;
             }
 
@@ -40,9 +40,9 @@ public static class BatchCli
 
             string file = File.Exists(scenarioArg) ? scenarioArg
                 : ScenarioCatalog.IsSafeId(scenarioArg) ? ScenarioCatalog.PathFor(paths.ScenariosDir, scenarioArg)
-                : throw new ArgumentException("Scenariu invalid.");
+                : throw new ArgumentException("Invalid scenario.");
             if (!File.Exists(file))
-                throw new FileNotFoundException($"Nu exista scenariul: {file}");
+                throw new FileNotFoundException($"Scenario does not exist: {file}");
 
             var scenario = ScenarioLoader.FromFile(file, new CatalogProvider(paths).Get());
             var airspaces = new AirspaceCatalog(paths);
@@ -53,10 +53,13 @@ public static class BatchCli
                 ? null
                 : () => airspaces.Create(scenario.AirspaceMap, scenario.Countries);
 
+            if (opts.TryGetValue("sens", out var sensArg))
+                return Sensitivity(scenario, sensArg, seed, runs, threads, airspace, paths.RunsDir, Path.GetFileNameWithoutExtension(file), opts.GetValueOrDefault("out"));
+
             if (opts.TryGetValue("jam", out var jamArg))
                 return Sweep(scenario, jamArg, seed, runs, threads, airspace, paths.RunsDir, Path.GetFileNameWithoutExtension(file), opts.GetValueOrDefault("out"));
 
-            Console.WriteLine($"Rulez {runs} x {Path.GetFileNameWithoutExtension(file)} (seed {seed}..{seed + (ulong)runs - 1})...");
+            Console.WriteLine($"Running {runs} x {Path.GetFileNameWithoutExtension(file)} (seed {seed}..{seed + (ulong)runs - 1})...");
             var report = BatchRunner.Run(scenario, seed, runs, airspace, threads,
                 done => { if (done % 5 == 0 || done == runs) Console.Write($"\r  {done}/{runs}"); });
             Console.WriteLine();
@@ -68,17 +71,41 @@ public static class BatchCli
             var json = new JsonSerializerOptions { WriteIndented = true, PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
             File.WriteAllText(stem + ".json", JsonSerializer.Serialize(report, json));
             File.WriteAllText(stem + ".csv", BatchRunner.ToCsv(report));
-            Console.WriteLine($"Salvat: {stem}.json / .csv");
+            Console.WriteLine($"Saved: {stem}.json / .csv");
             return 0;
         }
         catch (Exception ex) when (ex is ArgumentException or FormatException or IOException or InvalidDataException or OverflowException)
         {
-            Console.Error.WriteLine("Eroare: " + ex.Message);
+            Console.Error.WriteLine("Error: " + ex.Message);
             return 1;
         }
     }
 
-    /// <summary>Baleiaj: aceleasi rulari pentru fiecare factor de scara aplicat ratei de bruiaj a TUTUROR sistemelor ew (ex. jam=0.5,1,1.5).</summary>
+    /// <summary>One-at-a-time sensitivity (tornado): sens=0.2 scales each input factor by 0.8 and 1.2 (sens=on = 0.2).</summary>
+    private static int Sensitivity(Scenario scenario, string arg, ulong seed, int runs, int threads,
+                                   Func<AirspaceModel?>? airspace, string runsDir, string name, string? outDir)
+    {
+        double delta = arg.Equals("on", StringComparison.OrdinalIgnoreCase) || arg.Length == 0
+            ? SensitivityRunner.DefaultDelta
+            : double.Parse(arg, System.Globalization.CultureInfo.InvariantCulture);
+
+        int factors = SensitivityRunner.ApplicableTo(scenario).Count;
+        Console.WriteLine($"Sensitivity: {1 + 2 * factors} batches x {runs} runs, seed {seed}..{seed + (ulong)runs - 1}");
+        var report = SensitivityRunner.Run(scenario, seed, runs, delta, airspace, threads,
+            (done, total) => Console.Write($"\r  batch {done}/{total}"));
+        Console.WriteLine();
+        Console.WriteLine(SensitivityRunner.ToText(report));
+
+        string dir = outDir ?? runsDir;
+        Directory.CreateDirectory(dir);
+        string path = Path.Combine(dir, $"sensitivity-{name}-{seed}-{runs}.json");
+        var json = new JsonSerializerOptions { WriteIndented = true, PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+        File.WriteAllText(path, JsonSerializer.Serialize(report, json));
+        Console.WriteLine($"Saved: {path}");
+        return 0;
+    }
+
+    /// <summary>Sweep: the same runs for each scale factor applied to the jamming rate of ALL ew systems (e.g. jam=0.5,1,1.5).</summary>
     private static int Sweep(Scenario scenario, string jamArg, ulong seed, int runs, int threads,
                              Func<AirspaceModel?>? airspace, string runsDir, string name, string? outDir)
     {
@@ -89,8 +116,8 @@ public static class BatchCli
 
         var f = System.Globalization.CultureInfo.InvariantCulture;
         var csv = new System.Text.StringBuilder("jamScale,runs,interceptedMean,interceptedSd,impactsMean,impactsSd,impactsP5,impactsP95,jammedMean,crashedMean,destroyedMean,killedMean\n");
-        Console.WriteLine($"Baleiaj bruiaj x {runs} rulari, seed {seed}..{seed + (ulong)runs - 1}");
-        Console.WriteLine($"{"Scara",8}{"Interc.",10}{"Impact",10}{"Impact P5-P95",16}{"Bruiate",10}{"Distruse",10}{"Victime",10}");
+        Console.WriteLine($"Jamming sweep x {runs} runs, seed {seed}..{seed + (ulong)runs - 1}");
+        Console.WriteLine($"{"Scale",8}{"Interc.",10}{"Impact",10}{"Impact P5-P95",16}{"Jammed",10}{"Destroyed",10}{"Casualties",10}");
 
         foreach (double k in scales)
         {
@@ -100,8 +127,8 @@ public static class BatchCli
             };
             var report = BatchRunner.Run(scaled, seed, runs, airspace, threads);
             MetricStat M(string n) => report.Metrics.First(m => m.Name == n);
-            var ic = M("Interceptate"); var im = M("Impacturi"); var jm = M("Bruiate"); var cr = M("Cazute pe traseu");
-            var de = M("Sisteme distruse"); var ki = M("Victime estimate");
+            var ic = M("Intercepted"); var im = M("Impacts"); var jm = M("Jammed"); var cr = M("Fell along the route");
+            var de = M("Systems destroyed"); var ki = M("Estimated casualties");
 
             Console.WriteLine($"{k.ToString("0.##", f),8}{ic.Mean.ToString("F0", f),10}{im.Mean.ToString("F0", f),10}{im.P5.ToString("F0", f) + "-" + im.P95.ToString("F0", f),16}{jm.Mean.ToString("F0", f),10}{de.Mean.ToString("F1", f),10}{ki.Mean.ToString("F0", f),10}");
             csv.AppendLine(string.Join(",", k.ToString(f), runs, ic.Mean.ToString("F1", f), ic.Sd.ToString("F1", f), im.Mean.ToString("F1", f), im.Sd.ToString("F1", f),
@@ -112,7 +139,7 @@ public static class BatchCli
         Directory.CreateDirectory(dir);
         string path = Path.Combine(dir, $"sweep-jam-{name}-{seed}-{runs}.csv");
         File.WriteAllText(path, csv.ToString());
-        Console.WriteLine($"Salvat: {path}");
+        Console.WriteLine($"Saved: {path}");
         return 0;
     }
 

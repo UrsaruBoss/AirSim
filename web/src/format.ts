@@ -1,3 +1,4 @@
+import i18n from './i18n'
 import type { Estimate } from './types'
 
 export function formatSimTime(totalSeconds: number): string {
@@ -13,8 +14,5 @@ export function formatEstimate(e: Estimate): string {
   return `${round(e.mean)} (${round(e.p5)}–${round(e.p95)})`
 }
 
-export const CLASS_LABEL: Record<string, string> = {
-  city: 'Oraș',
-  military_base: 'Bază militară',
-  field: 'Câmp',
-}
+/** Terrain class label in the current UI language (unknown classes are shown as they come). */
+export const classLabel = (c: string): string => i18n.t(`labels.terrain.${c}`, { defaultValue: c })

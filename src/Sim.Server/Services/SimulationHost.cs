@@ -27,9 +27,9 @@ public enum SimRunState
 }
 
 /// <summary>
-/// Tine simularea curenta si o avanseaza in timp real x viteza.
-/// Numarul de pasi pe iteratie nu influenteaza rezultatul: fiecare Step() e determinist,
-/// deci pauza, viteza si ritmul de publicare nu schimba log-ul de evenimente.
+/// Holds the current simulation and advances it in real time x speed.
+/// The number of steps per iteration does not affect the result: every Step() is deterministic,
+/// so pause, speed and publish cadence do not change the event log.
 /// </summary>
 public sealed class SimulationHost : BackgroundService
 {
@@ -73,27 +73,27 @@ public sealed class SimulationHost : BackgroundService
         _log = log;
     }
 
-    // ---------- comenzi (apelate din API) ----------
+    // ---------- commands (called from the API) ----------
 
     public StatusDto Start(string scenarioId, ulong? seed)
     {
         if (!ScenarioCatalog.IsSafeId(scenarioId))
-            throw new ArgumentException("Id de scenariu invalid.");
+            throw new ArgumentException("Invalid scenario id.");
 
         string path = ScenarioCatalog.PathFor(_paths.ScenariosDir, scenarioId);
         if (!File.Exists(path))
-            throw new FileNotFoundException($"Scenariul '{scenarioId}' nu exista.");
+            throw new FileNotFoundException($"Scenario '{scenarioId}' does not exist.");
 
         return StartScenario(ScenarioLoader.FromFile(path, _catalog.Get()), scenarioId, seed);
     }
 
-    /// <summary>Porneste un scenariu construit in editor (JSON cu tipuri din catalog, rezolvat si validat ca orice scenariu).</summary>
+    /// <summary>Starts a scenario built in the editor (JSON with catalog types, resolved and validated like any scenario).</summary>
     public StatusDto StartCustom(string scenarioJson, ulong? seed) =>
         StartScenario(ScenarioLoader.FromJson(scenarioJson, _catalog.Get()), "custom", seed);
 
     /// <summary>
-    /// Replay: porneste din nou scenariul si seed-ul unei rulari salvate. Motorul e determinist, deci desfasurarea e identica
-    /// (daca versiunea motorului e aceeasi); la final, <see cref="ReplayCheck"/> compara hash-ul log-ului cu cel salvat.
+    /// Replay: starts the scenario and seed of a saved run again. The engine is deterministic, so the course of events is identical
+    /// (if the engine version is the same); at the end, <see cref="ReplayCheck"/> compares the log hash with the saved one.
     /// </summary>
     public object StartReplay(string runId)
     {
@@ -128,7 +128,7 @@ public sealed class SimulationHost : BackgroundService
         AirspaceModel? airspace = string.IsNullOrEmpty(scenario.AirspaceMap)
             ? null
             : _airspace.Create(scenario.AirspaceMap, scenario.Countries);
-        var sim = new Simulation(scenario, actualSeed, airspace); // poate arunca (scenariu invalid / harta lipsa / tip neimplementat)
+        var sim = new Simulation(scenario, actualSeed, airspace); // may throw (invalid scenario / missing map / unimplemented type)
 
         lock (_gate)
         {
@@ -153,7 +153,7 @@ public sealed class SimulationHost : BackgroundService
         lock (_gate)
         {
             if (_state != SimRunState.Running)
-                throw new InvalidOperationException("Simularea nu ruleaza.");
+                throw new InvalidOperationException("The simulation is not running.");
             _state = SimRunState.Paused;
             _publishNow = true;
             return BuildStatusLocked(CountFlyingLocked());
@@ -165,7 +165,7 @@ public sealed class SimulationHost : BackgroundService
         lock (_gate)
         {
             if (_state != SimRunState.Paused)
-                throw new InvalidOperationException("Simularea nu e in pauza.");
+                throw new InvalidOperationException("The simulation is not paused.");
             _state = SimRunState.Running;
             _publishNow = true;
             return BuildStatusLocked(CountFlyingLocked());
@@ -187,7 +187,7 @@ public sealed class SimulationHost : BackgroundService
     public StatusDto SetSpeed(double speed)
     {
         if (!(speed >= MinSpeed && speed <= MaxSpeed))
-            throw new ArgumentException($"Viteza trebuie sa fie intre {MinSpeed} si {MaxSpeed}.");
+            throw new ArgumentException($"The speed must be between {MinSpeed} and {MaxSpeed}.");
 
         lock (_gate)
         {
@@ -197,15 +197,15 @@ public sealed class SimulationHost : BackgroundService
         }
     }
 
-    /// <summary>Salveaza rularea curenta in runs/. Doar in pauza sau dupa final (log-ul nu se modifica atunci).</summary>
+    /// <summary>Saves the current run to runs/. Only while paused or after the end (the log does not change then).</summary>
     public string SaveRun()
     {
         lock (_gate)
         {
             if (_sim is null || _meta is null)
-                throw new InvalidOperationException("Nu exista nicio rulare.");
+                throw new InvalidOperationException("There is no run.");
             if (_state == SimRunState.Running)
-                throw new InvalidOperationException("Pune simularea in pauza sau asteapta sa se termine.");
+                throw new InvalidOperationException("Pause the simulation or wait for it to finish.");
 
             RunStore.Save(_paths.RunsDir, _sim.Scenario, _meta, _sim.Events);
             _savedRunId = _meta.RunId;
@@ -220,13 +220,13 @@ public sealed class SimulationHost : BackgroundService
             return BuildStatusLocked(CountFlyingLocked());
     }
 
-    /// <summary>Statistici ale rularii curente (partiale cat timp ruleaza, finale dupa terminare).</summary>
+    /// <summary>Statistics of the current run (partial while running, final after it ends).</summary>
     public RunSummary GetSummary()
     {
         lock (_gate)
         {
             if (_sim is null)
-                throw new InvalidOperationException("Nu exista nicio rulare.");
+                throw new InvalidOperationException("There is no run.");
             return RunAnalyzer.Analyze(_sim.Scenario, _sim.Events.Events, _sim.Seed);
         }
     }
@@ -237,7 +237,7 @@ public sealed class SimulationHost : BackgroundService
             _publishNow = true;
     }
 
-    // ---------- bucla de timp real ----------
+    // ---------- real-time loop ----------
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -279,7 +279,7 @@ public sealed class SimulationHost : BackgroundService
         }
         catch (OperationCanceledException)
         {
-            // oprire normala
+            // normal shutdown
         }
     }
 
@@ -292,9 +292,9 @@ public sealed class SimulationHost : BackgroundService
         double dt = _sim.Clock.Dt;
         _budget += realDt * _speed;
 
-        // Cat timp se avanseaza simularea, _gate e tinut (pauza, status si publicarea asteapta).
-        // Daca un pas e scump (mii de drone), 20000 de pasi ar bloca interfata minute intregi,
-        // deci iteratia e limitata si in timp real; ce nu apuca se pierde (simularea ruleaza atunci la viteza maxima posibila).
+        // While the simulation advances, _gate is held (pause, status and publishing wait).
+        // If a step is expensive (thousands of drones), 20000 steps would block the UI for whole minutes,
+        // so the iteration is also bounded in real time; whatever does not fit is dropped (the simulation then runs at the maximum speed possible).
         long started = Stopwatch.GetTimestamp();
         int steps = 0;
         bool behind = false;
@@ -310,7 +310,7 @@ public sealed class SimulationHost : BackgroundService
             steps++;
         }
 
-        // nu mai tine pasul cu timpul real: renunta la restanta ca sa nu intre intr-o spirala
+        // can no longer keep up with real time: drop the backlog so it does not enter a spiral
         if (behind)
             _budget = 0;
 
@@ -366,7 +366,7 @@ public sealed class SimulationHost : BackgroundService
         }
         catch (Exception ex) when (ex is not OperationCanceledException)
         {
-            _log.LogWarning(ex, "Trimiterea catre clienti a esuat.");
+            _log.LogWarning(ex, "Broadcasting to clients failed.");
         }
     }
 
@@ -383,11 +383,11 @@ public sealed class SimulationHost : BackgroundService
                     _publishNow = true;
                 }
             }
-            _log.LogInformation("Rulare salvata: {RunId}", run.Meta.RunId);
+            _log.LogInformation("Run saved: {RunId}", run.Meta.RunId);
         }
         catch (Exception ex)
         {
-            _log.LogError(ex, "Salvarea rularii {RunId} a esuat.", run.Meta.RunId);
+            _log.LogError(ex, "Saving run {RunId} failed.", run.Meta.RunId);
         }
     }
 

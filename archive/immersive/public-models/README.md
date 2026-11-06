@@ -16,6 +16,8 @@ Unități: metri. Scara: om = ~1.7 m, tavan ~3 m. Low-poly e ideal.
 | `Terminal_Control` | Calculatorul liber: alegi ce urmărește ecranul mare (control direct: etapă viitoare) |
 | `Collider_*`    | Mobilier VIZIBIL care blochează mersul (o cutie per mesh-ul din interior).             |
 | `Blocker_*`     | Cutie INVIZIBILĂ care blochează mersul (pentru zone pe care nu vrei să le randezi).    |
+| `Screen_Secondary` | Ecranul comandantului (orice orientare: perete, inclinat, culcat pe birou). Arată starea simulării; UV-urile se calculează automat. |
+| `Button_SpeedUp`, `Button_SpeedDown`, `Button_Pause`, `Button_Reset` | Butoane fizice (tasta E): viteză +/−, pauză/reia, repornește scenariul. Pot fi grupuri cu mai multe mesh-uri. |
 | `Spawn`         | Empty: unde apari; privești pe −Z local al empty-ului.                                 |
 
 - Un `Terminal_*` poate fi un grup/empty cu mai multe mesh-uri copil: toate devin interactive (tasta E).

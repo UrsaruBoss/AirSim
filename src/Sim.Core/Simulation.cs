@@ -11,8 +11,8 @@ using Sim.Core.Scenarios;
 namespace Sim.Core;
 
 /// <summary>
-/// Nucleul simularii: determinist (scenariu + seed + versiune motor => acelasi log de evenimente).
-/// Nu foloseste ceasul sistemului, Guid-uri sau colectii cu ordine nedefinita.
+/// The simulation core: deterministic (scenario + seed + engine version => same event log).
+/// Uses no system clock, no Guids and no collections with undefined ordering.
 /// </summary>
 public sealed class Simulation
 {
@@ -32,75 +32,75 @@ public sealed class Simulation
     public SimClock Clock { get; }
     public EventLog Events { get; } = new();
 
-    /// <summary>Starea curenta a dronelor (citire). Util pentru snapshot-uri catre frontend.</summary>
+    /// <summary>Current state of the drones (read). Useful for snapshots sent to the frontend.</summary>
     public ReadOnlySpan<Drone> Drones => _drones;
 
     public bool IsFinished => _remaining == 0 || Clock.Tick >= _maxTicks;
 
-    /// <summary>Numarul total de drone din scenariu.</summary>
+    /// <summary>Total number of drones in the scenario.</summary>
     public int DroneCount => _drones.Length;
 
-    /// <summary>Dronele care nu au lovit inca (in asteptare sau in zbor).</summary>
+    /// <summary>Drones that have not hit yet (waiting or flying).</summary>
     public int RemainingCount => _remaining;
 
-    /// <summary>Numarul de incalcari de spatiu aerian de pana acum.</summary>
+    /// <summary>Number of airspace violations so far.</summary>
     public int ViolationCount { get; private set; }
 
-    /// <summary>Drone detectate de radare.</summary>
+    /// <summary>Drones detected by radars.</summary>
     public int DetectedCount => _defense?.DetectedCount ?? 0;
 
-    /// <summary>Drone doborate de aparare.</summary>
+    /// <summary>Drones shot down by the defense.</summary>
     public int InterceptedCount => _defense?.InterceptedCount ?? 0;
 
-    /// <summary>Tiruri ale sistemelor defensive (lovite sau ratate).</summary>
+    /// <summary>Shots fired by defensive systems (hit or miss).</summary>
     public int ShotsFired => _defense?.ShotsFired ?? 0;
 
-    /// <summary>Rachete / proiectile ramase in aparare.</summary>
+    /// <summary>Missiles / projectiles left in the defense.</summary>
     public int MagazineLeft => _defense?.MagazineLeft ?? 0;
 
-    /// <summary>Interceptoare lansate (drone interceptoare), indiferent de rezultat.</summary>
+    /// <summary>Interceptors launched (interceptor drones), regardless of outcome.</summary>
     public int InterceptorsLaunched => _defense?.InterceptorsLaunched ?? 0;
 
-    /// <summary>Interceptoare pierdute: tinta a disparut sau li s-a terminat zborul inainte sa o ajunga.</summary>
+    /// <summary>Interceptors lost: the target vanished or their flight ended before reaching it.</summary>
     public int InterceptorsLost => _defense?.LostCount ?? 0;
     public int DefensesDestroyed => _defense?.DestroyedCount ?? 0;
 
-    /// <summary>Tiruri trase in momeli (aparare) si momeli doborate.</summary>
+    /// <summary>Shots fired at decoys (defense) and decoys shot down.</summary>
     public int DecoyShots => _defense?.DecoyShots ?? 0;
     public int DecoysIntercepted => _defense?.DecoysIntercepted ?? 0;
 
-    /// <summary>Cost (USD): tirurile apararii, din care pe momeli, si unitatile atacatorului (suma CostUsd a valurilor).</summary>
+    /// <summary>Cost (USD): the defense's shots, of which at decoys, and the attacker's units (sum of the waves' CostUsd).</summary>
     public double DefenseSpentUsd => _defense?.SpentUsd ?? 0.0;
     public double DecoySpentUsd => _defense?.SpentOnDecoysUsd ?? 0.0;
     public double AttackCostUsd { get; private set; }
 
-    /// <summary>Saturarea bruiajului: cicluri-bruior active, cate au depasit capacitatea, incarcarea maxima (x capacitate).</summary>
+    /// <summary>Jamming saturation: active jammer cycles, how many exceeded capacity, peak load (x capacity).</summary>
     public int EwActiveCycles => _defense?.EwActiveCycles ?? 0;
     public int EwSaturatedCycles => _defense?.EwSaturatedCycles ?? 0;
     public double EwPeakLoad => _defense?.EwPeakLoad ?? 0.0;
 
-    /// <summary>Unitati care si-au schimbat tinta in zbor.</summary>
+    /// <summary>Units that changed their target in flight.</summary>
     public int RetargetedCount { get; private set; }
 
-    /// <summary>Unitatile defensive aflate in aer acum (avioane de patrula, drone interceptoare), pentru afisare.</summary>
+    /// <summary>Defensive units currently in the air (patrol aircraft, interceptor drones), for display.</summary>
     public IReadOnlyList<Friendly> GetFriendlies() => _defense?.GetFriendlies(Clock.Time) ?? Array.Empty<Friendly>();
 
-    /// <summary>Drone care au ajuns la tinta.</summary>
+    /// <summary>Drones that reached their target.</summary>
     public int CrashedCount { get; private set; }
     public int JammedCount => _defense?.JammedCount ?? 0;
     public int ImpactCount => _drones.Length - _remaining - InterceptedCount - CrashedCount - JammedCount;
 
     /// <param name="airspace">
-    /// Harta de tari cu rolurile scenariului. Obligatorie daca scenariul declara AirspaceMap; fara ea nu exista evenimente de spatiu aerian.
+    /// Country map with the scenario's roles. Required if the scenario declares AirspaceMap; without it there are no airspace events.
     /// </param>
     public Simulation(Scenario scenario, ulong seed, AirspaceModel? airspace = null)
     {
         var errors = ScenarioLoader.Validate(scenario);
         if (errors.Count > 0)
-            throw new ArgumentException("Scenariu invalid:" + Environment.NewLine + string.Join(Environment.NewLine, errors), nameof(scenario));
+            throw new ArgumentException("Invalid scenario:" + Environment.NewLine + string.Join(Environment.NewLine, errors), nameof(scenario));
 
         if (!string.IsNullOrEmpty(scenario.AirspaceMap) && airspace is null)
-            throw new ArgumentException($"Scenariul cere harta de spatiu aerian '{scenario.AirspaceMap}', dar nu a fost furnizata.", nameof(airspace));
+            throw new ArgumentException($"The scenario requires the airspace map '{scenario.AirspaceMap}', but it was not provided.", nameof(airspace));
 
         _airspace = airspace;
 
@@ -139,9 +139,9 @@ public sealed class Simulation
             for (int i = 0; i < wave.Count; i++)
             {
                 int id = drones.Count;
-                var rng = root.Derive((ulong)id); // flux propriu per drona
+                var rng = root.Derive((ulong)id); // own stream per drone
 
-                // alegerile consuma din flux doar cand exista liste (scenariile vechi raman identice)
+                // choices consume from the stream only when lists exist (old scenarios stay identical)
                 var site = sites[siteChoices is null ? wave.SiteId : siteChoices[rng.NextInt(siteChoices.Count)]];
                 string targetId = targetChoices is null ? wave.TargetId : targetChoices[rng.NextInt(targetChoices.Count)];
                 var target = targets[targetId];
@@ -151,7 +151,10 @@ public sealed class Simulation
                 var aim = Scatter(targetPoint, wave.SpreadMeters, rng);
                 double groundDist = Wgs84.GreatCircleDistanceM(start, aim);
 
-                bool failed = wave.FailureRate > 0.0 && rng.Chance(wave.FailureRate);
+                double failRate = wave.Kind == UnitKind.Drone
+                    ? Math.Min(1.0, wave.FailureRate + Sim.Core.Climate.WeatherModel.DroneFailureAdd(scenario.Weather))
+                    : wave.FailureRate;
+                bool failed = failRate > 0.0 && rng.Chance(failRate);
                 if (failed)
                 {
                     groundDist *= rng.NextDouble(0.05, 0.95);
@@ -198,12 +201,13 @@ public sealed class Simulation
 
         if (scenario.Defenses.Count > 0)
         {
-            _defense = new DefenseEngine(scenario.Defenses, root, scenario.CheapestFirst, scenario.DefenseIntervalSeconds, scenario.LocalTracking);
+            _defense = new DefenseEngine(scenario.Defenses, root, scenario.CheapestFirst, scenario.DefenseIntervalSeconds, scenario.LocalTracking,
+                Sim.Core.Sun.DayNight.TryParseUtc(scenario.StartTimeUtc, out double startMs) ? startMs : null, scenario.Weather);
             _defenseEveryTicks = Math.Max(1L, (long)Math.Round(scenario.DefenseIntervalSeconds / scenario.DtSeconds));
         }
     }
 
-    /// <summary>Un singur tick. Dronele se proceseaza mereu in ordinea id => ordinea evenimentelor e determinista.</summary>
+    /// <summary>A single tick. Drones are always processed in id order => event order is deterministic.</summary>
     public void Step()
     {
         double t = Clock.Time;
@@ -223,7 +227,7 @@ public sealed class Simulation
 
                 d.Status = EntityStatus.Flying;
                 d.Position = d.Start;
-                // tara de lansare nu e incalcare: o retinem fara eveniment
+                // the launch country is not a violation: remember it without an event
                 d.CountryIndex = _airspace?.CountryIndexAt(d.Start.LatDeg, d.Start.LonDeg) ?? -1;
                 Events.Add(new SimEvent(tick, SimEventType.Launched, d.Id, d.Start));
             }
@@ -231,7 +235,7 @@ public sealed class Simulation
             double traveled = (t - d.LaunchTimeS) * d.SpeedMps;
             if (d.CanRetarget && !d.RetargetChecked && d.TotalDistM - traveled <= d.RetargetAtM)
             {
-                d.RetargetChecked = true; // decizia se ia o singura data
+                d.RetargetChecked = true; // the decision is taken only once
                 if (TryRetarget(ref d, tick, t))
                     traveled = 0.0;
             }
@@ -275,7 +279,7 @@ public sealed class Simulation
         Clock.Advance();
     }
 
-    /// <summary>Ruleaza pana cand toate dronele au lovit sau s-a atins durata scenariului.</summary>
+    /// <summary>Runs until all drones have hit or the scenario duration is reached.</summary>
     public void Run()
     {
         while (!IsFinished)
@@ -284,7 +288,7 @@ public sealed class Simulation
 
     private bool IsDestroyed(int target) => _targetNeeds[target] > 0 && _targetImpacts[target] >= _targetNeeds[target];
 
-    /// <summary>Daca tinta curenta e distrusa, alege la intamplare alta tinta nedistrusa din lista valului (in raza RetargetRangeKm) si isi reia drumul de aici.</summary>
+    /// <summary>If the current target is destroyed, picks another non-destroyed target at random from the wave's list (within RetargetRangeKm) and resumes the route from here.</summary>
     private bool TryRetarget(ref Drone d, long tick, double t)
     {
         int current = d.TargetIndex;
@@ -323,8 +327,8 @@ public sealed class Simulation
     }
 
     /// <summary>
-    /// La schimbarea tarii: daca noua tara e interzisa unitatilor ofensive (neutra sau aliata aparatorului),
-    /// emite AirspaceViolation (o data per intrare, nu la fiecare tick).
+    /// On a country change: if the new country is forbidden to offensive units (neutral or allied to the defender),
+    /// emits AirspaceViolation (once per entry, not on every tick).
     /// </summary>
     private void CheckAirspace(ref Drone d, long tick, GeoPoint position)
     {
@@ -340,7 +344,7 @@ public sealed class Simulation
         }
     }
 
-    /// <summary>Rachetele balistice urmeaza o parabola (apogeu la mijlocul distantei); restul zboara la altitudine constanta.</summary>
+    /// <summary>Ballistic missiles follow a parabola (apogee at mid-distance); everything else flies at constant altitude.</summary>
     private static double AltitudeAt(in Drone d, double traveledM)
     {
         if (d.Kind != UnitKind.BallisticMissile)
@@ -350,8 +354,8 @@ public sealed class Simulation
         return d.Start.AltM + (d.Aim.AltM - d.Start.AltM) * s + 4.0 * d.ApogeeM * s * (1.0 - s);
     }
 
-    // Dispersia punctului de tintire: doua normale (est, nord) cu deviatia standard sigmaM.
-    // Se consuma mereu doua valori din flux, chiar si cand sigmaM = 0.
+    // Aim-point dispersion: two normals (east, north) with standard deviation sigmaM.
+    // Two values are always consumed from the stream, even when sigmaM = 0.
     private static GeoPoint Scatter(GeoPoint center, double sigmaM, Rng rng)
     {
         double east = rng.NextGaussian() * sigmaM;

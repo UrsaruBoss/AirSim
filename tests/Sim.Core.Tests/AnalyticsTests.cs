@@ -70,7 +70,7 @@ public class AnalyticsTests
     [Fact]
     public void Impacts_outside_the_zone_fall_on_field()
     {
-        // zona de 1 km, dispersie de 1 km: ~39% in zona, restul pe camp
+        // 1 km area, 1 km dispersion: ~39% inside the area, the rest in the field
         var summary = Analyze(Make(300, "military_base", spread: 1000, radiusM: 1000));
 
         Assert.Equal(2, summary.Classes.Count);
@@ -93,7 +93,7 @@ public class AnalyticsTests
     [Fact]
     public void City_casualties_match_the_closed_form_expectation()
     {
-        // asteptare: densitate * arie letala * impacturi * fractie ~ 3000 * 0.00132 * 100 * 0.10 ~ 40
+        // expected: density * lethal area * impacts * fraction ~ 3000 * 0.00132 * 100 * 0.10 ~ 40
         var summary = Analyze(Make(100, "city", warheadKg: 40));
 
         Assert.InRange(summary.Killed.Mean, 35, 47);

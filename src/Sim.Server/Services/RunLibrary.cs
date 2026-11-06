@@ -13,7 +13,7 @@ public sealed record SavedRunInfo(
 
 public sealed record ReplayCheckDto(bool Active, string RunId, bool Finished, bool Match, string Expected, string Actual);
 
-/// <summary>Rularile salvate de RunStore: runs/&lt;RunId&gt;/{scenario.json, meta.json, events.jsonl, summary.json}.</summary>
+/// <summary>The runs saved by RunStore: runs/&lt;RunId&gt;/{scenario.json, meta.json, events.jsonl, summary.json}.</summary>
 public static class RunLibrary
 {
     private static readonly JsonSerializerOptions Options = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
@@ -21,7 +21,7 @@ public static class RunLibrary
     public static void ValidateId(string runId)
     {
         if (string.IsNullOrEmpty(runId) || runId.Length > 80 || !runId.All(c => char.IsAsciiLetterOrDigit(c) || c == '-' || c == '_'))
-            throw new ArgumentException("Id de rulare invalid.");
+            throw new ArgumentException("Invalid run id.");
     }
 
     public static IReadOnlyList<SavedRunInfo> List(string runsDir)
@@ -48,7 +48,7 @@ public static class RunLibrary
             }
             catch (Exception ex) when (ex is JsonException or IOException)
             {
-                // folder stricat: se ignora
+                // broken folder: ignored
             }
         }
         return list.OrderByDescending(r => r.CreatedUtc).ToList();
@@ -61,9 +61,9 @@ public static class RunLibrary
         string metaPath = Path.Combine(dir, "meta.json");
         string scenarioPath = Path.Combine(dir, "scenario.json");
         if (!File.Exists(metaPath) || !File.Exists(scenarioPath))
-            throw new FileNotFoundException($"Rularea '{runId}' nu exista.");
+            throw new FileNotFoundException($"Run '{runId}' does not exist.");
         var meta = JsonSerializer.Deserialize<RunMeta>(File.ReadAllText(metaPath), Options)
-                   ?? throw new InvalidDataException("meta.json gol.");
+                   ?? throw new InvalidDataException("Empty meta.json.");
         return (File.ReadAllText(scenarioPath), meta);
     }
 

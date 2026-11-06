@@ -1,13 +1,13 @@
 {
-  "name": "Exemplu - val de drone",
+  "name": "Example - drone wave",
   "dtSeconds": 0.1,
   "durationSeconds": 21600,
   "launchSites": [
-    { "id": "L1", "name": "Punct lansare A", "latDeg": 46.0, "lonDeg": 34.0, "altM": 0 }
+    { "id": "L1", "name": "Launch point A", "latDeg": 46.0, "lonDeg": 34.0, "altM": 0 }
   ],
   "targets": [
-    { "id": "T1", "name": "Tinta oras", "kind": "city", "latDeg": 44.4, "lonDeg": 26.1, "altM": 80 },
-    { "id": "T2", "name": "Tinta baza", "kind": "military_base", "latDeg": 45.0, "lonDeg": 28.0, "altM": 20 }
+    { "id": "T1", "name": "Target city", "kind": "city", "latDeg": 44.4, "lonDeg": 26.1, "altM": 80 },
+    { "id": "T2", "name": "Target base", "kind": "military_base", "latDeg": 45.0, "lonDeg": 28.0, "altM": 20 }
   ],
   "waves": [
     {

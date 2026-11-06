@@ -11,7 +11,7 @@ namespace Sim.Core.Tests;
 
 public class FlyingDefenseTests
 {
-    // Lansare la (44, 24), tinta (44, 26): ~160 km, toate unitatile pleaca la t=0.
+    // Launch at (44, 24), target (44, 26): ~160 km, all units depart at t=0.
     private static Wave W(UnitKind kind = UnitKind.Drone, int count = 10, double speed = 100, double alt = 300, double apogee = 0, string id = "W1") =>
         new() { Id = id, SiteId = "L1", TargetId = "T1", Kind = kind, Count = count, SpeedMps = speed, AltitudeM = alt, ApogeeM = apogee };
 
@@ -50,7 +50,7 @@ public class FlyingDefenseTests
         return max;
     }
 
-    // ---------- rachete balistice si avioane ----------
+    // ---------- ballistic missiles and aircraft ----------
 
     [Fact]
     public void Ballistic_missile_follows_a_parabola_to_the_given_apogee()
@@ -85,7 +85,7 @@ public class FlyingDefenseTests
         Assert.InRange(max, 7999, 8001);
     }
 
-    // ---------- reguli de angajare ----------
+    // ---------- engagement rules ----------
 
     [Fact]
     public void Abm_intercepts_ballistic_missiles()
@@ -142,19 +142,19 @@ public class FlyingDefenseTests
         Assert.Equal(0, sim.ShotsFired);
     }
 
-    // ---------- orizontul radar ----------
+    // ---------- radar horizon ----------
 
     [Fact]
     public void Radar_horizon_hides_low_flyers_but_not_ballistic_missiles()
     {
-        // radar la ~167 km de traseu, raza 400 km; orizont pentru o tinta la 300 m: ~84 km
+        // radar ~167 km from the route, range 400 km; horizon for a target at 300 m: ~84 km
         var far = Radar(lat: 45.5, lon: 25.0, rangeKm: 400);
 
         Assert.Equal(0, Run(Make(W(), far)).DetectedCount);
         Assert.Equal(1, Run(Make(W(UnitKind.BallisticMissile, count: 1, speed: 1000), far)).DetectedCount);
     }
 
-    // ---------- avioane de patrula ----------
+    // ---------- patrol aircraft ----------
 
     private static Defense Patrol(int magazine = 5, double pk = 1.0) => new()
     {
@@ -168,7 +168,7 @@ public class FlyingDefenseTests
     [Fact]
     public void Patrol_aircraft_engage_detected_targets_in_range()
     {
-        // reincarcarea e dezactivata (timp la sol urias): testul masoara doar primul incarcator
+        // rearming is disabled (huge ground time): the test measures only the first load
         var patrol = Patrol(magazine: 5) with { TurnaroundSeconds = 1_000_000 };
         var sim = Run(Make(W(), Radar(), patrol, Airbase()));
 
@@ -180,16 +180,16 @@ public class FlyingDefenseTests
     [Fact]
     public void Patrol_aircraft_orbit_their_center()
     {
-        // fara radar nu exista tinte alocate: avionul ramane pe cerc
+        // without a radar there are no assigned targets: the aircraft stays on the circle
         var sim = new Simulation(Make(W(), Patrol(), Airbase()), 1);
 
         var before = Assert.Single(sim.GetFriendlies());
         for (int i = 0; i < 1000; i++)
-            sim.Step(); // 100 s => 20 km pe cerc
+            sim.Step(); // 100 s => 20 km on the circle
         var after = Assert.Single(sim.GetFriendlies());
 
         var center = new GeoPoint(44.0, 25.0);
-        Assert.Equal(0, before.Id); // indexul unitatii in scenariu
+        Assert.Equal(0, before.Id); // the unit index in the scenario
         Assert.InRange(Wgs84.GreatCircleDistanceM(center, before.Position), 19_900, 20_100);
         Assert.InRange(Wgs84.GreatCircleDistanceM(center, after.Position), 19_900, 20_100);
         Assert.InRange(Wgs84.GreatCircleDistanceM(before.Position, after.Position), 10_000, 20_100);
@@ -237,11 +237,11 @@ public class FlyingDefenseTests
             seen.Add(sim.GetFriendlies().Count);
         }
 
-        Assert.Equal(1, seen[0]);       // la inceput e in aer
-        Assert.Equal(0, seen[^1]);      // dupa intoarcere sta la sol, in reincarcare
+        Assert.Equal(1, seen[0]);       // in the air at the start
+        Assert.Equal(0, seen[^1]);      // after returning it sits on the ground, rearming
     }
 
-    // ---------- drone interceptoare ----------
+    // ---------- interceptor drones ----------
 
     private static Defense Base(int magazine = 10, double maxFlightS = 600, double speed = 200) => new()
     {
@@ -268,7 +268,7 @@ public class FlyingDefenseTests
     [Fact]
     public void Each_target_gets_a_single_chaser()
     {
-        // magazin mai mare decat numarul de tinte: tot 10 lansari, nu mai multe pe aceeasi tinta
+        // magazine larger than the number of targets: still 10 launches, not several at the same target
         var sim = Run(Make(W(), Radar(), Base(magazine: 30)));
 
         Assert.Equal(10, sim.InterceptorsLaunched);
@@ -325,7 +325,7 @@ public class FlyingDefenseTests
         Assert.Contains(Errors(Base() with { MinAltM = 500, MaxAltM = 100 }), e => e.Contains("MinAltM"));
         Assert.Contains(ScenarioLoader.Validate(Make(W(apogee: -5))), e => e.Contains("ApogeeM"));
         Assert.Empty(ScenarioLoader.Validate(Make(W(), Patrol(), Base(), Radar(), Airbase())));
-        Assert.Contains(ScenarioLoader.Validate(Make(W(), Patrol())), e => e.Contains("baza aeriana"));
+        Assert.Contains(ScenarioLoader.Validate(Make(W(), Patrol())), e => e.Contains("air base"));
         Assert.Contains(Errors(Patrol() with { EnduranceSeconds = 0 }), e => e.Contains("EnduranceSeconds"));
         Assert.Contains(Errors(Patrol() with { ScrambleRangeKm = 0 }), e => e.Contains("ScrambleRangeKm"));
         Assert.Contains(Errors(Patrol() with { TurnaroundSeconds = -1 }), e => e.Contains("TurnaroundSeconds"));

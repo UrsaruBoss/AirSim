@@ -5,9 +5,9 @@ using Sim.Server.Services;
 namespace Sim.Server.Hubs;
 
 /// <summary>
-/// Hub doar pentru server -> client. Mesaje emise:
-///   "snapshot" (byte[], vezi SnapshotWriter), "events" (EventDto[]), "status" (StatusDto).
-/// Controlul simularii se face prin REST (/api/sim/...).
+/// Server -> client only hub. Messages emitted:
+///   "snapshot" (byte[], see SnapshotWriter), "events" (EventDto[]), "status" (StatusDto).
+/// The simulation is controlled over REST (/api/sim/...).
 /// </summary>
 public sealed class SimHub : Hub
 {
@@ -17,7 +17,7 @@ public sealed class SimHub : Hub
 
     public override Task OnConnectedAsync()
     {
-        // clientul nou primeste imediat status + snapshot (util si cand simularea e in pauza)
+        // a new client immediately receives status + snapshot (also useful while the simulation is paused)
         _host.RequestPublish();
         return base.OnConnectedAsync();
     }

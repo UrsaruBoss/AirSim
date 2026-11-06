@@ -9,7 +9,7 @@ type Listener<T> = (value: T) => void
 class Emitter<T> {
   private listeners = new Set<Listener<T>>()
 
-  /** Intoarce functia de dezabonare. */
+  /** Returns the unsubscribe function. */
   on(listener: Listener<T>): () => void {
     this.listeners.add(listener)
     return () => {
@@ -25,8 +25,8 @@ class Emitter<T> {
 const sleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms))
 
 /**
- * Conexiunea catre hub-ul SignalR (MessagePack). Datele de frecventa mare (snapshot-urile)
- * ajung prin Emitter, nu prin starea React, ca sa nu re-randam UI-ul la fiecare mesaj.
+ * The connection to the SignalR hub (MessagePack). High-frequency data (snapshots)
+ * flows through an Emitter, not through React state, so the UI is not re-rendered on every message.
  */
 export class SimClient {
   readonly snapshots = new Emitter<Snapshot>()
@@ -60,7 +60,7 @@ export class SimClient {
       if (!this.stopped) this.connection.emit('disconnected')
     })
 
-    // conexiunea initiala nu se reia automat: incercam din nou cat timp serverul nu raspunde
+    // the initial connection is not retried automatically: keep trying while the server does not answer
     this.connection.emit('connecting')
     while (!this.stopped && this.hub === hub) {
       try {

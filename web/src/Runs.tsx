@@ -1,18 +1,24 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { localName } from './i18n/dataNames'
 import { api } from './api'
+import i18n, { currentLocale } from './i18n'
+import LanguageSwitch from './i18n/LanguageSwitch'
 import type { SavedRun, Scenario } from './types'
 
 interface Props {
   connected: boolean
   onBack: () => void
-  /** Porneste replay-ul; scenariul e necesar ca sa fie desenat pe harta. */
+  /** Starts the replay; the scenario is needed to draw it on the map. */
   onReplay: (runId: string, scenario: Scenario) => Promise<void>
 }
 
 export default function Runs({ connected, onBack, onReplay }: Props) {
+  const { t } = useTranslation()
   const [runs, setRuns] = useState<SavedRun[] | null>(null)
   const [busy, setBusy] = useState('')
   const [error, setError] = useState('')
+  const [query, setQuery] = useState('')
 
   useEffect(() => {
     if (!connected) return
@@ -21,6 +27,14 @@ export default function Runs({ connected, onBack, onReplay }: Props) {
       .then(setRuns)
       .catch((e) => setError(e instanceof Error ? e.message : String(e)))
   }, [connected])
+
+  // search over scenario name, seed and run id; the date is not searched (it is formatted per locale)
+  const filtered = useMemo(() => {
+    if (!runs) return null
+    const q = query.trim().toLowerCase()
+    if (!q) return runs
+    return runs.filter((r) => `${r.scenarioName} ${r.seed} ${r.runId}`.toLowerCase().includes(q))
+  }, [runs, query])
 
   const replay = async (run: SavedRun) => {
     setBusy(run.runId)
@@ -34,38 +48,54 @@ export default function Runs({ connected, onBack, onReplay }: Props) {
     }
   }
 
+  // the language is part of the render (dates), so re-render when it changes
+  void i18n.language
+
   return (
     <div className="page">
       <div className="page-inner">
         <div className="page-head">
           <button className="back" onClick={onBack}>
-            ← Meniu
+            {t('common.menu')}
           </button>
-          <h2>Rulări salvate</h2>
+          <h2>{t('runs.title')}</h2>
+          <LanguageSwitch />
         </div>
-        <p className="muted small">
-          Replay pornește din nou același scenariu cu același seed. Motorul e determinist, deci desfășurarea e identică; la final se
-          verifică hash-ul log-ului față de cel salvat.
-        </p>
+        <p className="muted small">{t('runs.intro')}</p>
+
+        <div className="runs-toolbar">
+          <input
+            className="runs-search"
+            type="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder={t('runs.searchPlaceholder')}
+            aria-label={t('runs.searchPlaceholder')}
+          />
+          {runs !== null && filtered !== null && (
+            <span className="muted small count">{t('runs.count', { shown: filtered.length, total: runs.length })}</span>
+          )}
+        </div>
 
         {error && <div className="error">{error}</div>}
-        {runs === null && !error && <div className="muted">Se încarcă…</div>}
-        {runs !== null && runs.length === 0 && (
-          <div className="muted">Nicio rulare salvată încă. O rulare se salvează automat la final sau cu butonul „Salvează”.</div>
-        )}
+        {runs === null && !error && <div className="muted">{t('common.loading')}</div>}
+        {runs !== null && runs.length === 0 && <div className="muted">{t('runs.none')}</div>}
+        {runs !== null && runs.length > 0 && filtered?.length === 0 && <div className="muted">{t('runs.noMatch')}</div>}
 
         <ul className="runs">
-          {runs?.map((r) => (
+          {filtered?.map((r) => (
             <li key={r.runId}>
               <div className="grow">
-                <strong>{r.scenarioName || r.runId}</strong>
+                <strong className="run-title" title={localName('scenario', r.scenarioName) || r.runId}>
+                  {localName('scenario', r.scenarioName) || r.runId}
+                </strong>
                 <div className="muted small">
-                  seed {r.seed} · {new Date(r.createdUtc).toLocaleString('ro-RO')} · motor {r.engineVersion}
+                  {t('runs.meta', { seed: r.seed, date: new Date(r.createdUtc).toLocaleString(currentLocale()), engine: r.engineVersion })}
                 </div>
-                {!r.engineMatches && <div className="warn-text small">Versiune de motor diferită: rezultatul poate diferi de cel salvat.</div>}
+                {!r.engineMatches && <div className="warn-text small">{t('runs.engineMismatch')}</div>}
               </div>
               <button className="primary" disabled={!connected || busy !== ''} onClick={() => void replay(r)}>
-                {busy === r.runId ? 'Pornește…' : '▶ Replay'}
+                {busy === r.runId ? t('runs.starting') : t('runs.replay')}
               </button>
             </li>
           ))}

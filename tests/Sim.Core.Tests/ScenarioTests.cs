@@ -36,7 +36,7 @@ public class ScenarioTests
     [Fact]
     public void Hash_ignores_whitespace_and_property_order_in_the_file()
     {
-        // acelasi continut, formatat altfel si cu proprietati in alta ordine
+        // same content, formatted differently and with properties in another order
         const string reordered = """
         { "waves": [ { "count": 200, "id": "W1", "targetId": "T1", "siteId": "L1", "kind": "drone",
                        "startTimeSeconds": 0, "intervalSeconds": 0.5, "speedMps": 55, "altitudeM": 400, "spreadMeters": 300 } ],
@@ -92,7 +92,7 @@ public class ScenarioTests
 
         var errors = ScenarioLoader.Validate(broken);
         Assert.Contains(errors, e => e.Contains("DtSeconds"));
-        Assert.Contains(errors, e => e.Contains("duplicat"));
+        Assert.Contains(errors, e => e.Contains("duplicate"));
         Assert.Contains(errors, e => e.Contains("Count"));
     }
 

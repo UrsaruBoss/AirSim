@@ -1,0 +1,17 @@
+# Public deployment. Put a reverse proxy (nginx, Caddy, Traefik) in front for TLS; it must send X-Forwarded-For,
+# because the per-IP rate limit reads the client address from it.
+services:
+  airsim:
+    build: .
+    image: airsim:latest
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    read_only: true
+    cap_drop: [ALL]
+    mem_limit: 512m
+    volumes:
+      # generated with `dotnet run -c Release --project src/Sim.Server -- precompute`; not part of the image or the repository
+      - ./precomputed:/data/precomputed:ro
+    tmpfs:
+      - /tmp

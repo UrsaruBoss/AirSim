@@ -8,10 +8,10 @@ using System.Text.Json.Nodes;
 namespace Sim.Core.Catalog;
 
 /// <summary>
-/// Catalogul de tipuri: unitati ofensive (offense.json) si sisteme defensive (defense.json), cate un obiect JSON per tip.
-/// Formatul fisierelor: { "types": [ { "id": "...", "name": "...", "kind": "...", ...campuri ale Wave / Defense... } ] }.
-/// Campurile "id", "notes" si "source" sunt informative si nu se copiaza in scenariu.
-/// Catalogul nu are logica: tipurile devin Wave / Defense la incarcarea scenariului (vezi ScenarioLoader).
+/// The type catalog: offensive units (offense.json) and defensive systems (defense.json), one JSON object per type.
+/// File format: { "types": [ { "id": "...", "name": "...", "kind": "...", ...Wave / Defense fields... } ] }.
+/// The "id", "notes" and "source" fields are informational and are not copied into the scenario.
+/// The catalog has no logic: types become Wave / Defense when the scenario is loaded (see ScenarioLoader).
 /// </summary>
 public sealed class UnitCatalog
 {
@@ -31,7 +31,7 @@ public sealed class UnitCatalog
         Defense = defense.ToDictionary(t => t["id"]!.GetValue<string>(), StringComparer.Ordinal);
     }
 
-    /// <summary>Citeste offense.json si defense.json din folder (fisierele lipsa = catalog gol pentru partea respectiva).</summary>
+    /// <summary>Reads offense.json and defense.json from the folder (a missing file = an empty catalog for that side).</summary>
     public static UnitCatalog FromDirectory(string dir)
     {
         string? Read(string name)
@@ -62,11 +62,11 @@ public sealed class UnitCatalog
         }
         catch (JsonException ex)
         {
-            throw new InvalidDataException($"Catalog {file}: JSON invalid: {ex.Message}", ex);
+            throw new InvalidDataException($"Catalog {file}: invalid JSON: {ex.Message}", ex);
         }
 
         if (root is not JsonObject obj || obj["types"] is not JsonArray types)
-            throw new InvalidDataException($"Catalog {file}: se asteapta {{ \"types\": [ ... ] }}.");
+            throw new InvalidDataException($"Catalog {file}: expected {{ \"types\": [ ... ] }}.");
 
         var result = new List<JsonObject>();
         var seen = new HashSet<string>(StringComparer.Ordinal);
@@ -74,15 +74,15 @@ public sealed class UnitCatalog
         for (int i = 0; i < types.Count; i++)
         {
             if (types[i] is not JsonObject type)
-                throw new InvalidDataException($"Catalog {file}: types[{i}] nu e un obiect.");
+                throw new InvalidDataException($"Catalog {file}: types[{i}] is not an object.");
 
             string? id = type["id"] is JsonValue v && v.TryGetValue(out string? s) ? s : null;
             if (!IsSafeId(id))
-                throw new InvalidDataException($"Catalog {file}: types[{i}] are id lipsa sau invalid (litere, cifre, '-', '_').");
+                throw new InvalidDataException($"Catalog {file}: types[{i}] has a missing or invalid id (letters, digits, '-', '_').");
             if (!seen.Add(id!))
-                throw new InvalidDataException($"Catalog {file}: id duplicat '{id}'.");
+                throw new InvalidDataException($"Catalog {file}: duplicate id '{id}'.");
             if (type["kind"] is not JsonValue)
-                throw new InvalidDataException($"Catalog {file}: '{id}' nu are 'kind'.");
+                throw new InvalidDataException($"Catalog {file}: '{id}' has no 'kind'.");
 
             result.Add(type);
         }

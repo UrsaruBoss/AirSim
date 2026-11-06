@@ -2,7 +2,7 @@ using System;
 
 namespace Sim.Core.Geo;
 
-/// <summary>Vector 3D in precizie double (System.Numerics.Vector3 e float, insuficient pentru ECEF).</summary>
+/// <summary>3D vector in double precision (System.Numerics.Vector3 is float, insufficient for ECEF).</summary>
 public readonly record struct Vec3(double X, double Y, double Z)
 {
     public double Length => Math.Sqrt(X * X + Y * Y + Z * Z);

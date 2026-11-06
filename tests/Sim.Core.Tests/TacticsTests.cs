@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Sim.Core.Tests;
 
-/// <summary>Momeli, redirectionare in zbor si saturarea bruiajului.</summary>
+/// <summary>Decoys, in-flight retargeting and jamming saturation.</summary>
 public class TacticsTests
 {
     // L1 (44, 24) -> T1 (44, 26), T2 (44.1, 26), T3 (44.2, 26); ~160 km, 100 m/s => ~1600 s.
@@ -36,7 +36,7 @@ public class TacticsTests
         return sim;
     }
 
-    // ---- momeli ----
+    // ---- decoys ----
 
     private static Defense Gun() =>
         new() { Id = "G1", Kind = DefenseKind.AaGun, LatDeg = 44.0, LonDeg = 25.9, RangeKm = 20, Magazine = 100, Pk = 1.0, ReloadSeconds = 0 };
@@ -64,17 +64,17 @@ public class TacticsTests
         };
         var cheap = W(count: 1) with { CostUsd = 10_000 };
 
-        // costul real (10 000) e prea mic pentru o racheta de 1 000 000 => nu trage
+        // the real cost (10 000) is too small for a 1 000 000 missile => it does not fire
         Assert.Equal(0, Run(Make(new[] { cheap }, new Defense[] { radar, sam })).InterceptedCount);
 
-        // acelasi lucru, dar arata ca o arma de 600 000 => trage
+        // same thing, but it looks like a 600 000 weapon => it fires
         var disguised = cheap with { PerceivedCostUsd = 600_000 };
         var sim = Run(Make(new[] { disguised }, new Defense[] { radar, sam }));
         Assert.Equal(1, sim.InterceptedCount);
         Assert.Equal(1, sim.ShotsFired);
     }
 
-    // ---- redirectionare ----
+    // ---- retargeting ----
 
     private static Scenario Retargeting(bool retarget, int t1Destroy = 2, double rangeKm = 150) => Make(new[]
     {
@@ -90,7 +90,7 @@ public class TacticsTests
     {
         var sim = Run(Retargeting(retarget: true));
 
-        Assert.Equal(2, ImpactsAt(sim, 44.0)); // doar primele doua, cele care au distrus-o
+        Assert.Equal(2, ImpactsAt(sim, 44.0)); // only the first two, the ones that destroyed it
         Assert.True(sim.RetargetedCount > 5);
         Assert.Equal(62, sim.ImpactCount);
 
@@ -131,7 +131,7 @@ public class TacticsTests
         Assert.Equal(Run(s, 4).Events.Hash(), Run(s, 4).Events.Hash());
     }
 
-    // ---- saturarea bruiajului ----
+    // ---- jamming saturation ----
 
     private static Scenario JamScenario(int capacity) => Make(
         new[] { W(count: 100) },
@@ -156,7 +156,7 @@ public class TacticsTests
         Assert.Equal(a.Events.Hash(), b.Events.Hash());
     }
 
-    // ---- diagnostice ----
+    // ---- diagnostics ----
 
     [Fact]
     public void Shot_costs_are_tracked_in_total_and_on_decoys()
@@ -186,7 +186,7 @@ public class TacticsTests
         Assert.Equal(0, unlimited.EwPeakLoad);
     }
 
-    // ---- validare ----
+    // ---- validation ----
 
     [Fact]
     public void Invalid_values_are_rejected()
@@ -194,7 +194,7 @@ public class TacticsTests
         Assert.Contains(ScenarioLoader.Validate(JamScenario(-1)), e => e.Contains("JamCapacity"));
         Assert.Contains(ScenarioLoader.Validate(Make(new[] { W() with { PerceivedCostUsd = -1 } })), e => e.Contains("PerceivedCostUsd"));
         Assert.Contains(ScenarioLoader.Validate(Make(new[] { W() with { Retarget = true, RetargetAtKm = 0 } })), e => e.Contains("RetargetAtKm"));
-        Assert.Contains(ScenarioLoader.Validate(Make(new[] { W() with { Retarget = true, Kind = UnitKind.BallisticMissile } })), e => e.Contains("balistice"));
+        Assert.Contains(ScenarioLoader.Validate(Make(new[] { W() with { Retarget = true, Kind = UnitKind.BallisticMissile } })), e => e.Contains("ballistic"));
         Assert.Contains(ScenarioLoader.Validate(Make(new[] { W() }, t1Destroy: -1)), e => e.Contains("ImpactsToDestroy"));
     }
 

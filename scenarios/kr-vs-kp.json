@@ -1,5 +1,5 @@
 {
- "name": "Coreea de Sud → Coreea de Nord: lovitură de răspuns asupra Phenianului și obiectivelor strategice",
+ "name": "South Korea → North Korea: retaliatory strike on Pyongyang and strategic objectives",
  "dtSeconds": 0.5,
  "durationSeconds": 14400,
  "defenseIntervalSeconds": 1.0,
@@ -23,7 +23,7 @@
   },
   {
    "id": "L02",
-   "name": "Gyeonggi Nord",
+   "name": "Gyeonggi North",
    "latDeg": 37.85,
    "lonDeg": 127.15,
    "altM": 0
@@ -44,7 +44,7 @@
   },
   {
    "id": "L05",
-   "name": "Baza aeriana Seosan",
+   "name": "Air base Seosan",
    "latDeg": 36.7,
    "lonDeg": 126.5,
    "altM": 0
@@ -53,14 +53,14 @@
  "targets": [
   {
    "id": "T01",
-   "name": "Phenian",
+   "name": "Pyongyang",
    "kind": "city",
    "latDeg": 39.039,
    "lonDeg": 125.762
   },
   {
    "id": "T02",
-   "name": "Yongbyon (centru nuclear)",
+   "name": "Yongbyon (nuclear center)",
    "kind": "military_base",
    "latDeg": 39.8,
    "lonDeg": 125.75,
@@ -69,7 +69,7 @@
   },
   {
    "id": "T03",
-   "name": "Baza aeriana Sunan",
+   "name": "Air base Sunan",
    "kind": "military_base",
    "latDeg": 39.2,
    "lonDeg": 125.67,
@@ -78,7 +78,7 @@
   },
   {
    "id": "T04",
-   "name": "Wonsan (baza)",
+   "name": "Wonsan (base)",
    "kind": "military_base",
    "latDeg": 39.15,
    "lonDeg": 127.45,
@@ -96,7 +96,7 @@
   },
   {
    "id": "T06",
-   "name": "Sohae (lansare)",
+   "name": "Sohae (launch)",
    "kind": "military_base",
    "latDeg": 39.66,
    "lonDeg": 124.7,
@@ -105,7 +105,7 @@
   },
   {
    "id": "T07",
-   "name": "Artilerie Kaesong",
+   "name": "Kaesong artillery",
    "kind": "military_base",
    "latDeg": 37.95,
    "lonDeg": 126.65,
@@ -114,7 +114,7 @@
   },
   {
    "id": "T08",
-   "name": "Baza submarine Sinpo",
+   "name": "Submarine base Sinpo",
    "kind": "military_base",
    "latDeg": 40.03,
    "lonDeg": 128.18,
@@ -211,7 +211,7 @@
   {
    "id": "R01",
    "type": "radar-ew-long",
-   "name": "Radar Phenian",
+   "name": "Radar Pyongyang",
    "latDeg": 39.0,
    "lonDeg": 125.8
   },
@@ -239,42 +239,42 @@
   {
    "id": "KN01",
    "type": "kn-06",
-   "name": "KN-06 Phenian 01",
+   "name": "KN-06 Pyongyang 01",
    "latDeg": 39.0018,
    "lonDeg": 125.5217
   },
   {
    "id": "KN02",
    "type": "kn-06",
-   "name": "KN-06 Phenian 02",
+   "name": "KN-06 Pyongyang 02",
    "latDeg": 39.1558,
    "lonDeg": 125.644
   },
   {
    "id": "KN03",
    "type": "kn-06",
-   "name": "KN-06 Phenian 03",
+   "name": "KN-06 Pyongyang 03",
    "latDeg": 39.2192,
    "lonDeg": 125.8235
   },
   {
    "id": "KN04",
    "type": "kn-06",
-   "name": "KN-06 Phenian 04",
+   "name": "KN-06 Pyongyang 04",
    "latDeg": 39.0974,
    "lonDeg": 125.9718
   },
   {
    "id": "KN05",
    "type": "kn-06",
-   "name": "KN-06 Phenian 05",
+   "name": "KN-06 Pyongyang 05",
    "latDeg": 38.9386,
    "lonDeg": 125.8751
   },
   {
    "id": "KN06",
    "type": "kn-06",
-   "name": "KN-06 Phenian 06",
+   "name": "KN-06 Pyongyang 06",
    "latDeg": 38.9792,
    "lonDeg": 125.7396
   },
@@ -302,140 +302,140 @@
   {
    "id": "MG01",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Phenian 01",
+   "name": "Mobile group Pyongyang 01",
    "latDeg": 39.1207,
    "lonDeg": 125.6444
   },
   {
    "id": "MG02",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Phenian 02",
+   "name": "Mobile group Pyongyang 02",
    "latDeg": 39.1242,
    "lonDeg": 125.7291
   },
   {
    "id": "MG03",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Phenian 03",
+   "name": "Mobile group Pyongyang 03",
    "latDeg": 39.1412,
    "lonDeg": 125.8459
   },
   {
    "id": "MG04",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Phenian 04",
+   "name": "Mobile group Pyongyang 04",
    "latDeg": 39.1042,
    "lonDeg": 125.9583
   },
   {
    "id": "MG05",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Phenian 05",
+   "name": "Mobile group Pyongyang 05",
    "latDeg": 39.0015,
    "lonDeg": 125.9528
   },
   {
    "id": "MG06",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Phenian 06",
+   "name": "Mobile group Pyongyang 06",
    "latDeg": 38.9051,
    "lonDeg": 125.906
   },
   {
    "id": "MG07",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Phenian 07",
+   "name": "Mobile group Pyongyang 07",
    "latDeg": 38.8755,
    "lonDeg": 125.8158
   },
   {
    "id": "MG08",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Phenian 08",
+   "name": "Mobile group Pyongyang 08",
    "latDeg": 38.9067,
    "lonDeg": 125.6412
   },
   {
    "id": "MG09",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Phenian 09",
+   "name": "Mobile group Pyongyang 09",
    "latDeg": 38.9767,
    "lonDeg": 125.5462
   },
   {
    "id": "MG10",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Phenian 10",
+   "name": "Mobile group Pyongyang 10",
    "latDeg": 39.0585,
    "lonDeg": 125.555
   },
   {
    "id": "MG11",
    "type": "mobile-fire-group",
-   "name": "Grup mobil frontiera 11",
+   "name": "Mobile group border 11",
    "latDeg": 38.1083,
    "lonDeg": 126.6737
   },
   {
    "id": "MG12",
    "type": "mobile-fire-group",
-   "name": "Grup mobil frontiera 12",
+   "name": "Mobile group border 12",
    "latDeg": 38.0871,
    "lonDeg": 126.4377
   },
   {
    "id": "MG13",
    "type": "mobile-fire-group",
-   "name": "Grup mobil frontiera 13",
+   "name": "Mobile group border 13",
    "latDeg": 38.3116,
    "lonDeg": 126.4291
   },
   {
    "id": "MG14",
    "type": "mobile-fire-group",
-   "name": "Grup mobil frontiera 14",
+   "name": "Mobile group border 14",
    "latDeg": 38.5511,
    "lonDeg": 126.512
   },
   {
    "id": "MG15",
    "type": "mobile-fire-group",
-   "name": "Grup mobil frontiera 15",
+   "name": "Mobile group border 15",
    "latDeg": 38.5003,
    "lonDeg": 126.7827
   },
   {
    "id": "MG16",
    "type": "mobile-fire-group",
-   "name": "Grup mobil frontiera 16",
+   "name": "Mobile group border 16",
    "latDeg": 38.2505,
    "lonDeg": 126.8742
   },
   {
    "id": "AB01",
    "type": "airbase",
-   "name": "Baza Sunan",
+   "name": "Base Sunan",
    "latDeg": 39.2,
    "lonDeg": 125.67
   },
   {
    "id": "AB02",
    "type": "airbase",
-   "name": "Baza Kalma",
+   "name": "Base Kalma",
    "latDeg": 39.17,
    "lonDeg": 127.48
   },
   {
    "id": "AB03",
    "type": "airbase",
-   "name": "Baza Sondok",
+   "name": "Base Sondok",
    "latDeg": 38.4,
    "lonDeg": 125.9
   },
   {
    "id": "PA01",
    "type": "mig-29-patrol",
-   "name": "MiG-29 Phenian",
+   "name": "MiG-29 Pyongyang",
    "latDeg": 39.4,
    "lonDeg": 125.8
   },

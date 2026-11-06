@@ -13,7 +13,7 @@ Un scenariu referă un tip în loc să repete valorile:
 * La încărcare scenariul e **rezolvat**: `scenario.json` din `runs/<id>/` conține valorile finale, nu doar id-ul tipului, deci o rulare veche rămâne reproductibilă chiar dacă editezi catalogul.
 * `id`, `notes` și `source` sunt informative și nu se copiază. `source` arată de unde vine cifra (sau „estimare ilustrativă, neverificată”).
 * Un val are `rangeKm` (raza de acțiune): scenariul e respins dacă ținta e mai departe.
-* Defensivele: `kind` ∈ radar, sam, aaGun, abm, patrol, interceptorBase, airbase. `engages` (ce tipuri de ținte poate angaja), `pkByKind` (Pk pe tip de țintă), `minAltM`/`maxAltM`.
+* Defensivele: `kind` ∈ radar, sam, aaGun, abm, patrol, interceptorBase, airbase. `engages` (ce tipuri de ținte poate angaja), `pkByKind` (Pk pe tip de țintă), `minAltM`/`maxAltM`, `pkAltitude` (curbă opțională: puncte `{altM, factor}` crescătoare după altitudine, factor 0–1; Pk-ul fiecărei trageri se înmulțește cu factorul la altitudinea țintei; valorile din catalog sunt ilustrative).
 * La tunuri, un „tir” = o rafală de 1 s (nu un proiectil).
 
 **Atenție la date:** doar cifrele cu `source` către o pagină (Wikipedia etc.) au fost verificate, și ele sunt aproximative (intervale în sursă). Pk, încărcătoare, cadențe și razele efective ale apărării sunt estimări ilustrative.

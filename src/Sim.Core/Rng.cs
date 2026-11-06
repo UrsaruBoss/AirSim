@@ -4,9 +4,9 @@ using System.Numerics;
 namespace Sim.Core;
 
 /// <summary>
-/// PRNG propriu (xoshiro256**), seedat prin SplitMix64.
-/// Nu depinde de System.Random, deci secventele nu se schimba intre versiuni de .NET.
-/// Un Rng NU se partajeaza intre thread-uri: fiecare sistem/entitate isi ia propriul flux prin Derive().
+/// Own PRNG (xoshiro256**), seeded through SplitMix64.
+/// It does not depend on System.Random, so sequences do not change between .NET versions.
+/// An Rng is NOT shared between threads: each system/entity takes its own stream through Derive().
 /// </summary>
 public sealed class Rng
 {
@@ -25,8 +25,8 @@ public sealed class Rng
     }
 
     /// <summary>
-    /// Flux independent, determinat doar de (seed, streamId).
-    /// Nu depinde de cate valori au fost consumate din acest Rng, deci ordinea de executie nu conteaza.
+    /// Independent stream, determined only by (seed, streamId).
+    /// It does not depend on how many values were consumed from this Rng, so execution order does not matter.
     /// </summary>
     public Rng Derive(ulong streamId) => new Rng(Mix(Seed, streamId));
 
@@ -48,7 +48,7 @@ public sealed class Rng
         }
     }
 
-    /// <summary>Uniform in [0, 1), 53 de biti de precizie.</summary>
+    /// <summary>Uniform in [0, 1), 53 bits of precision.</summary>
     public double NextDouble() => (NextUInt64() >> 11) * (1.0 / 9007199254740992.0);
 
     /// <summary>Uniform in [min, max).</summary>
@@ -61,10 +61,10 @@ public sealed class Rng
         return (int)(((NextUInt64() >> 32) * (ulong)maxExclusive) >> 32);
     }
 
-    /// <summary>True cu probabilitatea p (ex: probabilitate de detectie, Pk).</summary>
+    /// <summary>True with probability p (e.g. detection probability, Pk).</summary>
     public bool Chance(double p) => NextDouble() < p;
 
-    /// <summary>Normala standard (Box-Muller, fara stare ascunsa: consuma mereu exact doua valori).</summary>
+    /// <summary>Standard normal (Box-Muller, no hidden state: always consumes exactly two values).</summary>
     public double NextGaussian()
     {
         double u1 = 1.0 - NextDouble(); // (0, 1]

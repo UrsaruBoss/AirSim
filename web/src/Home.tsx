@@ -1,11 +1,7 @@
+import { useTranslation } from 'react-i18next'
+import { localName } from './i18n/dataNames'
+import LanguageSwitch from './i18n/LanguageSwitch'
 import type { ConnectionState, SimStatus } from './types'
-
-const CONNECTION_LABEL: Record<ConnectionState, string> = {
-  connecting: 'se conectează…',
-  connected: 'conectat',
-  reconnecting: 'reconectare…',
-  disconnected: 'server indisponibil',
-}
 
 interface Props {
   connection: ConnectionState
@@ -13,42 +9,53 @@ interface Props {
   onNormal: () => void
   onRuns: () => void
   onCompare: () => void
-  onImmersive: () => void
   onResume: () => void
+  /** Public mode: only the gallery of precomputed scenarios. */
+  publicMode?: boolean
+  onGallery?: () => void
 }
 
-export default function Home({ connection, status, onNormal, onRuns, onCompare, onImmersive, onResume }: Props) {
+export default function Home({ connection, status, onNormal, onRuns, onCompare, onResume, publicMode = false, onGallery }: Props) {
+  const { t } = useTranslation()
   const active = status !== null && (status.state === 'running' || status.state === 'paused')
 
   return (
     <div className="home">
+      <div className="top-right">
+        <LanguageSwitch />
+      </div>
       <div className="home-inner">
-        <h1>AirSim</h1>
-        <p className="muted">Simulator de atac și apărare aeriană (drone și rachete)</p>
-        <span className={`badge ${connection === 'connected' ? 'ok' : 'warn'}`}>{CONNECTION_LABEL[connection]}</span>
+        <h1>{t('home.title')}</h1>
+        <p className="muted">{t('home.subtitle')}</p>
+        <span className={`badge ${connection === 'connected' ? 'ok' : 'warn'}`}>{t(`connection.${connection}`)}</span>
 
-        <div className="modes">
-          <button className="mode" onClick={onNormal}>
-            <strong>Simulare normală</strong>
-            <span>Alegi țările și aliații, plasezi apărarea și forțele de atac pe hartă, apoi rulezi simularea.</span>
-          </button>
-          <button className="mode" onClick={onRuns}>
-            <strong>Rulări salvate</strong>
-            <span>Reiei (replay) o rulare salvată, identică datorită seed-ului.</span>
-          </button>
-          <button className="mode" onClick={onCompare}>
-            <strong>Compară scenarii</strong>
-            <span>Două scenarii, aceleași seed-uri, diferențe cu semnificație statistică.</span>
-          </button>
-          <button className="mode" onClick={onImmersive}>
-            <strong>Immersive</strong>
-            <span>Intri într-un buncăr în prim-plan: ecran mare cu harta, calculatoare cu statistici și control.</span>
-          </button>
-        </div>
+        {publicMode ? (
+          <div className="modes modes-1">
+            <button className="mode" onClick={onGallery}>
+              <strong>{t('home.gallery.title')}</strong>
+              <span>{t('home.gallery.desc')}</span>
+            </button>
+          </div>
+        ) : (
+          <div className="modes">
+            <button className="mode" onClick={onNormal}>
+              <strong>{t('home.normal.title')}</strong>
+              <span>{t('home.normal.desc')}</span>
+            </button>
+            <button className="mode" onClick={onRuns}>
+              <strong>{t('home.runs.title')}</strong>
+              <span>{t('home.runs.desc')}</span>
+            </button>
+            <button className="mode" onClick={onCompare}>
+              <strong>{t('home.compare.title')}</strong>
+              <span>{t('home.compare.desc')}</span>
+            </button>
+          </div>
+        )}
 
         {active && (
           <button className="resume" onClick={onResume}>
-            Revino la simularea în curs ({status?.scenarioName})
+            {t('home.resume', { name: localName('scenario', status?.scenarioName ?? '') })}
           </button>
         )}
       </div>

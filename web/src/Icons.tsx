@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 
-/** Set mic de iconite SVG (24x24, contur), ca interfata sa nu depinda de emoji sau de o librarie. */
+/** A small set of SVG icons (24x24, outline), so the interface does not depend on emoji or on a library. */
 const PATHS: Record<string, ReactNode> = {
   play: <polygon points="7 4 20 12 7 20" fill="currentColor" stroke="none" />,
   pause: (
@@ -49,7 +49,22 @@ const PATHS: Record<string, ReactNode> = {
   shuffle: <path d="M3 7h13 M13 4l3 3-3 3 M21 17H8 M11 14l-3 3 3 3" />,
   shieldOff: <path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z M4 4l16 16" />,
   undo: <path d="M9 14L4 9l5-5 M4 9h10a6 6 0 0 1 0 12h-3" />,
+  sun: (
+    <>
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v2 M12 20v2 M2 12h2 M20 12h2 M4.9 4.9l1.4 1.4 M17.7 17.7l1.4 1.4 M4.9 19.1l1.4-1.4 M17.7 6.3l1.4-1.4" />
+    </>
+  ),
+  moon: <path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z" />,
   filter: <path d="M3 4h18l-7 8v6l-4 2v-8z" />,
+  fade: (
+    <>
+      <circle cx="6" cy="17" r="2" opacity="0.35" />
+      <circle cx="12" cy="12" r="2" opacity="0.65" />
+      <circle cx="18" cy="7" r="2" />
+      <path d="M3 21h18" />
+    </>
+  ),
 }
 
 export type IconName = keyof typeof PATHS

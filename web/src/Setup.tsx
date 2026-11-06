@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { Dispatch, SetStateAction } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
+import { localName } from './i18n/dataNames'
 import { api } from './api'
 import { deleteScenario, exportScenario, listSaved, parseImported, saveScenario } from './savedScenarios'
 import type { SavedScenario } from './savedScenarios'
@@ -22,16 +24,11 @@ import {
 } from './draft'
 import type { SetupState, WaveForm } from './draft'
 import type { SimClient } from './SimClient'
-import { DEFENSE_COLORS, DEFENSE_LABELS, UNIT_COLORS, UNIT_LABELS } from './roles'
+import { DEFENSE_COLORS, UNIT_COLORS, defenseLabel, roleShortLabel, unitLabel } from './roles'
+import LanguageSwitch from './i18n/LanguageSwitch'
+import { useMediaQuery } from './hooks'
+import { dayPhase, localSolarHour, scenarioCenter, scenarioStartMs, startUtcForLocalSolarHour, sunElevationDeg } from './solar'
 import type { Alliance, Catalog, CountryRole, DefenseKind, DefenseType, ScenarioInfo } from './types'
-
-const ROLE_SHORT: Record<CountryRole, string> = {
-  defender: 'Apărător',
-  defenderAlly: 'Aliat apărător',
-  attacker: 'Atacator',
-  attackerAlly: 'Aliat atacator',
-  neutral: 'Neutru',
-}
 
 const ROLE_ORDER: CountryRole[] = ['defender', 'defenderAlly', 'attacker', 'attackerAlly', 'neutral']
 const KIND_ORDER: DefenseKind[] = ['radar', 'sam', 'abm', 'aaGun', 'ew', 'patrol', 'interceptorBase', 'airbase']
@@ -59,7 +56,7 @@ function useCountries(map: string): CountryInfo[] {
         if (!cancelled) setList(items)
       })
       .catch(() => {
-        // fara lista de tari: se pot folosi doar aliantele
+        // no country list: only alliances can be used
       })
     return () => {
       cancelled = true
@@ -72,11 +69,12 @@ function useCountries(map: string): CountryInfo[] {
 const fold = (t: string) => t.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
 
 function SearchField({ value, onChange, placeholder }: { value: string; onChange: (v: string) => void; placeholder: string }) {
+  const { t } = useTranslation()
   return (
     <div className="search small-search">
       <input value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} />
       {value && (
-        <button className="icon-btn" onClick={() => onChange('')} title="Șterge căutarea">
+        <button className="icon-btn" onClick={() => onChange('')} title={t('setup.clearSearch')}>
           ✕
         </button>
       )}
@@ -96,19 +94,26 @@ interface Props {
   setState: Dispatch<SetStateAction<SetupState>>
   onBack: () => void
   onStart: () => Promise<void>
-  /** Modul immersive: butonul de pornire duce in buncar. */
-  immersive?: boolean
 }
 
-/** Numele scurt al unui scenariu: partea dinaintea primului ":" (descrierea apare sub selector). */
+/** Short name of a scenario: the part before the first ":" (the description appears under the selector). */
 const shortName = (name: string) => name.split(':')[0].trim()
 
-export default function Setup({ client, connected, scenarios, catalog, alliances, state, setState, onBack, onStart, immersive = false }: Props) {
+/** Mean solar time (hours) of the presets: dawn, midday, dusk, night. */
+const TIME_PRESETS = [6, 12, 18, 1]
+const WEATHER_PRESETS = ['clear', 'overcast', 'rain', 'fog', 'storm']
+
+export default function Setup({ client, connected, scenarios, catalog, alliances, state, setState, onBack, onStart }: Props) {
+  // `tr`, not `t`: this file uses `t` as a lambda parameter for catalog types in many places
+  const { t: tr } = useTranslation()
   const { scenario } = state
   const countries = useCountries(scenario.airspaceMap)
   const countryName = useMemo(() => new Map(countries.map((c) => [c.iso2, c.name])), [countries])
 
   const [tab, setTab] = useState<'defense' | 'offense'>('defense')
+  // phone layout: one section at a time (the map is its own tab, used for placing)
+  const narrow = useMediaQuery()
+  const [mTab, setMTab] = useState<'setup' | 'forces' | 'map' | 'start'>('setup')
   const [placing, setPlacing] = useState<Placing>(null)
   const [targetKind, setTargetKind] = useState<'city' | 'military_base'>('city')
   const [showTests, setShowTests] = useState(false)
@@ -128,7 +133,12 @@ export default function Setup({ client, connected, scenarios, catalog, alliances
   const defenderLeft = state.budgetDefenderM * 1e6 - c.defenderAdded
   const attackerLeft = state.budgetAttackerM * 1e6 - c.attackerAdded
 
-  // Esc opreste plasarea
+  // phone: choosing something to place jumps to the map
+  useEffect(() => {
+    if (narrow && placing) setMTab('map')
+  }, [narrow, placing])
+
+  // Esc stops placement
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setPlacing(null)
@@ -139,12 +149,12 @@ export default function Setup({ client, connected, scenarios, catalog, alliances
 
   const formTypeId = form.typeId || catalog?.offense[0]?.id || ''
 
-  // ---- scenariu prestabilit ----
+  // ---- preset scenario ----
 
   const presets = scenarios.filter((s) => s.valid && (showTests || PRESET_IDS.includes(s.id)))
   const selectedPreset = presets.find((p) => p.id === state.presetId)
 
-  // ---- scenarii salvate local ----
+  // ---- locally saved scenarios ----
 
   const [saved, setSaved] = useState<SavedScenario[]>(() => listSaved())
   const [saveName, setSaveName] = useState('')
@@ -162,14 +172,14 @@ export default function Setup({ client, connected, scenarios, catalog, alliances
     attempt(() => {
       saveScenario(saveName || state.scenario.name, state)
       setSaved(listSaved())
-      setMessage(`Salvat: ${saveName || state.scenario.name}`)
+      setMessage(tr('setup.saved.savedMsg', { name: saveName || state.scenario.name }))
     })
 
   const loadSaved = (x: SavedScenario) => {
     setPlacing(null)
     setSaveName(x.name)
     setState((s) => ({ ...s, ...x.state, seed: s.seed }))
-    setMessage(`Încărcat: ${x.name}`)
+    setMessage(tr('setup.saved.loadedMsg', { name: x.name }))
   }
 
   const removeSaved = (id: string) =>
@@ -184,7 +194,7 @@ export default function Setup({ client, connected, scenarios, catalog, alliances
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `${name.replace(/[^\w.-]+/g, '_') || 'scenariu'}.airsim.json`
+    a.download = `${name.replace(/[^\w.-]+/g, '_') || tr('setup.defaultFile')}.airsim.json`
     a.click()
     URL.revokeObjectURL(url)
   }
@@ -197,10 +207,43 @@ export default function Setup({ client, connected, scenarios, catalog, alliances
       setPlacing(null)
       setSaveName(name)
       setState((s) => ({ ...s, ...imported, seed: s.seed }))
-      setMessage(`Importat: ${name}. Apasă „Salvează” ca să-l păstrezi în browser.`)
+      setMessage(tr('setup.saved.importedMsg', { name }))
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e))
     }
+  }
+
+  // time of day: presets are expressed as mean solar time at the center of the scenario
+  const center = scenarioCenter(state.scenario)
+  const startMs = scenarioStartMs(state.scenario)
+  let timeChoice = 'none'
+  let timeReadout: string | null = null
+  if (startMs !== null) {
+    const lon = center?.lonDeg ?? 0
+    const hour = localSolarHour(lon, startMs)
+    const match = TIME_PRESETS.find((h) => Math.abs(hour - h) < 0.05 || Math.abs(hour - h) > 23.95)
+    timeChoice = match !== undefined ? String(match) : 'custom'
+    const el = sunElevationDeg(center?.latDeg ?? 0, lon, startMs)
+    const hh = Math.floor(hour)
+    const mm = Math.floor((hour - hh) * 60)
+    timeReadout = tr('setup.time.readout', {
+      time: `${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}`,
+      phase: tr(`setup.time.phase.${dayPhase(el)}`),
+      sun: Math.round(el),
+    })
+  }
+  const setTimeOfDay = (choice: string) => {
+    if (choice === 'custom') return
+    setState((s) => {
+      const c = scenarioCenter(s.scenario)
+      const startTimeUtc = choice === 'none' ? undefined : startUtcForLocalSolarHour(c?.lonDeg ?? 0, Number(choice))
+      return { ...s, scenario: { ...s.scenario, startTimeUtc } }
+    })
+  }
+
+  const weatherChoice = state.scenario.weather ?? 'clear'
+  const setWeather = (choice: string) => {
+    setState((s) => ({ ...s, scenario: { ...s.scenario, weather: choice === 'clear' ? undefined : choice } }))
   }
 
   const loadPreset = async (id: string) => {
@@ -214,7 +257,7 @@ export default function Setup({ client, connected, scenarios, catalog, alliances
     setLoading(true)
     try {
       const fetched = await api.scenario(id)
-      // editorul lucreaza mereu pe harta lumii, ca sa poti adauga orice tara; rolurile din preset (coduri iso2) raman valabile
+      // the editor always works on the world map, so any country can be added; the preset's roles (iso2 codes) stay valid
       const loaded = fetched.airspaceMap ? { ...fetched, airspaceMap: 'world' } : fetched
       setState((s) => ({ ...s, presetId: id, scenario: loaded, addedDefenses: [], addedWaves: [] }))
     } catch (e) {
@@ -224,7 +267,7 @@ export default function Setup({ client, connected, scenarios, catalog, alliances
     }
   }
 
-  // ---- tari si aliante ----
+  // ---- countries and alliances ----
 
   const setRole = (iso: string, role: CountryRole | null) =>
     setState((s) => {
@@ -234,13 +277,13 @@ export default function Setup({ client, connected, scenarios, catalog, alliances
       return { ...s, scenario: { ...s.scenario, countries: next } }
     })
 
-  /** force = true: suprascrie si statele marcate deja ca apărător / atacator ("toți apărători", "toți atacatori"). */
+  /** force = true: also overwrites states already marked as defender / attacker ("all defenders", "all attackers"). */
   const applyAlliance = (a: Alliance, role: CountryRole, force = false) =>
     setState((s) => {
       const next = { ...s.scenario.countries }
       for (const iso of a.members) {
-        if (countries.length > 0 && !countryName.has(iso)) continue // nu e pe harta
-        if (!force && (next[iso] === 'defender' || next[iso] === 'attacker')) continue // statele principale raman
+        if (countries.length > 0 && !countryName.has(iso)) continue // not on the map
+        if (!force && (next[iso] === 'defender' || next[iso] === 'attacker')) continue // the main states stay as they are
         next[iso] = role
       }
       return { ...s, scenario: { ...s.scenario, countries: next } }
@@ -260,7 +303,7 @@ export default function Setup({ client, connected, scenarios, catalog, alliances
     setQuery('')
   }
 
-  // ---- plasare pe harta ----
+  // ---- placement on the map ----
 
   const onMapClick = (lat: number, lon: number) => {
     if (!placing) return
@@ -270,7 +313,7 @@ export default function Setup({ client, connected, scenarios, catalog, alliances
       const type = catalog?.defense.find((t) => t.id === placing.typeId)
       if (!type) return
       if (budget && (type.costUsd ?? 0) > defenderLeft) {
-        setMessage('Buget de apărare insuficient.')
+        setMessage(tr('setup.mode.noDefBudget'))
         setPlacing(null)
         return
       }
@@ -288,16 +331,16 @@ export default function Setup({ client, connected, scenarios, catalog, alliances
   const placingLabel = !placing
     ? ''
     : placing.kind === 'defense'
-      ? (catalog?.defense.find((t) => t.id === placing.typeId)?.name ?? '')
+      ? localName('catalog', catalog?.defense.find((t) => t.id === placing.typeId)?.name ?? '')
       : placing.kind === 'site'
-        ? 'punct de lansare'
+        ? tr('setup.placeLabel.site')
         : targetKind === 'city'
-          ? 'țintă (oraș)'
-          : 'țintă (bază militară)'
+          ? tr('setup.placeLabel.city')
+          : tr('setup.placeLabel.base')
 
   const hasAirbase = scenario.defenses.some((d) => d.kind === 'airbase')
 
-  // ---- stergere ----
+  // ---- deletion ----
 
   const removeDefense = (id: string) =>
     setState((s) => ({
@@ -315,36 +358,36 @@ export default function Setup({ client, connected, scenarios, catalog, alliances
 
   const removeSite = (id: string) => {
     const user = scenario.waves.find((w) => waveSiteIds(w).includes(id))
-    if (user) return setMessage(`Punctul de lansare e folosit de valul ${user.id}; șterge întâi valul.`)
+    if (user) return setMessage(tr('setup.msg.siteUsed', { id: user.id }))
     setState((s) => ({ ...s, scenario: { ...s.scenario, launchSites: s.scenario.launchSites.filter((x) => x.id !== id) } }))
     setForm((f) => ({ ...f, siteIds: f.siteIds.filter((x) => x !== id) }))
   }
 
   const removeTarget = (id: string) => {
     const user = scenario.waves.find((w) => waveTargetIds(w).includes(id))
-    if (user) return setMessage(`Ținta e folosită de valul ${user.id}; șterge întâi valul.`)
+    if (user) return setMessage(tr('setup.msg.targetUsed', { id: user.id }))
     setState((s) => ({ ...s, scenario: { ...s.scenario, targets: s.scenario.targets.filter((x) => x.id !== id) } }))
     setForm((f) => ({ ...f, targetIds: f.targetIds.filter((x) => x !== id) }))
   }
 
-  // ---- valuri ----
+  // ---- waves ----
 
   const toggle = (list: string[], id: string) => (list.includes(id) ? list.filter((x) => x !== id) : [...list, id])
 
   const addWave = () => {
     setMessage('')
     const type = catalog?.offense.find((t) => t.id === formTypeId)
-    if (!type) return setMessage('Alege un tip de unitate.')
-    if (!Number.isInteger(form.count) || form.count < 1) return setMessage('Numărul de unități trebuie să fie un întreg ≥ 1.')
-    if (form.siteIds.length === 0) return setMessage('Alege cel puțin un punct de lansare.')
-    if (form.targetIds.length === 0) return setMessage('Alege cel puțin o țintă.')
+    if (!type) return setMessage(tr('setup.msg.pickType'))
+    if (!Number.isInteger(form.count) || form.count < 1) return setMessage(tr('setup.msg.badCount'))
+    if (form.siteIds.length === 0) return setMessage(tr('setup.msg.pickSite'))
+    if (form.targetIds.length === 0) return setMessage(tr('setup.msg.pickTarget'))
 
     const dist = maxPairDistanceKm(form.siteIds, form.targetIds, scenario)
     if (type.rangeKm && dist * 1.01 > type.rangeKm) {
-      return setMessage(`${type.name} are raza ${type.rangeKm} km, dar o pereche lansare → țintă e la ${Math.round(dist)} km.`)
+      return setMessage(tr('setup.msg.range', { name: localName('catalog', type.name), range: type.rangeKm, dist: Math.round(dist) }))
     }
     const cost = form.count * (type.costUsd ?? 0)
-    if (budget && cost > attackerLeft) return setMessage(`Buget de atac insuficient (${formatMoney(cost)} necesari, ${formatMoney(Math.max(0, attackerLeft))} rămași).`)
+    if (budget && cost > attackerLeft) return setMessage(tr('setup.mode.noAttBudget', { need: formatMoney(cost), left: formatMoney(Math.max(0, attackerLeft)) }))
 
     setState((s) => {
       const w = makeWave(type, { ...form, typeId: type.id }, s.scenario)
@@ -352,7 +395,7 @@ export default function Setup({ client, connected, scenarios, catalog, alliances
     })
   }
 
-  const unitName = (id: string | undefined) => catalog?.offense.find((t) => t.id === id)?.name ?? id ?? '?'
+  const unitName = (id: string | undefined) => localName('catalog', catalog?.offense.find((t) => t.id === id)?.name ?? id ?? '?')
 
   // ---- start ----
 
@@ -374,7 +417,7 @@ export default function Setup({ client, connected, scenarios, catalog, alliances
   const norm = (t: string) => t.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
   const q = norm(query.trim())
   const matches = q ? unassigned.filter((x) => norm(x.name).includes(q) || x.iso2.toLowerCase() === q).slice(0, 40) : []
-  const allCountries: Alliance | null = countries.length > 0 ? { id: 'all', name: 'Toate țările de pe hartă', members: countries.map((x) => x.iso2), note: '' } : null
+  const allCountries: Alliance | null = countries.length > 0 ? { id: 'all', name: tr('setup.countries.all'), members: countries.map((x) => x.iso2), note: '' } : null
 
   const costOf = (t: DefenseType) => (t.costUsd ? formatMoney(t.costUsd) : '—')
 
@@ -386,115 +429,184 @@ export default function Setup({ client, connected, scenarios, catalog, alliances
         fitKey={state.presetId}
         onMapClick={onMapClick}
         placing={placing !== null}
+        lighting
       />
 
-      {/* ---------- stanga: scenariu, mod, state ---------- */}
-      <aside className="panel setup-left">
+      {/* ---------- phone: section tabs (hidden on desktop by CSS) ---------- */}
+      <nav className="panel m-tabs">
+        {(['setup', 'forces', 'map', 'start'] as const).map((k) => (
+          <button key={k} className={mTab === k ? 'on' : ''} onClick={() => setMTab(k)}>
+            {tr(`setup.m.${k}`)}
+          </button>
+        ))}
+      </nav>
+      {mTab === 'map' && placing && (
+        <div className="panel m-hint">
+          <span>
+            <Trans i18nKey="setup.bottom.placing" values={{ what: placingLabel }} components={{ b: <strong /> }} />
+          </span>
+          <button
+            className="primary"
+            onClick={() => {
+              setPlacing(null)
+              setMTab('forces')
+            }}
+          >
+            {tr('setup.m.done')}
+          </button>
+        </div>
+      )}
+
+      {/* ---------- left: scenario, mode, countries ---------- */}
+      <aside className={`panel setup-left ${mTab === 'setup' ? 'm-on' : ''}`}>
         <div className="title">
-          Configurare
-          <button onClick={onBack}>← Meniu</button>
+          {tr('setup.title')}
+          <span className="title-actions">
+            <LanguageSwitch />
+            <button onClick={onBack}>{tr('common.menu')}</button>
+          </span>
         </div>
 
         <section>
-          <h3>Scenariu</h3>
-          <select value={state.presetId} onChange={(e) => void loadPreset(e.target.value)} disabled={loading}>
-            <option value={BLANK_ID}>— de la zero —</option>
+          <h3>{tr('setup.scenario.heading')}</h3>
+          <select className="full" value={state.presetId} onChange={(e) => void loadPreset(e.target.value)} disabled={loading}>
+            <option value={BLANK_ID}>{tr('setup.scenario.blank')}</option>
             {presets.map((p) => (
               <option key={p.id} value={p.id}>
-                {shortName(p.name)} ({p.totalUnits})
+                {shortName(localName('scenario', p.name))} ({p.totalUnits})
               </option>
             ))}
           </select>
-          {selectedPreset && <div className="muted small">{selectedPreset.name}</div>}
+          {selectedPreset && <div className="muted small">{localName('scenario', selectedPreset.name)}</div>}
           <label className="check">
-            <input type="checkbox" checked={showTests} onChange={(e) => setShowTests(e.target.checked)} /> arată și scenariile de test
+            <input type="checkbox" checked={showTests} onChange={(e) => setShowTests(e.target.checked)} /> {tr('setup.scenario.showTests')}
           </label>
-          <div className="muted small">Scenariul prestabilit e doar punctul de start: poți adăuga și șterge orice. Schimbarea lui renunță la modificări.</div>
+          <div className="muted small">{tr('setup.scenario.hint')}</div>
         </section>
 
         <section>
-          <h3>Scenarii salvate</h3>
+          <h3>{tr('setup.saved.heading')}</h3>
           <div className="row save-row">
-            <input className="grow" value={saveName} onChange={(e) => setSaveName(e.target.value)} placeholder="nume scenariu" />
-            <button onClick={saveCurrent}>Salvează</button>
+            <input className="grow" value={saveName} onChange={(e) => setSaveName(e.target.value)} placeholder={tr('setup.saved.namePlaceholder')} />
+            <button onClick={saveCurrent}>{tr('setup.saved.save')}</button>
           </div>
           {saved.length > 0 && (
             <ul className="items">
               {saved.map((x) => (
                 <li key={x.id}>
                   <span className="grow">{x.name}</span>
-                  <button onClick={() => loadSaved(x)}>Încarcă</button>
-                  <button className="x" onClick={() => removeSaved(x.id)} title="Șterge">
+                  <button onClick={() => loadSaved(x)}>{tr('setup.saved.load')}</button>
+                  <button className="x" onClick={() => removeSaved(x.id)} title={tr('setup.saved.delete')}>
                     ✕
                   </button>
                 </li>
               ))}
             </ul>
           )}
-          <div className="row">
-            <button onClick={exportCurrent}>Export fișier</button>
+          <div className="subhead">{tr('setup.saved.file')}</div>
+          <div className="file-row">
+            <button onClick={exportCurrent}>{tr('setup.saved.export')}</button>
             <label className="file-btn">
-              Import fișier
+              {tr('setup.saved.import')}
               <input type="file" accept="application/json,.json" onChange={(e) => void importFile(e.target.files?.[0])} hidden />
             </label>
           </div>
-          <div className="muted small">Se păstrează doar în acest browser (localStorage). Exportul îți dă un fișier pe care îl poți muta pe alt calculator.</div>
+          <div className="muted small">{tr('setup.saved.hint')}</div>
         </section>
 
         <section>
-          <h3>Mod</h3>
+          <h3>{tr('setup.mode.heading')}</h3>
           <div className="seg">
             <button className={!budget ? 'on' : ''} onClick={() => setState((s) => ({ ...s, mode: 'sandbox' }))}>
-              Sandbox
+              {tr('setup.mode.sandbox')}
             </button>
             <button className={budget ? 'on' : ''} onClick={() => setState((s) => ({ ...s, mode: 'budget' }))}>
-              Cu buget
+              {tr('setup.mode.budget')}
             </button>
           </div>
           {budget ? (
             <>
               <div className="two">
                 <label className="field">
-                  Buget apărare (mil $)
+                  {tr('setup.mode.defenderBudget')}
                   <input type="number" min={0} value={state.budgetDefenderM} onChange={(e) => setState((s) => ({ ...s, budgetDefenderM: Number(e.target.value) }))} />
                 </label>
                 <label className="field">
-                  Buget atac (mil $)
+                  {tr('setup.mode.attackerBudget')}
                   <input type="number" min={0} value={state.budgetAttackerM} onChange={(e) => setState((s) => ({ ...s, budgetAttackerM: Number(e.target.value) }))} />
                 </label>
               </div>
               <div className="muted small">
-                Rămas: apărare {formatMoney(Math.max(0, defenderLeft))} · atac {formatMoney(Math.max(0, attackerLeft))}. Se plătesc doar elementele pe care le adaugi; ce vine din scenariu e gratuit.
+                {tr('setup.mode.left', { def: formatMoney(Math.max(0, defenderLeft)), att: formatMoney(Math.max(0, attackerLeft)) })}
               </div>
             </>
           ) : (
-            <div className="muted small">Fără limite; costurile se afișează doar informativ.</div>
+            <div className="muted small">{tr('setup.mode.sandboxHint')}</div>
           )}
         </section>
 
         <section>
-          <h3>State și aliați</h3>
+          <h3>{tr('setup.time.heading')}</h3>
+          <select className="full" value={timeChoice} onChange={(e) => setTimeOfDay(e.target.value)}>
+            <option value="none">{tr('setup.time.none')}</option>
+            {TIME_PRESETS.map((h) => (
+              <option key={h} value={String(h)}>
+                {tr(`setup.time.p${h}`)}
+              </option>
+            ))}
+            {timeChoice === 'custom' && <option value="custom">{tr('setup.time.custom')}</option>}
+          </select>
+          <div className="muted small">{timeReadout ?? tr('setup.time.hint')}</div>
+        </section>
+
+        <section>
+          <h3>{tr('setup.weather.heading')}</h3>
+          <select className="full" value={weatherChoice} onChange={(e) => setWeather(e.target.value)}>
+            {WEATHER_PRESETS.map((w) => (
+              <option key={w} value={w}>
+                {tr(`setup.weather.${w}`)}
+              </option>
+            ))}
+          </select>
+          <div className="muted small">{tr(`setup.weather.hint.${weatherChoice}`)}</div>
+        </section>
+
+        <section>
+          <h3>{tr('setup.warning.heading')}</h3>
+          <label className="check">
+            <input
+              type="checkbox"
+              checked={state.scenario.publicWarning !== false}
+              onChange={(e) => setState((s) => ({ ...s, scenario: { ...s.scenario, publicWarning: e.target.checked ? undefined : false } }))}
+            />{' '}
+            {tr('setup.warning.label')}
+          </label>
+          <div className="muted small">{tr('setup.warning.hint')}</div>
+        </section>
+
+        <section>
+          <h3>{tr('setup.countries.heading')}</h3>
           {[...(allCountries ? [allCountries] : []), ...alliances].map((a) => (
-            <div className="alliance" key={a.id} title={a.note}>
-              <span>{a.name}</span>
+            <div className="alliance" key={a.id} title={localName('allianceNote', a.note)}>
+              <span>{localName('alliance', a.name)}</span>
               <span className="btns">
-                <button onClick={() => applyAlliance(a, 'defender', true)} title="Toate devin apărători (suprascrie)">
-                  toți apărători
+                <button onClick={() => applyAlliance(a, 'defender', true)} title={tr('setup.countries.allDefendersTip')}>
+                  {tr('setup.countries.allDefenders')}
                 </button>
-                <button onClick={() => applyAlliance(a, 'attacker', true)} title="Toate devin atacatori (suprascrie)">
-                  toți atacatori
+                <button onClick={() => applyAlliance(a, 'attacker', true)} title={tr('setup.countries.allAttackersTip')}>
+                  {tr('setup.countries.allAttackers')}
                 </button>
               </span>
               <span className="btns">
-                <button onClick={() => applyAlliance(a, 'defenderAlly')}>aliat apărare</button>
-                <button onClick={() => applyAlliance(a, 'attackerAlly')}>aliat atac</button>
-                <button onClick={() => removeAlliance(a, a.id === 'all')}>scoate</button>
+                <button onClick={() => applyAlliance(a, 'defenderAlly')}>{tr('setup.countries.defAlly')}</button>
+                <button onClick={() => applyAlliance(a, 'attackerAlly')}>{tr('setup.countries.attAlly')}</button>
+                <button onClick={() => removeAlliance(a, a.id === 'all')}>{tr('setup.countries.remove')}</button>
               </span>
             </div>
           ))}
-          <div className="muted small">Aliații nu schimbă statele marcate ca apărător / atacator. Membrii fără hartă sunt ignorați (harta „world” le acoperă pe toate).</div>
+          <div className="muted small">{tr('setup.countries.allianceHint')}</div>
 
-          <SearchField value={filters.countries} onChange={setFilter('countries')} placeholder="caută în țările alese…" />
+          <SearchField value={filters.countries} onChange={setFilter('countries')} placeholder={tr('setup.countries.searchChosen')} />
           <ul className="items">
             {Object.entries(scenario.countries)
               .filter(([iso]) => has(`${countryName.get(iso) ?? iso} ${iso}`, filters.countries))
@@ -507,11 +619,11 @@ export default function Setup({ client, connected, scenarios, catalog, alliances
                   <select value={role} onChange={(e) => setRole(iso, e.target.value as CountryRole)}>
                     {ROLE_ORDER.map((r) => (
                       <option key={r} value={r}>
-                        {ROLE_SHORT[r]}
+                        {roleShortLabel(r)}
                       </option>
                     ))}
                   </select>
-                  <button className="x" onClick={() => setRole(iso, null)} title="Scoate">
+                  <button className="x" onClick={() => setRole(iso, null)} title={tr('setup.countries.removeTip')}>
                     ✕
                   </button>
                 </li>
@@ -523,20 +635,20 @@ export default function Setup({ client, connected, scenarios, catalog, alliances
               className="grow"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder={countries.length === 0 ? 'se încarcă țările…' : `caută țară (${unassigned.length} disponibile)…`}
+              placeholder={countries.length === 0 ? tr('setup.countries.loading') : tr('setup.countries.searchCountry', { n: unassigned.length })}
               disabled={countries.length === 0}
             />
             <select value={addRole} onChange={(e) => setAddRole(e.target.value as CountryRole)}>
               {ROLE_ORDER.map((r) => (
                 <option key={r} value={r}>
-                  {ROLE_SHORT[r]}
+                  {roleShortLabel(r)}
                 </option>
               ))}
             </select>
           </div>
           {q && (
             <ul className="items pick-list">
-              {matches.length === 0 && <li className="muted">nicio țară găsită</li>}
+              {matches.length === 0 && <li className="muted">{tr('setup.countries.none')}</li>}
               {matches.map((x) => (
                 <li key={x.iso2}>
                   <button className="pick-item" onClick={() => addCountry(x.iso2)}>
@@ -549,36 +661,36 @@ export default function Setup({ client, connected, scenarios, catalog, alliances
         </section>
       </aside>
 
-      {/* ---------- dreapta: aparare / atac ---------- */}
-      <aside className="panel setup-right">
+      {/* ---------- right: defense / attack ---------- */}
+      <aside className={`panel setup-right ${mTab === 'forces' ? 'm-on' : ''}`}>
         <div className="seg">
           <button className={tab === 'defense' ? 'on' : ''} onClick={() => setTab('defense')}>
-            Apărare ({scenario.defenses.length})
+            {tr('setup.tabs.defense', { n: scenario.defenses.length })}
           </button>
           <button className={tab === 'offense' ? 'on' : ''} onClick={() => setTab('offense')}>
-            Atac ({totalUnits})
+            {tr('setup.tabs.offense', { n: totalUnits })}
           </button>
         </div>
 
-        {!catalog && <div className="muted">Se încarcă catalogul…</div>}
+        {!catalog && <div className="muted">{tr('setup.loadingCatalog')}</div>}
 
         {catalog && tab === 'defense' && (
           <>
             <div className="muted small">
               {budget
-                ? `Cheltuit: ${formatMoney(c.defenderAdded)} din ${formatMoney(state.budgetDefenderM * 1e6)}`
-                : `Cost total apărare: ${formatMoney(c.defenderTotal)}`}
+                ? tr('setup.defense.spent', { spent: formatMoney(c.defenderAdded), total: formatMoney(state.budgetDefenderM * 1e6) })
+                : tr('setup.defense.total', { cost: formatMoney(c.defenderTotal) })}
             </div>
-            <div className="muted small">Alege un sistem, apoi dă click pe hartă (poți plasa mai multe). Esc oprește plasarea.</div>
+            <div className="muted small">{tr('setup.defense.hint')}</div>
 
-            <SearchField value={filters.types} onChange={setFilter('types')} placeholder="caută sistem în catalog…" />
+            <SearchField value={filters.types} onChange={setFilter('types')} placeholder={tr('setup.defense.searchCatalog')} />
             {defenseGroups
               .map((g) => ({ ...g, types: g.types.filter((t) => has(t.name, filters.types)) }))
               .filter((g) => g.types.length > 0)
               .map((g) => (
               <div key={g.kind} className="group">
                 <h4>
-                  <span className="swatch" style={{ background: DEFENSE_COLORS[g.kind] }} /> {DEFENSE_LABELS[g.kind]}
+                  <span className="swatch" style={{ background: DEFENSE_COLORS[g.kind] }} /> {defenseLabel(g.kind)}
                 </h4>
                 {g.types.map((t) => {
                   const tooPricey = budget && (t.costUsd ?? 0) > defenderLeft
@@ -589,10 +701,10 @@ export default function Setup({ client, connected, scenarios, catalog, alliances
                       key={t.id}
                       className={`type ${armed ? 'armed' : ''}`}
                       disabled={tooPricey || needsBase}
-                      title={needsBase ? 'Avioanele de patrulă cer o bază aeriană.' : tooPricey ? 'Buget insuficient.' : ''}
+                      title={needsBase ? tr('setup.defense.needBase') : tooPricey ? tr('setup.defense.tooPricey') : ''}
                       onClick={() => setPlacing(armed ? null : { kind: 'defense', typeId: t.id })}
                     >
-                      <span className="grow">{t.name}</span>
+                      <span className="grow">{localName('catalog', t.name)}</span>
                       <span className="muted">{t.rangeKm ? `${t.rangeKm} km · ` : ''}{costOf(t)}</span>
                     </button>
                   )
@@ -601,22 +713,22 @@ export default function Setup({ client, connected, scenarios, catalog, alliances
             ))}
 
             <div className="list-head">
-              <h4>În scenariu ({scenario.defenses.length})</h4>
+              <h4>{tr('setup.defense.inScenario', { n: scenario.defenses.length })}</h4>
               <button
                 onClick={() => setState((s) => ({ ...s, scenario: { ...s.scenario, defenses: [] }, addedDefenses: [] }))}
                 disabled={scenario.defenses.length === 0}
               >
-                Șterge tot
+                {tr('setup.defense.clearAll')}
               </button>
             </div>
-            <SearchField value={filters.defs} onChange={setFilter('defs')} placeholder="caută în scenariu…" />
+            <SearchField value={filters.defs} onChange={setFilter('defs')} placeholder={tr('setup.defense.searchScenario')} />
             <ul className="items">
               {scenario.defenses.filter((d) => has(d.name || d.id, filters.defs)).map((d) => (
                 <li key={d.id} className={state.addedDefenses.includes(d.id) ? 'new' : ''}>
                   <span className="swatch" style={{ background: DEFENSE_COLORS[d.kind] }} />
                   <span className="grow">{d.name || d.id}</span>
                   <span className="muted">{defenseCost(d) > 0 ? formatMoney(defenseCost(d)) : ''}</span>
-                  <button className="x" onClick={() => removeDefense(d.id)} title="Șterge">
+                  <button className="x" onClick={() => removeDefense(d.id)} title={tr('setup.saved.delete')}>
                     ✕
                   </button>
                 </li>
@@ -629,24 +741,24 @@ export default function Setup({ client, connected, scenarios, catalog, alliances
           <>
             <div className="muted small">
               {budget
-                ? `Cheltuit: ${formatMoney(c.attackerAdded)} din ${formatMoney(state.budgetAttackerM * 1e6)}`
-                : `Cost total atac: ${formatMoney(c.attackerTotal)}`}
+                ? tr('setup.offense.spent', { spent: formatMoney(c.attackerAdded), total: formatMoney(state.budgetAttackerM * 1e6) })
+                : tr('setup.offense.total', { cost: formatMoney(c.attackerTotal) })}
             </div>
 
             <div className="group">
               <div className="list-head">
-                <h4>Puncte de lansare ({scenario.launchSites.length})</h4>
+                <h4>{tr('setup.offense.sites', { n: scenario.launchSites.length })}</h4>
                 <button className={placing?.kind === 'site' ? 'armed' : ''} onClick={() => setPlacing(placing?.kind === 'site' ? null : { kind: 'site' })}>
-                  + pe hartă
+                  {tr('setup.offense.onMap')}
                 </button>
               </div>
-              <SearchField value={filters.sites} onChange={setFilter('sites')} placeholder="caută punct de lansare…" />
+              <SearchField value={filters.sites} onChange={setFilter('sites')} placeholder={tr('setup.offense.searchSite')} />
               <ul className="items">
                 {scenario.launchSites.filter((s) => has(s.name, filters.sites)).map((s) => (
                   <li key={s.id}>
                     <span className="swatch" style={{ background: '#1e90ff' }} />
                     <span className="grow">{s.name}</span>
-                    <button className="x" onClick={() => removeSite(s.id)} title="Șterge">
+                    <button className="x" onClick={() => removeSite(s.id)} title={tr('setup.saved.delete')}>
                       ✕
                     </button>
                   </li>
@@ -656,24 +768,24 @@ export default function Setup({ client, connected, scenarios, catalog, alliances
 
             <div className="group">
               <div className="list-head">
-                <h4>Ținte ({scenario.targets.length})</h4>
+                <h4>{tr('setup.offense.targets', { n: scenario.targets.length })}</h4>
                 <span className="row">
                   <select value={targetKind} onChange={(e) => setTargetKind(e.target.value as 'city' | 'military_base')}>
-                    <option value="city">oraș</option>
-                    <option value="military_base">bază / obiectiv</option>
+                    <option value="city">{tr('setup.offense.kindCity')}</option>
+                    <option value="military_base">{tr('setup.offense.kindBase')}</option>
                   </select>
                   <button className={placing?.kind === 'target' ? 'armed' : ''} onClick={() => setPlacing(placing?.kind === 'target' ? null : { kind: 'target' })}>
-                    + pe hartă
+                    {tr('setup.offense.onMap')}
                   </button>
                 </span>
               </div>
-              <SearchField value={filters.targets} onChange={setFilter('targets')} placeholder="caută țintă…" />
+              <SearchField value={filters.targets} onChange={setFilter('targets')} placeholder={tr('setup.offense.searchTarget')} />
               <ul className="items">
                 {scenario.targets.filter((t) => has(t.name, filters.targets)).map((t) => (
                   <li key={t.id}>
                     <span className="swatch" style={{ background: '#ff4500' }} />
                     <span className="grow">{t.name}</span>
-                    <button className="x" onClick={() => removeTarget(t.id)} title="Șterge">
+                    <button className="x" onClick={() => removeTarget(t.id)} title={tr('setup.saved.delete')}>
                       ✕
                     </button>
                   </li>
@@ -682,41 +794,41 @@ export default function Setup({ client, connected, scenarios, catalog, alliances
             </div>
 
             <div className="group">
-              <h4>Val nou</h4>
+              <h4>{tr('setup.offense.newWave')}</h4>
               <label className="field">
-                Unitate
+                {tr('setup.offense.unit')}
                 <select value={formTypeId} onChange={(e) => setForm({ ...form, typeId: e.target.value })}>
                   {catalog.offense.map((t) => (
                     <option key={t.id} value={t.id}>
-                      {t.name}
-                      {t.costUsd ? ` — ${formatMoney(t.costUsd)}/buc` : ''}
+                      {localName('catalog', t.name)}
+                      {t.costUsd ? ` — ${tr('setup.offense.perUnit', { cost: formatMoney(t.costUsd) })}` : ''}
                     </option>
                   ))}
                 </select>
               </label>
               <div className="two">
                 <label className="field">
-                  Număr
+                  {tr('setup.offense.count')}
                   <input type="number" min={1} value={form.count} onChange={(e) => setForm({ ...form, count: Number(e.target.value) })} />
                 </label>
                 <label className="field">
-                  Start (min)
+                  {tr('setup.offense.startMin')}
                   <input type="number" min={0} value={form.startMin} onChange={(e) => setForm({ ...form, startMin: Number(e.target.value) })} />
                 </label>
                 <label className="field">
-                  Interval (s)
+                  {tr('setup.offense.intervalS')}
                   <input type="number" min={0} step={0.5} value={form.intervalS} onChange={(e) => setForm({ ...form, intervalS: Number(e.target.value) })} />
                 </label>
                 <label className="field">
-                  Dispersie (m)
+                  {tr('setup.offense.spreadM')}
                   <input type="number" min={0} value={form.spreadM} onChange={(e) => setForm({ ...form, spreadM: Number(e.target.value) })} />
                 </label>
               </div>
               <div className="pick">
                 <div>
-                  <div className="muted small">Din:</div>
-                  <SearchField value={filters.formSites} onChange={setFilter('formSites')} placeholder="caută…" />
-                  {scenario.launchSites.length === 0 && <div className="muted small">adaugă puncte de lansare</div>}
+                  <div className="muted small">{tr('setup.offense.from')}</div>
+                  <SearchField value={filters.formSites} onChange={setFilter('formSites')} placeholder={tr('setup.offense.search')} />
+                  {scenario.launchSites.length === 0 && <div className="muted small">{tr('setup.offense.addSites')}</div>}
                   {scenario.launchSites.filter((s) => has(s.name, filters.formSites)).map((s) => (
                     <label key={s.id} className="check">
                       <input type="checkbox" checked={form.siteIds.includes(s.id)} onChange={() => setForm({ ...form, siteIds: toggle(form.siteIds, s.id) })} /> {s.name}
@@ -724,9 +836,9 @@ export default function Setup({ client, connected, scenarios, catalog, alliances
                   ))}
                 </div>
                 <div>
-                  <div className="muted small">Spre:</div>
-                  <SearchField value={filters.formTargets} onChange={setFilter('formTargets')} placeholder="caută…" />
-                  {scenario.targets.length === 0 && <div className="muted small">adaugă ținte</div>}
+                  <div className="muted small">{tr('setup.offense.to')}</div>
+                  <SearchField value={filters.formTargets} onChange={setFilter('formTargets')} placeholder={tr('setup.offense.search')} />
+                  {scenario.targets.length === 0 && <div className="muted small">{tr('setup.offense.addTargets')}</div>}
                   {scenario.targets.filter((t) => has(t.name, filters.formTargets)).map((t) => (
                     <label key={t.id} className="check">
                       <input type="checkbox" checked={form.targetIds.includes(t.id)} onChange={() => setForm({ ...form, targetIds: toggle(form.targetIds, t.id) })} /> {t.name}
@@ -735,26 +847,26 @@ export default function Setup({ client, connected, scenarios, catalog, alliances
                 </div>
               </div>
               <button className="primary" onClick={addWave}>
-                Adaugă valul
+                {tr('setup.offense.addWave')}
               </button>
             </div>
 
             <div className="list-head">
-              <h4>Valuri ({scenario.waves.length})</h4>
+              <h4>{tr('setup.offense.waves', { n: scenario.waves.length })}</h4>
               <button onClick={() => setState((s) => ({ ...s, scenario: { ...s.scenario, waves: [] }, addedWaves: [] }))} disabled={scenario.waves.length === 0}>
-                Șterge tot
+                {tr('setup.defense.clearAll')}
               </button>
             </div>
-            <SearchField value={filters.waves} onChange={setFilter('waves')} placeholder="caută val…" />
+            <SearchField value={filters.waves} onChange={setFilter('waves')} placeholder={tr('setup.offense.searchWave')} />
             <ul className="items">
               {scenario.waves.filter((w) => has(`${w.id} ${unitName(w.unit ?? w.unitType)}`, filters.waves)).map((w) => (
                 <li key={w.id} className={state.addedWaves.includes(w.id) ? 'new' : ''}>
-                  <span className="swatch" style={{ background: UNIT_COLORS[w.kind] }} title={UNIT_LABELS[w.kind]} />
+                  <span className="swatch" style={{ background: UNIT_COLORS[w.kind] }} title={unitLabel(w.kind)} />
                   <span className="grow">
                     {w.count}× {unitName(w.unit ?? w.unitType)}
                   </span>
                   <span className="muted">{waveCost(w) > 0 ? formatMoney(waveCost(w)) : ''}</span>
-                  <button className="x" onClick={() => removeWave(w.id)} title="Șterge">
+                  <button className="x" onClick={() => removeWave(w.id)} title={tr('setup.saved.delete')}>
                     ✕
                   </button>
                 </li>
@@ -764,30 +876,30 @@ export default function Setup({ client, connected, scenarios, catalog, alliances
         )}
       </aside>
 
-      {/* ---------- jos: start ---------- */}
-      <div className="panel setup-bar">
+      {/* ---------- bottom: start ---------- */}
+      <div className={`panel setup-bar ${mTab === 'start' ? 'm-on' : ''}`}>
         {placing && (
           <div className="hint">
-            Plasezi: <strong>{placingLabel}</strong> — click pe hartă · Esc oprește
+            <Trans i18nKey="setup.bottom.placing" values={{ what: placingLabel }} components={{ b: <strong /> }} />
           </div>
         )}
         {(message || error) && <div className="error">{error || message}</div>}
         <div className="row">
           <span className="muted">
-            {scenario.defenses.length} sisteme de apărare · {totalUnits} unități de atac
+            {tr('setup.bottom.counts', { d: scenario.defenses.length, u: totalUnits })}
           </span>
           <input
             className="seed"
             value={state.seed}
             onChange={(e) => setState((s) => ({ ...s, seed: e.target.value }))}
-            placeholder="seed (automat)"
+            placeholder={tr('setup.bottom.seedPlaceholder')}
             inputMode="numeric"
           />
           <button className="primary" onClick={() => void start()} disabled={!connected || starting || totalUnits === 0}>
-            {starting ? 'Pornește…' : immersive ? '▶ Intră în buncăr' : '▶ Pornește simularea'}
+            {starting ? tr('setup.bottom.starting') : tr('setup.bottom.start')}
           </button>
         </div>
-        {totalUnits === 0 && <div className="muted small">Adaugă cel puțin un val de atac (fila Atac).</div>}
+        {totalUnits === 0 && <div className="muted small">{tr('setup.bottom.needWave')}</div>}
       </div>
     </div>
   )

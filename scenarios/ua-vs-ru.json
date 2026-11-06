@@ -1,5 +1,5 @@
 {
- "name": "Ucraina → Rusia: raid de ~2000 drone cu rază lungă spre regiunea Sankt Petersburg (cu încălcarea spațiului aerian bielorus)",
+ "name": "Ukraine → Russia: raid of ~2000 long-range drones toward the Saint Petersburg region (violating Belarusian airspace)",
  "dtSeconds": 0.5,
  "durationSeconds": 43200,
  "defenseIntervalSeconds": 1.0,
@@ -15,42 +15,42 @@
  "launchSites": [
   {
    "id": "L01",
-   "name": "Cernihiv",
+   "name": "Chernihiv",
    "latDeg": 51.5,
    "lonDeg": 31.3,
    "altM": 0
   },
   {
    "id": "L02",
-   "name": "Sumî",
+   "name": "Sumy",
    "latDeg": 50.9,
    "lonDeg": 34.8,
    "altM": 0
   },
   {
    "id": "L03",
-   "name": "Harkov (regiune)",
+   "name": "Kharkiv (region)",
    "latDeg": 49.9,
    "lonDeg": 36.2,
    "altM": 0
   },
   {
    "id": "L04",
-   "name": "Poltava (regiune)",
+   "name": "Poltava (region)",
    "latDeg": 49.6,
    "lonDeg": 34.6,
    "altM": 0
   },
   {
    "id": "L05",
-   "name": "Kiev (nord)",
+   "name": "Kyiv (north)",
    "latDeg": 51.0,
    "lonDeg": 30.7,
    "altM": 0
   },
   {
    "id": "L06",
-   "name": "Jitomir (regiune)",
+   "name": "Zhytomyr (region)",
    "latDeg": 50.3,
    "lonDeg": 28.7,
    "altM": 0
@@ -59,14 +59,14 @@
  "targets": [
   {
    "id": "S01",
-   "name": "Sankt Petersburg - centru",
+   "name": "Saint Petersburg - center",
    "kind": "city",
    "latDeg": 59.9343,
    "lonDeg": 30.3351
   },
   {
    "id": "S02",
-   "name": "Sankt Petersburg - Vasilievski",
+   "name": "Saint Petersburg - Vasilyevsky",
    "kind": "city",
    "latDeg": 59.94,
    "lonDeg": 30.25
@@ -80,7 +80,7 @@
   },
   {
    "id": "S04",
-   "name": "Terminal petrolier Sankt Petersburg",
+   "name": "Saint Petersburg oil terminal",
    "kind": "military_base",
    "latDeg": 59.89,
    "lonDeg": 30.22,
@@ -89,7 +89,7 @@
   },
   {
    "id": "S05",
-   "name": "Rafinăria Kirishi",
+   "name": "Kirishi refinery",
    "kind": "military_base",
    "latDeg": 59.45,
    "lonDeg": 32.02,
@@ -98,7 +98,7 @@
   },
   {
    "id": "S06",
-   "name": "Portul Primorsk",
+   "name": "Primorsk port",
    "kind": "military_base",
    "latDeg": 60.36,
    "lonDeg": 28.62,
@@ -107,7 +107,7 @@
   },
   {
    "id": "S07",
-   "name": "Portul Ust-Luga",
+   "name": "Ust-Luga port",
    "kind": "military_base",
    "latDeg": 59.68,
    "lonDeg": 28.3,
@@ -116,7 +116,7 @@
   },
   {
    "id": "S08",
-   "name": "Baza aeriană Pulkovo",
+   "name": "Air base Pulkovo",
    "kind": "military_base",
    "latDeg": 59.8,
    "lonDeg": 30.27,
@@ -125,7 +125,7 @@
   },
   {
    "id": "S09",
-   "name": "Aerodrom Pskov",
+   "name": "Airfield Pskov",
    "kind": "military_base",
    "latDeg": 57.78,
    "lonDeg": 28.4,
@@ -265,7 +265,7 @@
   {
    "id": "R01",
    "type": "radar-ew-long",
-   "name": "Radar Sankt Petersburg",
+   "name": "Radar Saint Petersburg",
    "latDeg": 59.9,
    "lonDeg": 30.3
   },
@@ -335,56 +335,56 @@
   {
    "id": "PN01",
    "type": "pantsir-s1",
-   "name": "Pantsir Sankt Petersburg 01",
+   "name": "Pantsir Saint Petersburg 01",
    "latDeg": 59.9738,
    "lonDeg": 30.3894
   },
   {
    "id": "PN02",
    "type": "pantsir-s1",
-   "name": "Pantsir Sankt Petersburg 02",
+   "name": "Pantsir Saint Petersburg 02",
    "latDeg": 59.9471,
    "lonDeg": 30.5418
   },
   {
    "id": "PN03",
    "type": "pantsir-s1",
-   "name": "Pantsir Sankt Petersburg 03",
+   "name": "Pantsir Saint Petersburg 03",
    "latDeg": 59.8727,
    "lonDeg": 30.4323
   },
   {
    "id": "PN04",
    "type": "pantsir-s1",
-   "name": "Pantsir Sankt Petersburg 04",
+   "name": "Pantsir Saint Petersburg 04",
    "latDeg": 59.793,
    "lonDeg": 30.3735
   },
   {
    "id": "PN05",
    "type": "pantsir-s1",
-   "name": "Pantsir Sankt Petersburg 05",
+   "name": "Pantsir Saint Petersburg 05",
    "latDeg": 59.8054,
    "lonDeg": 30.1439
   },
   {
    "id": "PN06",
    "type": "pantsir-s1",
-   "name": "Pantsir Sankt Petersburg 06",
+   "name": "Pantsir Saint Petersburg 06",
    "latDeg": 59.8967,
    "lonDeg": 30.0304
   },
   {
    "id": "PN07",
    "type": "pantsir-s1",
-   "name": "Pantsir Sankt Petersburg 07",
+   "name": "Pantsir Saint Petersburg 07",
    "latDeg": 59.983,
    "lonDeg": 30.1732
   },
   {
    "id": "PN08",
    "type": "pantsir-s1",
-   "name": "Pantsir Sankt Petersburg 08",
+   "name": "Pantsir Saint Petersburg 08",
    "latDeg": 60.1186,
    "lonDeg": 30.3069
   },
@@ -510,49 +510,49 @@
   {
    "id": "PN26",
    "type": "pantsir-s1",
-   "name": "Pantsir frontieră 26",
+   "name": "Pantsir border 26",
    "latDeg": 53.3285,
    "lonDeg": 34.1698
   },
   {
    "id": "PN27",
    "type": "pantsir-s1",
-   "name": "Pantsir frontieră 27",
+   "name": "Pantsir border 27",
    "latDeg": 53.4464,
    "lonDeg": 34.2684
   },
   {
    "id": "PN28",
    "type": "pantsir-s1",
-   "name": "Pantsir frontieră 28",
+   "name": "Pantsir border 28",
    "latDeg": 53.3512,
    "lonDeg": 34.5539
   },
   {
    "id": "TR01",
    "type": "tor-m2",
-   "name": "Tor Sankt Petersburg 01",
+   "name": "Tor Saint Petersburg 01",
    "latDeg": 59.8205,
    "lonDeg": 30.3019
   },
   {
    "id": "TR02",
    "type": "tor-m2",
-   "name": "Tor Sankt Petersburg 02",
+   "name": "Tor Saint Petersburg 02",
    "latDeg": 59.9378,
    "lonDeg": 30.1009
   },
   {
    "id": "TR03",
    "type": "tor-m2",
-   "name": "Tor Sankt Petersburg 03",
+   "name": "Tor Saint Petersburg 03",
    "latDeg": 59.9826,
    "lonDeg": 30.3252
   },
   {
    "id": "TR04",
    "type": "tor-m2",
-   "name": "Tor Sankt Petersburg 04",
+   "name": "Tor Saint Petersburg 04",
    "latDeg": 59.9256,
    "lonDeg": 30.4346
   },
@@ -587,14 +587,14 @@
   {
    "id": "BK01",
    "type": "buk-m3",
-   "name": "Buk Sankt Petersburg Sud",
+   "name": "Buk Saint Petersburg South",
    "latDeg": 59.78,
    "lonDeg": 30.4
   },
   {
    "id": "BK02",
    "type": "buk-m3",
-   "name": "Buk Sankt Petersburg Nord",
+   "name": "Buk Saint Petersburg North",
    "latDeg": 60.05,
    "lonDeg": 30.25
   },
@@ -615,7 +615,7 @@
   {
    "id": "S401",
    "type": "s-400",
-   "name": "S-400 Sankt Petersburg",
+   "name": "S-400 Saint Petersburg",
    "latDeg": 59.85,
    "lonDeg": 30.6
   },
@@ -629,497 +629,497 @@
   {
    "id": "MG01",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Sankt Petersburg 01",
+   "name": "Mobile group Saint Petersburg 01",
    "latDeg": 59.883,
    "lonDeg": 30.5597
   },
   {
    "id": "MG02",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Sankt Petersburg 02",
+   "name": "Mobile group Saint Petersburg 02",
    "latDeg": 59.7818,
    "lonDeg": 30.5074
   },
   {
    "id": "MG03",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Sankt Petersburg 03",
+   "name": "Mobile group Saint Petersburg 03",
    "latDeg": 59.7974,
    "lonDeg": 30.2631
   },
   {
    "id": "MG04",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Sankt Petersburg 04",
+   "name": "Mobile group Saint Petersburg 04",
    "latDeg": 59.7968,
    "lonDeg": 30.1039
   },
   {
    "id": "MG05",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Sankt Petersburg 05",
+   "name": "Mobile group Saint Petersburg 05",
    "latDeg": 59.8949,
    "lonDeg": 30.1022
   },
   {
    "id": "MG06",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Sankt Petersburg 06",
+   "name": "Mobile group Saint Petersburg 06",
    "latDeg": 59.9752,
    "lonDeg": 30.0833
   },
   {
    "id": "MG07",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Sankt Petersburg 07",
+   "name": "Mobile group Saint Petersburg 07",
    "latDeg": 60.0565,
    "lonDeg": 30.1979
   },
   {
    "id": "MG08",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Sankt Petersburg 08",
+   "name": "Mobile group Saint Petersburg 08",
    "latDeg": 60.0566,
    "lonDeg": 30.337
   },
   {
    "id": "MG09",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Sankt Petersburg 09",
+   "name": "Mobile group Saint Petersburg 09",
    "latDeg": 60.0404,
    "lonDeg": 30.5474
   },
   {
    "id": "MG10",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Sankt Petersburg 10",
+   "name": "Mobile group Saint Petersburg 10",
    "latDeg": 59.9684,
    "lonDeg": 30.5413
   },
   {
    "id": "MG11",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Kirishi 11",
+   "name": "Mobile group Kirishi 11",
    "latDeg": 59.4623,
    "lonDeg": 32.0928
   },
   {
    "id": "MG12",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Kirishi 12",
+   "name": "Mobile group Kirishi 12",
    "latDeg": 59.4239,
    "lonDeg": 32.0056
   },
   {
    "id": "MG13",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Kirishi 13",
+   "name": "Mobile group Kirishi 13",
    "latDeg": 59.468,
    "lonDeg": 31.9786
   },
   {
    "id": "MG14",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Primorsk 14",
+   "name": "Mobile group Primorsk 14",
    "latDeg": 60.3721,
    "lonDeg": 28.571
   },
   {
    "id": "MG15",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Primorsk 15",
+   "name": "Mobile group Primorsk 15",
    "latDeg": 60.3793,
    "lonDeg": 28.6785
   },
   {
    "id": "MG16",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Primorsk 16",
+   "name": "Mobile group Primorsk 16",
    "latDeg": 60.3372,
    "lonDeg": 28.6143
   },
   {
    "id": "AB01",
    "type": "airbase",
-   "name": "Baza Siversky",
+   "name": "Base Siversky",
    "latDeg": 59.36,
    "lonDeg": 30.07
   },
   {
    "id": "AB02",
    "type": "airbase",
-   "name": "Baza Pskov-Kresty",
+   "name": "Base Pskov-Kresty",
    "latDeg": 57.78,
    "lonDeg": 28.4
   },
   {
    "id": "AB03",
    "type": "airbase",
-   "name": "Baza Levashovo",
+   "name": "Base Levashovo",
    "latDeg": 60.05,
    "lonDeg": 30.2
   },
   {
    "id": "PA01",
    "type": "su-30sm-patrol",
-   "name": "Su-30SM Sud",
+   "name": "Su-30SM South",
    "latDeg": 59.7,
    "lonDeg": 30.2
   },
   {
    "id": "PA02",
    "type": "su-30sm-patrol",
-   "name": "Su-30SM Nord",
+   "name": "Su-30SM North",
    "latDeg": 60.2,
    "lonDeg": 29.5
   },
   {
    "id": "PA03",
    "type": "su-30sm-patrol",
-   "name": "Su-30SM Vest",
+   "name": "Su-30SM West",
    "latDeg": 58.5,
    "lonDeg": 29.8
   },
   {
    "id": "PA04",
    "type": "su-30sm-patrol",
-   "name": "Su-30SM Est",
+   "name": "Su-30SM East",
    "latDeg": 58.2,
    "lonDeg": 31.5
   },
   {
    "id": "EF01",
    "type": "ew-fixed",
-   "name": "Bruiaj fix Sankt Petersburg 01",
+   "name": "Fixed jammer Saint Petersburg 01",
    "latDeg": 59.5748,
    "lonDeg": 30.7882
   },
   {
    "id": "EF02",
    "type": "ew-fixed",
-   "name": "Bruiaj fix Sankt Petersburg 02",
+   "name": "Fixed jammer Saint Petersburg 02",
    "latDeg": 59.5573,
    "lonDeg": 29.6411
   },
   {
    "id": "EF03",
    "type": "ew-fixed",
-   "name": "Bruiaj fix Sankt Petersburg 03",
+   "name": "Fixed jammer Saint Petersburg 03",
    "latDeg": 60.0052,
    "lonDeg": 29.6473
   },
   {
    "id": "EF04",
    "type": "ew-fixed",
-   "name": "Bruiaj fix Sankt Petersburg 04",
+   "name": "Fixed jammer Saint Petersburg 04",
    "latDeg": 60.3309,
    "lonDeg": 30.4379
   },
   {
    "id": "EF05",
    "type": "ew-fixed",
-   "name": "Bruiaj fix Sankt Petersburg 05",
+   "name": "Fixed jammer Saint Petersburg 05",
    "latDeg": 60.0853,
    "lonDeg": 31.0272
   },
   {
    "id": "EF06",
    "type": "ew-fixed",
-   "name": "Bruiaj fix Kirishi 06",
+   "name": "Fixed jammer Kirishi 06",
    "latDeg": 59.3409,
    "lonDeg": 32.1994
   },
   {
    "id": "EF07",
    "type": "ew-fixed",
-   "name": "Bruiaj fix Kirishi 07",
+   "name": "Fixed jammer Kirishi 07",
    "latDeg": 59.5448,
    "lonDeg": 31.8214
   },
   {
    "id": "EF08",
    "type": "ew-fixed",
-   "name": "Bruiaj fix Primorsk 08",
+   "name": "Fixed jammer Primorsk 08",
    "latDeg": 60.2869,
    "lonDeg": 28.3226
   },
   {
    "id": "EF09",
    "type": "ew-fixed",
-   "name": "Bruiaj fix Primorsk 09",
+   "name": "Fixed jammer Primorsk 09",
    "latDeg": 60.4562,
    "lonDeg": 28.8918
   },
   {
    "id": "EF10",
    "type": "ew-fixed",
-   "name": "Bruiaj fix Ust-Luga 10",
+   "name": "Fixed jammer Ust-Luga 10",
    "latDeg": 59.6275,
    "lonDeg": 28.0566
   },
   {
    "id": "EF11",
    "type": "ew-fixed",
-   "name": "Bruiaj fix Ust-Luga 11",
+   "name": "Fixed jammer Ust-Luga 11",
    "latDeg": 59.704,
    "lonDeg": 28.5456
   },
   {
    "id": "EF12",
    "type": "ew-fixed",
-   "name": "Bruiaj fix frontieră 12",
+   "name": "Fixed jammer border 12",
    "latDeg": 53.6359,
    "lonDeg": 34.2439
   },
   {
    "id": "EF13",
    "type": "ew-fixed",
-   "name": "Bruiaj fix frontieră 13",
+   "name": "Fixed jammer border 13",
    "latDeg": 53.4252,
    "lonDeg": 33.1528
   },
   {
    "id": "EF14",
    "type": "ew-fixed",
-   "name": "Bruiaj fix Pskov 14",
+   "name": "Fixed jammer Pskov 14",
    "latDeg": 57.8734,
    "lonDeg": 28.4681
   },
   {
    "id": "EF15",
    "type": "ew-fixed",
-   "name": "Bruiaj fix Pskov 15",
+   "name": "Fixed jammer Pskov 15",
    "latDeg": 57.6094,
    "lonDeg": 28.2364
   },
   {
    "id": "EM01",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Sankt Petersburg 01",
+   "name": "Mobile jammer Saint Petersburg 01",
    "latDeg": 59.7697,
    "lonDeg": 30.2796
   },
   {
    "id": "EM02",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Sankt Petersburg 02",
+   "name": "Mobile jammer Saint Petersburg 02",
    "latDeg": 59.7565,
    "lonDeg": 30.1272
   },
   {
    "id": "EM03",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Sankt Petersburg 03",
+   "name": "Mobile jammer Saint Petersburg 03",
    "latDeg": 59.8864,
    "lonDeg": 30.2526
   },
   {
    "id": "EM04",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Sankt Petersburg 04",
+   "name": "Mobile jammer Saint Petersburg 04",
    "latDeg": 59.7462,
    "lonDeg": 29.7521
   },
   {
    "id": "EM05",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Sankt Petersburg 05",
+   "name": "Mobile jammer Saint Petersburg 05",
    "latDeg": 59.8393,
    "lonDeg": 29.9821
   },
   {
    "id": "EM06",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Sankt Petersburg 06",
+   "name": "Mobile jammer Saint Petersburg 06",
    "latDeg": 59.9238,
    "lonDeg": 30.1885
   },
   {
    "id": "EM07",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Sankt Petersburg 07",
+   "name": "Mobile jammer Saint Petersburg 07",
    "latDeg": 59.9696,
    "lonDeg": 29.8903
   },
   {
    "id": "EM08",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Sankt Petersburg 08",
+   "name": "Mobile jammer Saint Petersburg 08",
    "latDeg": 59.9958,
    "lonDeg": 29.9351
   },
   {
    "id": "EM09",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Sankt Petersburg 09",
+   "name": "Mobile jammer Saint Petersburg 09",
    "latDeg": 60.1053,
    "lonDeg": 29.7149
   },
   {
    "id": "EM10",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Sankt Petersburg 10",
+   "name": "Mobile jammer Saint Petersburg 10",
    "latDeg": 60.0785,
    "lonDeg": 30.0983
   },
   {
    "id": "EM11",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Sankt Petersburg 11",
+   "name": "Mobile jammer Saint Petersburg 11",
    "latDeg": 60.008,
    "lonDeg": 30.2282
   },
   {
    "id": "EM12",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Sankt Petersburg 12",
+   "name": "Mobile jammer Saint Petersburg 12",
    "latDeg": 60.1493,
    "lonDeg": 30.2887
   },
   {
    "id": "EM13",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Sankt Petersburg 13",
+   "name": "Mobile jammer Saint Petersburg 13",
    "latDeg": 60.2572,
    "lonDeg": 30.3945
   },
   {
    "id": "EM14",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Sankt Petersburg 14",
+   "name": "Mobile jammer Saint Petersburg 14",
    "latDeg": 60.0252,
    "lonDeg": 30.3714
   },
   {
    "id": "EM15",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Sankt Petersburg 15",
+   "name": "Mobile jammer Saint Petersburg 15",
    "latDeg": 60.0017,
    "lonDeg": 30.4223
   },
   {
    "id": "EM16",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Sankt Petersburg 16",
+   "name": "Mobile jammer Saint Petersburg 16",
    "latDeg": 60.002,
    "lonDeg": 30.5157
   },
   {
    "id": "EM17",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Sankt Petersburg 17",
+   "name": "Mobile jammer Saint Petersburg 17",
    "latDeg": 60.0083,
    "lonDeg": 30.6336
   },
   {
    "id": "EM18",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Sankt Petersburg 18",
+   "name": "Mobile jammer Saint Petersburg 18",
    "latDeg": 59.9373,
    "lonDeg": 30.7828
   },
   {
    "id": "EM19",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Sankt Petersburg 19",
+   "name": "Mobile jammer Saint Petersburg 19",
    "latDeg": 59.9138,
    "lonDeg": 30.8112
   },
   {
    "id": "EM20",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Sankt Petersburg 20",
+   "name": "Mobile jammer Saint Petersburg 20",
    "latDeg": 59.901,
    "lonDeg": 30.4875
   },
   {
    "id": "EM21",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Sankt Petersburg 21",
+   "name": "Mobile jammer Saint Petersburg 21",
    "latDeg": 59.7638,
    "lonDeg": 30.6671
   },
   {
    "id": "EM22",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Sankt Petersburg 22",
+   "name": "Mobile jammer Saint Petersburg 22",
    "latDeg": 59.8833,
    "lonDeg": 30.3767
   },
   {
    "id": "EM23",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Sankt Petersburg 23",
+   "name": "Mobile jammer Saint Petersburg 23",
    "latDeg": 59.8422,
    "lonDeg": 30.371
   },
   {
    "id": "EM24",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Sankt Petersburg 24",
+   "name": "Mobile jammer Saint Petersburg 24",
    "latDeg": 59.6353,
    "lonDeg": 30.3758
   },
   {
    "id": "EM25",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Kirishi 25",
+   "name": "Mobile jammer Kirishi 25",
    "latDeg": 59.4039,
    "lonDeg": 32.0081
   },
   {
    "id": "EM26",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Kirishi 26",
+   "name": "Mobile jammer Kirishi 26",
    "latDeg": 59.47,
    "lonDeg": 31.9716
   },
   {
    "id": "EM27",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Kirishi 27",
+   "name": "Mobile jammer Kirishi 27",
    "latDeg": 59.4719,
    "lonDeg": 32.0946
   },
   {
    "id": "EM28",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Primorsk 28",
+   "name": "Mobile jammer Primorsk 28",
    "latDeg": 60.3442,
    "lonDeg": 28.5184
   },
   {
    "id": "EM29",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Primorsk 29",
+   "name": "Mobile jammer Primorsk 29",
    "latDeg": 60.4192,
    "lonDeg": 28.6668
   },
   {
    "id": "EM30",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Primorsk 30",
+   "name": "Mobile jammer Primorsk 30",
    "latDeg": 60.3154,
    "lonDeg": 28.6909
   },
   {
    "id": "EM31",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Ust-Luga 31",
+   "name": "Mobile jammer Ust-Luga 31",
    "latDeg": 59.6616,
    "lonDeg": 28.3512
   },
   {
    "id": "EM32",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Ust-Luga 32",
+   "name": "Mobile jammer Ust-Luga 32",
    "latDeg": 59.6668,
    "lonDeg": 28.2211
   },
   {
    "id": "EM33",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Ust-Luga 33",
+   "name": "Mobile jammer Ust-Luga 33",
    "latDeg": 59.7366,
    "lonDeg": 28.319
   }

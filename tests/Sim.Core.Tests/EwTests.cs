@@ -7,10 +7,10 @@ using Xunit;
 
 namespace Sim.Core.Tests;
 
-/// <summary>Razboi electronic: bruiaj care face unitatile sa-si piarda ghidarea.</summary>
+/// <summary>Electronic warfare: jamming that makes units lose guidance.</summary>
 public class EwTests
 {
-    // Lansare (44, 24) -> tinta (44, 26), ~160 km la 100 m/s. Bruiajul e la (44, 25).
+    // Launch (44, 24) -> target (44, 26), ~160 km at 100 m/s. The jammer is at (44, 25).
     private static Wave W(UnitKind kind = UnitKind.Drone, int count = 20, double resistance = 0) => new()
     {
         Id = "W1", SiteId = "L1", TargetId = "T1", Kind = kind, Count = count, SpeedMps = 100, AltitudeM = 300, EwResistance = resistance
@@ -53,7 +53,7 @@ public class EwTests
     {
         var sim = Run(Make(W(), Ew(rangeKm: 30)));
 
-        // 30 km in jurul lon 25: aproximativ lon 24.625 - 25.375
+        // 30 km around lon 25: roughly lon 24.625 - 25.375
         Assert.All(sim.Events.Events.Where(e => e.Type == SimEventType.Jammed), e => Assert.InRange(e.Position.LonDeg, 24.62, 25.38));
     }
 
@@ -118,7 +118,7 @@ public class EwTests
     [Fact]
     public void A_destroyed_ew_system_stops_jamming()
     {
-        // al doilea val loveste sistemul de bruiaj (la 44, 25) inainte sa treaca primul val
+        // the second wave hits the jamming system (at 44, 25) before the first wave passes
         var targets = new List<Target>
         {
             new() { Id = "T1", Name = "T1", Kind = "city", LatDeg = 44.0, LonDeg = 26.0 },
@@ -131,7 +131,7 @@ public class EwTests
         var sim = Run(s);
         Assert.Equal(1, sim.DefensesDestroyed);
         Assert.Equal(0, sim.JammedCount);
-        Assert.Equal(20, sim.ImpactCount - 1); // + lovitura care a distrus sistemul
+        Assert.Equal(20, sim.ImpactCount - 1); // + the strike that destroyed the system
     }
 
     [Fact]

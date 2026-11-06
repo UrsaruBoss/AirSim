@@ -283,7 +283,7 @@ dd {
   font-size: 11px;
 }
 
-/* ---------- pagina de start ---------- */
+/* ---------- start page ---------- */
 
 .home {
   height: 100%;
@@ -293,7 +293,7 @@ dd {
 }
 
 .home-inner {
-  width: min(680px, 92vw);
+  width: min(1000px, 92vw);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -311,8 +311,13 @@ dd {
   margin-top: 24px;
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
+}
+
+.modes-1 {
+  grid-template-columns: minmax(0, 420px);
+  justify-content: center;
 }
 
 .mode {
@@ -336,14 +341,81 @@ dd {
   line-height: 1.4;
 }
 
+.variant-seg {
+  display: flex;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 10px;
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+}
+
+.variant-seg button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 10px;
+  font-size: 13px;
+  border-radius: 7px;
+  min-width: 78px;
+  justify-content: center;
+}
+
+.variant-btns {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.variant-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 8px;
+  font-size: 13px;
+}
+
 .resume {
   margin-top: 8px;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 760px) {
   .modes {
     grid-template-columns: 1fr;
   }
+}
+
+.top-right {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+}
+
+.home {
+  position: relative;
+}
+
+.lang-switch {
+  display: inline-flex;
+  gap: 0;
+  margin-left: auto;
+}
+
+.lang-switch button {
+  padding: 3px 9px;
+  font-size: 12px;
+  border-radius: 0;
+}
+
+.lang-switch button:first-child {
+  border-radius: 6px 0 0 6px;
+}
+
+.lang-switch button:last-child {
+  border-radius: 0 6px 6px 0;
+  border-left: none;
 }
 
 /* ---------- editor ---------- */
@@ -622,6 +694,88 @@ button.type {
   margin: 0;
 }
 
+/* saved runs: search bar + count */
+.runs-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.runs-toolbar .runs-search {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 10px;
+}
+
+.runs-toolbar .count {
+  margin: 0;
+  white-space: nowrap;
+}
+
+.run-title {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* compare: A and B side by side, run settings + button on one row */
+.cmp-sides {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.cmp-side {
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+}
+
+.cmp-side .field {
+  margin-bottom: 6px;
+}
+
+.cmp-side select {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.cmp-run {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: end;
+}
+
+.cmp-run .field {
+  margin-bottom: 0;
+}
+
+.cmp-run input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.cmp-run button {
+  padding: 7px 22px;
+}
+
+@media (max-width: 640px) {
+  .cmp-sides,
+  .cmp-run {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* checkboxes are never stretched by the generic input rules */
+input[type='checkbox'] {
+  width: auto;
+  flex: none;
+}
+
 .runs {
   list-style: none;
   margin: 0;
@@ -720,7 +874,7 @@ button.type {
   font-size: 13px;
 }
 
-/* liste derulante: fundal solid, altfel lista de optiuni se vede alb pe alb */
+/* dropdown lists: solid background, otherwise the option list shows white on white */
 select {
   background-color: #161b22;
   color: var(--text);
@@ -747,7 +901,7 @@ select optgroup {
   padding: 4px 6px;
 }
 
-/* ---------- vizualizarea simularii (v2) ---------- */
+/* ---------- simulation view (v2) ---------- */
 .topbar {
   top: 12px;
   left: 12px;
@@ -898,7 +1052,7 @@ select optgroup {
   font-size: 12px;
 }
 
-/* evenimente */
+/* events */
 .events {
   display: flex;
   flex-direction: column;
@@ -998,7 +1152,7 @@ select optgroup {
   outline: none;
 }
 
-/* ferestre centrale */
+/* central windows */
 .modal-back {
   position: absolute;
   inset: 0;
@@ -1177,7 +1331,7 @@ table.data tr.total td {
   }
 }
 
-/* evenimente: nimic nu iese din cadru */
+/* events: nothing overflows the frame */
 .events,
 .events .lines,
 .ev-text {
@@ -1210,7 +1364,7 @@ table.data tr.total td {
   overflow-x: hidden;
 }
 
-/* liste de tari: numele lung se taie cu "…", selectul de rol are latime fixa */
+/* country lists: a long name is cut with "…", the role select has a fixed width */
 .items li select {
   flex: none;
   width: 112px;
@@ -1225,156 +1379,567 @@ table.data tr.total td {
   overflow-x: hidden;
 }
 
-/* coloana grilei nu mai creste dupa cel mai lung nume (nowrap), ci ramane cat latimea listei */
+/* the grid column no longer grows to the longest name (nowrap), but stays as wide as the list */
 .items {
   grid-template-columns: minmax(0, 1fr);
 }
 
-/* ---------- immersive (buncar) ---------- */
-.immersive {
-  position: absolute;
-  inset: 0;
-  background: #000;
-  overflow: hidden;
+/* ---------- public mode: seek bar ---------- */
+.t-seek {
+  width: 220px;
+  max-width: 28vw;
+  accent-color: var(--accent, #4f9dff);
 }
 
-.three-mount {
-  position: absolute;
-  inset: 0;
+/* ---------- setup (left panel): compact controls, groups separated ---------- */
+.setup-left select,
+.setup-left input:not([type='checkbox']),
+.setup-left button,
+.setup-left .file-btn {
+  font-size: 12px;
+  padding: 4px 8px;
 }
 
-.three-canvas {
-  display: block;
+.setup-left select.full {
   width: 100%;
-  height: 100%;
+  box-sizing: border-box;
+  margin-bottom: 2px;
 }
 
-.cesium-off {
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 1800px;
-  height: 720px;
-  opacity: 0;
-  pointer-events: none;
-  z-index: -1;
-}
-
-.cesium-full {
-  position: fixed;
-  inset: 0;
-  z-index: 40;
-}
-
-.full-hint {
-  position: fixed;
-  z-index: 41;
-  top: 14px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 6px 14px;
-  border-radius: 999px;
-  background: var(--panel-bg);
-  border: 1px solid var(--panel-border);
-}
-
-.imm-hud {
-  position: absolute;
-  z-index: 20;
-  top: 12px;
-  left: 12px;
-  display: flex;
-  gap: 8px;
-}
-
-.imm-hud button {
+.title-actions {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: var(--panel-bg);
 }
 
-.imm-center {
-  position: absolute;
-  z-index: 20;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  padding: 16px 22px;
-  text-align: center;
-  border-radius: 10px;
-  background: var(--panel-bg);
-  border: 1px solid var(--panel-border);
-  pointer-events: none;
-  display: grid;
-  gap: 6px;
-}
-
-.crosshair {
-  position: absolute;
-  z-index: 20;
-  left: 50%;
-  top: 50%;
-  width: 6px;
-  height: 6px;
-  margin: -3px 0 0 -3px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.8);
-  pointer-events: none;
-}
-
-.imm-prompt,
-.imm-focus {
-  position: absolute;
-  z-index: 20;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 6px 14px;
-  border-radius: 999px;
-  background: var(--panel-bg);
-  border: 1px solid var(--panel-border);
-  pointer-events: none;
-}
-
-.imm-prompt {
-  top: 58%;
-}
-
-.imm-focus {
-  bottom: 18px;
-  color: var(--muted);
-}
-
-kbd {
-  padding: 1px 7px;
-  border-radius: 4px;
-  border: 1px solid var(--panel-border);
-  background: rgba(255, 255, 255, 0.1);
-  font-family: inherit;
-}
-
-.modal.narrow {
-  width: min(520px, 94vw);
-}
-
-.transport.inline {
-  position: static;
-  transform: none;
-  background: transparent;
-  border: none;
-  padding: 0;
-  backdrop-filter: none;
-}
-
-.items.big {
-  max-height: none;
-}
-
-select {
-  max-width: 100%;
-  text-overflow: ellipsis;
+.title-actions .lang-switch {
+  margin-left: 0;
 }
 
 .save-row {
-  margin-bottom: 12px;
+  margin-bottom: 6px;
+}
+
+/* the "File" group (export / import) sits below the saved list, visually apart from the name + Save row */
+.subhead {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--panel-border);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.file-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.file-row .file-btn {
+  text-align: center;
+}
+
+.setup-left .file-btn {
+  background: rgba(255, 255, 255, 0.06);
+}
+.setup-left .file-btn:hover {
+  background: rgba(76, 154, 255, 0.25);
+}
+
+/* =====================================================================
+   Phone / portrait layout (kept in sync with NARROW_QUERY in hooks.ts)
+   ===================================================================== */
+.m-tabs,
+.m-hint,
+.topbar-toggle {
+  display: none;
+}
+
+@media (max-width: 800px) {
+  html,
+  body,
+  #root {
+    overscroll-behavior: none;
+  }
+
+  /* ---- simulation view ---- */
+  .topbar {
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    width: auto;
+    max-height: 62vh;
+    box-sizing: border-box;
+  }
+
+  .topbar-toggle {
+    display: inline-flex;
+  }
+
+  .topbar-more {
+    display: none;
+  }
+
+  .topbar-more.open {
+    display: block;
+  }
+
+  /* the dock sits on its own row above the transport bar */
+  .dock {
+    top: auto;
+    right: auto;
+    left: 50%;
+    bottom: 104px;
+    transform: translateX(-50%);
+  }
+
+  .variant-seg button {
+    min-width: 0;
+    padding: 10px;
+  }
+
+  .vs-label {
+    display: none;
+  }
+
+  .dock-btn {
+    width: 44px;
+    height: 44px;
+  }
+
+  /* one panel at a time, as a bottom sheet above the dock */
+  .stats,
+  .log {
+    display: block;
+    top: auto;
+    left: 8px;
+    right: 8px;
+    bottom: 156px;
+    width: auto;
+    max-height: 34vh;
+    overflow-y: auto;
+  }
+
+  .log {
+    display: flex;
+  }
+
+  .transport {
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    transform: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 6px;
+    padding: 6px 10px;
+    border-radius: 16px;
+    box-sizing: border-box;
+  }
+
+  .t-sep {
+    display: none;
+  }
+
+  .speeds button {
+    padding: 6px 8px;
+  }
+
+  .t-seek {
+    order: 10;
+    width: 100%;
+    max-width: none;
+    flex-basis: 100%;
+  }
+
+  .t-time {
+    min-width: 0;
+  }
+
+  /* results window */
+  .modal {
+    width: 98vw;
+    max-height: 92vh;
+    padding: 10px;
+  }
+
+  .cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .table-wrap,
+  .modal-body {
+    overflow-x: auto;
+  }
+
+  /* ---- pages (saved runs, compare, gallery) ---- */
+  .page-inner {
+    width: calc(100% - 24px);
+    padding-top: 12px;
+  }
+
+  .page-head {
+    flex-wrap: wrap;
+    row-gap: 8px;
+  }
+
+  .runs li {
+    flex-wrap: wrap;
+  }
+
+  .runs li .grow {
+    flex-basis: 100%;
+    white-space: normal;
+  }
+
+  .runs li .run-title {
+    white-space: normal;
+  }
+
+  .runs li button.primary {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .runs-toolbar {
+    flex-wrap: wrap;
+  }
+
+  .cmp {
+    display: block;
+    overflow-x: auto;
+  }
+
+  .cmp-run button {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .home-inner {
+    width: calc(100% - 24px);
+  }
+
+  .home h1 {
+    font-size: 34px;
+  }
+
+  .home {
+    overflow-y: auto;
+  }
+
+  /* ---- editor: section tabs, one section at a time ---- */
+  .m-tabs {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    gap: 4px;
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    padding: 4px;
+    box-sizing: border-box;
+    z-index: 12;
+  }
+
+  .m-tabs button {
+    padding: 8px 4px;
+    font-size: 13px;
+  }
+
+  .setup-left,
+  .setup-right,
+  .setup-bar {
+    display: none;
+    top: 58px;
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    width: auto;
+    min-width: 0;
+    transform: none;
+    box-sizing: border-box;
+  }
+
+  .setup-left.m-on,
+  .setup-right.m-on {
+    display: block;
+  }
+
+  /* the start section is a short card at the bottom */
+  .setup-bar {
+    top: auto;
+  }
+
+  .setup-bar.m-on {
+    display: block;
+  }
+
+  .setup-bar .row {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .setup-bar .row > .muted {
+    flex-basis: 100%;
+  }
+
+  .setup-bar .seed {
+    flex: 1;
+    width: auto;
+  }
+
+  .m-hint {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    left: 8px;
+    right: 8px;
+    bottom: 12px;
+    padding: 8px 12px;
+    box-sizing: border-box;
+    z-index: 12;
+  }
+
+  /* touch-friendly controls in the editor */
+  .setup-left button,
+  .setup-right button,
+  .setup-left select,
+  .setup-right select {
+    min-height: 34px;
+  }
+}
+
+
+/* ---------------- charts (results window, "Charts" tab) ---------------- */
+.chart-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.chart-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.chart-card {
+  padding: 12px 14px 8px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--panel-border);
+  min-width: 0;
+}
+
+.chart-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.chart-head h4 {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text);
+}
+
+.chart-sub {
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.chart-toggle {
+  flex: none;
+  font-size: 12px;
+  padding: 3px 8px;
+}
+
+.chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin: 8px 0 2px;
+  padding: 0;
+  list-style: none;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.chart-legend .swatch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 6px;
+  border-radius: 2px;
+  vertical-align: -1px;
+}
+
+.chart {
+  position: relative;
+  margin-top: 6px;
+  outline: none;
+  touch-action: pan-y;
+}
+
+.chart:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.chart svg {
+  display: block;
+  overflow: visible;
+}
+
+.chart svg text {
+  fill: var(--muted);
+  font-size: 11px;
+}
+
+.chart svg .row-label {
+  fill: var(--text);
+  font-size: 12px;
+}
+
+.chart svg .end-value {
+  fill: var(--text);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.chart svg .seg-value {
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.chart svg .grid {
+  stroke: rgba(140, 160, 190, 0.16);
+  stroke-width: 1;
+}
+
+.chart svg .crosshair {
+  stroke: rgba(140, 160, 190, 0.5);
+  stroke-width: 1;
+}
+
+.chart svg .dot-ring {
+  stroke: #11161f;
+  stroke-width: 2;
+}
+
+.chart-tip {
+  position: absolute;
+  z-index: 3;
+  pointer-events: none;
+  padding: 6px 9px;
+  border-radius: 8px;
+  background: #1b2330;
+  border: 1px solid var(--panel-border);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.chart-tip .tip-time {
+  color: var(--muted);
+  margin-bottom: 3px;
+}
+
+.chart-tip .tip-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.chart-tip .tip-row strong {
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.chart-tip .tip-row span:last-child {
+  color: var(--muted);
+}
+
+.chart-tip .tip-key {
+  width: 10px;
+  height: 3px;
+  border-radius: 2px;
+}
+
+.chart-table-wrap {
+  max-height: 240px;
+  overflow: auto;
+  margin-top: 8px;
+}
+
+.chart-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.chart-table th,
+.chart-table td {
+  padding: 4px 8px;
+  text-align: right;
+  border-bottom: 1px solid rgba(140, 160, 190, 0.12);
+}
+
+.chart-table th:first-child,
+.chart-table td:first-child {
+  text-align: left;
+}
+
+.chart-table th {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+@media (max-width: 800px) {
+  .chart-pair {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* public warning tiles (Charts tab) */
+.warn-tiles {
+  margin-top: 8px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+.warn-tile {
+  background: var(--panel-2, rgba(255, 255, 255, 0.04));
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+.warn-value {
+  font-size: 22px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.warn-label {
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--muted, #9aa5b5);
+}
+@media (max-width: 800px) {
+  .warn-tiles {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* sensitivity (tornado) metric switch */
+.sens-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 6px;
 }

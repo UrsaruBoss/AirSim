@@ -8,7 +8,7 @@ namespace Sim.Core.Tests;
 
 public class DoctrineTests
 {
-    // Lansare (44, 24) -> tinta (44, 26): ~160 km. Radar si SAM la (44, 25): drona trece prin raza lor.
+    // Launch (44, 24) -> target (44, 26): ~160 km. Radar and SAM at (44, 25): the drone passes through their range.
     private static Wave W(UnitKind kind = UnitKind.Drone, int count = 10, double costUsd = 0, string id = "W1") =>
         new() { Id = id, SiteId = "L1", TargetId = "T1", Kind = kind, Count = count, SpeedMps = 100, AltitudeM = 300, CostUsd = costUsd };
 
@@ -73,11 +73,11 @@ public class DoctrineTests
     [Fact]
     public void Primary_kinds_ignore_the_cost_rule()
     {
-        // avion = tinta principala implicita
+        // aircraft = default primary target
         var sam = Sam(shotCost: 4_000_000) with { MaxCostRatio = 1.0 };
         Assert.Equal(10, Run(Make(W(UnitKind.Aircraft, costUsd: 1_000), Radar(), sam)).InterceptedCount);
 
-        // dar si o drona devine principala daca o declari
+        // but a drone also becomes primary if you declare it so
         var droneFirst = sam with { PrimaryKinds = new List<UnitKind> { UnitKind.Drone } };
         Assert.Equal(10, Run(Make(W(costUsd: 35_000), Radar(), droneFirst)).InterceptedCount);
     }
@@ -88,12 +88,12 @@ public class DoctrineTests
         var sam = Sam(shotCost: 1_000_000) with { MaxCostRatio = 1.0 };
         var wave = W(costUsd: 35_000);
 
-        // drona intra in raza SAM (50 km inainte de ea) cand mai are peste 100 km pana la tinta
+        // the drone enters the SAM range (50 km before it) while it still has over 100 km to the target
         Assert.Equal(0, Run(Make(wave, Radar(), sam with { LeakerDistanceKm = 10 })).ShotsFired);
         Assert.Equal(10, Run(Make(wave, Radar(), sam with { LeakerDistanceKm = 500 })).InterceptedCount);
     }
 
-    // ---- rezerva de munitie ----
+    // ---- ammunition reserve ----
 
     [Fact]
     public void Reserve_keeps_the_last_rounds_for_primary_targets()
@@ -101,14 +101,14 @@ public class DoctrineTests
         var sam = Sam(magazine: 5) with { ReserveRounds = 3 };
 
         var drones = Run(Make(W(), Radar(), sam));
-        Assert.Equal(2, drones.ShotsFired); // 5 -> 3, apoi se opreste
+        Assert.Equal(2, drones.ShotsFired); // 5 -> 3, then it stops
         Assert.Equal(3, drones.MagazineLeft);
 
         var aircraft = Run(Make(W(UnitKind.Aircraft), Radar(), sam));
-        Assert.Equal(5, aircraft.ShotsFired); // avioanele pot folosi si rezerva
+        Assert.Equal(5, aircraft.ShotsFired); // aircraft may also use the reserve
     }
 
-    // ---- tiruri pe rand ----
+    // ---- shots in turn ----
 
     [Fact]
     public void Shoot_look_shoot_stops_at_the_first_hit()
@@ -117,7 +117,7 @@ public class DoctrineTests
         var sim = Run(Make(W(UnitKind.Aircraft, count: 4), Radar(), sam));
 
         Assert.Equal(4, sim.InterceptedCount);
-        Assert.Equal(4, sim.ShotsFired); // o lovitura la primul tir => un singur tir per tinta
+        Assert.Equal(4, sim.ShotsFired); // a hit on the first shot => a single shot per target
     }
 
     [Fact]
@@ -142,12 +142,12 @@ public class DoctrineTests
         Assert.Equal(1, misses.GroupBy(e => e.Tick).First().Count());
     }
 
-    // ---- prioritate si ordine ----
+    // ---- priority and order ----
 
     [Fact]
     public void Threat_priority_prefers_the_more_dangerous_kind()
     {
-        // drona (id 0) si avionul (id 1) zboara identic: la egalitate, prioritatea implicita alege id-ul mai mic
+        // the drone (id 0) and the aircraft (id 1) fly identically: on a tie, the default priority picks the lower id
         var waves = new[] { W(UnitKind.Drone, count: 1, id: "W1"), W(UnitKind.Aircraft, count: 1, id: "W2") };
         var sam = Sam(magazine: 1);
 
@@ -171,7 +171,7 @@ public class DoctrineTests
         Assert.Equal("G1", Shooter(true));
     }
 
-    // ---- scenariu ----
+    // ---- scenario ----
 
     [Fact]
     public void Doctrine_is_deterministic()
@@ -208,7 +208,7 @@ public class DoctrineTests
         Assert.Equal(TargetPriority.Threat, d.Priority);
         Assert.Equal(ScenarioLoader.Hash(s), ScenarioLoader.Hash(back));
 
-        // ordinea din PrimaryKinds nu conteaza
+        // the order in PrimaryKinds does not matter
         var reordered = s with
         {
             Defenses = s.Defenses.Select(x => x.Id == "S1" ? x with { PrimaryKinds = new List<UnitKind> { UnitKind.Drone, UnitKind.Aircraft } } : x).ToList()

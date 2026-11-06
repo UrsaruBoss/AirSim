@@ -12,10 +12,10 @@ namespace Sim.Core.Tests;
 
 public class AirspaceTests
 {
-    // ---------- geografie sintetica: dreptunghiuri pe ecuator ----------
+    // ---------- synthetic geography: rectangles on the equator ----------
     //   AA: lon 0..10   BB: lon 10..20   CC: lon 20..30   (lat -5..5)
-    //   DD: lon 40..60 cu gaura lon 45..55, lat -2..2
-    //   EE: MultiPolygon, doua patrate (lon 70..71 si 72..73, lat 0..1)
+    //   DD: lon 40..60 with a hole lon 45..55, lat -2..2
+    //   EE: MultiPolygon, two squares (lon 70..71 and 72..73, lat 0..1)
 
     private static string N(double v) => v.ToString(CultureInfo.InvariantCulture);
 
@@ -40,7 +40,7 @@ public class AirspaceTests
 
     private static CountryRaster FixtureRaster(CountryMap map) => CountryRaster.Build(map, 0.05);
 
-    // ---------- harta si raster ----------
+    // ---------- map and raster ----------
 
     [Fact]
     public void GeoJson_is_parsed_into_countries()
@@ -95,10 +95,10 @@ public class AirspaceTests
     {
         var raster = FixtureRaster(FixtureMap());
 
-        Assert.Equal(-1, raster.IndexAt(0, 35));   // gol intre CC si DD
-        Assert.Equal(-1, raster.IndexAt(50, 5));   // mult in afara hartii (nord)
-        Assert.Equal(-1, raster.IndexAt(0, -20));  // vest
-        Assert.Equal(-1, raster.IndexAt(0, 500));  // est
+        Assert.Equal(-1, raster.IndexAt(0, 35));   // gap between CC and DD
+        Assert.Equal(-1, raster.IndexAt(50, 5));   // far outside the map (north)
+        Assert.Equal(-1, raster.IndexAt(0, -20));  // west
+        Assert.Equal(-1, raster.IndexAt(0, 500));  // east
     }
 
     [Fact]
@@ -107,7 +107,7 @@ public class AirspaceTests
         var map = FixtureMap();
         var raster = FixtureRaster(map);
 
-        Assert.Equal(-1, raster.IndexAt(0, 50));               // in gaura
+        Assert.Equal(-1, raster.IndexAt(0, 50));               // inside the hole
         Assert.Equal(map.IndexOf("DD"), raster.IndexAt(0, 42)); // in inel, in afara golului
         Assert.Equal(map.IndexOf("DD"), raster.IndexAt(4, 50)); // deasupra golului
     }
@@ -120,7 +120,7 @@ public class AirspaceTests
 
         Assert.Equal(map.IndexOf("EE"), raster.IndexAt(0.5, 70.5));
         Assert.Equal(map.IndexOf("EE"), raster.IndexAt(0.5, 72.5));
-        Assert.Equal(-1, raster.IndexAt(0.5, 71.5)); // intre cele doua parti
+        Assert.Equal(-1, raster.IndexAt(0.5, 71.5)); // between the two parts
     }
 
     [Fact]
@@ -129,7 +129,7 @@ public class AirspaceTests
         var map = FixtureMap();
         var raster = FixtureRaster(map);
 
-        // granita AA/BB e la lon 10; la o celula (0.05) distanta de fiecare parte trebuie sa fie corect
+        // the AA/BB border is at lon 10; one cell (0.05) away on each side must be correct
         Assert.Equal(map.IndexOf("AA"), raster.IndexAt(0, 9.94));
         Assert.Equal(map.IndexOf("BB"), raster.IndexAt(0, 10.06));
     }
@@ -140,10 +140,10 @@ public class AirspaceTests
         var map = FixtureMap();
 
         Assert.Throws<ArgumentOutOfRangeException>(() => CountryRaster.Build(map, 0));
-        Assert.Throws<ArgumentException>(() => CountryRaster.Build(map, 0.0001)); // peste limita de celule
+        Assert.Throws<ArgumentException>(() => CountryRaster.Build(map, 0.0001)); // above the cell limit
     }
 
-    // ---------- roluri si politica ----------
+    // ---------- roles and policy ----------
 
     [Theory]
     [InlineData(CountryRole.Neutral, true)]
@@ -179,7 +179,7 @@ public class AirspaceTests
         Assert.Equal("BB", model.CodeOf(map.IndexOf("BB")));
     }
 
-    // ---------- scenariu ----------
+    // ---------- scenario ----------
 
     [Fact]
     public void Scenario_validation_checks_airspace_fields()
@@ -189,7 +189,7 @@ public class AirspaceTests
         Assert.Empty(ScenarioLoader.Validate(s));
         Assert.Contains(ScenarioLoader.Validate(s with { AirspaceMap = "" }), e => e.Contains("AirspaceMap"));
         Assert.Contains(ScenarioLoader.Validate(s with { AirspaceMap = "../secret" }), e => e.Contains("AirspaceMap"));
-        Assert.Contains(ScenarioLoader.Validate(s with { Countries = Roles(("romania", CountryRole.Defender)) }), e => e.Contains("cod de tara invalid"));
+        Assert.Contains(ScenarioLoader.Validate(s with { Countries = Roles(("romania", CountryRole.Defender)) }), e => e.Contains("invalid country code"));
     }
 
     [Fact]
@@ -206,7 +206,7 @@ public class AirspaceTests
         Assert.Equal(ScenarioLoader.Hash(sa), ScenarioLoader.Hash(sb));
     }
 
-    // ---------- simulare: incalcari de spatiu aerian ----------
+    // ---------- simulation: airspace violations ----------
 
     private static SortedDictionary<string, CountryRole> Roles(params (string Code, CountryRole Role)[] entries)
     {
@@ -215,7 +215,7 @@ public class AirspaceTests
         return d;
     }
 
-    // drone de la (0, 5) in AA spre (0, 25) in CC, prin BB; 250 m/s => ~2.5 ore simulate
+    // drones from (0, 5) in AA toward (0, 25) in CC, through BB; 250 m/s => ~2.5 simulated hours
     private static Scenario AirScenario(SortedDictionary<string, CountryRole> countries, int count = 1, double interval = 0) => new()
     {
         Name = "air",
@@ -256,7 +256,7 @@ public class AirspaceTests
         Assert.Single(violations);
         Assert.Equal("BB", violations[0].Code);
         Assert.Equal(1, sim.ViolationCount);
-        Assert.InRange(violations[0].Position.LonDeg, 9.9, 20.1); // a intrat in BB
+        Assert.InRange(violations[0].Position.LonDeg, 9.9, 20.1); // entered BB
         Assert.Equal(1, sim.Events.Events.Count(e => e.Type == SimEventType.Impact));
     }
 
@@ -285,7 +285,7 @@ public class AirspaceTests
     [Fact]
     public void Unlisted_countries_are_neutral_so_crossing_them_is_a_violation()
     {
-        // doar CC e listata; AA (lansare) e ignorata la start, BB e neutra implicit
+        // only CC is listed; AA (launch) is ignored at the start, BB is neutral by default
         var sim = RunAir(AirScenario(Roles(("CC", CountryRole.Defender))));
 
         var violations = Violations(sim);

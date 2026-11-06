@@ -5,12 +5,12 @@ using System.Text.Json;
 
 namespace Sim.Core.Airspace;
 
-/// <summary>Un inel de poligon, coordonate in grade (lon, lat). Poate fi inchis (primul = ultimul) sau nu.</summary>
+/// <summary>A polygon ring, coordinates in degrees (lon, lat). May be closed (first = last) or not.</summary>
 public readonly record struct Ring(double[] Lon, double[] Lat);
 
 /// <summary>
-/// O tara: toate inelele ei (contururi exterioare si gauri, din toate partile unui MultiPolygon).
-/// La rasterizare se foloseste regula par-impar, deci nu e nevoie sa distingem exterior de gauri.
+/// One country: all its rings (outer outlines and holes, from every part of a MultiPolygon).
+/// Rasterization uses the even-odd rule, so outer rings and holes need not be told apart.
 /// </summary>
 public sealed class CountryGeometry
 {
@@ -47,7 +47,7 @@ public sealed class CountryGeometry
     }
 }
 
-/// <summary>Setul de tari dintr-un GeoJSON (FeatureCollection cu proprietatile "iso2" si "name", geometrii Polygon/MultiPolygon).</summary>
+/// <summary>The set of countries in a GeoJSON file (FeatureCollection with "iso2" and "name" properties, Polygon/MultiPolygon geometries).</summary>
 public sealed class CountryMap
 {
     private readonly Dictionary<string, int> _indexByCode = new(StringComparer.Ordinal);
@@ -62,9 +62,9 @@ public sealed class CountryMap
     public CountryMap(IReadOnlyList<CountryGeometry> countries)
     {
         if (countries.Count == 0)
-            throw new InvalidDataException("Harta de tari nu contine nicio tara.");
+            throw new InvalidDataException("The country map contains no country.");
         if (countries.Count >= ushort.MaxValue)
-            throw new InvalidDataException("Prea multe tari pentru raster.");
+            throw new InvalidDataException("Too many countries for the raster.");
 
         Countries = countries;
 
@@ -73,7 +73,7 @@ public sealed class CountryMap
         {
             var c = countries[i];
             if (!_indexByCode.TryAdd(c.Iso2, i))
-                throw new InvalidDataException($"Cod de tara duplicat in harta: '{c.Iso2}'.");
+                throw new InvalidDataException($"Duplicate country code in the map: '{c.Iso2}'.");
 
             west = Math.Min(west, c.MinLon);
             south = Math.Min(south, c.MinLat);
@@ -86,7 +86,7 @@ public sealed class CountryMap
         North = north;
     }
 
-    /// <summary>Indexul tarii cu codul dat, sau -1.</summary>
+    /// <summary>Index of the country with the given code, or -1.</summary>
     public int IndexOf(string iso2) => _indexByCode.TryGetValue(iso2, out int i) ? i : -1;
 
     public static CountryMap FromFile(string path) => FromGeoJson(File.ReadAllText(path));
@@ -99,7 +99,7 @@ public sealed class CountryMap
             var root = doc.RootElement;
 
             if (!root.TryGetProperty("type", out var type) || type.GetString() != "FeatureCollection")
-                throw new InvalidDataException("GeoJSON invalid: se asteapta un FeatureCollection.");
+                throw new InvalidDataException("Invalid GeoJSON: a FeatureCollection is expected.");
 
             var countries = new List<CountryGeometry>();
             foreach (var feature in root.GetProperty("features").EnumerateArray())
@@ -107,7 +107,7 @@ public sealed class CountryMap
                 var props = feature.GetProperty("properties");
                 string iso2 = props.GetProperty("iso2").GetString() ?? "";
                 if (iso2.Length == 0)
-                    throw new InvalidDataException("GeoJSON invalid: tara fara proprietatea 'iso2'.");
+                    throw new InvalidDataException("Invalid GeoJSON: country without the 'iso2' property.");
 
                 string name = props.TryGetProperty("name", out var n) ? n.GetString() ?? iso2 : iso2;
 
@@ -125,7 +125,7 @@ public sealed class CountryMap
                             AddPolygon(polygon, rings);
                         break;
                     default:
-                        throw new InvalidDataException($"Geometrie nesuportata la '{iso2}' (doar Polygon si MultiPolygon).");
+                        throw new InvalidDataException($"Unsupported geometry at '{iso2}' (only Polygon and MultiPolygon).");
                 }
 
                 countries.Add(new CountryGeometry(iso2, name, rings));
@@ -135,7 +135,7 @@ public sealed class CountryMap
         }
         catch (Exception ex) when (ex is JsonException or KeyNotFoundException or InvalidOperationException)
         {
-            throw new InvalidDataException($"GeoJSON invalid: {ex.Message}", ex);
+            throw new InvalidDataException($"Geoinvalid JSON: {ex.Message}", ex);
         }
     }
 

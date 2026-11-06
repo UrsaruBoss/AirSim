@@ -1,36 +1,29 @@
 import { useEffect, useState } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
+import { localName } from './i18n/dataNames'
 import { api } from './api'
 import CesiumView from './CesiumView'
 import EventsPanel from './EventsPanel'
 import { formatSimTime } from './format'
-import { useEventLog, useSummary } from './hooks'
+import { isNarrowNow, useEventLog, useMediaQuery, useSummary } from './hooks'
+import LanguageSwitch from './i18n/LanguageSwitch'
 import Icon from './Icons'
 import type { IconName } from './Icons'
 import ResultsModal from './ResultsModal'
 import type { SimClient } from './SimClient'
-import { DEFENSE_COLORS, DEFENSE_LABELS, ROLE_COLORS, ROLE_LABELS, UNIT_COLORS, UNIT_LABELS } from './roles'
+import { VARIANTS, scenarioStartMs } from './solar'
+import type { Variant } from './solar'
+import { DEFENSE_COLORS, ROLE_COLORS, UNIT_COLORS, defenseLabel, roleLabel, unitLabel } from './roles'
 import type { ConnectionState, CountryRole, DefenseKind, ReplayCheck, Scenario, SimStatus, UnitKind } from './types'
 
 const SPEEDS = [1, 10, 50, 100, 500]
-
-const CONNECTION_LABEL: Record<ConnectionState, string> = {
-  connecting: 'se conectează…',
-  connected: 'conectat',
-  reconnecting: 'reconectare…',
-  disconnected: 'server indisponibil',
-}
-
-const STATE_LABEL: Record<string, string> = {
-  idle: 'oprit',
-  running: 'rulează',
-  paused: 'pauză',
-  finished: 'terminat',
-}
 
 type PanelKey = 'stats' | 'legend' | 'events'
 const PANELS_KEY = 'airsim.panels.v1'
 
 function loadPanels(): Record<PanelKey, boolean> {
+  // phone: everything starts closed (the panels share one bottom sheet); the stored desktop choice is not used
+  if (isNarrowNow()) return { stats: false, legend: false, events: false }
   const fallback = { stats: true, legend: true, events: true }
   try {
     const raw = localStorage.getItem(PANELS_KEY)
@@ -44,30 +37,75 @@ interface Props {
   client: SimClient
   connection: ConnectionState
   status: SimStatus | null
-  /** Scenariul rulat (afisat pe harta). */
+  /** The scenario being run (shown on the map). */
   scenario: Scenario
   seed: string
-  /** Rularea salvata reluata (replay), sau null la o simulare obisnuita. */
+  /** The replayed saved run, or null for a regular simulation. */
   replayId: string | null
   speed: number
   onSpeed: (value: number) => void
-  /** Reporneste aceeasi configuratie (seed gol = automat). */
+  /** Restarts the same configuration (empty seed = automatic). */
   onStart: (seed: string, speed: number) => Promise<void>
-  /** Inapoi la configurare (simularea ramane cum e). */
+  /** Back to setup (the simulation stays as it is). */
   onBack: () => void
-  /** Opreste simularea si intoarce la meniul principal. */
+  /** Stops the simulation and returns to the main menu. */
   onMenu: () => void
+  /** Public mode: the same raid in another time of day (precomputed sibling run), keeping the moment. */
+  dayNight?: { current: Variant; available: Variant[]; busy: number | null; onSwitch: (v: Variant) => void }
+  /** Public mode: precomputed run (no seed, no saving), with a seek bar. */
+  readOnly?: boolean
+  durationS?: number
+  onSeek?: (seconds: number) => void
 }
 
-export default function SimView({ client, connection, status, scenario, seed: initialSeed, replayId, speed, onSpeed: setSpeed, onStart, onBack, onMenu }: Props) {
+export default function SimView({ client, connection, status, scenario, seed: initialSeed, replayId, speed, onSpeed: setSpeed, onStart, onBack, onMenu, readOnly = false, durationS = 0, onSeek, dayNight }: Props) {
+  const { t } = useTranslation()
+  const narrow = useMediaQuery()
+  const [topOpen, setTopOpen] = useState(false)
+  const hasTime = scenarioStartMs(scenario) !== null
+  const [sunLight, setSunLight] = useState(() => {
+    try {
+      return localStorage.getItem('airsim.sun') !== '0'
+    } catch {
+      return true
+    }
+  })
+  const [altFade, setAltFade] = useState(() => {
+    try {
+      return localStorage.getItem('airsim.altfade') !== '0'
+    } catch {
+      return true
+    }
+  })
+  const toggleAltFade = () => {
+    setAltFade((v) => {
+      try {
+        localStorage.setItem('airsim.altfade', v ? '0' : '1')
+      } catch {
+        /* only a convenience */
+      }
+      return !v
+    })
+  }
+  const toggleSun = () => {
+    setSunLight((v) => {
+      try {
+        localStorage.setItem('airsim.sun', v ? '0' : '1')
+      } catch {
+        /* private mode etc.: only a convenience */
+      }
+      return !v
+    })
+  }
   const log = useEventLog(client, status?.epoch, 3000)
   const summary = useSummary(status)
   const [seed, setSeed] = useState(initialSeed)
+  const [scrub, setScrub] = useState<number | null>(null)
   const [error, setError] = useState('')
   const [check, setCheck] = useState<ReplayCheck | null>(null)
   const [panels, setPanels] = useState(loadPanels)
   const [eventsLarge, setEventsLarge] = useState(false)
-  // fereastra de rezultate: se deschide singura la final; alegerea utilizatorului tine pana la urmatoarea rulare
+  // results window: opens on its own at the end; the user's choice holds until the next run
   const [resultsView, setResultsView] = useState<{ epoch: number; open: boolean } | null>(null)
 
   const state = status?.state ?? 'idle'
@@ -76,16 +114,18 @@ export default function SimView({ client, connection, status, scenario, seed: in
 
   const setPanel = (key: PanelKey, value: boolean) =>
     setPanels((prev) => {
+      // phone: one panel at a time, and nothing is persisted
+      if (narrow) return { stats: false, legend: false, events: false, [key]: value }
       const next = { ...prev, [key]: value }
       try {
         localStorage.setItem(PANELS_KEY, JSON.stringify(next))
       } catch {
-        // fara stocare locala: panourile nu se retin intre sesiuni
+        // no local storage: the panels are not remembered between sessions
       }
       return next
     })
 
-  // la finalul unui replay, hash-ul log-ului se compara cu cel salvat
+  // at the end of a replay, the log hash is compared with the saved one
   useEffect(() => {
     if (!replayId || state !== 'finished') return
     let cancelled = false
@@ -113,7 +153,7 @@ export default function SimView({ client, connection, status, scenario, seed: in
     run(async () => {
       const trimmed = seed.trim()
       if (trimmed && !/^\d{1,15}$/.test(trimmed)) {
-        throw new Error('Seed-ul trebuie să fie un număr întreg pozitiv.')
+        throw new Error(t('sim.errSeed'))
       }
       await onStart(trimmed, speed)
     })
@@ -123,56 +163,75 @@ export default function SimView({ client, connection, status, scenario, seed: in
     if (connection === 'connected') void run(() => api.setSpeed(value))
   }
 
+  const commitSeek = () => {
+    if (scrub !== null) onSeek?.(scrub)
+    setScrub(null)
+  }
+
   const connected = connection === 'connected'
   const canSave = state === 'paused' || state === 'finished'
   const progress = status && status.totalDrones > 0 ? ((status.impacted + status.crashed + status.jammed + status.intercepted) / status.totalDrones) * 100 : 0
   const active = state === 'running' || state === 'paused'
 
   const dock: { key: string; icon: IconName; title: string; on: boolean; toggle: () => void; disabled?: boolean }[] = [
-    { key: 'stats', icon: 'chart', title: 'Statistici', on: panels.stats, toggle: () => setPanel('stats', !panels.stats) },
-    { key: 'legend', icon: 'layers', title: 'Legendă', on: panels.legend, toggle: () => setPanel('legend', !panels.legend) },
-    { key: 'events', icon: 'list', title: 'Evenimente', on: panels.events, toggle: () => setPanel('events', !panels.events) },
+    { key: 'stats', icon: 'chart', title: t('sim.dock.stats'), on: panels.stats, toggle: () => setPanel('stats', !panels.stats) },
+    { key: 'legend', icon: 'layers', title: t('sim.dock.legend'), on: panels.legend, toggle: () => setPanel('legend', !panels.legend) },
+    { key: 'events', icon: 'list', title: t('sim.dock.events'), on: panels.events, toggle: () => setPanel('events', !panels.events) },
     {
       key: 'results',
       icon: 'clipboard',
-      title: summary ? 'Rezultate' : 'Rezultatele apar la pauză sau la final',
+      title: summary ? t('sim.dock.results') : t('sim.dock.resultsWait'),
       on: resultsOpen && summary !== null,
       toggle: () => setResultsView({ epoch, open: !resultsOpen }),
       disabled: summary === null,
     },
+    { key: 'altfade', icon: 'fade' as IconName, title: t('sim.dock.altFade'), on: altFade, toggle: toggleAltFade },
+    ...(hasTime
+      ? [{ key: 'sun', icon: (sunLight ? 'sun' : 'moon') as IconName, title: t('sim.dock.lighting'), on: sunLight, toggle: toggleSun }]
+      : []),
   ]
 
   return (
     <div className="app">
-      <CesiumView client={client} scenario={scenario} fitKey="sim" />
+      <CesiumView client={client} scenario={scenario} fitKey="sim" lighting={sunLight} altFade={altFade} />
 
       <aside className="panel topbar">
         <div className="title">
           <span>
-            AirSim <span className={`badge ${connected ? 'ok' : 'warn'}`}>{CONNECTION_LABEL[connection]}</span>
+            AirSim <span className={`badge ${connected ? 'ok' : 'warn'}`}>{t(`connection.${connection}`)}</span>
+          </span>
+          <span className="title-actions">
+            <LanguageSwitch />
+            <button className="icon-btn topbar-toggle" onClick={() => setTopOpen((o) => !o)} aria-expanded={topOpen} title={t('sim.more')}>
+              <Icon name={topOpen ? 'close' : 'sliders'} size={18} />
+            </button>
           </span>
         </div>
+        <div className={`topbar-more ${topOpen ? 'open' : ''}`}>
         <div className="nav">
-          <button onClick={onMenu} title="Meniu principal (oprește simularea)">
-            <Icon name="home" /> Meniu principal
+          <button onClick={onMenu} title={t('sim.mainMenuTip')}>
+            <Icon name="home" /> {t('sim.mainMenu')}
           </button>
-          <button onClick={onBack} title="Înapoi la configurare">
-            <Icon name="sliders" /> Configurare
+          <button onClick={onBack} title={t('sim.backSetup')}>
+            <Icon name="sliders" /> {readOnly ? t('sim.scenarios') : t('sim.setup')}
           </button>
         </div>
-        <div className="muted scenario-name">{scenario.name}</div>
-        {replayId && <div className="replay-badge">Replay: {replayId}</div>}
+        <div className="muted scenario-name">{localName('scenario', scenario.name)}</div>
+        {replayId && <div className="replay-badge">{t('sim.replay', { id: replayId })}</div>}
+        {!readOnly && (
         <label className="field seed">
-          Seed
-          <input value={seed} onChange={(e) => setSeed(e.target.value)} placeholder="automat" inputMode="numeric" disabled={replayId !== null} />
+          {t('sim.seed')}
+          <input value={seed} onChange={(e) => setSeed(e.target.value)} placeholder={t('sim.auto')} inputMode="numeric" disabled={replayId !== null} />
         </label>
+        )}
         {error && <div className="error">{error}</div>}
+        </div>
 
         {panels.legend && (
           <div className="legend-block">
             <div className="legend-head">
-              <span>Legendă</span>
-              <button className="icon-btn" onClick={() => setPanel('legend', false)} title="Ascunde legenda">
+              <span>{t('sim.legend')}</span>
+              <button className="icon-btn" onClick={() => setPanel('legend', false)} title={t('sim.hideLegend')}>
                 <Icon name="close" size={14} />
               </button>
             </div>
@@ -181,7 +240,7 @@ export default function SimView({ client, connection, status, scenario, seed: in
                 {([...new Set(scenario.waves.map((w) => w.kind))] as UnitKind[]).map((kind) => (
                   <li key={kind}>
                     <span className="swatch" style={{ background: UNIT_COLORS[kind] }} />
-                    {UNIT_LABELS[kind]}
+                    {unitLabel(kind)}
                   </li>
                 ))}
               </ul>
@@ -191,7 +250,7 @@ export default function SimView({ client, connection, status, scenario, seed: in
                 {([...new Set(scenario.defenses.map((d) => d.kind))] as DefenseKind[]).map((kind) => (
                   <li key={kind}>
                     <span className="swatch" style={{ background: DEFENSE_COLORS[kind] }} />
-                    {DEFENSE_LABELS[kind]}
+                    {defenseLabel(kind)}
                   </li>
                 ))}
               </ul>
@@ -201,12 +260,12 @@ export default function SimView({ client, connection, status, scenario, seed: in
                 {(Object.keys(ROLE_COLORS) as CountryRole[]).map((role) => (
                   <li key={role}>
                     <span className="swatch" style={{ background: ROLE_COLORS[role] }} />
-                    {ROLE_LABELS[role]}
+                    {roleLabel(role)}
                   </li>
                 ))}
                 <li>
                   <span className="swatch violation" />
-                  Încălcare spațiu aerian
+                  {t('sim.violation')}
                 </li>
               </ul>
             )}
@@ -215,6 +274,24 @@ export default function SimView({ client, connection, status, scenario, seed: in
       </aside>
 
       <div className="dock">
+        {dayNight && (
+          <div className="variant-seg">
+            {VARIANTS.map((v) => (
+              <button
+                key={v}
+                className={dayNight.current === v ? 'on' : ''}
+                disabled={dayNight.busy !== null || !dayNight.available.includes(v)}
+                onClick={() => dayNight.onSwitch(v)}
+                title={t(`gallery.${v}`)}
+              >
+                <Icon name={v === 'day' ? 'sun' : 'moon'} size={16} />
+                <span className="vs-label">
+                  {dayNight.busy !== null && dayNight.current !== v && dayNight.available.includes(v) ? `${Math.round(dayNight.busy * 100)}%` : t(`gallery.${v}`)}
+                </span>
+              </button>
+            ))}
+          </div>
+        )}
         {dock.map((d) => (
           <button key={d.key} className={`dock-btn ${d.on ? 'on' : ''}`} onClick={d.toggle} disabled={d.disabled} title={d.title}>
             <Icon name={d.icon} size={20} />
@@ -226,68 +303,68 @@ export default function SimView({ client, connection, status, scenario, seed: in
         <aside className="panel stats">
           <div className="title">
             <span>
-              Stare: <strong>{STATE_LABEL[state] ?? state}</strong>
+              <Trans i18nKey="sim.stateLabel" values={{ state: t(`sim.state.${state}`) }} components={{ b: <strong /> }} />
             </span>
-            <button className="icon-btn" onClick={() => setPanel('stats', false)} title="Ascunde">
+            <button className="icon-btn" onClick={() => setPanel('stats', false)} title={t('sim.hide')}>
               <Icon name="close" size={14} />
             </button>
           </div>
           {status && state !== 'idle' ? (
             <>
               <dl>
-                <dt>Timp simulat</dt>
+                <dt>{t('sim.time')}</dt>
                 <dd>{formatSimTime(status.simTimeS)}</dd>
-                <dt>Drone total</dt>
+                <dt>{t('sim.dronesTotal')}</dt>
                 <dd>{status.totalDrones}</dd>
-                <dt>În zbor</dt>
+                <dt>{t('sim.flying')}</dt>
                 <dd>{status.flying}</dd>
-                <dt>Impact</dt>
+                <dt>{t('sim.impact')}</dt>
                 <dd>{status.impacted}</dd>
-                <dt>Doborâte</dt>
+                <dt>{t('sim.intercepted')}</dt>
                 <dd>{status.intercepted}</dd>
                 {status.jammed > 0 && (
                   <>
-                    <dt>Bruiate</dt>
+                    <dt>{t('sim.jammed')}</dt>
                     <dd>{status.jammed}</dd>
                   </>
                 )}
                 {status.crashed > 0 && (
                   <>
-                    <dt>Căzute pe traseu</dt>
+                    <dt>{t('sim.crashed')}</dt>
                     <dd>{status.crashed}</dd>
                   </>
                 )}
                 {status.interceptorsLaunched > 0 && (
                   <>
-                    <dt>Interceptoare</dt>
+                    <dt>{t('sim.interceptors')}</dt>
                     <dd>
-                      {status.interceptorsLaunched} (pierdute {status.interceptorsLost})
+                      {t('sim.interceptorsVal', { launched: status.interceptorsLaunched, lost: status.interceptorsLost })}
                     </dd>
                   </>
                 )}
-                <dt>Detectate</dt>
+                <dt>{t('sim.detected')}</dt>
                 <dd>{status.detected}</dd>
-                <dt>Tiruri</dt>
+                <dt>{t('sim.shots')}</dt>
                 <dd>
-                  {status.shotsFired} (rămase {status.magazineLeft})
+                  {t('sim.shotsVal', { fired: status.shotsFired, left: status.magazineLeft })}
                 </dd>
-                <dt>Încălcări</dt>
+                <dt>{t('sim.violations')}</dt>
                 <dd>{status.violations}</dd>
                 <dt>Seed</dt>
                 <dd>{status.seed}</dd>
               </dl>
-              <div className="bar" title={`${progress.toFixed(0)}% au lovit`}>
+              <div className="bar" title={t('sim.hitPct', { pct: progress.toFixed(0) })}>
                 <div style={{ width: `${progress}%` }} />
               </div>
-              {status.savedRunId && <div className="saved">salvat: runs/{status.savedRunId}</div>}
+              {status.savedRunId && <div className="saved">{t('sim.saved', { id: status.savedRunId })}</div>}
               {replayId && state === 'finished' && check?.active && check.finished && (
                 <div className={check.match ? 'saved' : 'error'}>
-                  {check.match ? 'Replay verificat: log identic cu cel salvat ✓' : 'Replay diferit de rularea salvată (altă versiune de motor sau scenariu modificat)'}
+                  {check.match ? t('sim.replayOk') : t('sim.replayDiff')}
                 </div>
               )}
             </>
           ) : (
-            <div className="muted">Apasă Start pentru a rula configurația.</div>
+            <div className="muted">{t('sim.pressStart')}</div>
           )}
         </aside>
       )}
@@ -299,32 +376,47 @@ export default function SimView({ client, connection, status, scenario, seed: in
       )}
 
       <div className="panel transport">
-        <button className="t-btn primary" onClick={restart} disabled={!connected} title={active ? 'Repornește' : 'Start'}>
+        <button className="t-btn primary" onClick={restart} disabled={!connected} title={active ? t('sim.restart') : t('sim.start')}>
           <Icon name={active ? 'restart' : 'play'} size={20} />
         </button>
         {state === 'paused' ? (
-          <button className="t-btn" onClick={() => run(api.resume)} title="Reia">
+          <button className="t-btn" onClick={() => run(api.resume)} title={t('sim.resume')}>
             <Icon name="play" size={20} />
           </button>
         ) : (
-          <button className="t-btn" onClick={() => run(api.pause)} disabled={state !== 'running'} title="Pauză">
+          <button className="t-btn" onClick={() => run(api.pause)} disabled={state !== 'running'} title={t('sim.pause')}>
             <Icon name="pause" size={20} />
           </button>
         )}
         <button className="t-btn" onClick={() => run(api.stop)} disabled={state === 'idle'} title="Stop">
           <Icon name="stop" size={20} />
         </button>
-        <button className="t-btn" onClick={() => run(api.save)} disabled={!canSave} title="Salvează rularea">
-          <Icon name="save" size={20} />
-        </button>
+        {!readOnly && (
+          <button className="t-btn" onClick={() => run(api.save)} disabled={!canSave} title={t('sim.saveRun')}>
+            <Icon name="save" size={20} />
+          </button>
+        )}
         <span className="t-sep" />
-        <div className="speeds" title="Viteza simulării">
+        <div className="speeds" title={t('sim.speed')}>
           {SPEEDS.map((v) => (
             <button key={v} className={speed === v ? 'on' : ''} onClick={() => onSpeed(v)}>
               {v}×
             </button>
           ))}
         </div>
+        {readOnly && status && state !== 'idle' && durationS > 0 && (
+          <input
+            type="range"
+            className="t-seek"
+            min={0}
+            max={Math.round(durationS)}
+            value={scrub ?? Math.round(status.simTimeS)}
+            title={t('sim.seek')}
+            onChange={(e) => setScrub(Number(e.target.value))}
+            onPointerUp={commitSeek}
+            onKeyUp={commitSeek}
+          />
+        )}
         {status && state !== 'idle' && <span className="t-time">{formatSimTime(status.simTimeS)}</span>}
       </div>
 

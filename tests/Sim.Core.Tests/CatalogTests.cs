@@ -63,7 +63,7 @@ public class CatalogTests
     }
 
     [Theory]
-    [InlineData("{ \"types\": [ { \"id\": \"a\", \"kind\": \"drone\" }, { \"id\": \"a\", \"kind\": \"drone\" } ] }", "duplicat")]
+    [InlineData("{ \"types\": [ { \"id\": \"a\", \"kind\": \"drone\" }, { \"id\": \"a\", \"kind\": \"drone\" } ] }", "duplicate")]
     [InlineData("{ \"types\": [ { \"id\": \"a\" } ] }", "kind")]
     [InlineData("{ \"types\": [ { \"kind\": \"drone\" } ] }", "id")]
     [InlineData("{ \"types\": [ { \"id\": \"../x\", \"kind\": \"drone\" } ] }", "id")]
@@ -76,7 +76,7 @@ public class CatalogTests
         Assert.Contains(expected, ex.Message);
     }
 
-    // ---------- rezolvarea referintelor ----------
+    // ---------- reference resolution ----------
 
     [Fact]
     public void Wave_takes_its_values_from_the_catalog_and_the_scenario_overrides_them()
@@ -88,11 +88,11 @@ public class CatalogTests
         Assert.Equal("W1", wave.Id);                 // id-ul valului, nu al tipului
         Assert.Equal("shahed", wave.UnitType);
         Assert.Equal(UnitKind.Drone, wave.Kind);
-        Assert.Equal(50, wave.WarheadKg);            // din catalog
+        Assert.Equal(50, wave.WarheadKg);            // from the catalog
         Assert.Equal(300, wave.AltitudeM);
         Assert.Equal(35000, wave.CostUsd);
         Assert.Equal(2000, wave.RangeKm);
-        Assert.Equal(99, wave.SpeedMps);             // suprascris de scenariu
+        Assert.Equal(99, wave.SpeedMps);             // overridden by the scenario
         Assert.Equal(5, wave.Count);
     }
 
@@ -111,8 +111,8 @@ public class CatalogTests
         Assert.Equal("Custom", s2.Name);             // dar scenariul il poate schimba
         Assert.Equal("sam", s1.TypeId);
         Assert.Equal(DefenseKind.Sam, s1.Kind);
-        Assert.Equal(3, s1.Magazine);                // suprascris
-        Assert.Equal(10, s2.Magazine);               // din catalog
+        Assert.Equal(3, s1.Magazine);                // overridden
+        Assert.Equal(10, s2.Magazine);               // from the catalog
         Assert.Equal(1000, s1.ShotCostUsd);
         Assert.Equal(new[] { UnitKind.Drone, UnitKind.BallisticMissile }, s1.Engages!.ToArray());
         Assert.Equal(0.0, s1.PkByKind!["ballisticMissile"]);
@@ -136,7 +136,7 @@ public class CatalogTests
             """{ "id": "S1", "type": "sam", "latDeg": 44.0, "lonDeg": 25.0 }""");
         var resolved = ScenarioLoader.FromJson(json, Catalog());
 
-        // salvat si reincarcat FARA catalog => aceleasi valori, acelasi hash
+        // saved and reloaded WITHOUT the catalog => same values, same hash
         var reloaded = ScenarioLoader.FromJson(ScenarioLoader.ToJson(resolved));
 
         Assert.Equal(ScenarioLoader.Hash(resolved), ScenarioLoader.Hash(reloaded));
@@ -162,20 +162,20 @@ public class CatalogTests
         Assert.Equal(ScenarioLoader.Hash(ScenarioLoader.FromJson(a, Catalog())), ScenarioLoader.Hash(ScenarioLoader.FromJson(b, Catalog())));
     }
 
-    // ---------- raza de actiune ----------
+    // ---------- operational range ----------
 
     [Fact]
     public void Waves_beyond_the_unit_range_are_rejected()
     {
-        // tinta la ~160 km; Lancet are 40 km, Shahed 2000 km
+        // target at ~160 km; Lancet has 40 km, Shahed 2000 km
         string lancet = ScenarioJson("""{ "id": "W1", "unit": "lancet", "siteId": "L1", "targetId": "T1" }""");
         string shahed = ScenarioJson("""{ "id": "W1", "unit": "shahed", "siteId": "L1", "targetId": "T1" }""");
 
-        Assert.Contains("raza de actiune", Assert.Throws<InvalidDataException>(() => ScenarioLoader.FromJson(lancet, Catalog())).Message);
+        Assert.Contains("operational range", Assert.Throws<InvalidDataException>(() => ScenarioLoader.FromJson(lancet, Catalog())).Message);
         Assert.Single(ScenarioLoader.FromJson(shahed, Catalog()).Waves);
     }
 
-    // ---------- tipuri noi si Pk pe tip de tinta ----------
+    // ---------- new types and Pk per target type ----------
 
     private static Simulation Run(string json)
     {
@@ -190,13 +190,13 @@ public class CatalogTests
     [Fact]
     public void Pk_by_kind_overrides_the_default_pk()
     {
-        // SAM-ul din catalog: Pk 1.0, dar 0.0 contra rachetelor balistice
+        // the SAM from the catalog: Pk 1.0, but 0.0 against ballistic missiles
         var drones = Run(ScenarioJson("""{ "id": "W1", "unit": "shahed", "siteId": "L1", "targetId": "T1", "count": 5 }""", RadarDef + "," + SamDef));
         var ballistic = Run(ScenarioJson("""{ "id": "W1", "unit": "bm", "siteId": "L1", "targetId": "T1", "count": 5 }""", RadarDef + "," + SamDef));
 
         Assert.Equal(5, drones.InterceptedCount);
         Assert.Equal(0, ballistic.InterceptedCount);
-        Assert.True(ballistic.ShotsFired > 0); // il angajeaza (e in lista engages), dar rateaza mereu
+        Assert.True(ballistic.ShotsFired > 0); // it engages it (it is in the engages list), but always misses
         Assert.Equal(ballistic.ShotsFired, ballistic.Events.Events.Count(e => e.Type == SimEventType.Missed));
     }
 
@@ -226,10 +226,10 @@ public class CatalogTests
             """{ "id": "S1", "kind": "sam", "latDeg": 44.0, "lonDeg": 25.0, "pkByKind": { "drone": 1.5 } }""");
 
         Assert.Contains("spaceship", Assert.Throws<InvalidDataException>(() => ScenarioLoader.FromJson(badKey, Catalog())).Message);
-        Assert.Contains("0 si 1", Assert.Throws<InvalidDataException>(() => ScenarioLoader.FromJson(badValue, Catalog())).Message);
+        Assert.Contains("between 0 and 1", Assert.Throws<InvalidDataException>(() => ScenarioLoader.FromJson(badValue, Catalog())).Message);
     }
 
-    // ---------- fisierele livrate ----------
+    // ---------- shipped files ----------
 
     private static string? FindRepoRoot()
     {
@@ -248,7 +248,7 @@ public class CatalogTests
     {
         string? root = FindRepoRoot();
         if (root is null)
-            return; // rulat in afara depozitului: nu avem fisierele
+            return; // run outside the repository: we do not have the files
 
         var catalog = UnitCatalog.FromDirectory(Path.Combine(root, "data", "catalog"));
         Assert.NotEmpty(catalog.OffenseTypes);
@@ -256,7 +256,7 @@ public class CatalogTests
 
         foreach (string file in Directory.EnumerateFiles(Path.Combine(root, "scenarios"), "*.json"))
         {
-            var scenario = ScenarioLoader.FromFile(file, catalog); // arunca daca e invalid
+            var scenario = ScenarioLoader.FromFile(file, catalog); // throws if invalid
             Sim.Core.Airspace.AirspaceModel? airspace = string.IsNullOrEmpty(scenario.AirspaceMap) ? null : TestAirspace(root, scenario);
             var sim = new Simulation(scenario, 1, airspace);
             for (int i = 0; i < 50; i++)
@@ -273,9 +273,9 @@ public class CatalogTests
 
         var catalog = UnitCatalog.FromDirectory(Path.Combine(root, "data", "catalog"));
         foreach (var t in catalog.DefenseTypes)
-            Assert.True((t["costUsd"]?.GetValue<double>() ?? 0) > 0, $"defense '{t["id"]}' nu are costUsd");
+            Assert.True((t["costUsd"]?.GetValue<double>() ?? 0) > 0, $"defense '{t["id"]}' has no costUsd");
         foreach (var t in catalog.OffenseTypes)
-            Assert.True((t["costUsd"]?.GetValue<double>() ?? 0) > 0, $"offense '{t["id"]}' nu are costUsd");
+            Assert.True((t["costUsd"]?.GetValue<double>() ?? 0) > 0, $"offense '{t["id"]}' has no costUsd");
 
         using var doc = System.Text.Json.JsonDocument.Parse(File.ReadAllText(Path.Combine(root, "data", "alliances.json")));
         foreach (var a in doc.RootElement.GetProperty("alliances").EnumerateArray())
@@ -289,7 +289,7 @@ public class CatalogTests
     private static Sim.Core.Airspace.AirspaceModel TestAirspace(string root, Scenario scenario)
     {
         var map = Sim.Core.Airspace.CountryMap.FromFile(Path.Combine(root, "data", "countries", scenario.AirspaceMap + ".geojson"));
-        var raster = Sim.Core.Airspace.CountryRaster.Build(map, 0.5); // grosier: doar sa nu dureze
+        var raster = Sim.Core.Airspace.CountryRaster.Build(map, 0.5); // coarse: just so it does not take long
         return new Sim.Core.Airspace.AirspaceModel(map, raster, scenario.Countries);
     }
 }

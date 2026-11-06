@@ -7,10 +7,10 @@ using Xunit;
 
 namespace Sim.Core.Tests;
 
-/// <summary>Contra-jocul atacatorului: un impact langa un sistem defensiv il poate distruge.</summary>
+/// <summary>The attacker's counterplay: an impact near a defensive system can destroy it.</summary>
 public class CounterPlayTests
 {
-    // Lansare L1 (44, 24). Tinte: T1 (44, 26) si TA (44, 24.5) - aceasta din urma e pozitia bazei aeriene.
+    // Launch L1 (44, 24). Targets: T1 (44, 26) and TA (44, 24.5) - the latter is the airbase position.
     private static Wave W(string id, string targetId, int count = 1, double start = 0, double warheadKg = 400) =>
         new() { Id = id, SiteId = "L1", TargetId = targetId, Count = count, SpeedMps = 100, AltitudeM = 300, StartTimeSeconds = start, WarheadKg = warheadKg };
 
@@ -53,7 +53,7 @@ public class CounterPlayTests
     [Fact]
     public void Defense_outside_the_lethal_radius_survives()
     {
-        // ~5,5 km de punctul de impact
+        // ~5.5 km from the impact point
         var sim = Run(Make(new[] { W("W1", "T1") }, Radar(lat: 44.05)));
 
         Assert.Equal(0, sim.DefensesDestroyed);
@@ -63,7 +63,7 @@ public class CounterPlayTests
     [Fact]
     public void A_big_defense_is_hit_from_further_away()
     {
-        // 300 m de impact: un radar (30 m + raza letala ~44 m) scapa, o baza aeriana (600 m) nu
+        // 300 m from the impact: a radar (30 m + lethal radius ~44 m) survives, an airbase (600 m) does not
         double lat = 44.0 + 300.0 / 111_000.0;
         Assert.Equal(0, Run(Make(new[] { W("W1", "T1") }, Radar(lat: lat))).DefensesDestroyed);
 
@@ -92,7 +92,7 @@ public class CounterPlayTests
     [Fact]
     public void Destroyed_radar_stops_detecting()
     {
-        // primul val loveste radarul (la 44, 25), al doilea trece pe langa el mult mai tarziu
+        // the first wave hits the radar (at 44, 25), the second passes by much later
         var radar = Radar(lon: 25.0, hardness: 1);
         var hitRadar = new Target { Id = "TR", Name = "TR", Kind = "military_base", LatDeg = 44.0, LonDeg = 25.0 };
 
@@ -101,7 +101,7 @@ public class CounterPlayTests
 
         var destroyed = Run(s);
         Assert.Equal(1, destroyed.DefensesDestroyed);
-        Assert.Equal(1, destroyed.DetectedCount); // doar drona care l-a lovit
+        Assert.Equal(1, destroyed.DetectedCount); // only the drone that hit it
 
         var intact = Run(s with { Defenses = new List<Defense> { radar with { HardnessKg = 1e12 } } });
         Assert.Equal(6, intact.DetectedCount);
@@ -127,7 +127,7 @@ public class CounterPlayTests
         Assert.Equal(0, sim.DefensesDestroyed);
     }
 
-    // ---- baza aeriana distrusa => avionul de patrula ramane fara baza ----
+    // ---- destroyed airbase => the patrol aircraft is left without a base ----
 
     private static Simulation PatrolRun(double airbaseHardness)
     {
@@ -139,7 +139,7 @@ public class CounterPlayTests
         };
         var airbase = new Defense { Id = "AB1", Kind = DefenseKind.Airbase, LatDeg = 44.0, LonDeg = 24.5, HardnessKg = airbaseHardness };
 
-        // W1 loveste baza (t ~ 400 s); W2 si W3 trec pe langa patrula, mult mai tarziu
+        // W1 hits the base (t ~ 400 s); W2 and W3 pass by the patrol much later
         var waves = new[] { W("W1", "TA"), W("W2", "T1", start: 2000), W("W3", "T1", start: 5000) };
         return Run(Make(waves, radar, patrol, airbase));
     }
@@ -160,11 +160,11 @@ public class CounterPlayTests
         var sim = PatrolRun(airbaseHardness: 1);
 
         Assert.Equal(1, sim.DefensesDestroyed);
-        Assert.Equal(1, sim.InterceptedCount); // doar W2; dupa aceea nu mai are unde sa se reincarce
+        Assert.Equal(1, sim.InterceptedCount); // only W2; after that it has nowhere to rearm
         Assert.DoesNotContain(sim.Events.Events, e => e.Type == SimEventType.PatrolRearmed);
     }
 
-    // ---- statistici, validare, determinism ----
+    // ---- statistics, validation, determinism ----
 
     [Fact]
     public void Summary_marks_destroyed_defenses()

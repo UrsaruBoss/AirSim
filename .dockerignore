@@ -1,0 +1,10 @@
+**/bin
+**/obj
+**/node_modules
+web/dist
+web/.env.local
+runs
+precomputed
+archive
+.git
+*.zip

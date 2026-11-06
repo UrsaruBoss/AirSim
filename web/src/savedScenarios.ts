@@ -1,6 +1,7 @@
+import i18n from './i18n'
 import type { SetupState } from './draft'
 
-/** Scenarii salvate local (localStorage) + export/import ca fisier. Nimic nu pleaca de pe calculatorul utilizatorului. */
+/** Scenarios saved locally (localStorage) + export/import as a file. Nothing leaves the user's computer. */
 
 const KEY = 'airsim.scenarios.v1'
 const FORMAT = 'airsim-scenario'
@@ -28,7 +29,7 @@ function writeAll(list: SavedScenario[]): void {
   try {
     localStorage.setItem(KEY, JSON.stringify(list))
   } catch {
-    throw new Error('Nu s-a putut salva local (spațiu insuficient sau stocarea e blocată). Folosește „Export” ca să păstrezi scenariul într-un fișier.')
+    throw new Error(i18n.t('errors.saveFailed'))
   }
 }
 
@@ -42,10 +43,10 @@ function stripSeed(state: SetupState): SavedState {
   return rest
 }
 
-/** Salveaza sub numele dat; un nume existent se suprascrie. */
+/** Saves under the given name; an existing name is overwritten. */
 export function saveScenario(name: string, state: SetupState): SavedScenario {
   const trimmed = name.trim()
-  if (!trimmed) throw new Error('Dă un nume scenariului.')
+  if (!trimmed) throw new Error(i18n.t('errors.needName'))
   const list = readAll()
   const existing = list.find((x) => x.name === trimmed)
   const item: SavedScenario = {
@@ -66,18 +67,18 @@ export function exportScenario(name: string, state: SetupState): string {
   return JSON.stringify({ format: FORMAT, version: 1, name: name.trim() || state.scenario.name, state: stripSeed(state) })
 }
 
-/** Valideaza minimal un fisier importat; serverul valideaza oricum scenariul complet la pornire. */
+/** Minimally validates an imported file; the server validates the complete scenario on start anyway. */
 export function parseImported(text: string): { name: string; state: SavedState } {
   let data: unknown
   try {
     data = JSON.parse(text)
   } catch {
-    throw new Error('Fișierul nu e JSON valid.')
+    throw new Error(i18n.t('errors.notJson'))
   }
   const d = data as { format?: string; name?: string; state?: SavedState }
   const sc = d?.state?.scenario
   if (d?.format !== FORMAT || !sc || !Array.isArray(sc.waves) || !Array.isArray(sc.defenses) || !Array.isArray(sc.launchSites) || !Array.isArray(sc.targets)) {
-    throw new Error('Fișierul nu e un scenariu AirSim.')
+    throw new Error(i18n.t('errors.notScenario'))
   }
-  return { name: d.name || sc.name || 'Importat', state: d.state as SavedState }
+  return { name: d.name || sc.name || i18n.t('draft.imported'), state: d.state as SavedState }
 }

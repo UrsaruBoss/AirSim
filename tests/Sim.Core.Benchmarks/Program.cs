@@ -4,11 +4,11 @@ using BenchmarkDotNet.Running;
 using Sim.Core;
 using Sim.Core.Scenarios;
 
-// Rulare (obligatoriu Release):
+// Run (Release is mandatory):
 //   dotnet run -c Release --project tests/Sim.Core.Benchmarks
 BenchmarkRunner.Run<TickBenchmark>();
 
-/// <summary>Costul unui singur Step() cu N drone aflate toate in zbor.</summary>
+/// <summary>Cost of a single Step() with N drones all in flight.</summary>
 [MemoryDiagnoser]
 public class TickBenchmark
 {
@@ -20,7 +20,7 @@ public class TickBenchmark
     [GlobalSetup]
     public void Setup()
     {
-        // Distanta mare (~8000 km) la 50 m/s: dronele nu ating tinta cat dureaza benchmark-ul.
+        // Long distance (~8000 km) at 50 m/s: the drones do not reach the target while the benchmark runs.
         var scenario = new Scenario
         {
             Name = "bench",
@@ -39,7 +39,7 @@ public class TickBenchmark
         };
 
         _sim = new Simulation(scenario, 1);
-        _sim.Step(); // toate dronele se lanseaza in primul tick
+        _sim.Step(); // all drones launch on the first tick
     }
 
     [Benchmark]

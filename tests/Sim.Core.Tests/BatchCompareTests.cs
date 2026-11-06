@@ -34,7 +34,7 @@ public class BatchCompareTests
         var b = BatchRunner.Run(Make(4), 100, 8, maxThreads: 2);
         var rows = BatchCompare.Compare(a, b);
 
-        var impacts = rows.First(r => r.Name == "Impacturi");
+        var impacts = rows.First(r => r.Name == "Impacts");
         Assert.True(impacts.Diff < 0, "mai multe tunuri => mai putine impacturi");
         Assert.True(impacts.Significant);
         Assert.Equal(BatchRunner.Selectors.Count, rows.Count);

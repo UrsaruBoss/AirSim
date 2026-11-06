@@ -127,7 +127,7 @@ public class SimulationTests
     public void Drones_in_flight_have_cruise_altitude_and_move_toward_target()
     {
         var sim = new Simulation(Make(count: 1, spread: 0, speed: 100, duration: 20000), 1);
-        for (int i = 0; i < 200; i++) sim.Step(); // 100 s de zbor
+        for (int i = 0; i < 200; i++) sim.Step(); // 100 s of flight
 
         var d = sim.Drones[0];
         Assert.Equal(Sim.Core.Entities.EntityStatus.Flying, d.Status);
@@ -135,7 +135,7 @@ public class SimulationTests
 
         double total = Wgs84.GreatCircleDistanceM(SitePoint, TargetPoint);
         double remaining = Wgs84.GreatCircleDistanceM(d.Position, TargetPoint);
-        Assert.InRange(remaining, total - 100 * 101, total - 100 * 99); // ~10 km parcursi
+        Assert.InRange(remaining, total - 100 * 101, total - 100 * 99); // ~10 km covered
     }
 
     [Theory]

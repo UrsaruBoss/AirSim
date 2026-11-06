@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Sim.Core.Tests;
 
-/// <summary>Valuri cu mai multe puncte de lansare / tinte si unitati care cad pe traseu.</summary>
+/// <summary>Waves with several launch points / targets, and units that fall along their route.</summary>
 public class MultiTargetTests
 {
     private static Scenario Make(Wave wave, params Defense[] defenses) => new()
@@ -47,7 +47,7 @@ public class MultiTargetTests
     private static Dictionary<double, int> LatCounts(IEnumerable<SimEvent> events) =>
         events.GroupBy(e => System.Math.Round(e.Position.LatDeg, 2)).ToDictionary(g => g.Key, g => g.Count());
 
-    // ---- liste de tinte / lansari ----
+    // ---- target / launch lists ----
 
     [Fact]
     public void A_wave_can_spread_over_several_targets()
@@ -56,7 +56,7 @@ public class MultiTargetTests
 
         var counts = LatCounts(sim.Events.Events.Where(e => e.Type == SimEventType.Impact));
         Assert.Equal(new[] { 44.0, 44.25, 44.5 }, counts.Keys.OrderBy(k => k).ToArray());
-        Assert.All(counts.Values, c => Assert.InRange(c, 40, 100)); // ~ 200 / 3 fiecare
+        Assert.All(counts.Values, c => Assert.InRange(c, 40, 100)); // ~ 200 / 3 each
         Assert.Equal(200, counts.Values.Sum());
     }
 
@@ -109,7 +109,7 @@ public class MultiTargetTests
         Assert.Equal(ScenarioLoader.Hash(s), ScenarioLoader.Hash(back));
     }
 
-    // ---- cadere pe traseu ----
+    // ---- falling along the route ----
 
     [Fact]
     public void Failure_rate_one_means_everything_falls_short()
@@ -120,7 +120,7 @@ public class MultiTargetTests
         Assert.Equal(0, sim.ImpactCount);
         Assert.DoesNotContain(sim.Events.Events, e => e.Type == SimEventType.Impact);
 
-        // cad pe traseu: intre lansare (lon 24) si tinta (lon 26), nu la tinta
+        // they fall along the route: between launch (lon 24) and target (lon 26), not at the target
         var crashes = sim.Events.Events.Where(e => e.Type == SimEventType.Crashed).ToList();
         Assert.Equal(50, crashes.Count);
         Assert.All(crashes, e => Assert.InRange(e.Position.LonDeg, 24.0 + 0.05 * 1.9, 24.0 + 0.95 * 2.1));
@@ -153,7 +153,7 @@ public class MultiTargetTests
         Assert.Equal(10, sim.CrashedCount + sim.InterceptedCount);
     }
 
-    // ---- statistici ----
+    // ---- statistics ----
 
     [Fact]
     public void Summary_classifies_impacts_by_the_nearest_target_and_counts_failures()
@@ -168,7 +168,7 @@ public class MultiTargetTests
         Assert.Contains(summary.Classes, c => c.Class == "military_base");
     }
 
-    // ---- validare ----
+    // ---- validation ----
 
     [Fact]
     public void Invalid_lists_and_failure_rates_are_rejected()
@@ -183,9 +183,9 @@ public class MultiTargetTests
     [Fact]
     public void Range_is_checked_against_the_farthest_site_target_pair()
     {
-        // L1 -> T1 e ~160 km, L2 -> T1 e ~170 km: 165 km acopera prima pereche, nu pe a doua
+        // L1 -> T1 is ~160 km, L2 -> T1 is ~170 km: 165 km covers the first pair, not the second
         var wave = W(sites: new List<string> { "L1", "L2" }) with { RangeKm = 165 };
-        Assert.Contains(ScenarioLoader.Validate(Make(wave)), e => e.Contains("raza de actiune"));
+        Assert.Contains(ScenarioLoader.Validate(Make(wave)), e => e.Contains("operational range"));
         Assert.Empty(ScenarioLoader.Validate(Make(wave with { RangeKm = 200 })));
     }
 }

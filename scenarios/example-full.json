@@ -1,5 +1,5 @@
 {
-  "name": "Exemplu complet - drone, balistice, avioane vs aparare stratificata",
+  "name": "Full example - drones, ballistic missiles, aircraft vs layered defense",
   "dtSeconds": 0.1,
   "durationSeconds": 21600,
   "defenseIntervalSeconds": 1.0,
@@ -17,21 +17,21 @@
   "launchSites": [
     {
       "id": "L1",
-      "name": "Lansare Marea Neagră Nord",
+      "name": "Launch Black Sea North",
       "latDeg": 43.2,
       "lonDeg": 31.5,
       "altM": 0
     },
     {
       "id": "L2",
-      "name": "Lansare Marea Neagră Sud",
+      "name": "Launch Black Sea South",
       "latDeg": 42.5,
       "lonDeg": 30.0,
       "altM": 0
     },
     {
       "id": "L3",
-      "name": "Lansare Crimeea",
+      "name": "Launch Crimea",
       "latDeg": 45.3,
       "lonDeg": 34.0,
       "altM": 0
@@ -40,7 +40,7 @@
   "targets": [
     {
       "id": "T1",
-      "name": "Tinta oras",
+      "name": "Target city",
       "kind": "city",
       "latDeg": 44.43,
       "lonDeg": 26.1,
@@ -48,7 +48,7 @@
     },
     {
       "id": "T2",
-      "name": "Baza aeriană",
+      "name": "Air base",
       "kind": "military_base",
       "latDeg": 44.36,
       "lonDeg": 28.49,
@@ -59,7 +59,7 @@
   "defenses": [
     {
       "id": "R1",
-      "name": "Radar Constanța",
+      "name": "Radar Constanta",
       "kind": "radar",
       "latDeg": 44.2,
       "lonDeg": 28.6,
@@ -67,7 +67,7 @@
     },
     {
       "id": "R2",
-      "name": "Radar București",
+      "name": "Radar Bucharest",
       "kind": "radar",
       "latDeg": 44.45,
       "lonDeg": 26.0,
@@ -75,7 +75,7 @@
     },
     {
       "id": "S1",
-      "name": "SAM București",
+      "name": "SAM Bucharest",
       "kind": "sam",
       "latDeg": 44.43,
       "lonDeg": 26.1,
@@ -86,7 +86,7 @@
     },
     {
       "id": "A1",
-      "name": "ABM București",
+      "name": "ABM Bucharest",
       "kind": "abm",
       "latDeg": 44.4,
       "lonDeg": 26.15,
@@ -97,7 +97,7 @@
     },
     {
       "id": "G1",
-      "name": "Tun AA Nord",
+      "name": "Tun AA North",
       "kind": "aaGun",
       "latDeg": 44.445,
       "lonDeg": 26.12,
@@ -108,7 +108,7 @@
     },
     {
       "id": "G2",
-      "name": "Tun AA Sud",
+      "name": "Tun AA South",
       "kind": "aaGun",
       "latDeg": 44.415,
       "lonDeg": 26.07,
@@ -119,7 +119,7 @@
     },
     {
       "id": "P1",
-      "name": "Patrulă Est",
+      "name": "Patrol East",
       "kind": "patrol",
       "latDeg": 44.3,
       "lonDeg": 27.6,
@@ -136,7 +136,7 @@
     },
     {
       "id": "P2",
-      "name": "Patrulă Centru",
+      "name": "Patrol Center",
       "kind": "patrol",
       "latDeg": 44.5,
       "lonDeg": 27.0,
@@ -153,7 +153,7 @@
     },
     {
       "id": "B1",
-      "name": "Bază interceptoare",
+      "name": "Interceptor base",
       "kind": "interceptorBase",
       "latDeg": 44.25,
       "lonDeg": 27.9,
@@ -166,14 +166,14 @@
     },
     {
       "id": "AB1",
-      "name": "Baza Kogălniceanu",
+      "name": "Base Kogălniceanu",
       "kind": "airbase",
       "latDeg": 44.36,
       "lonDeg": 28.49
     },
     {
       "id": "AB2",
-      "name": "Baza Otopeni",
+      "name": "Base Otopeni",
       "kind": "airbase",
       "latDeg": 44.57,
       "lonDeg": 26.08

@@ -28,7 +28,7 @@ public class GeoTests
         Assert.InRange(Math.Abs(back.LatDeg - original.LatDeg), 0.0, 1e-8);
         Assert.InRange(Math.Abs(back.AltM - original.AltM), 0.0, 1e-3);
 
-        // la poli longitudinea e nedefinita
+        // at the poles the longitude is undefined
         if (Math.Abs(lat) < 89.999)
         {
             double dLon = ((back.LonDeg - original.LonDeg + 540.0) % 360.0) - 180.0;

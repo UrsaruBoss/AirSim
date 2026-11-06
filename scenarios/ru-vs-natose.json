@@ -1,5 +1,5 @@
 {
- "name": "Rusia → NATO Sud-Est (Marea Neagră): lovituri asupra României, Bulgariei, Greciei și Turciei",
+ "name": "Russia → NATO South-East (Black Sea): strikes on Romania, Bulgaria, Greece and Turkey",
  "dtSeconds": 0.5,
  "durationSeconds": 28800,
  "defenseIntervalSeconds": 1.0,
@@ -46,42 +46,42 @@
  "launchSites": [
   {
    "id": "L01",
-   "name": "Crimeea de vest (Iskander)",
+   "name": "Western Crimea (Iskander)",
    "latDeg": 45.35,
    "lonDeg": 33.0,
    "altM": 0
   },
   {
    "id": "L02",
-   "name": "Flota Marea Neagră (vest)",
+   "name": "Black Sea Fleet (west)",
    "latDeg": 43.8,
    "lonDeg": 31.0,
    "altM": 0
   },
   {
    "id": "L03",
-   "name": "Flota Marea Neagră (est)",
+   "name": "Black Sea Fleet (east)",
    "latDeg": 43.9,
    "lonDeg": 34.5,
    "altM": 0
   },
   {
    "id": "L04",
-   "name": "Crimeea",
+   "name": "Crimea",
    "latDeg": 45.3,
    "lonDeg": 34.0,
    "altM": 0
   },
   {
    "id": "L05",
-   "name": "Herson",
+   "name": "Kherson",
    "latDeg": 46.6,
    "lonDeg": 32.6,
    "altM": 0
   },
   {
    "id": "L06",
-   "name": "Zona de lansare Kh-101 (Marea Neagră)",
+   "name": "Launch area Kh-101 (Black Sea)",
    "latDeg": 44.5,
    "lonDeg": 36.5,
    "altM": 0
@@ -90,14 +90,14 @@
  "targets": [
   {
    "id": "T01",
-   "name": "Constanța (port)",
+   "name": "Constanta (port)",
    "kind": "city",
    "latDeg": 44.18,
    "lonDeg": 28.65
   },
   {
    "id": "T02",
-   "name": "Baza aeriană Mihail Kogălniceanu",
+   "name": "Air base Mihail Kogălniceanu",
    "kind": "military_base",
    "latDeg": 44.36,
    "lonDeg": 28.49,
@@ -106,7 +106,7 @@
   },
   {
    "id": "T03",
-   "name": "Deveselu (apărare antibalistică)",
+   "name": "Deveselu (anti-ballistic defense)",
    "kind": "military_base",
    "latDeg": 44.08,
    "lonDeg": 24.4,
@@ -115,7 +115,7 @@
   },
   {
    "id": "T04",
-   "name": "București",
+   "name": "Bucharest",
    "kind": "city",
    "latDeg": 44.43,
    "lonDeg": 26.1
@@ -129,7 +129,7 @@
   },
   {
    "id": "T06",
-   "name": "Baza navală Varna",
+   "name": "Naval base Varna",
    "kind": "military_base",
    "latDeg": 43.2,
    "lonDeg": 27.9,
@@ -138,7 +138,7 @@
   },
   {
    "id": "T07",
-   "name": "Baza aeriană Graf Ignatievo",
+   "name": "Air base Graf Ignatievo",
    "kind": "military_base",
    "latDeg": 42.29,
    "lonDeg": 24.71,
@@ -161,21 +161,21 @@
   },
   {
    "id": "T10",
-   "name": "Alexandroupoli (nod logistic)",
+   "name": "Alexandroupoli (logistics hub)",
    "kind": "city",
    "latDeg": 40.85,
    "lonDeg": 25.87
   },
   {
    "id": "T11",
-   "name": "Salonic",
+   "name": "Thessaloniki",
    "kind": "city",
    "latDeg": 40.64,
    "lonDeg": 22.94
   },
   {
    "id": "T12",
-   "name": "Baza aeriană Çorlu",
+   "name": "Air base Çorlu",
    "kind": "military_base",
    "latDeg": 41.14,
    "lonDeg": 27.92,
@@ -184,7 +184,7 @@
   },
   {
    "id": "X01",
-   "name": "Lovitura asupra: Radar Constanța",
+   "name": "Strike on: Radar Constanta",
    "kind": "military_base",
    "latDeg": 44.2,
    "lonDeg": 28.6,
@@ -193,7 +193,7 @@
   },
   {
    "id": "X02",
-   "name": "Lovitura asupra: Patriot Constanța",
+   "name": "Strike on: Patriot Constanta",
    "kind": "military_base",
    "latDeg": 44.2,
    "lonDeg": 28.65,
@@ -202,7 +202,7 @@
   },
   {
    "id": "X03",
-   "name": "Lovitura asupra: NASAMS Mihail Kogălniceanu",
+   "name": "Strike on: NASAMS Mihail Kogălniceanu",
    "kind": "military_base",
    "latDeg": 44.38,
    "lonDeg": 28.5,
@@ -321,14 +321,14 @@
   {
    "id": "R01",
    "type": "radar-ew-long",
-   "name": "Radar Constanța",
+   "name": "Radar Constanta",
    "latDeg": 44.2,
    "lonDeg": 28.6
   },
   {
    "id": "R02",
    "type": "radar-ew-long",
-   "name": "Radar București",
+   "name": "Radar Bucharest",
    "latDeg": 44.45,
    "lonDeg": 26.1
   },
@@ -363,7 +363,7 @@
   {
    "id": "R07",
    "type": "radar-ew-long",
-   "name": "Radar Salonic",
+   "name": "Radar Thessaloniki",
    "latDeg": 40.63,
    "lonDeg": 22.95
   },
@@ -377,28 +377,28 @@
   {
    "id": "PT01",
    "type": "patriot-pac3-mse",
-   "name": "Patriot București 01",
+   "name": "Patriot Bucharest 01",
    "latDeg": 44.3369,
    "lonDeg": 25.9234
   },
   {
    "id": "PT02",
    "type": "patriot-pac3-mse",
-   "name": "Patriot București 02",
+   "name": "Patriot Bucharest 02",
    "latDeg": 44.5582,
    "lonDeg": 26.0706
   },
   {
    "id": "PT03",
    "type": "patriot-pac3-mse",
-   "name": "Patriot București 03",
+   "name": "Patriot Bucharest 03",
    "latDeg": 44.3985,
    "lonDeg": 26.2574
   },
   {
    "id": "PT04",
    "type": "patriot-pac3-mse",
-   "name": "Patriot Constanța",
+   "name": "Patriot Constanta",
    "latDeg": 44.2,
    "lonDeg": 28.65
   },
@@ -412,7 +412,7 @@
   {
    "id": "PT06",
    "type": "patriot-pac3-mse",
-   "name": "Patriot Salonic",
+   "name": "Patriot Thessaloniki",
    "latDeg": 40.65,
    "lonDeg": 22.98
   },
@@ -433,7 +433,7 @@
   {
    "id": "NS02",
    "type": "nasams",
-   "name": "NASAMS București",
+   "name": "NASAMS Bucharest",
    "latDeg": 44.5,
    "lonDeg": 26.05
   },
@@ -468,182 +468,182 @@
   {
    "id": "IR01",
    "type": "iris-t-slm",
-   "name": "IRIS-T Constanța 01",
+   "name": "IRIS-T Constanta 01",
    "latDeg": 44.1272,
    "lonDeg": 28.6863
   },
   {
    "id": "IR02",
    "type": "iris-t-slm",
-   "name": "IRIS-T Constanța 02",
+   "name": "IRIS-T Constanta 02",
    "latDeg": 44.2608,
    "lonDeg": 28.5814
   },
   {
    "id": "MG01",
    "type": "mobile-fire-group",
-   "name": "Grup mobil București 01",
+   "name": "Mobile group Bucharest 01",
    "latDeg": 44.4383,
    "lonDeg": 26.191
   },
   {
    "id": "MG02",
    "type": "mobile-fire-group",
-   "name": "Grup mobil București 02",
+   "name": "Mobile group Bucharest 02",
    "latDeg": 44.3027,
    "lonDeg": 26.2262
   },
   {
    "id": "MG03",
    "type": "mobile-fire-group",
-   "name": "Grup mobil București 03",
+   "name": "Mobile group Bucharest 03",
    "latDeg": 44.2895,
    "lonDeg": 26.0393
   },
   {
    "id": "MG04",
    "type": "mobile-fire-group",
-   "name": "Grup mobil București 04",
+   "name": "Mobile group Bucharest 04",
    "latDeg": 44.3995,
    "lonDeg": 25.937
   },
   {
    "id": "MG05",
    "type": "mobile-fire-group",
-   "name": "Grup mobil București 05",
+   "name": "Mobile group Bucharest 05",
    "latDeg": 44.4814,
    "lonDeg": 26.0533
   },
   {
    "id": "MG06",
    "type": "mobile-fire-group",
-   "name": "Grup mobil București 06",
+   "name": "Mobile group Bucharest 06",
    "latDeg": 44.5346,
    "lonDeg": 26.1719
   },
   {
    "id": "MG07",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Constanța 07",
+   "name": "Mobile group Constanta 07",
    "latDeg": 44.2233,
    "lonDeg": 28.7614
   },
   {
    "id": "MG08",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Constanța 08",
+   "name": "Mobile group Constanta 08",
    "latDeg": 44.1238,
    "lonDeg": 28.6814
   },
   {
    "id": "MG09",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Constanța 09",
+   "name": "Mobile group Constanta 09",
    "latDeg": 44.1243,
    "lonDeg": 28.5327
   },
   {
    "id": "MG10",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Constanța 10",
+   "name": "Mobile group Constanta 10",
    "latDeg": 44.2948,
    "lonDeg": 28.5524
   },
   {
    "id": "MG11",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Bulgaria 11",
+   "name": "Mobile group Bulgaria 11",
    "latDeg": 43.8262,
    "lonDeg": 26.166
   },
   {
    "id": "MG12",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Bulgaria 12",
+   "name": "Mobile group Bulgaria 12",
    "latDeg": 42.525,
    "lonDeg": 26.579
   },
   {
    "id": "MG13",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Bulgaria 13",
+   "name": "Mobile group Bulgaria 13",
    "latDeg": 41.9761,
    "lonDeg": 24.877
   },
   {
    "id": "MG14",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Bulgaria 14",
+   "name": "Mobile group Bulgaria 14",
    "latDeg": 43.1136,
    "lonDeg": 24.7373
   },
   {
    "id": "MG15",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Istanbul 15",
+   "name": "Mobile group Istanbul 15",
    "latDeg": 40.875,
    "lonDeg": 28.9468
   },
   {
    "id": "MG16",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Istanbul 16",
+   "name": "Mobile group Istanbul 16",
    "latDeg": 41.0052,
    "lonDeg": 28.8732
   },
   {
    "id": "MG17",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Istanbul 17",
+   "name": "Mobile group Istanbul 17",
    "latDeg": 41.162,
    "lonDeg": 28.9766
   },
   {
    "id": "MG18",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Istanbul 18",
+   "name": "Mobile group Istanbul 18",
    "latDeg": 40.9981,
    "lonDeg": 29.1068
   },
   {
    "id": "AB01",
    "type": "airbase",
-   "name": "Baza Mihail Kogălniceanu",
+   "name": "Base Mihail Kogălniceanu",
    "latDeg": 44.36,
    "lonDeg": 28.49
   },
   {
    "id": "AB02",
    "type": "airbase",
-   "name": "Baza Fetești",
+   "name": "Base Fetești",
    "latDeg": 44.4,
    "lonDeg": 27.72
   },
   {
    "id": "AB03",
    "type": "airbase",
-   "name": "Baza Graf Ignatievo",
+   "name": "Base Graf Ignatievo",
    "latDeg": 42.29,
    "lonDeg": 24.71
   },
   {
    "id": "AB04",
    "type": "airbase",
-   "name": "Baza Çorlu",
+   "name": "Base Çorlu",
    "latDeg": 41.14,
    "lonDeg": 27.92
   },
   {
    "id": "AB05",
    "type": "airbase",
-   "name": "Baza Alexandroupoli",
+   "name": "Base Alexandroupoli",
    "latDeg": 40.86,
    "lonDeg": 25.96
   },
   {
    "id": "PA01",
    "type": "f-16-patrol",
-   "name": "F-16 România",
+   "name": "F-16 Romania",
    "latDeg": 44.4,
    "lonDeg": 27.7
   },
@@ -657,14 +657,14 @@
   {
    "id": "PA03",
    "type": "f-16-patrol",
-   "name": "F-16 Turcia",
+   "name": "F-16 Turkey",
    "latDeg": 41.3,
    "lonDeg": 27.5
   },
   {
    "id": "PA04",
    "type": "f-16-patrol",
-   "name": "F-16 Grecia",
+   "name": "F-16 Greece",
    "latDeg": 40.8,
    "lonDeg": 25.5
   }

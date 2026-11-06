@@ -1,5 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
+import { localName } from './i18n/dataNames'
 import { api } from './api'
+import { currentLocale } from './i18n'
+import LanguageSwitch from './i18n/LanguageSwitch'
 import type { CompareJob, CompareSide, ComparisonRow, ScenarioInfo } from './types'
 
 const CURRENT = '__current__'
@@ -7,7 +11,7 @@ const CURRENT = '__current__'
 interface Props {
   connected: boolean
   scenarios: ScenarioInfo[]
-  /** Configurarea din editor (null daca nu exista una), trimisa ca scenariu custom. */
+  /** The configuration from the editor (null if there is none), sent as a custom scenario. */
   currentScenario: unknown | null
   currentName: string
   onBack: () => void
@@ -15,7 +19,7 @@ interface Props {
 
 function fmt(v: number): string {
   const a = Math.abs(v)
-  if (a >= 1000) return Math.round(v).toLocaleString('ro-RO')
+  if (a >= 1000) return Math.round(v).toLocaleString(currentLocale())
   if (a >= 100) return v.toFixed(0)
   if (a >= 10) return v.toFixed(1)
   return v.toFixed(2)
@@ -27,6 +31,7 @@ function fmtDiff(r: ComparisonRow): string {
 }
 
 export default function Compare({ connected, scenarios, currentScenario, currentName, onBack }: Props) {
+  const { t } = useTranslation()
   const visible = scenarios.filter((s) => s.valid && !s.id.startsWith('test'))
   const [aChoice, setA] = useState('')
   const [noRetA, setNoRetA] = useState(false)
@@ -65,9 +70,9 @@ export default function Compare({ connected, scenarios, currentScenario, current
     setError('')
     setJob(null)
     const trimmed = seed.trim()
-    if (trimmed && !/^\d{1,15}$/.test(trimmed)) return setError('Seed-ul trebuie să fie un număr întreg pozitiv.')
-    if (!Number.isInteger(runs) || runs < 1 || runs > 100) return setError('Numărul de rulări trebuie să fie între 1 și 100.')
-    if (!a || !b) return setError('Alege ambele scenarii.')
+    if (trimmed && !/^\d{1,15}$/.test(trimmed)) return setError(t('compare.errSeed'))
+    if (!Number.isInteger(runs) || runs < 1 || runs > 100) return setError(t('compare.errRuns'))
+    if (!a || !b) return setError(t('compare.errPick'))
     try {
       const j = await api.compareStart(side(a, noRetA), side(b, noRetB), runs, trimmed ? Number(trimmed) : null)
       setJob(j)
@@ -79,10 +84,10 @@ export default function Compare({ connected, scenarios, currentScenario, current
 
   const options = (
     <>
-      {currentScenario !== null && <option value={CURRENT}>Configurarea din editor ({currentName})</option>}
+      {currentScenario !== null && <option value={CURRENT}>{t('compare.currentNamed', { name: currentName })}</option>}
       {visible.map((s) => (
         <option key={s.id} value={s.id}>
-          {s.name}
+          {localName('scenario', s.name)}
         </option>
       ))}
     </>
@@ -96,50 +101,53 @@ export default function Compare({ connected, scenarios, currentScenario, current
       <div className="page-inner">
         <div className="page-head">
           <button className="back" onClick={onBack}>
-            ← Meniu
+            {t('common.menu')}
           </button>
-          <h2>Compară scenarii</h2>
+          <h2>{t('compare.title')}</h2>
+          <LanguageSwitch />
         </div>
-        <p className="muted small">
-          Ambele scenarii rulează cu aceleași seed-uri, iar diferența se calculează pe perechi (același seed în A și în B). Z = diferența medie / eroarea
-          standard; |Z| &gt; 2 înseamnă o diferență probabil reală. Pentru o variantă modificată: ajustează în editor, apoi alege „Configurarea din
-          editor” ca B.
-        </p>
+        <p className="muted small">{t('compare.intro')}</p>
 
-        <div className="two">
+        <div className="cmp-sides">
+          <div className="cmp-side">
+            <label className="field">
+              {t('compare.scenarioA')}
+              <select value={a} onChange={(e) => setA(e.target.value)} disabled={running}>
+                {options}
+              </select>
+            </label>
+            <label className="check">
+              <input type="checkbox" checked={noRetA} onChange={(e) => setNoRetA(e.target.checked)} disabled={running} /> {t('compare.noRetarget')}
+            </label>
+          </div>
+          <div className="cmp-side">
+            <label className="field">
+              {t('compare.scenarioB')}
+              <select value={b} onChange={(e) => setB(e.target.value)} disabled={running}>
+                <option value="">{t('compare.pick')}</option>
+                {options}
+              </select>
+            </label>
+            <label className="check">
+              <input type="checkbox" checked={noRetB} onChange={(e) => setNoRetB(e.target.checked)} disabled={running} /> {t('compare.noRetarget')}
+            </label>
+          </div>
+        </div>
+
+        <div className="cmp-run">
           <label className="field">
-            Scenariu A
-            <select value={a} onChange={(e) => setA(e.target.value)} disabled={running}>
-              {options}
-            </select>
-            <span className="check">
-              <input type="checkbox" checked={noRetA} onChange={(e) => setNoRetA(e.target.checked)} disabled={running} /> fără redirecționare în zbor
-            </span>
-          </label>
-          <label className="field">
-            Scenariu B
-            <select value={b} onChange={(e) => setB(e.target.value)} disabled={running}>
-              <option value="">— alege —</option>
-              {options}
-            </select>
-            <span className="check">
-              <input type="checkbox" checked={noRetB} onChange={(e) => setNoRetB(e.target.checked)} disabled={running} /> fără redirecționare în zbor
-            </span>
-          </label>
-          <label className="field">
-            Rulări per scenariu (max 100)
+            {t('compare.runsPer')}
             <input type="number" min={1} max={100} value={runs} onChange={(e) => setRuns(Number(e.target.value))} disabled={running} />
           </label>
           <label className="field">
-            Seed de bază
-            <input value={seed} onChange={(e) => setSeed(e.target.value)} placeholder="automat" inputMode="numeric" disabled={running} />
+            {t('compare.baseSeed')}
+            <input value={seed} onChange={(e) => setSeed(e.target.value)} placeholder={t('compare.auto')} inputMode="numeric" disabled={running} />
           </label>
+          <button className="primary" onClick={() => void start()} disabled={!connected || running}>
+            {running ? t('compare.running') : t('compare.start')}
+          </button>
         </div>
-
-        <button className="primary" onClick={() => void start()} disabled={!connected || running}>
-          {running ? 'Rulează…' : '▶ Compară'}
-        </button>
-        <div className="muted small">O rulare mare durează minute (RU–UA: câteva minute per rulare). Folosește 5–10 rulări pentru o primă idee.</div>
+        <div className="muted small">{t('compare.hint')}</div>
 
         {error && <div className="error">{error}</div>}
         {job?.state === 'error' && <div className="error">{job.error}</div>}
@@ -147,22 +155,23 @@ export default function Compare({ connected, scenarios, currentScenario, current
         {job && job.state === 'running' && (
           <div className="progress">
             <div className="progress-bar" style={{ width: `${pct}%` }} />
-            <span className="small">
-              {job.done} / {job.total} rulări
-            </span>
+            <span className="small">{t('compare.progress', { done: job.done, total: job.total })}</span>
           </div>
         )}
 
         {job?.state === 'done' && job.rows && (
           <>
             <div className="muted small">
-              A: <strong>{job.nameA}</strong> · B: <strong>{job.nameB}</strong> · {job.runs} rulări · seed {job.seed}..{Number(job.seed) + job.runs - 1} · motor{' '}
-              {job.engineVersion}
+              <Trans
+                i18nKey="compare.summary"
+                values={{ nameA: localName('scenario', job.nameA), nameB: localName('scenario', job.nameB), runs: job.runs, from: job.seed, to: Number(job.seed) + job.runs - 1, engine: job.engineVersion }}
+                components={{ b: <strong /> }}
+              />
             </div>
             <table className="cmp">
               <thead>
                 <tr>
-                  <th>Metrică</th>
+                  <th>{t('compare.metric')}</th>
                   <th>A</th>
                   <th>B</th>
                   <th>B − A</th>
@@ -172,7 +181,7 @@ export default function Compare({ connected, scenarios, currentScenario, current
               <tbody>
                 {job.rows.map((r) => (
                   <tr key={r.name} className={r.significant ? 'sig' : ''}>
-                    <td>{r.name.trim()}</td>
+                    <td>{localName('metric', r.name.trim())}</td>
                     <td>{fmt(r.meanA)}</td>
                     <td>{fmt(r.meanB)}</td>
                     <td>{fmtDiff(r)}</td>
@@ -183,7 +192,7 @@ export default function Compare({ connected, scenarios, currentScenario, current
                 ))}
               </tbody>
             </table>
-            <div className="muted small">● = diferență semnificativă (|Z| &gt; 2). Valorile sunt medii peste rulări.</div>
+            <div className="muted small">{t('compare.legend')}</div>
           </>
         )}
       </div>

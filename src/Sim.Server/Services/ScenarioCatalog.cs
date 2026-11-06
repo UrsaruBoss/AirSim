@@ -10,7 +10,7 @@ namespace Sim.Server.Services;
 
 public static class ScenarioCatalog
 {
-    /// <summary>Id-urile de scenariu sunt nume de fisier simple: fara separatori de cale sau "..".</summary>
+    /// <summary>Scenario ids are plain file names: no path separators or "..".</summary>
     public static bool IsSafeId(string? id) =>
         !string.IsNullOrWhiteSpace(id)
         && id.Length < 100

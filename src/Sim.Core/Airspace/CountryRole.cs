@@ -1,8 +1,8 @@
 namespace Sim.Core.Airspace;
 
 /// <summary>
-/// Rolul unei tari in scenariu. In JSON apare camelCase: "neutral", "defender", "defenderAlly", "attacker", "attackerAlly".
-/// Tarile nementionate in scenariu sunt tratate ca Neutral.
+/// The role of a country in a scenario. In JSON it is camelCase: "neutral", "defender", "defenderAlly", "attacker", "attackerAlly".
+/// Countries not mentioned in the scenario are treated as Neutral.
 /// </summary>
 public enum CountryRole
 {
@@ -13,13 +13,13 @@ public enum CountryRole
     AttackerAlly
 }
 
-/// <summary>Regulile de survol. Pastrate intr-un singur loc ca sa se poata schimba/parametriza usor.</summary>
+/// <summary>Overflight rules. Kept in one place so they are easy to change or parameterize.</summary>
 public static class AirspacePolicy
 {
     /// <summary>
-    /// Pentru unitatile ofensive: intrarea in spatiul aerian al unei tari cu acest rol e o incalcare?
-    /// Libere: tara atacatoare, aliatii ei si tara aparatoare (zona de razboi).
-    /// Incalcari: tari neutre si aliatii aparatorului (nu sunt in razboi, dar sunt de partea cealalta).
+    /// For offensive units: is entering the airspace of a country with this role a violation?
+    /// Free: the attacking country, its allies and the defending country (the war zone).
+    /// Violations: neutral countries and the defender's allies (not at war, but on the other side).
     /// </summary>
     public static bool IsViolationForAttackers(CountryRole role) =>
         role is CountryRole.Neutral or CountryRole.DefenderAlly;

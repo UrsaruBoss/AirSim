@@ -2,42 +2,42 @@ using Sim.Core.Geo;
 
 namespace Sim.Core.Events;
 
-/// <summary>Valorile numerice intra in hash: nu le renumerota, adauga doar la sfarsit.</summary>
+/// <summary>The numeric values go into the hash: do not renumber, only append at the end.</summary>
 public enum SimEventType
 {
     Launched = 1,
     Impact = 2,
     AirspaceViolation = 3,
-    /// <summary>Radarul Code a detectat drona.</summary>
+    /// <summary>Radar Code detected the drone.</summary>
     Detected = 4,
-    /// <summary>Drona a fost doborata de sistemul Code.</summary>
+    /// <summary>The drone was shot down by system Code.</summary>
     Intercepted = 5,
-    /// <summary>Sistemul Code a tras si a ratat.</summary>
+    /// <summary>System Code fired and missed.</summary>
     Missed = 6,
-    /// <summary>Baza Code a lansat un interceptor (EntityId = id-ul interceptorului).</summary>
+    /// <summary>Base Code launched an interceptor (EntityId = the interceptor id).</summary>
     InterceptorLaunched = 7,
-    /// <summary>Interceptorul si-a pierdut tinta sau i s-a terminat zborul.</summary>
+    /// <summary>The interceptor lost its target or ran out of flight time.</summary>
     InterceptorLost = 8,
-    /// <summary>Patrula Code se intoarce la baza (fara munitie sau combustibil).</summary>
+    /// <summary>Patrol Code is returning to base (out of ammunition or fuel).</summary>
     PatrolReturning = 9,
-    /// <summary>Patrula Code a fost reincarcata si revine in asteptare.</summary>
+    /// <summary>Patrol Code was rearmed and is back on station.</summary>
     PatrolRearmed = 10,
-    /// <summary>Un impact al dronei EntityId a distrus sistemul defensiv Code.</summary>
+    /// <summary>An impact by drone EntityId destroyed defensive system Code.</summary>
     DefenseDestroyed = 11,
-    /// <summary>Unitatea EntityId a cazut pe traseu (defectiune), fara sa ajunga la tinta.</summary>
+    /// <summary>Unit EntityId fell along its route (malfunction) without reaching the target.</summary>
     Crashed = 12,
-    /// <summary>Sistemul de razboi electronic Code a facut unitatea EntityId sa-si piarda ghidarea (cade pe loc).</summary>
+    /// <summary>Electronic warfare system Code made unit EntityId lose guidance (it falls on the spot).</summary>
     Jammed = 13,
-    /// <summary>Unitatea EntityId si-a schimbat tinta in zbor (tinta initiala era deja distrusa); Code = id-ul noii tinte.</summary>
+    /// <summary>Unit EntityId changed its target in flight (the original target was already destroyed); Code = the id of the new target.</summary>
     Retargeted = 14
 }
 
-/// <summary>Code: codul ISO al tarii la AirspaceViolation, id-ul sistemului defensiv la Detected/Intercepted/Missed, altfel null. Intra in hash.</summary>
+/// <summary>Code: the ISO country code for AirspaceViolation, the defensive system id for Detected/Intercepted/Missed, otherwise null. Part of the hash.</summary>
 public readonly record struct SimEvent(long Tick, SimEventType Type, int EntityId, GeoPoint Position, string? Code = null);
 
 public static class SimEventTypeExtensions
 {
-    /// <summary>Numele din fisiere si de pe retea: camelCase ("launched", "impact", "airspaceViolation").</summary>
+    /// <summary>Name in files and on the wire: camelCase ("launched", "impact", "airspaceViolation").</summary>
     public static string WireName(this SimEventType type)
     {
         string name = type.ToString();

@@ -4,13 +4,13 @@ using System.Linq;
 
 namespace Sim.Core.Analytics;
 
-/// <summary>Diferenta B - A pentru o metrica, calculata pe perechi de rulari cu acelasi seed.</summary>
+/// <summary>Difference B - A for one metric, computed over pairs of runs with the same seed.</summary>
 public sealed record ComparisonRow(
     string Name, double MeanA, double MeanB, double Diff, double DiffSd, double StdError, double Z, bool Significant);
 
 /// <summary>
-/// Compara doua rapoarte rulate cu aceleasi seed-uri. Diferenta se face pe perechi (seed i din A cu seed i din B),
-/// ceea ce elimina o parte din zgomot; Z = media diferentelor / eroarea standard. |Z| &gt; 2 ~ diferenta probabil reala (≈95%).
+/// Compares two reports run with the same seeds. The difference is taken pairwise (seed i of A with seed i of B),
+/// which removes part of the noise; Z = mean difference / standard error. |Z| &gt; 2 ~ probably a real difference (≈95%).
 /// </summary>
 public static class BatchCompare
 {
@@ -19,7 +19,7 @@ public static class BatchCompare
     public static IReadOnlyList<ComparisonRow> Compare(BatchReport a, BatchReport b)
     {
         if (a.Runs != b.Runs || a.BaseSeed != b.BaseSeed)
-            throw new ArgumentException("Cele doua rapoarte trebuie sa aiba acelasi seed de baza si acelasi numar de rulari.");
+            throw new ArgumentException("The two reports must have the same base seed and the same number of runs.");
 
         var ra = a.Results.OrderBy(r => r.Seed).ToArray();
         var rb = b.Results.OrderBy(r => r.Seed).ToArray();

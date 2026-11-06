@@ -2,19 +2,19 @@ using System;
 
 namespace Sim.Core.Geo;
 
-/// <summary>Constante WGS84 si conversii geodezice.</summary>
+/// <summary>WGS84 constants and geodetic conversions.</summary>
 public static class Wgs84
 {
-    /// <summary>Semi-axa mare (m).</summary>
+    /// <summary>Semi-major axis (m).</summary>
     public const double A = 6378137.0;
 
-    /// <summary>Turtire (flattening).</summary>
+    /// <summary>Flattening.</summary>
     public const double F = 1.0 / 298.257223563;
 
-    /// <summary>Excentricitate la patrat.</summary>
+    /// <summary>Eccentricity squared.</summary>
     public const double E2 = F * (2.0 - F);
 
-    /// <summary>Raza medie (IUGG) folosita pentru calculele pe sfera (m).</summary>
+    /// <summary>Mean radius (IUGG) used for spherical calculations (m).</summary>
     public const double MeanRadiusM = 6371008.8;
 
     private const double Deg2Rad = Math.PI / 180.0;
@@ -34,7 +34,7 @@ public static class Wgs84
         return new Vec3(x, y, z);
     }
 
-    /// <summary>ECEF -> geodezic. Iteratie cu numar fix de pasi (determinist, converge la sub-milimetru).</summary>
+    /// <summary>ECEF -> geodetic. Fixed number of iterations (deterministic, converges to sub-millimeter).</summary>
     public static GeoPoint FromEcef(Vec3 v)
     {
         double lon = Math.Atan2(v.Y, v.X);
@@ -47,7 +47,7 @@ public static class Wgs84
             double sinLat = Math.Sin(lat);
             double n = A / Math.Sqrt(1.0 - E2 * sinLat * sinLat);
 
-            // aproape de poli cos(lat) -> 0, deci folosim formula cu z
+            // near the poles cos(lat) -> 0, so use the z-based formula
             h = Math.Abs(lat) < 1.0
                 ? p / Math.Cos(lat) - n
                 : v.Z / sinLat - n * (1.0 - E2);
@@ -58,7 +58,7 @@ public static class Wgs84
         return new GeoPoint(lat * Rad2Deg, lon * Rad2Deg, h);
     }
 
-    /// <summary>Distanta pe cercul mare (haversine, sfera de raza medie), la nivelul marii, in metri.</summary>
+    /// <summary>Great-circle distance (haversine, mean-radius sphere), at sea level, in meters.</summary>
     public static double GreatCircleDistanceM(GeoPoint a, GeoPoint b)
     {
         double lat1 = a.LatDeg * Deg2Rad;
@@ -72,10 +72,10 @@ public static class Wgs84
         return 2.0 * MeanRadiusM * Math.Asin(Math.Min(1.0, Math.Sqrt(h)));
     }
 
-    /// <summary>Distanta in linie dreapta (slant range) intre doua puncte 3D, in metri. Folosita la radar/angajare.</summary>
+    /// <summary>Straight-line (slant range) distance between two 3D points, in meters. Used for radar/engagement.</summary>
     public static double SlantRangeM(GeoPoint a, GeoPoint b) => (ToEcef(a) - ToEcef(b)).Length;
 
-    /// <summary>Azimut initial de la a la b, in grade [0, 360), pe sfera.</summary>
+    /// <summary>Initial bearing from a to b, in degrees [0, 360), on the sphere.</summary>
     public static double InitialBearingDeg(GeoPoint a, GeoPoint b)
     {
         double lat1 = a.LatDeg * Deg2Rad;
@@ -88,7 +88,7 @@ public static class Wgs84
         return (brg + 360.0) % 360.0;
     }
 
-    /// <summary>Punctul atins plecand din 'from' pe azimutul dat, la distanta data pe sfera. Altitudinea se pastreaza.</summary>
+    /// <summary>The point reached by leaving 'from' on the given bearing, at the given distance on the sphere. Altitude is preserved.</summary>
     public static GeoPoint Destination(GeoPoint from, double bearingDeg, double distanceM)
     {
         double lat1 = from.LatDeg * Deg2Rad;

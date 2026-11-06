@@ -15,9 +15,9 @@ public sealed class EventLog
     public void Add(in SimEvent e) => _events.Add(e);
 
     /// <summary>
-    /// SHA-256 (hex) peste o serializare binara fixa (little-endian, 44 de octeti/eveniment):
-    /// tick, tip, id entitate, lat, lon, alt, hash FNV-1a pe 32 de biti al codului (0 daca lipseste).
-    /// Doua rulari cu acelasi scenariu + seed + versiune de motor trebuie sa dea acelasi hash.
+    /// SHA-256 (hex) over a fixed binary serialization (little-endian, 44 bytes per event):
+    /// tick, type, entity id, lat, lon, alt, 32-bit FNV-1a hash of the code (0 if absent).
+    /// Two runs with the same scenario + seed + engine version must produce the same hash.
     /// </summary>
     public string Hash()
     {
@@ -41,7 +41,7 @@ public sealed class EventLog
         return Convert.ToHexString(hasher.GetHashAndReset()).ToLowerInvariant();
     }
 
-    /// <summary>FNV-1a 32 de biti peste caracterele codului (fiecare char pe 16 biti, little-endian): stabil pe orice masina.</summary>
+    /// <summary>32-bit FNV-1a over the code characters (each char as 16 bits, little-endian): stable on any machine.</summary>
     private static uint Fnv1a(string? code)
     {
         if (string.IsNullOrEmpty(code))

@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { applyScreenUV } from './screenUV'
 
 /**
  * Buncarul. Daca exista /models/bunker.glb se foloseste el, altfel se construieste unul procedural (placeholder).
@@ -10,6 +11,8 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
  *   Terminal_Events    calculator: evenimente
  *   Terminal_Results   calculator: rezultate
  *   Terminal_Control   calculatorul liber: alegi ce controlezi / ce arata ecranul mare
+ *   Screen_Secondary   ecranul comandantului (orice orientare): afiseaza starea simularii; UV-urile se recalculeaza singure
+ *   Button_SpeedUp / Button_SpeedDown / Button_Pause / Button_Reset   butoane fizice (tasta E): viteza +/-, pauza/reia, repornire
  *   Collider_*         mobilier vizibil care blocheaza trecerea (o cutie per mesh)
  *   Blocker_*          cutie invizibila care blocheaza trecerea
  *   Spawn              empty: pozitia si directia de start (privirea pe -Z local)
@@ -25,10 +28,30 @@ export const TERMINAL_LABELS: Record<TerminalId, string> = {
   control: 'CONTROL',
 }
 
+export type ButtonId = 'speedUp' | 'speedDown' | 'pause' | 'reset'
+
+export const BUTTON_LABELS: Record<ButtonId, string> = {
+  speedUp: 'Viteză +',
+  speedDown: 'Viteză −',
+  pause: 'Pauză / Reia',
+  reset: 'Repornește scenariul',
+}
+
+/** Numele din Blender -> id-ul butonului. */
+const BUTTON_NAMES: Record<string, ButtonId> = {
+  Button_SpeedUp: 'speedUp',
+  Button_SpeedDown: 'speedDown',
+  Button_Pause: 'pause',
+  Button_Reset: 'reset',
+}
+
 export interface Bunker {
   root: THREE.Object3D
   screen: THREE.Mesh | null
-  /** Obiecte pe care se poate apasa E (userData.interact = id terminal sau 'screen'). */
+  /** Ecranul comandantului (Screen_Secondary), daca exista, si raportul lui latime / inaltime. */
+  secondary: THREE.Mesh | null
+  secondaryAspect: number
+  /** Obiecte pe care se poate apasa E (userData.interact = id terminal, 'screen' sau 'btn:<id>'). */
   interactables: THREE.Object3D[]
   colliders: THREE.Box3[]
   bounds: THREE.Box3
@@ -137,6 +160,20 @@ function buildProcedural(): Bunker {
   for (const [dx, dz] of [[-1.6, -0.55], [1.6, -0.55], [-1.6, 0.55], [1.6, 0.55]]) addBox(root, 0.12, 0.85, 0.12, dx, 0.425, -0.8 + dz, concrete(0x2e2a24))
   boxOf(0, -0.8, 3.7, 1.6)
 
+  // butoane pe marginea mesei dinspre comandant: viteza -, viteza +, pauza, repornire
+  const buttonSpec: { id: ButtonId; x: number; color: number }[] = [
+    { id: 'speedDown', x: -0.45, color: 0xffb454 },
+    { id: 'speedUp', x: -0.15, color: 0x3ddc97 },
+    { id: 'pause', x: 0.15, color: 0x4c9aff },
+    { id: 'reset', x: 0.45, color: 0xff6b6b },
+  ]
+  for (const bt of buttonSpec) {
+    const m = addBox(root, 0.2, 0.05, 0.12, bt.x, 0.975, -0.2, new THREE.MeshBasicMaterial({ color: bt.color, toneMapped: false }))
+    m.name = `Button_${bt.id}`
+    m.userData.interact = `btn:${bt.id}`
+    interactables.push(m)
+  }
+
   // birouri + calculatoare: stanga si dreapta
   const spec: { id: TerminalId; side: -1 | 1; z: number; color: string }[] = [
     { id: 'stats', side: -1, z: -2.6, color: '#4c9aff' },
@@ -172,39 +209,7 @@ function buildProcedural(): Bunker {
   }
 
   const bounds = new THREE.Box3(new THREE.Vector3(-W / 2 + 0.4, 0, -D / 2 + 0.55), new THREE.Vector3(W / 2 - 0.4, H, D / 2 - 0.4))
-  return { root, screen, interactables, colliders, bounds, spawn: new THREE.Vector3(0, EYE, 3.6), spawnYaw: 0, usedModel: false, report: [] }
-}
-
-/**
- * Recalculeaza UV-urile ecranului din geometrie (perete vertical aliniat pe X sau Z), ca imaginea sa fie
- * mereu dreapta, indiferent cum a iesit UV-ul din Blender. `inside` = un punct din interiorul incaperii.
- */
-function planarScreenUV(mesh: THREE.Mesh, inside: THREE.Vector3) {
-  mesh.updateMatrixWorld(true)
-  const geo = mesh.geometry.clone()
-  const pos = geo.getAttribute('position')
-  const pts: THREE.Vector3[] = []
-  for (let i = 0; i < pos.count; i++) pts.push(new THREE.Vector3().fromBufferAttribute(pos, i).applyMatrix4(mesh.matrixWorld))
-  const box = new THREE.Box3().setFromPoints(pts)
-  const size = box.getSize(new THREE.Vector3())
-  const normal = new THREE.Vector3(size.x < size.z ? 1 : 0, 0, size.x < size.z ? 0 : 1)
-  if (normal.dot(inside.clone().sub(box.getCenter(new THREE.Vector3()))) < 0) normal.negate()
-  // privitorul se uita spre -normal; dreapta lui = forward x up
-  const right = normal.clone().negate().cross(new THREE.Vector3(0, 1, 0)).normalize()
-  let lo = Infinity
-  let hi = -Infinity
-  for (const p of pts) {
-    const d = p.dot(right)
-    lo = Math.min(lo, d)
-    hi = Math.max(hi, d)
-  }
-  const uv = new Float32Array(pts.length * 2)
-  pts.forEach((p, i) => {
-    uv[i * 2] = (p.dot(right) - lo) / Math.max(hi - lo, 1e-6)
-    uv[i * 2 + 1] = (p.y - box.min.y) / Math.max(size.y, 1e-6)
-  })
-  geo.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2))
-  mesh.geometry = geo
+  return { root, screen, secondary: null, secondaryAspect: 2, interactables, colliders, bounds, spawn: new THREE.Vector3(0, EYE, 3.6), spawnYaw: 0, usedModel: false, report: [] }
 }
 
 function fromModel(gltf: { scene: THREE.Group }): Bunker {
@@ -212,12 +217,15 @@ function fromModel(gltf: { scene: THREE.Group }): Bunker {
   const interactables: THREE.Object3D[] = []
   const colliders: THREE.Box3[] = []
   let screen: THREE.Mesh | null = null
+  let secondaryMesh: THREE.Mesh | null = null
   let spawnObj: THREE.Object3D | null = null
 
   root.updateMatrixWorld(true)
   root.traverse((o) => {
     const n = o.name
     if (n === 'Screen_Main' && (o as THREE.Mesh).isMesh) screen = o as THREE.Mesh
+    // "Screen_Seconadry" = greseala de scriere intalnita in model; acceptata si ea
+    if ((n === 'Screen_Secondary' || n === 'Screen_Seconadry') && (o as THREE.Mesh).isMesh) secondaryMesh = o as THREE.Mesh
     if (n === 'Spawn') spawnObj = o
     // Collider_* = mobilier vizibil care blocheaza trecerea; Blocker_* = cutie invizibila care blocheaza trecerea.
     // Cate o cutie per mesh, ca un birou facut din mai multe piese sa nu devina un singur bloc mare.
@@ -230,9 +238,12 @@ function fromModel(gltf: { scene: THREE.Group }): Bunker {
   })
 
   const ids: Record<string, TerminalId> = { Terminal_Stats: 'stats', Terminal_Events: 'events', Terminal_Results: 'results', Terminal_Control: 'control' }
+  const buttonsFound = new Set<ButtonId>()
   root.traverse((o) => {
-    const id = ids[o.name]
+    const button = BUTTON_NAMES[o.name]
+    const id = ids[o.name] ?? (button ? `btn:${button}` : undefined)
     if (!id) return
+    if (button) buttonsFound.add(button)
     o.traverse((c) => {
       if ((c as THREE.Mesh).isMesh) {
         c.userData.interact = id
@@ -247,7 +258,10 @@ function fromModel(gltf: { scene: THREE.Group }): Bunker {
   }
 
   const whole = new THREE.Box3().setFromObject(root)
-  if (scr) planarScreenUV(scr, whole.getCenter(new THREE.Vector3()))
+  const inside = whole.getCenter(new THREE.Vector3())
+  const screenAspect = scr ? applyScreenUV(scr, inside) : 0
+  const sec = secondaryMesh as THREE.Mesh | null
+  const secondaryAspect = sec ? applyScreenUV(sec, inside) : 2
   const bounds = new THREE.Box3(new THREE.Vector3(whole.min.x + 0.4, 0, whole.min.z + 0.4), new THREE.Vector3(whole.max.x - 0.4, whole.max.y, whole.max.z - 0.4))
   const sp = spawnObj as THREE.Object3D | null
   const spawn = sp ? sp.getWorldPosition(new THREE.Vector3()) : new THREE.Vector3(0, 0, 0)
@@ -266,20 +280,21 @@ function fromModel(gltf: { scene: THREE.Group }): Bunker {
   const report: string[] = []
   const sz = whole.getSize(new THREE.Vector3())
   report.push(`Model: ${sz.x.toFixed(1)} × ${sz.z.toFixed(1)} m, înălțime ${sz.y.toFixed(2)} m (ochi la ${EYE} m)`)
-  if (scr) {
-    const ss = new THREE.Box3().setFromObject(scr).getSize(new THREE.Vector3())
-    const w = Math.max(ss.x, ss.z)
-    report.push(`Screen_Main: ${w.toFixed(2)} × ${ss.y.toFixed(2)} m, raport ${(w / ss.y).toFixed(2)}:1 (16:9 = 1.78)`)
-  } else report.push('LIPSEȘTE Screen_Main (nu apare Cesium pe perete)')
+  if (scr) report.push(`Screen_Main: raport ${screenAspect.toFixed(2)}:1 (captura Cesium are 2.50:1)`)
+  else report.push('LIPSEȘTE Screen_Main (nu apare Cesium pe perete)')
+  report.push(sec ? `Screen_Secondary: raport ${secondaryAspect.toFixed(2)}:1` : 'Screen_Secondary: lipsește (opțional, ecranul comandantului)')
+  report.push(buttonsFound.size === 4 ? 'Butoane: Button_SpeedUp / SpeedDown / Pause / Reset: ok' : `Butoane găsite: ${buttonsFound.size} din 4 (opțional: Button_SpeedUp, Button_SpeedDown, Button_Pause, Button_Reset)`)
   report.push(sp ? `Spawn: găsit la (${spawn.x.toFixed(1)}, ${spawn.z.toFixed(1)})` : 'LIPSEȘTE Spawn (start în centrul modelului, privind spre -Z)')
   const found = new Set(interactables.map((i) => i.userData.interact as string))
   for (const t of Object.values(ids)) report.push(found.has(t) ? `Terminal ${t}: ok` : `LIPSEȘTE Terminal_${t[0].toUpperCase()}${t.slice(1)}`)
   report.push(colliders.length ? `Obstacole (Collider_* / Blocker_*): ${colliders.length} cutii` : 'Niciun Collider_* / Blocker_* (poți trece prin mobilier)')
   console.info('[bunker]', report.join('\n'))
-  return { root, screen: scr, interactables, colliders, bounds, spawn, spawnYaw, usedModel: true, report }
+  return { root, screen: scr, secondary: sec, secondaryAspect, interactables, colliders, bounds, spawn, spawnYaw, usedModel: true, report }
 }
 
-export async function loadBunker(url = '/models/bunker.glb'): Promise<Bunker> {
+/** `bust` = ocoleste cache-ul browserului (debug: dupa ce reexporti modelul din Blender). */
+export async function loadBunker(base = '/models/bunker.glb', bust = false): Promise<Bunker> {
+  const url = bust ? `${base}?t=${Date.now()}` : base
   try {
     const head = await fetch(url, { method: 'HEAD' })
     const type = head.headers.get('content-type') ?? ''

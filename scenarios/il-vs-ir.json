@@ -1,5 +1,5 @@
 {
- "name": "Israel → Iran: lovitură asupra apărării aeriene și a obiectivelor nucleare și de rachete",
+ "name": "Israel → Iran: strike on air defenses and on nuclear and missile objectives",
  "dtSeconds": 0.5,
  "durationSeconds": 14400,
  "defenseIntervalSeconds": 1.0,
@@ -17,28 +17,28 @@
  "launchSites": [
   {
    "id": "L01",
-   "name": "Baza Tel Nof",
+   "name": "Base Tel Nof",
    "latDeg": 31.839,
    "lonDeg": 34.82,
    "altM": 0
   },
   {
    "id": "L02",
-   "name": "Baza Nevatim",
+   "name": "Base Nevatim",
    "latDeg": 31.208,
    "lonDeg": 35.012,
    "altM": 0
   },
   {
    "id": "L03",
-   "name": "Baza Ramon",
+   "name": "Base Ramon",
    "latDeg": 30.776,
    "lonDeg": 34.667,
    "altM": 0
   },
   {
    "id": "L04",
-   "name": "Baza Ramat David",
+   "name": "Base Ramat David",
    "latDeg": 32.665,
    "lonDeg": 35.18,
    "altM": 0
@@ -52,21 +52,21 @@
   },
   {
    "id": "D1",
-   "name": "Lansare din interiorul Iranului (Zagros)",
+   "name": "Launch from inside Iran (Zagros)",
    "latDeg": 34.3,
    "lonDeg": 47.5,
    "altM": 0
   },
   {
    "id": "D2",
-   "name": "Lansare din interiorul Iranului (centru)",
+   "name": "Launch from inside Iran (center)",
    "latDeg": 33.9,
    "lonDeg": 50.4,
    "altM": 0
   },
   {
    "id": "D3",
-   "name": "Lansare din interiorul Iranului (nord-vest)",
+   "name": "Launch from inside Iran (north-west)",
    "latDeg": 37.4,
    "lonDeg": 46.6,
    "altM": 0
@@ -75,14 +75,14 @@
  "targets": [
   {
    "id": "T01",
-   "name": "Teheran",
+   "name": "Tehran",
    "kind": "city",
    "latDeg": 35.69,
    "lonDeg": 51.39
   },
   {
    "id": "T02",
-   "name": "Natanz (centru nuclear)",
+   "name": "Natanz (nuclear center)",
    "kind": "military_base",
    "latDeg": 33.72,
    "lonDeg": 51.73,
@@ -91,7 +91,7 @@
   },
   {
    "id": "T03",
-   "name": "Fordow (centru nuclear)",
+   "name": "Fordow (nuclear center)",
    "kind": "military_base",
    "latDeg": 34.88,
    "lonDeg": 50.99,
@@ -100,7 +100,7 @@
   },
   {
    "id": "T04",
-   "name": "Isfahan (centru nuclear)",
+   "name": "Isfahan (nuclear center)",
    "kind": "military_base",
    "latDeg": 32.62,
    "lonDeg": 51.73,
@@ -109,7 +109,7 @@
   },
   {
    "id": "T05",
-   "name": "Arak (apa grea)",
+   "name": "Arak (heavy water)",
    "kind": "military_base",
    "latDeg": 34.37,
    "lonDeg": 49.24,
@@ -127,7 +127,7 @@
   },
   {
    "id": "T07",
-   "name": "Baza de rachete Kermanshah",
+   "name": "Missile base Kermanshah",
    "kind": "military_base",
    "latDeg": 34.35,
    "lonDeg": 47.1,
@@ -136,7 +136,7 @@
   },
   {
    "id": "T08",
-   "name": "Baza de rachete Tabriz",
+   "name": "Missile base Tabriz",
    "kind": "military_base",
    "latDeg": 38.08,
    "lonDeg": 46.29,
@@ -145,7 +145,7 @@
   },
   {
    "id": "T09",
-   "name": "Bushehr (centrala nucleara)",
+   "name": "Bushehr (nuclear plant)",
    "kind": "military_base",
    "latDeg": 28.83,
    "lonDeg": 50.89,
@@ -154,7 +154,7 @@
   },
   {
    "id": "T10",
-   "name": "Baza aeriana Hamadan",
+   "name": "Air base Hamadan",
    "kind": "military_base",
    "latDeg": 35.21,
    "lonDeg": 48.65,
@@ -163,7 +163,7 @@
   },
   {
    "id": "T11",
-   "name": "Baza aeriana Isfahan",
+   "name": "Air base Isfahan",
    "kind": "military_base",
    "latDeg": 32.75,
    "lonDeg": 51.86,
@@ -172,7 +172,7 @@
   },
   {
    "id": "T12",
-   "name": "Baza aeriana Mehrabad",
+   "name": "Air base Mehrabad",
    "kind": "military_base",
    "latDeg": 35.69,
    "lonDeg": 51.31,
@@ -181,7 +181,7 @@
   },
   {
    "id": "X01",
-   "name": "Lovitura asupra: Radar Teheran",
+   "name": "Strike on: Radar Tehran",
    "kind": "military_base",
    "latDeg": 35.75,
    "lonDeg": 51.2,
@@ -190,7 +190,7 @@
   },
   {
    "id": "X02",
-   "name": "Lovitura asupra: Radar Natanz",
+   "name": "Strike on: Radar Natanz",
    "kind": "military_base",
    "latDeg": 33.6,
    "lonDeg": 51.6,
@@ -199,7 +199,7 @@
   },
   {
    "id": "X03",
-   "name": "Lovitura asupra: Radar Isfahan",
+   "name": "Strike on: Radar Isfahan",
    "kind": "military_base",
    "latDeg": 32.7,
    "lonDeg": 51.7,
@@ -208,7 +208,7 @@
   },
   {
    "id": "X04",
-   "name": "Lovitura asupra: Radar Kermanshah",
+   "name": "Strike on: Radar Kermanshah",
    "kind": "military_base",
    "latDeg": 34.3,
    "lonDeg": 47.1,
@@ -217,7 +217,7 @@
   },
   {
    "id": "X05",
-   "name": "Lovitura asupra: Radar Tabriz",
+   "name": "Strike on: Radar Tabriz",
    "kind": "military_base",
    "latDeg": 38.0,
    "lonDeg": 46.4,
@@ -226,7 +226,7 @@
   },
   {
    "id": "X06",
-   "name": "Lovitura asupra: Radar Hamadan",
+   "name": "Strike on: Radar Hamadan",
    "kind": "military_base",
    "latDeg": 35.2,
    "lonDeg": 48.6,
@@ -235,7 +235,7 @@
   },
   {
    "id": "X07",
-   "name": "Lovitura asupra: S-300 Teheran Nord",
+   "name": "Strike on: S-300 Tehran North",
    "kind": "military_base",
    "latDeg": 35.8,
    "lonDeg": 51.4,
@@ -244,7 +244,7 @@
   },
   {
    "id": "X08",
-   "name": "Lovitura asupra: S-300 Teheran Sud",
+   "name": "Strike on: S-300 Tehran South",
    "kind": "military_base",
    "latDeg": 35.55,
    "lonDeg": 51.35,
@@ -253,7 +253,7 @@
   },
   {
    "id": "X09",
-   "name": "Lovitura asupra: S-300 Natanz",
+   "name": "Strike on: S-300 Natanz",
    "kind": "military_base",
    "latDeg": 33.7,
    "lonDeg": 51.75,
@@ -262,7 +262,7 @@
   },
   {
    "id": "X10",
-   "name": "Lovitura asupra: S-300 Fordow",
+   "name": "Strike on: S-300 Fordow",
    "kind": "military_base",
    "latDeg": 34.86,
    "lonDeg": 51.02,
@@ -348,7 +348,7 @@
   {
    "id": "R01",
    "type": "radar-ew-long",
-   "name": "Radar Teheran",
+   "name": "Radar Tehran",
    "latDeg": 35.75,
    "lonDeg": 51.2
   },
@@ -404,14 +404,14 @@
   {
    "id": "S301",
    "type": "s-300pmu2",
-   "name": "S-300 Teheran Nord",
+   "name": "S-300 Tehran North",
    "latDeg": 35.8,
    "lonDeg": 51.4
   },
   {
    "id": "S302",
    "type": "s-300pmu2",
-   "name": "S-300 Teheran Sud",
+   "name": "S-300 Tehran South",
    "latDeg": 35.55,
    "lonDeg": 51.35
   },
@@ -446,7 +446,7 @@
   {
    "id": "BV01",
    "type": "bavar-373",
-   "name": "Bavar-373 Teheran",
+   "name": "Bavar-373 Tehran",
    "latDeg": 35.65,
    "lonDeg": 51.5
   },
@@ -467,28 +467,28 @@
   {
    "id": "TR01",
    "type": "tor-m2",
-   "name": "Tor Teheran 01",
+   "name": "Tor Tehran 01",
    "latDeg": 35.6858,
    "lonDeg": 51.2792
   },
   {
    "id": "TR02",
    "type": "tor-m2",
-   "name": "Tor Teheran 02",
+   "name": "Tor Tehran 02",
    "latDeg": 35.761,
    "lonDeg": 51.3711
   },
   {
    "id": "TR03",
    "type": "tor-m2",
-   "name": "Tor Teheran 03",
+   "name": "Tor Tehran 03",
    "latDeg": 35.6997,
    "lonDeg": 51.5623
   },
   {
    "id": "TR04",
    "type": "tor-m2",
-   "name": "Tor Teheran 04",
+   "name": "Tor Tehran 04",
    "latDeg": 35.5211,
    "lonDeg": 51.4267
   },
@@ -509,119 +509,119 @@
   {
    "id": "MG01",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Teheran 01",
+   "name": "Mobile group Tehran 01",
    "latDeg": 35.6017,
    "lonDeg": 51.3471
   },
   {
    "id": "MG02",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Teheran 02",
+   "name": "Mobile group Tehran 02",
    "latDeg": 35.6209,
    "lonDeg": 51.2288
   },
   {
    "id": "MG03",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Teheran 03",
+   "name": "Mobile group Tehran 03",
    "latDeg": 35.7115,
    "lonDeg": 51.2999
   },
   {
    "id": "MG04",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Teheran 04",
+   "name": "Mobile group Tehran 04",
    "latDeg": 35.8118,
    "lonDeg": 51.2999
   },
   {
    "id": "MG05",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Teheran 05",
+   "name": "Mobile group Tehran 05",
    "latDeg": 35.7585,
    "lonDeg": 51.4079
   },
   {
    "id": "MG06",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Teheran 06",
+   "name": "Mobile group Tehran 06",
    "latDeg": 35.7314,
    "lonDeg": 51.503
   },
   {
    "id": "MG07",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Teheran 07",
+   "name": "Mobile group Tehran 07",
    "latDeg": 35.6481,
    "lonDeg": 51.5
   },
   {
    "id": "MG08",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Teheran 08",
+   "name": "Mobile group Tehran 08",
    "latDeg": 35.5865,
    "lonDeg": 51.4738
   },
   {
    "id": "MG09",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Isfahan 09",
+   "name": "Mobile group Isfahan 09",
    "latDeg": 32.6314,
    "lonDeg": 51.7391
   },
   {
    "id": "MG10",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Isfahan 10",
+   "name": "Mobile group Isfahan 10",
    "latDeg": 32.6047,
    "lonDeg": 51.6694
   },
   {
    "id": "MG11",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Isfahan 11",
+   "name": "Mobile group Isfahan 11",
    "latDeg": 32.6755,
    "lonDeg": 51.6291
   },
   {
    "id": "MG12",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Isfahan 12",
+   "name": "Mobile group Isfahan 12",
    "latDeg": 32.7294,
    "lonDeg": 51.7448
   },
   {
    "id": "AB01",
    "type": "airbase",
-   "name": "Baza Hamadan",
+   "name": "Base Hamadan",
    "latDeg": 35.21,
    "lonDeg": 48.65
   },
   {
    "id": "AB02",
    "type": "airbase",
-   "name": "Baza Isfahan",
+   "name": "Base Isfahan",
    "latDeg": 32.75,
    "lonDeg": 51.86
   },
   {
    "id": "AB03",
    "type": "airbase",
-   "name": "Baza Mehrabad",
+   "name": "Base Mehrabad",
    "latDeg": 35.69,
    "lonDeg": 51.31
   },
   {
    "id": "AB04",
    "type": "airbase",
-   "name": "Baza Shiraz",
+   "name": "Base Shiraz",
    "latDeg": 29.54,
    "lonDeg": 52.59
   },
   {
    "id": "PA01",
    "type": "mig-29-patrol",
-   "name": "MiG-29 / F-14 Teheran",
+   "name": "MiG-29 / F-14 Tehran",
    "latDeg": 35.4,
    "lonDeg": 50.0
   },

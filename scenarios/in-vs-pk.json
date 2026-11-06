@@ -1,5 +1,5 @@
 {
- "name": "India → Pakistan: lovitură asupra bazelor aeriene și apărării aeriene",
+ "name": "India → Pakistan: strike on air bases and air defenses",
  "dtSeconds": 0.5,
  "durationSeconds": 14400,
  "defenseIntervalSeconds": 1.0,
@@ -88,7 +88,7 @@
   },
   {
    "id": "T04",
-   "name": "Rawalpindi (comandament)",
+   "name": "Rawalpindi (command)",
    "kind": "military_base",
    "latDeg": 33.6,
    "lonDeg": 73.05,
@@ -97,7 +97,7 @@
   },
   {
    "id": "T05",
-   "name": "Baza aeriana Nur Khan",
+   "name": "Air base Nur Khan",
    "kind": "military_base",
    "latDeg": 33.62,
    "lonDeg": 73.1,
@@ -106,7 +106,7 @@
   },
   {
    "id": "T06",
-   "name": "Baza aeriana Sargodha (Mushaf)",
+   "name": "Air base Sargodha (Mushaf)",
    "kind": "military_base",
    "latDeg": 32.05,
    "lonDeg": 72.67,
@@ -115,7 +115,7 @@
   },
   {
    "id": "T07",
-   "name": "Baza aeriana Rafiqui",
+   "name": "Air base Rafiqui",
    "kind": "military_base",
    "latDeg": 30.76,
    "lonDeg": 72.28,
@@ -124,7 +124,7 @@
   },
   {
    "id": "T08",
-   "name": "Baza aeriana Bholari",
+   "name": "Air base Bholari",
    "kind": "military_base",
    "latDeg": 25.0,
    "lonDeg": 68.4,
@@ -133,7 +133,7 @@
   },
   {
    "id": "T09",
-   "name": "Baza aeriana Jacobabad",
+   "name": "Air base Jacobabad",
    "kind": "military_base",
    "latDeg": 28.28,
    "lonDeg": 68.45,
@@ -151,7 +151,7 @@
   },
   {
    "id": "X01",
-   "name": "Lovitura asupra: Radar Islamabad",
+   "name": "Strike on: Radar Islamabad",
    "kind": "military_base",
    "latDeg": 33.7,
    "lonDeg": 73.0,
@@ -160,7 +160,7 @@
   },
   {
    "id": "X02",
-   "name": "Lovitura asupra: Radar Lahore",
+   "name": "Strike on: Radar Lahore",
    "kind": "military_base",
    "latDeg": 31.55,
    "lonDeg": 74.3,
@@ -169,7 +169,7 @@
   },
   {
    "id": "X03",
-   "name": "Lovitura asupra: Radar Sargodha",
+   "name": "Strike on: Radar Sargodha",
    "kind": "military_base",
    "latDeg": 32.05,
    "lonDeg": 72.7,
@@ -178,7 +178,7 @@
   },
   {
    "id": "X04",
-   "name": "Lovitura asupra: HQ-9 Islamabad",
+   "name": "Strike on: HQ-9 Islamabad",
    "kind": "military_base",
    "latDeg": 33.7,
    "lonDeg": 73.1,
@@ -187,7 +187,7 @@
   },
   {
    "id": "X05",
-   "name": "Lovitura asupra: HQ-9 Lahore",
+   "name": "Strike on: HQ-9 Lahore",
    "kind": "military_base",
    "latDeg": 31.5,
    "lonDeg": 74.4,
@@ -196,7 +196,7 @@
   },
   {
    "id": "X06",
-   "name": "Lovitura asupra: HQ-9 Sargodha",
+   "name": "Strike on: HQ-9 Sargodha",
    "kind": "military_base",
    "latDeg": 32.1,
    "lonDeg": 72.7,
@@ -476,98 +476,98 @@
   {
    "id": "MG01",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Pakistan 01",
+   "name": "Mobile group Pakistan 01",
    "latDeg": 31.6381,
    "lonDeg": 72.7707
   },
   {
    "id": "MG02",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Pakistan 02",
+   "name": "Mobile group Pakistan 02",
    "latDeg": 30.0532,
    "lonDeg": 72.4237
   },
   {
    "id": "MG03",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Pakistan 03",
+   "name": "Mobile group Pakistan 03",
    "latDeg": 30.9618,
    "lonDeg": 71.413
   },
   {
    "id": "MG04",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Pakistan 04",
+   "name": "Mobile group Pakistan 04",
    "latDeg": 31.8588,
    "lonDeg": 72.1376
   },
   {
    "id": "MG05",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Pakistan 05",
+   "name": "Mobile group Pakistan 05",
    "latDeg": 32.3873,
    "lonDeg": 71.3602
   },
   {
    "id": "MG06",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Pakistan 06",
+   "name": "Mobile group Pakistan 06",
    "latDeg": 32.5615,
    "lonDeg": 71.9261
   },
   {
    "id": "MG07",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Pakistan 07",
+   "name": "Mobile group Pakistan 07",
    "latDeg": 33.1191,
    "lonDeg": 72.5345
   },
   {
    "id": "MG08",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Pakistan 08",
+   "name": "Mobile group Pakistan 08",
    "latDeg": 33.5557,
    "lonDeg": 73.6949
   },
   {
    "id": "MG09",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Pakistan 09",
+   "name": "Mobile group Pakistan 09",
    "latDeg": 32.6065,
    "lonDeg": 74.134
   },
   {
    "id": "MG10",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Pakistan 10",
+   "name": "Mobile group Pakistan 10",
    "latDeg": 31.5252,
    "lonDeg": 73.7584
   },
   {
    "id": "AB01",
    "type": "airbase",
-   "name": "Baza Nur Khan",
+   "name": "Base Nur Khan",
    "latDeg": 33.62,
    "lonDeg": 73.1
   },
   {
    "id": "AB02",
    "type": "airbase",
-   "name": "Baza Sargodha",
+   "name": "Base Sargodha",
    "latDeg": 32.05,
    "lonDeg": 72.67
   },
   {
    "id": "AB03",
    "type": "airbase",
-   "name": "Baza Rafiqui",
+   "name": "Base Rafiqui",
    "latDeg": 30.76,
    "lonDeg": 72.28
   },
   {
    "id": "AB04",
    "type": "airbase",
-   "name": "Baza Bholari",
+   "name": "Base Bholari",
    "latDeg": 25.0,
    "lonDeg": 68.4
   },
@@ -595,7 +595,7 @@
   {
    "id": "PA04",
    "type": "f-16-patrol",
-   "name": "JF-17 / F-16 Sud",
+   "name": "JF-17 / F-16 South",
    "latDeg": 25.2,
    "lonDeg": 68.0
   }

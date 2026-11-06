@@ -1,5 +1,5 @@
 {
- "name": "Rusia → Ucraina: raid masiv (~2000 drone + rachete) cu multiple direcții, ținte în Kiev și alte orașe",
+ "name": "Russia → Ukraine: massive raid (~2000 drones + missiles) from multiple directions, targets in Kyiv and other cities",
  "dtSeconds": 0.5,
  "durationSeconds": 28800,
  "defenseIntervalSeconds": 1.0,
@@ -52,7 +52,7 @@
   },
   {
    "id": "L02",
-   "name": "Capul Ceauda (Crimeea)",
+   "name": "Cape Chauda (Crimea)",
    "latDeg": 45.0,
    "lonDeg": 35.8,
    "altM": 0
@@ -66,7 +66,7 @@
   },
   {
    "id": "L04",
-   "name": "Navlea (Briansk)",
+   "name": "Navlya (Briansk)",
    "latDeg": 52.83,
    "lonDeg": 34.5,
    "altM": 0
@@ -87,21 +87,21 @@
   },
   {
    "id": "L07",
-   "name": "Şatalovo (Smolensk)",
+   "name": "Shatalovo (Smolensk)",
    "latDeg": 54.2,
    "lonDeg": 32.4,
    "altM": 0
   },
   {
    "id": "L08",
-   "name": "Marea Neagră (nave)",
+   "name": "Black Sea (ships)",
    "latDeg": 43.8,
    "lonDeg": 33.5,
    "altM": 0
   },
   {
    "id": "L09",
-   "name": "Zona de lansare Kh-101 (Volga)",
+   "name": "Launch area Kh-101 (Volga)",
    "latDeg": 51.8,
    "lonDeg": 46.5,
    "altM": 0
@@ -115,7 +115,7 @@
   },
   {
    "id": "L11",
-   "name": "Crimeea (Iskander)",
+   "name": "Crimea (Iskander)",
    "latDeg": 45.4,
    "lonDeg": 34.3,
    "altM": 0
@@ -129,7 +129,7 @@
   },
   {
    "id": "L13",
-   "name": "Aerodrom Belgorod",
+   "name": "Airfield Belgorod",
    "latDeg": 50.64,
    "lonDeg": 36.59,
    "altM": 0
@@ -138,63 +138,63 @@
  "targets": [
   {
    "id": "K01",
-   "name": "Kiev - centru guvernamental",
+   "name": "Kyiv - government center",
    "kind": "city",
    "latDeg": 50.4501,
    "lonDeg": 30.5234
   },
   {
    "id": "K02",
-   "name": "Kiev - Darnytsia",
+   "name": "Kyiv - Darnytsia",
    "kind": "city",
    "latDeg": 50.43,
    "lonDeg": 30.65
   },
   {
    "id": "K03",
-   "name": "Kiev - Obolon",
+   "name": "Kyiv - Obolon",
    "kind": "city",
    "latDeg": 50.52,
    "lonDeg": 30.5
   },
   {
    "id": "K04",
-   "name": "Kiev - Troieshchyna",
+   "name": "Kyiv - Troieshchyna",
    "kind": "city",
    "latDeg": 50.52,
    "lonDeg": 30.61
   },
   {
    "id": "K05",
-   "name": "Kiev - Sviatoshyn",
+   "name": "Kyiv - Sviatoshyn",
    "kind": "city",
    "latDeg": 50.455,
    "lonDeg": 30.37
   },
   {
    "id": "K06",
-   "name": "Kiev - Lipki",
+   "name": "Kyiv - Lipki",
    "kind": "city",
    "latDeg": 50.425,
    "lonDeg": 30.54
   },
   {
    "id": "K07",
-   "name": "Kiev - Podil",
+   "name": "Kyiv - Podil",
    "kind": "city",
    "latDeg": 50.465,
    "lonDeg": 30.515
   },
   {
    "id": "K08",
-   "name": "Kiev - Teremky",
+   "name": "Kyiv - Teremky",
    "kind": "city",
    "latDeg": 50.37,
    "lonDeg": 30.48
   },
   {
    "id": "K09",
-   "name": "CET-5 Kiev",
+   "name": "CET-5 Kyiv",
    "kind": "military_base",
    "latDeg": 50.4,
    "lonDeg": 30.66,
@@ -212,7 +212,7 @@
   },
   {
    "id": "K11",
-   "name": "Aerodrom Vasylkiv",
+   "name": "Airfield Vasylkiv",
    "kind": "military_base",
    "latDeg": 50.22,
    "lonDeg": 30.3,
@@ -230,14 +230,14 @@
   },
   {
    "id": "H01",
-   "name": "Harkov - centru",
+   "name": "Kharkiv - center",
    "kind": "city",
    "latDeg": 49.9935,
    "lonDeg": 36.2304
   },
   {
    "id": "H02",
-   "name": "Harkov - Saltivka",
+   "name": "Kharkiv - Saltivka",
    "kind": "city",
    "latDeg": 50.04,
    "lonDeg": 36.3
@@ -251,7 +251,7 @@
   },
   {
    "id": "D02",
-   "name": "Dnipro - industrial",
+   "name": "Dnipro - industrial area",
    "kind": "military_base",
    "latDeg": 48.4,
    "lonDeg": 34.95,
@@ -269,21 +269,21 @@
   },
   {
    "id": "O02",
-   "name": "Odesa - centru",
+   "name": "Odesa - center",
    "kind": "city",
    "latDeg": 46.4825,
    "lonDeg": 30.7233
   },
   {
    "id": "Z01",
-   "name": "Zaporojie",
+   "name": "Zaporizhzhia",
    "kind": "city",
    "latDeg": 47.8388,
    "lonDeg": 35.1396
   },
   {
    "id": "Z02",
-   "name": "Zaporojie - hidrocentrala",
+   "name": "Zaporizhzhia - hydroelectric plant",
    "kind": "military_base",
    "latDeg": 47.87,
    "lonDeg": 35.09,
@@ -292,7 +292,7 @@
   },
   {
    "id": "V01",
-   "name": "Liov",
+   "name": "Lviv",
    "kind": "city",
    "latDeg": 49.8397,
    "lonDeg": 24.0297
@@ -315,7 +315,7 @@
   },
   {
    "id": "P02",
-   "name": "Rafinărie Kremenciug",
+   "name": "Kremenchuk refinery",
    "kind": "military_base",
    "latDeg": 49.07,
    "lonDeg": 33.42,
@@ -324,28 +324,28 @@
   },
   {
    "id": "M01",
-   "name": "Mikolaiv",
+   "name": "Mykolaiv",
    "kind": "city",
    "latDeg": 46.975,
    "lonDeg": 31.9946
   },
   {
    "id": "S01",
-   "name": "Sumî",
+   "name": "Sumy",
    "kind": "city",
    "latDeg": 50.9077,
    "lonDeg": 34.7981
   },
   {
    "id": "C01",
-   "name": "Cernihiv",
+   "name": "Chernihiv",
    "kind": "city",
    "latDeg": 51.4982,
    "lonDeg": 31.2893
   },
   {
    "id": "X01",
-   "name": "Lovitura asupra: Radar Kiev",
+   "name": "Strike on: Radar Kyiv",
    "kind": "military_base",
    "latDeg": 50.45,
    "lonDeg": 30.5,
@@ -354,7 +354,7 @@
   },
   {
    "id": "X02",
-   "name": "Lovitura asupra: Radar Vasylkiv",
+   "name": "Strike on: Radar Vasylkiv",
    "kind": "military_base",
    "latDeg": 50.22,
    "lonDeg": 30.31,
@@ -363,7 +363,7 @@
   },
   {
    "id": "X03",
-   "name": "Lovitura asupra: Radar Nord-Est",
+   "name": "Strike on: Radar North-East",
    "kind": "military_base",
    "latDeg": 51.3,
    "lonDeg": 32.1,
@@ -372,7 +372,7 @@
   },
   {
    "id": "X04",
-   "name": "Lovitura asupra: Radar Harkov",
+   "name": "Strike on: Radar Kharkiv",
    "kind": "military_base",
    "latDeg": 49.95,
    "lonDeg": 36.3,
@@ -381,7 +381,7 @@
   },
   {
    "id": "X05",
-   "name": "Lovitura asupra: Radar Centru-Vest",
+   "name": "Strike on: Radar Center-West",
    "kind": "military_base",
    "latDeg": 50.0,
    "lonDeg": 28.0,
@@ -390,7 +390,7 @@
   },
   {
    "id": "X06",
-   "name": "Lovitura asupra: Patriot Kiev Nord",
+   "name": "Strike on: Patriot Kyiv North",
    "kind": "military_base",
    "latDeg": 50.55,
    "lonDeg": 30.45,
@@ -399,7 +399,7 @@
   },
   {
    "id": "X07",
-   "name": "Lovitura asupra: Patriot Kiev Sud",
+   "name": "Strike on: Patriot Kyiv South",
    "kind": "military_base",
    "latDeg": 50.35,
    "lonDeg": 30.55,
@@ -408,7 +408,7 @@
   },
   {
    "id": "X08",
-   "name": "Lovitura asupra: Baza Vasylkiv",
+   "name": "Strike on: Base Vasylkiv",
    "kind": "military_base",
    "latDeg": 50.21,
    "lonDeg": 30.31,
@@ -417,7 +417,7 @@
   },
   {
    "id": "X09",
-   "name": "Lovitura asupra: NASAMS Kiev",
+   "name": "Strike on: NASAMS Kyiv",
    "kind": "military_base",
    "latDeg": 50.5,
    "lonDeg": 30.6,
@@ -426,7 +426,7 @@
   },
   {
    "id": "Y01",
-   "name": "Lovitura asupra: Radar Sumî",
+   "name": "Strike on: Radar Sumy",
    "kind": "military_base",
    "latDeg": 50.6,
    "lonDeg": 35.0,
@@ -435,7 +435,7 @@
   },
   {
    "id": "Y02",
-   "name": "Lovitura asupra: Radar Zaporojie",
+   "name": "Strike on: Radar Zaporizhzhia",
    "kind": "military_base",
    "latDeg": 47.8,
    "lonDeg": 35.2,
@@ -444,7 +444,7 @@
   },
   {
    "id": "Y03",
-   "name": "Lovitura asupra: Radar Odesa",
+   "name": "Strike on: Radar Odesa",
    "kind": "military_base",
    "latDeg": 46.5,
    "lonDeg": 30.7,
@@ -453,7 +453,7 @@
   },
   {
    "id": "Y04",
-   "name": "Lovitura asupra: Radar Liov",
+   "name": "Strike on: Radar Lviv",
    "kind": "military_base",
    "latDeg": 49.8,
    "lonDeg": 24.1,
@@ -462,7 +462,7 @@
   },
   {
    "id": "Y05",
-   "name": "Lovitura asupra: Radar Dnipro",
+   "name": "Strike on: Radar Dnipro",
    "kind": "military_base",
    "latDeg": 48.4,
    "lonDeg": 35.1,
@@ -471,7 +471,7 @@
   },
   {
    "id": "Y06",
-   "name": "Lovitura asupra: Radar Poltava",
+   "name": "Strike on: Radar Poltava",
    "kind": "military_base",
    "latDeg": 49.6,
    "lonDeg": 34.5,
@@ -480,7 +480,7 @@
   },
   {
    "id": "Y07",
-   "name": "Lovitura asupra: Radar Mikolaiv",
+   "name": "Strike on: Radar Mykolaiv",
    "kind": "military_base",
    "latDeg": 47.0,
    "lonDeg": 32.0,
@@ -489,7 +489,7 @@
   },
   {
    "id": "Y08",
-   "name": "Lovitura asupra: Patriot Odesa",
+   "name": "Strike on: Patriot Odesa",
    "kind": "military_base",
    "latDeg": 46.45,
    "lonDeg": 30.75,
@@ -498,7 +498,7 @@
   },
   {
    "id": "Y09",
-   "name": "Lovitura asupra: Baza Myrhorod",
+   "name": "Strike on: Base Myrhorod",
    "kind": "military_base",
    "latDeg": 49.97,
    "lonDeg": 33.62,
@@ -507,7 +507,7 @@
   },
   {
    "id": "Y10",
-   "name": "Lovitura asupra: Baza Ivano-Frankivsk",
+   "name": "Strike on: Base Ivano-Frankivsk",
    "kind": "military_base",
    "latDeg": 48.88,
    "lonDeg": 24.69,
@@ -1056,7 +1056,7 @@
   {
    "id": "R01",
    "type": "trml-4d",
-   "name": "Radar Kiev",
+   "name": "Radar Kyiv",
    "latDeg": 50.45,
    "lonDeg": 30.5
   },
@@ -1070,28 +1070,28 @@
   {
    "id": "R03",
    "type": "radar-ew-long",
-   "name": "Radar Nord-Est",
+   "name": "Radar North-East",
    "latDeg": 51.3,
    "lonDeg": 32.1
   },
   {
    "id": "R04",
    "type": "trml-4d",
-   "name": "Radar Sumî",
+   "name": "Radar Sumy",
    "latDeg": 50.6,
    "lonDeg": 35.0
   },
   {
    "id": "R05",
    "type": "trml-4d",
-   "name": "Radar Harkov",
+   "name": "Radar Kharkiv",
    "latDeg": 49.95,
    "lonDeg": 36.3
   },
   {
    "id": "R06",
    "type": "trml-4d",
-   "name": "Radar Zaporojie",
+   "name": "Radar Zaporizhzhia",
    "latDeg": 47.8,
    "lonDeg": 35.2
   },
@@ -1105,7 +1105,7 @@
   {
    "id": "R08",
    "type": "trml-4d",
-   "name": "Radar Liov",
+   "name": "Radar Lviv",
    "latDeg": 49.8,
    "lonDeg": 24.1
   },
@@ -1126,56 +1126,56 @@
   {
    "id": "R11",
    "type": "trml-4d",
-   "name": "Radar Mikolaiv",
+   "name": "Radar Mykolaiv",
    "latDeg": 47.0,
    "lonDeg": 32.0
   },
   {
    "id": "R12",
    "type": "radar-ew-long",
-   "name": "Radar Centru-Vest",
+   "name": "Radar Center-West",
    "latDeg": 50.0,
    "lonDeg": 28.0
   },
   {
    "id": "R13",
    "type": "radar-ew-long",
-   "name": "Radar Est",
+   "name": "Radar East",
    "latDeg": 48.9,
    "lonDeg": 38.5
   },
   {
    "id": "R14",
    "type": "radar-ew-long",
-   "name": "Radar Sud-Est",
+   "name": "Radar South-East",
    "latDeg": 47.5,
    "lonDeg": 37.5
   },
   {
    "id": "R15",
    "type": "an-mpq-65",
-   "name": "Radar Patriot Kiev Nord",
+   "name": "Radar Patriot Kyiv North",
    "latDeg": 50.56,
    "lonDeg": 30.46
   },
   {
    "id": "R16",
    "type": "an-mpq-65",
-   "name": "Radar Patriot Kiev Sud",
+   "name": "Radar Patriot Kyiv South",
    "latDeg": 50.34,
    "lonDeg": 30.56
   },
   {
    "id": "PT01",
    "type": "patriot-pac3-mse",
-   "name": "Patriot Kiev Nord",
+   "name": "Patriot Kyiv North",
    "latDeg": 50.55,
    "lonDeg": 30.45
   },
   {
    "id": "PT02",
    "type": "patriot-pac3-mse",
-   "name": "Patriot Kiev Sud",
+   "name": "Patriot Kyiv South",
    "latDeg": 50.35,
    "lonDeg": 30.55
   },
@@ -1189,7 +1189,7 @@
   {
    "id": "NS01",
    "type": "nasams",
-   "name": "NASAMS Kiev",
+   "name": "NASAMS Kyiv",
    "latDeg": 50.5,
    "lonDeg": 30.6
   },
@@ -1203,7 +1203,7 @@
   {
    "id": "NS03",
    "type": "nasams",
-   "name": "NASAMS Liov",
+   "name": "NASAMS Lviv",
    "latDeg": 49.85,
    "lonDeg": 24.05
   },
@@ -1217,35 +1217,35 @@
   {
    "id": "IT01",
    "type": "iris-t-slm",
-   "name": "IRIS-T Kiev Vest",
+   "name": "IRIS-T Kyiv West",
    "latDeg": 50.4,
    "lonDeg": 30.45
   },
   {
    "id": "IT02",
    "type": "iris-t-slm",
-   "name": "IRIS-T Kiev Nord",
+   "name": "IRIS-T Kyiv North",
    "latDeg": 50.5,
    "lonDeg": 30.4
   },
   {
    "id": "IT03",
    "type": "iris-t-slm",
-   "name": "IRIS-T Harkov",
+   "name": "IRIS-T Kharkiv",
    "latDeg": 50.0,
    "lonDeg": 36.2
   },
   {
    "id": "IT04",
    "type": "iris-t-slm",
-   "name": "IRIS-T Zaporojie",
+   "name": "IRIS-T Zaporizhzhia",
    "latDeg": 47.85,
    "lonDeg": 35.15
   },
   {
    "id": "IT05",
    "type": "iris-t-slm",
-   "name": "IRIS-T Mikolaiv",
+   "name": "IRIS-T Mykolaiv",
    "latDeg": 46.97,
    "lonDeg": 32.0
   },
@@ -1266,56 +1266,56 @@
   {
    "id": "GP01",
    "type": "gepard-35mm",
-   "name": "Gepard Kiev 01",
+   "name": "Gepard Kyiv 01",
    "latDeg": 50.5294,
    "lonDeg": 30.6363
   },
   {
    "id": "GP02",
    "type": "gepard-35mm",
-   "name": "Gepard Kiev 02",
+   "name": "Gepard Kyiv 02",
    "latDeg": 50.4444,
    "lonDeg": 30.6555
   },
   {
    "id": "GP03",
    "type": "gepard-35mm",
-   "name": "Gepard Kiev 03",
+   "name": "Gepard Kyiv 03",
    "latDeg": 50.3794,
    "lonDeg": 30.6592
   },
   {
    "id": "GP04",
    "type": "gepard-35mm",
-   "name": "Gepard Kiev 04",
+   "name": "Gepard Kyiv 04",
    "latDeg": 50.3268,
    "lonDeg": 30.5241
   },
   {
    "id": "GP05",
    "type": "gepard-35mm",
-   "name": "Gepard Kiev 05",
+   "name": "Gepard Kyiv 05",
    "latDeg": 50.3628,
    "lonDeg": 30.3898
   },
   {
    "id": "GP06",
    "type": "gepard-35mm",
-   "name": "Gepard Kiev 06",
+   "name": "Gepard Kyiv 06",
    "latDeg": 50.4544,
    "lonDeg": 30.3294
   },
   {
    "id": "GP07",
    "type": "gepard-35mm",
-   "name": "Gepard Kiev 07",
+   "name": "Gepard Kyiv 07",
    "latDeg": 50.5155,
    "lonDeg": 30.4143
   },
   {
    "id": "GP08",
    "type": "gepard-35mm",
-   "name": "Gepard Kiev 08",
+   "name": "Gepard Kyiv 08",
    "latDeg": 50.5369,
    "lonDeg": 30.5193
   },
@@ -1336,560 +1336,560 @@
   {
    "id": "GP11",
    "type": "gepard-35mm",
-   "name": "Gepard Harkov 11",
+   "name": "Gepard Kharkiv 11",
    "latDeg": 50.0151,
    "lonDeg": 36.3485
   },
   {
    "id": "GP12",
    "type": "gepard-35mm",
-   "name": "Gepard Harkov 12",
+   "name": "Gepard Kharkiv 12",
    "latDeg": 49.9804,
    "lonDeg": 36.116
   },
   {
    "id": "MG01",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Kyiv 01",
+   "name": "Mobile group Kyiv 01",
    "latDeg": 50.4859,
    "lonDeg": 30.5201
   },
   {
    "id": "MG02",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Kyiv 02",
+   "name": "Mobile group Kyiv 02",
    "latDeg": 50.5409,
    "lonDeg": 30.5435
   },
   {
    "id": "MG03",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Kyiv 03",
+   "name": "Mobile group Kyiv 03",
    "latDeg": 50.5253,
    "lonDeg": 30.5644
   },
   {
    "id": "MG04",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Kyiv 04",
+   "name": "Mobile group Kyiv 04",
    "latDeg": 50.5313,
    "lonDeg": 30.6348
   },
   {
    "id": "MG05",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Kyiv 05",
+   "name": "Mobile group Kyiv 05",
    "latDeg": 50.4695,
    "lonDeg": 30.5555
   },
   {
    "id": "MG06",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Kyiv 06",
+   "name": "Mobile group Kyiv 06",
    "latDeg": 50.4812,
    "lonDeg": 30.6175
   },
   {
    "id": "MG07",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Kyiv 07",
+   "name": "Mobile group Kyiv 07",
    "latDeg": 50.4744,
    "lonDeg": 30.6291
   },
   {
    "id": "MG08",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Kyiv 08",
+   "name": "Mobile group Kyiv 08",
    "latDeg": 50.457,
    "lonDeg": 30.6534
   },
   {
    "id": "MG09",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Kyiv 09",
+   "name": "Mobile group Kyiv 09",
    "latDeg": 50.4503,
    "lonDeg": 30.6553
   },
   {
    "id": "MG10",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Kyiv 10",
+   "name": "Mobile group Kyiv 10",
    "latDeg": 50.4137,
    "lonDeg": 30.6615
   },
   {
    "id": "MG11",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Kyiv 11",
+   "name": "Mobile group Kyiv 11",
    "latDeg": 50.3833,
    "lonDeg": 30.7027
   },
   {
    "id": "MG12",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Kyiv 12",
+   "name": "Mobile group Kyiv 12",
    "latDeg": 50.4031,
    "lonDeg": 30.614
   },
   {
    "id": "MG13",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Kyiv 13",
+   "name": "Mobile group Kyiv 13",
    "latDeg": 50.3776,
    "lonDeg": 30.5837
   },
   {
    "id": "MG14",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Kyiv 14",
+   "name": "Mobile group Kyiv 14",
    "latDeg": 50.4226,
    "lonDeg": 30.539
   },
   {
    "id": "MG15",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Kyiv 15",
+   "name": "Mobile group Kyiv 15",
    "latDeg": 50.4097,
    "lonDeg": 30.5388
   },
   {
    "id": "MG16",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Kyiv 16",
+   "name": "Mobile group Kyiv 16",
    "latDeg": 50.3415,
    "lonDeg": 30.5419
   },
   {
    "id": "MG17",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Kyiv 17",
+   "name": "Mobile group Kyiv 17",
    "latDeg": 50.4129,
    "lonDeg": 30.501
   },
   {
    "id": "MG18",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Kyiv 18",
+   "name": "Mobile group Kyiv 18",
    "latDeg": 50.3762,
    "lonDeg": 30.464
   },
   {
    "id": "MG19",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Kyiv 19",
+   "name": "Mobile group Kyiv 19",
    "latDeg": 50.4063,
    "lonDeg": 30.4709
   },
   {
    "id": "MG20",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Kyiv 20",
+   "name": "Mobile group Kyiv 20",
    "latDeg": 50.3911,
    "lonDeg": 30.3927
   },
   {
    "id": "MG21",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Kyiv 21",
+   "name": "Mobile group Kyiv 21",
    "latDeg": 50.408,
    "lonDeg": 30.4097
   },
   {
    "id": "MG22",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Kyiv 22",
+   "name": "Mobile group Kyiv 22",
    "latDeg": 50.422,
    "lonDeg": 30.3008
   },
   {
    "id": "MG23",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Kyiv 23",
+   "name": "Mobile group Kyiv 23",
    "latDeg": 50.4412,
    "lonDeg": 30.3755
   },
   {
    "id": "MG24",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Kyiv 24",
+   "name": "Mobile group Kyiv 24",
    "latDeg": 50.4594,
    "lonDeg": 30.4222
   },
   {
    "id": "MG25",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Kyiv 25",
+   "name": "Mobile group Kyiv 25",
    "latDeg": 50.483,
    "lonDeg": 30.3958
   },
   {
    "id": "MG26",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Kyiv 26",
+   "name": "Mobile group Kyiv 26",
    "latDeg": 50.5141,
    "lonDeg": 30.3416
   },
   {
    "id": "MG27",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Kyiv 27",
+   "name": "Mobile group Kyiv 27",
    "latDeg": 50.4901,
    "lonDeg": 30.447
   },
   {
    "id": "MG28",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Kyiv 28",
+   "name": "Mobile group Kyiv 28",
    "latDeg": 50.4737,
    "lonDeg": 30.489
   },
   {
    "id": "MG29",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Kyiv 29",
+   "name": "Mobile group Kyiv 29",
    "latDeg": 50.54,
    "lonDeg": 30.4638
   },
   {
    "id": "MG30",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Kyiv 30",
+   "name": "Mobile group Kyiv 30",
    "latDeg": 50.5359,
    "lonDeg": 30.4893
   },
   {
    "id": "MG31",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Kharkiv 31",
+   "name": "Mobile group Kharkiv 31",
    "latDeg": 49.942,
    "lonDeg": 36.2261
   },
   {
    "id": "MG32",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Kharkiv 32",
+   "name": "Mobile group Kharkiv 32",
    "latDeg": 49.9384,
    "lonDeg": 36.1603
   },
   {
    "id": "MG33",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Kharkiv 33",
+   "name": "Mobile group Kharkiv 33",
    "latDeg": 49.9922,
    "lonDeg": 36.0864
   },
   {
    "id": "MG34",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Kharkiv 34",
+   "name": "Mobile group Kharkiv 34",
    "latDeg": 50.0573,
    "lonDeg": 36.114
   },
   {
    "id": "MG35",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Kharkiv 35",
+   "name": "Mobile group Kharkiv 35",
    "latDeg": 50.0426,
    "lonDeg": 36.2322
   },
   {
    "id": "MG36",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Kharkiv 36",
+   "name": "Mobile group Kharkiv 36",
    "latDeg": 50.0134,
    "lonDeg": 36.2703
   },
   {
    "id": "MG37",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Kharkiv 37",
+   "name": "Mobile group Kharkiv 37",
    "latDeg": 49.9911,
    "lonDeg": 36.3708
   },
   {
    "id": "MG38",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Kharkiv 38",
+   "name": "Mobile group Kharkiv 38",
    "latDeg": 49.9478,
    "lonDeg": 36.3041
   },
   {
    "id": "MG39",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Odesa 39",
+   "name": "Mobile group Odesa 39",
    "latDeg": 46.5597,
    "lonDeg": 30.7198
   },
   {
    "id": "MG40",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Odesa 40",
+   "name": "Mobile group Odesa 40",
    "latDeg": 46.5063,
    "lonDeg": 30.754
   },
   {
    "id": "MG41",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Odesa 41",
+   "name": "Mobile group Odesa 41",
    "latDeg": 46.4963,
    "lonDeg": 30.8114
   },
   {
    "id": "MG42",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Odesa 42",
+   "name": "Mobile group Odesa 42",
    "latDeg": 46.4475,
    "lonDeg": 30.8265
   },
   {
    "id": "MG43",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Odesa 43",
+   "name": "Mobile group Odesa 43",
    "latDeg": 46.4264,
    "lonDeg": 30.7493
   },
   {
    "id": "MG44",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Odesa 44",
+   "name": "Mobile group Odesa 44",
    "latDeg": 46.4555,
    "lonDeg": 30.7136
   },
   {
    "id": "MG45",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Odesa 45",
+   "name": "Mobile group Odesa 45",
    "latDeg": 46.4633,
    "lonDeg": 30.608
   },
   {
    "id": "MG46",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Odesa 46",
+   "name": "Mobile group Odesa 46",
    "latDeg": 46.5135,
    "lonDeg": 30.6294
   },
   {
    "id": "MG47",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Dnipro 47",
+   "name": "Mobile group Dnipro 47",
    "latDeg": 48.4584,
    "lonDeg": 35.162
   },
   {
    "id": "MG48",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Dnipro 48",
+   "name": "Mobile group Dnipro 48",
    "latDeg": 48.3966,
    "lonDeg": 35.0914
   },
   {
    "id": "MG49",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Dnipro 49",
+   "name": "Mobile group Dnipro 49",
    "latDeg": 48.4286,
    "lonDeg": 35.0212
   },
   {
    "id": "MG50",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Dnipro 50",
+   "name": "Mobile group Dnipro 50",
    "latDeg": 48.4558,
    "lonDeg": 34.9542
   },
   {
    "id": "MG51",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Dnipro 51",
+   "name": "Mobile group Dnipro 51",
    "latDeg": 48.5377,
    "lonDeg": 34.9916
   },
   {
    "id": "MG52",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Dnipro 52",
+   "name": "Mobile group Dnipro 52",
    "latDeg": 48.5232,
    "lonDeg": 35.1031
   },
   {
    "id": "MG53",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Zap 53",
+   "name": "Mobile group Zap 53",
    "latDeg": 47.8859,
    "lonDeg": 35.2064
   },
   {
    "id": "MG54",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Zap 54",
+   "name": "Mobile group Zap 54",
    "latDeg": 47.8041,
    "lonDeg": 35.25
   },
   {
    "id": "MG55",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Zap 55",
+   "name": "Mobile group Zap 55",
    "latDeg": 47.8083,
    "lonDeg": 35.1495
   },
   {
    "id": "MG56",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Zap 56",
+   "name": "Mobile group Zap 56",
    "latDeg": 47.7862,
    "lonDeg": 35.0404
   },
   {
    "id": "MG57",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Zap 57",
+   "name": "Mobile group Zap 57",
    "latDeg": 47.8731,
    "lonDeg": 35.024
   },
   {
    "id": "MG58",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Zap 58",
+   "name": "Mobile group Zap 58",
    "latDeg": 47.8912,
    "lonDeg": 35.1202
   },
   {
    "id": "MG59",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Lviv 59",
+   "name": "Mobile group Lviv 59",
    "latDeg": 49.8542,
    "lonDeg": 23.9731
   },
   {
    "id": "MG60",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Lviv 60",
+   "name": "Mobile group Lviv 60",
    "latDeg": 49.8722,
    "lonDeg": 24.0148
   },
   {
    "id": "MG61",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Lviv 61",
+   "name": "Mobile group Lviv 61",
    "latDeg": 49.8564,
    "lonDeg": 24.0693
   },
   {
    "id": "MG62",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Lviv 62",
+   "name": "Mobile group Lviv 62",
    "latDeg": 49.8244,
    "lonDeg": 24.1024
   },
   {
    "id": "MG63",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Lviv 63",
+   "name": "Mobile group Lviv 63",
    "latDeg": 49.8115,
    "lonDeg": 24.0337
   },
   {
    "id": "MG64",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Lviv 64",
+   "name": "Mobile group Lviv 64",
    "latDeg": 49.8101,
    "lonDeg": 23.9726
   },
   {
    "id": "MG65",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Poltava 65",
+   "name": "Mobile group Poltava 65",
    "latDeg": 49.5808,
    "lonDeg": 34.598
   },
   {
    "id": "MG66",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Poltava 66",
+   "name": "Mobile group Poltava 66",
    "latDeg": 49.5428,
    "lonDeg": 34.5138
   },
   {
    "id": "MG67",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Poltava 67",
+   "name": "Mobile group Poltava 67",
    "latDeg": 49.6039,
    "lonDeg": 34.5023
   },
   {
    "id": "MG68",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Poltava 68",
+   "name": "Mobile group Poltava 68",
    "latDeg": 49.6338,
    "lonDeg": 34.5741
   },
   {
    "id": "MG69",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Mykolaiv 69",
+   "name": "Mobile group Mykolaiv 69",
    "latDeg": 46.9389,
    "lonDeg": 32.0609
   },
   {
    "id": "MG70",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Mykolaiv 70",
+   "name": "Mobile group Mykolaiv 70",
    "latDeg": 46.929,
    "lonDeg": 31.963
   },
   {
    "id": "MG71",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Mykolaiv 71",
+   "name": "Mobile group Mykolaiv 71",
    "latDeg": 47.0002,
    "lonDeg": 31.9
   },
   {
    "id": "MG72",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Mykolaiv 72",
+   "name": "Mobile group Mykolaiv 72",
    "latDeg": 47.0171,
    "lonDeg": 32.0205
   },
   {
    "id": "MG73",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Sumy 73",
+   "name": "Mobile group Sumy 73",
    "latDeg": 50.9381,
    "lonDeg": 34.7266
   },
   {
    "id": "MG74",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Sumy 74",
+   "name": "Mobile group Sumy 74",
    "latDeg": 50.9386,
    "lonDeg": 34.87
   },
   {
    "id": "MG75",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Sumy 75",
+   "name": "Mobile group Sumy 75",
    "latDeg": 50.8787,
    "lonDeg": 34.793
   },
   {
    "id": "MG76",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Chernihiv 76",
+   "name": "Mobile group Chernihiv 76",
    "latDeg": 51.4561,
    "lonDeg": 31.2706
   },
   {
    "id": "MG77",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Chernihiv 77",
+   "name": "Mobile group Chernihiv 77",
    "latDeg": 51.5244,
    "lonDeg": 31.2548
   },
   {
    "id": "MG78",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Chernihiv 78",
+   "name": "Mobile group Chernihiv 78",
    "latDeg": 51.5097,
    "lonDeg": 31.354
   },
@@ -1968,560 +1968,560 @@
   {
    "id": "AB01",
    "type": "airbase",
-   "name": "Baza Vasylkiv",
+   "name": "Base Vasylkiv",
    "latDeg": 50.21,
    "lonDeg": 30.31
   },
   {
    "id": "AB02",
    "type": "airbase",
-   "name": "Baza Starokostiantyniv",
+   "name": "Base Starokostiantyniv",
    "latDeg": 49.75,
    "lonDeg": 27.27
   },
   {
    "id": "AB03",
    "type": "airbase",
-   "name": "Baza Myrhorod",
+   "name": "Base Myrhorod",
    "latDeg": 49.97,
    "lonDeg": 33.62
   },
   {
    "id": "AB04",
    "type": "airbase",
-   "name": "Baza Ivano-Frankivsk",
+   "name": "Base Ivano-Frankivsk",
    "latDeg": 48.88,
    "lonDeg": 24.69
   },
   {
    "id": "AB05",
    "type": "airbase",
-   "name": "Baza Kulbakino",
+   "name": "Base Kulbakino",
    "latDeg": 46.93,
    "lonDeg": 32.0
   },
   {
    "id": "PA01",
    "type": "f-16-patrol",
-   "name": "F-16 Kiev",
+   "name": "F-16 Kyiv",
    "latDeg": 50.4,
    "lonDeg": 30.5
   },
   {
    "id": "PA02",
    "type": "f-16-patrol",
-   "name": "F-16 Vest",
+   "name": "F-16 West",
    "latDeg": 49.9,
    "lonDeg": 25.5
   },
   {
    "id": "PA03",
    "type": "f-16-patrol",
-   "name": "F-16 Est",
+   "name": "F-16 East",
    "latDeg": 49.9,
    "lonDeg": 35.5
   },
   {
    "id": "PA04",
    "type": "mig-29-patrol",
-   "name": "MiG-29 Sud",
+   "name": "MiG-29 South",
    "latDeg": 46.7,
    "lonDeg": 31.0
   },
   {
    "id": "PA05",
    "type": "mig-29-patrol",
-   "name": "MiG-29 Centru",
+   "name": "MiG-29 Center",
    "latDeg": 49.5,
    "lonDeg": 31.5
   },
   {
    "id": "PA06",
    "type": "mig-29-patrol",
-   "name": "MiG-29 Zaporojie",
+   "name": "MiG-29 Zaporizhzhia",
    "latDeg": 47.9,
    "lonDeg": 34.8
   },
   {
    "id": "EM01",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Kiev (interior) 01",
+   "name": "Mobile jammer Kyiv (inner) 01",
    "latDeg": 50.4908,
    "lonDeg": 30.5012
   },
   {
    "id": "EM02",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Kiev (interior) 02",
+   "name": "Mobile jammer Kyiv (inner) 02",
    "latDeg": 50.5269,
    "lonDeg": 30.5714
   },
   {
    "id": "EM03",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Kiev (interior) 03",
+   "name": "Mobile jammer Kyiv (inner) 03",
    "latDeg": 50.4697,
    "lonDeg": 30.5708
   },
   {
    "id": "EM04",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Kiev (interior) 04",
+   "name": "Mobile jammer Kyiv (inner) 04",
    "latDeg": 50.4392,
    "lonDeg": 30.6476
   },
   {
    "id": "EM05",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Kiev (interior) 05",
+   "name": "Mobile jammer Kyiv (inner) 05",
    "latDeg": 50.4183,
    "lonDeg": 30.577
   },
   {
    "id": "EM06",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Kiev (interior) 06",
+   "name": "Mobile jammer Kyiv (inner) 06",
    "latDeg": 50.3989,
    "lonDeg": 30.5449
   },
   {
    "id": "EM07",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Kiev (interior) 07",
+   "name": "Mobile jammer Kyiv (inner) 07",
    "latDeg": 50.4159,
    "lonDeg": 30.4974
   },
   {
    "id": "EM08",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Kiev (interior) 08",
+   "name": "Mobile jammer Kyiv (inner) 08",
    "latDeg": 50.3789,
    "lonDeg": 30.3654
   },
   {
    "id": "EM09",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Kiev (interior) 09",
+   "name": "Mobile jammer Kyiv (inner) 09",
    "latDeg": 50.4479,
    "lonDeg": 30.3713
   },
   {
    "id": "EM10",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Kiev (interior) 10",
+   "name": "Mobile jammer Kyiv (inner) 10",
    "latDeg": 50.5185,
    "lonDeg": 30.409
   },
   {
    "id": "EM11",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Kiev (aproape) 11",
+   "name": "Mobile jammer Kyiv (near) 11",
    "latDeg": 50.5538,
    "lonDeg": 30.9456
   },
   {
    "id": "EM12",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Kiev (aproape) 12",
+   "name": "Mobile jammer Kyiv (near) 12",
    "latDeg": 50.4558,
    "lonDeg": 31.1435
   },
   {
    "id": "EM13",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Kiev (aproape) 13",
+   "name": "Mobile jammer Kyiv (near) 13",
    "latDeg": 50.3538,
    "lonDeg": 30.8439
   },
   {
    "id": "EM14",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Kiev (aproape) 14",
+   "name": "Mobile jammer Kyiv (near) 14",
    "latDeg": 50.3377,
    "lonDeg": 30.667
   },
   {
    "id": "EM15",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Kiev (aproape) 15",
+   "name": "Mobile jammer Kyiv (near) 15",
    "latDeg": 50.042,
    "lonDeg": 30.6524
   },
   {
    "id": "EM16",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Kiev (aproape) 16",
+   "name": "Mobile jammer Kyiv (near) 16",
    "latDeg": 50.2052,
    "lonDeg": 30.3825
   },
   {
    "id": "EM17",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Kiev (aproape) 17",
+   "name": "Mobile jammer Kyiv (near) 17",
    "latDeg": 50.3186,
    "lonDeg": 30.3849
   },
   {
    "id": "EM18",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Kiev (aproape) 18",
+   "name": "Mobile jammer Kyiv (near) 18",
    "latDeg": 50.3648,
    "lonDeg": 30.297
   },
   {
    "id": "EM19",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Kiev (aproape) 19",
+   "name": "Mobile jammer Kyiv (near) 19",
    "latDeg": 50.4787,
    "lonDeg": 30.0311
   },
   {
    "id": "EM20",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Kiev (aproape) 20",
+   "name": "Mobile jammer Kyiv (near) 20",
    "latDeg": 50.5875,
    "lonDeg": 30.2119
   },
   {
    "id": "EM21",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Kiev (aproape) 21",
+   "name": "Mobile jammer Kyiv (near) 21",
    "latDeg": 50.7244,
    "lonDeg": 30.253
   },
   {
    "id": "EM22",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Kiev (aproape) 22",
+   "name": "Mobile jammer Kyiv (near) 22",
    "latDeg": 50.772,
    "lonDeg": 30.4494
   },
   {
    "id": "EM23",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Kiev (aproape) 23",
+   "name": "Mobile jammer Kyiv (near) 23",
    "latDeg": 50.6613,
    "lonDeg": 30.6557
   },
   {
    "id": "EM24",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Kiev (aproape) 24",
+   "name": "Mobile jammer Kyiv (near) 24",
    "latDeg": 50.6713,
    "lonDeg": 30.7788
   },
   {
    "id": "EM25",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Kharkiv 25",
+   "name": "Mobile jammer Kharkiv 25",
    "latDeg": 50.1892,
    "lonDeg": 36.222
   },
   {
    "id": "EM26",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Kharkiv 26",
+   "name": "Mobile jammer Kharkiv 26",
    "latDeg": 50.0939,
    "lonDeg": 36.4927
   },
   {
    "id": "EM27",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Kharkiv 27",
+   "name": "Mobile jammer Kharkiv 27",
    "latDeg": 49.9251,
    "lonDeg": 36.4095
   },
   {
    "id": "EM28",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Kharkiv 28",
+   "name": "Mobile jammer Kharkiv 28",
    "latDeg": 49.8649,
    "lonDeg": 36.2312
   },
   {
    "id": "EM29",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Kharkiv 29",
+   "name": "Mobile jammer Kharkiv 29",
    "latDeg": 49.9103,
    "lonDeg": 36.0452
   },
   {
    "id": "EM30",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Kharkiv 30",
+   "name": "Mobile jammer Kharkiv 30",
    "latDeg": 50.0412,
    "lonDeg": 35.9271
   },
   {
    "id": "EM31",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Odesa 31",
+   "name": "Mobile jammer Odesa 31",
    "latDeg": 46.3969,
    "lonDeg": 31.0331
   },
   {
    "id": "EM32",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Odesa 32",
+   "name": "Mobile jammer Odesa 32",
    "latDeg": 46.2779,
    "lonDeg": 30.8469
   },
   {
    "id": "EM33",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Odesa 33",
+   "name": "Mobile jammer Odesa 33",
    "latDeg": 46.2936,
    "lonDeg": 30.4929
   },
   {
    "id": "EM34",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Odesa 34",
+   "name": "Mobile jammer Odesa 34",
    "latDeg": 46.5113,
    "lonDeg": 30.5587
   },
   {
    "id": "EM35",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Odesa 35",
+   "name": "Mobile jammer Odesa 35",
    "latDeg": 46.6803,
    "lonDeg": 30.6529
   },
   {
    "id": "EM36",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Odesa 36",
+   "name": "Mobile jammer Odesa 36",
    "latDeg": 46.6249,
    "lonDeg": 30.8952
   },
   {
    "id": "EM37",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Dnipro 37",
+   "name": "Mobile jammer Dnipro 37",
    "latDeg": 48.5472,
    "lonDeg": 35.1478
   },
   {
    "id": "EM38",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Dnipro 38",
+   "name": "Mobile jammer Dnipro 38",
    "latDeg": 48.386,
    "lonDeg": 35.2687
   },
   {
    "id": "EM39",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Dnipro 39",
+   "name": "Mobile jammer Dnipro 39",
    "latDeg": 48.3111,
    "lonDeg": 35.0537
   },
   {
    "id": "EM40",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Dnipro 40",
+   "name": "Mobile jammer Dnipro 40",
    "latDeg": 48.4328,
    "lonDeg": 34.883
   },
   {
    "id": "EM41",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Dnipro 41",
+   "name": "Mobile jammer Dnipro 41",
    "latDeg": 48.5605,
    "lonDeg": 34.9491
   },
   {
    "id": "EM42",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Zap 42",
+   "name": "Mobile jammer Zap 42",
    "latDeg": 47.8814,
    "lonDeg": 35.3434
   },
   {
    "id": "EM43",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Zap 43",
+   "name": "Mobile jammer Zap 43",
    "latDeg": 47.649,
    "lonDeg": 35.2805
   },
   {
    "id": "EM44",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Zap 44",
+   "name": "Mobile jammer Zap 44",
    "latDeg": 47.7591,
    "lonDeg": 35.0155
   },
   {
    "id": "EM45",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Zap 45",
+   "name": "Mobile jammer Zap 45",
    "latDeg": 47.8657,
    "lonDeg": 35.0405
   },
   {
    "id": "EM46",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Zap 46",
+   "name": "Mobile jammer Zap 46",
    "latDeg": 47.9348,
    "lonDeg": 35.1386
   },
   {
    "id": "EM47",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Lviv 47",
+   "name": "Mobile jammer Lviv 47",
    "latDeg": 49.7404,
    "lonDeg": 24.0611
   },
   {
    "id": "EM48",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Lviv 48",
+   "name": "Mobile jammer Lviv 48",
    "latDeg": 49.8384,
    "lonDeg": 23.7947
   },
   {
    "id": "EM49",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Lviv 49",
+   "name": "Mobile jammer Lviv 49",
    "latDeg": 49.9843,
    "lonDeg": 24.0214
   },
   {
    "id": "EM50",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Lviv 50",
+   "name": "Mobile jammer Lviv 50",
    "latDeg": 49.8593,
    "lonDeg": 24.3666
   },
   {
    "id": "EM51",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Poltava 51",
+   "name": "Mobile jammer Poltava 51",
    "latDeg": 49.4597,
    "lonDeg": 34.5454
   },
   {
    "id": "EM52",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Poltava 52",
+   "name": "Mobile jammer Poltava 52",
    "latDeg": 49.6454,
    "lonDeg": 34.4448
   },
   {
    "id": "EM53",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Poltava 53",
+   "name": "Mobile jammer Poltava 53",
    "latDeg": 49.6077,
    "lonDeg": 34.6163
   },
   {
    "id": "EM54",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Mykolaiv 54",
+   "name": "Mobile jammer Mykolaiv 54",
    "latDeg": 47.144,
    "lonDeg": 31.9525
   },
   {
    "id": "EM55",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Mykolaiv 55",
+   "name": "Mobile jammer Mykolaiv 55",
    "latDeg": 46.9017,
    "lonDeg": 32.2039
   },
   {
    "id": "EM56",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Mykolaiv 56",
+   "name": "Mobile jammer Mykolaiv 56",
    "latDeg": 46.8836,
    "lonDeg": 31.7804
   },
   {
    "id": "EM57",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Sumy 57",
+   "name": "Mobile jammer Sumy 57",
    "latDeg": 50.7955,
    "lonDeg": 34.8992
   },
   {
    "id": "EM58",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Sumy 58",
+   "name": "Mobile jammer Sumy 58",
    "latDeg": 51.0007,
    "lonDeg": 34.6764
   },
   {
    "id": "EM59",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Chernihiv 59",
+   "name": "Mobile jammer Chernihiv 59",
    "latDeg": 51.4547,
    "lonDeg": 31.4212
   },
   {
    "id": "EM60",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Chernihiv 60",
+   "name": "Mobile jammer Chernihiv 60",
    "latDeg": 51.4513,
    "lonDeg": 31.1157
   },
   {
    "id": "EM61",
    "type": "ew-mobile",
-   "name": "Bruiaj mobil Chernihiv 61",
+   "name": "Mobile jammer Chernihiv 61",
    "latDeg": 51.6511,
    "lonDeg": 31.3041
   },
   {
    "id": "EF01",
    "type": "ew-fixed",
-   "name": "Bruiaj fix NE",
+   "name": "Fixed jammer NE",
    "latDeg": 51.5,
    "lonDeg": 34.0
   },
   {
    "id": "EF02",
    "type": "ew-fixed",
-   "name": "Bruiaj fix Harkov",
+   "name": "Fixed jammer Kharkiv",
    "latDeg": 50.5,
    "lonDeg": 35.8
   },
   {
    "id": "EF03",
    "type": "ew-fixed",
-   "name": "Bruiaj fix Est",
+   "name": "Fixed jammer East",
    "latDeg": 49.0,
    "lonDeg": 38.0
   },
   {
    "id": "EF04",
    "type": "ew-fixed",
-   "name": "Bruiaj fix Sud-Est",
+   "name": "Fixed jammer South-East",
    "latDeg": 46.8,
    "lonDeg": 34.5
   },
   {
    "id": "EF05",
    "type": "ew-fixed",
-   "name": "Bruiaj fix Sud",
+   "name": "Fixed jammer South",
    "latDeg": 46.0,
    "lonDeg": 32.5
   },
   {
    "id": "EF06",
    "type": "ew-fixed",
-   "name": "Bruiaj fix Centru",
+   "name": "Fixed jammer Center",
    "latDeg": 49.0,
    "lonDeg": 31.5
   },
   {
    "id": "EF07",
    "type": "ew-fixed",
-   "name": "Bruiaj fix Vest-Kiev",
+   "name": "Fixed jammer West-Kyiv",
    "latDeg": 50.8,
    "lonDeg": 29.0
   },
   {
    "id": "EF08",
    "type": "ew-fixed",
-   "name": "Bruiaj fix Donbas",
+   "name": "Fixed jammer Donbas",
    "latDeg": 48.0,
    "lonDeg": 36.5
   }

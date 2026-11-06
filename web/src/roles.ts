@@ -1,3 +1,4 @@
+import i18n from './i18n'
 import type { CountryRole, DefenseKind, UnitKind } from './types'
 
 export const ROLE_COLORS: Record<CountryRole, string> = {
@@ -8,13 +9,8 @@ export const ROLE_COLORS: Record<CountryRole, string> = {
   neutral: '#94a3b8',
 }
 
-export const ROLE_LABELS: Record<CountryRole, string> = {
-  defender: 'Apărător',
-  defenderAlly: 'Aliat apărător (încălcare)',
-  attacker: 'Atacator',
-  attackerAlly: 'Aliat atacator',
-  neutral: 'Neutru (încălcare)',
-}
+/** Labels follow the UI language: call them at render time (components re-render on language change). */
+export const roleLabel = (r: CountryRole): string => i18n.t(`labels.role.${r}`)
 
 export const DEFENSE_COLORS: Record<DefenseKind, string> = {
   radar: '#e2e8f0',
@@ -27,16 +23,7 @@ export const DEFENSE_COLORS: Record<DefenseKind, string> = {
   ew: '#2dd4bf',
 }
 
-export const DEFENSE_LABELS: Record<DefenseKind, string> = {
-  radar: 'Radar (rază de detecție)',
-  sam: 'SAM (rază de angajare)',
-  aaGun: 'Tun AA',
-  abm: 'ABM (anti-balistic)',
-  patrol: 'Avion de patrulă (orbită)',
-  interceptorBase: 'Bază drone interceptoare',
-  airbase: 'Bază aeriană',
-  ew: 'Război electronic (rază de bruiaj)',
-}
+export const defenseLabel = (k: DefenseKind): string => i18n.t(`labels.defense.${k}`)
 
 export const UNIT_COLORS: Record<UnitKind, string> = {
   drone: '#facc15',
@@ -45,9 +32,5 @@ export const UNIT_COLORS: Record<UnitKind, string> = {
   cruiseMissile: '#fb923c',
 }
 
-export const UNIT_LABELS: Record<UnitKind, string> = {
-  drone: 'Dronă',
-  ballisticMissile: 'Rachetă balistică',
-  aircraft: 'Avion',
-  cruiseMissile: 'Rachetă de croazieră',
-}
+export const unitLabel = (k: UnitKind): string => i18n.t(`labels.unit.${k}`)
+export const roleShortLabel = (r: CountryRole): string => i18n.t(`labels.roleShort.${r}`)

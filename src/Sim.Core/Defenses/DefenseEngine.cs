@@ -5,26 +5,27 @@ using Sim.Core.Entities;
 using Sim.Core.Events;
 using Sim.Core.Geo;
 using Sim.Core.Scenarios;
+using Sim.Core.Sun;
 
 namespace Sim.Core.Defenses;
 
-/// <summary>O unitate defensiva aflata in aer (pentru afisare): avion de patrula sau dronă interceptoare.</summary>
+/// <summary>A defensive unit currently in the air (for display): a patrol aircraft or an interceptor drone.</summary>
 public readonly record struct Friendly(int Id, GeoPoint Position);
 
 /// <summary>
-/// Aparare anti-aeriana. Radarele detecteaza (cu limita orizontului), SAM / tunuri / ABM / avioane de patrula trag
-/// (rezolvare instantanee, cu zar), iar bazele de interceptoare lanseaza drone care urmaresc efectiv tinta.
-/// Determinist: unitatile si dronele se proceseaza mereu in ordine fixa, iar fiecare unitate are propriul flux de numere aleatoare.
+/// Anti-air defense. Radars detect (limited by the horizon), SAMs / guns / ABMs / patrol aircraft fire
+/// (instant resolution, with a die roll), and interceptor bases launch drones that actually chase the target.
+/// Deterministic: units and drones are always processed in a fixed order, and each unit has its own random-number stream.
 /// </summary>
 public sealed class DefenseEngine
 {
-    /// <summary>Un grad de latitudine are cel putin ~110,5 km; 110 km da o limita sigura pentru respingerea rapida.</summary>
+    /// <summary>One degree of latitude is at least ~110.5 km; 110 km is a safe bound for fast rejection.</summary>
     private const double MetersPerLatDegreeLowerBound = 110_000.0;
 
-    /// <summary>Fluxurile defensivelor incep dupa orice id de drona realist.</summary>
+    /// <summary>The defenses' streams start after any realistic drone id.</summary>
     private const ulong StreamBase = 1UL << 40;
 
-    /// <summary>Orizont radar: d(m) = 4120 * (sqrt(h1) + sqrt(h2)), inaltimile in metri (refractie standard 4/3).</summary>
+    /// <summary>Radar horizon: d(m) = 4120 * (sqrt(h1) + sqrt(h2)), heights in meters (standard 4/3 refraction).</summary>
     private const double HorizonMetersPerSqrtMeter = 4120.0;
 
     private const double RadarAntennaHeightM = 10.0;
@@ -32,7 +33,7 @@ public sealed class DefenseEngine
     private const double EwDefaultCeilingM = 5000.0;
     private const double InterceptorClimbMps = 40.0;
 
-    /// <summary>Id-urile interceptoarelor incep de aici (id-urile avioanelor de patrula sunt indexul unitatii).</summary>
+    /// <summary>Interceptor ids start here (patrol aircraft ids are the unit index).</summary>
     public const int InterceptorIdBase = 1_000_000;
 
     private struct Unit
@@ -41,21 +42,30 @@ public sealed class DefenseEngine
         public GeoPoint Position;
         public double RangeM;
         public double RangeLatDeg;
+        // time of day (only when the scenario has a start time): range and Pk are scaled by the daylight at the unit's position
+        public double BaseRangeM;
+        public double BaseRangeLatDeg;
+        public DayNight.UnitNight Night;
+        public double PkScale;
+        public double WeatherPk;
+        public double[]? AltAlt;    // altitude curve (see Defense.PkAltitude)
+        public double[]? AltFactor;
+        public double NextLightS;
         public int Magazine;
         public double NextReadyS;
         public Rng Rng;
         public int EngageMask;
         public int PrimaryMask;
-        public double[] PkByKind; // indexat dupa UnitKind
+        public double[] PkByKind; // indexed by UnitKind
         public double MinAltM;
         public double MaxAltM;
         public bool Destroyed;
         public double HardnessKg;
         public double SizeM;
-        public int[]? Links; // indexuri de radare (doar cu LocalTracking)
+        public int[]? Links; // radar indices (only with LocalTracking)
         public double SelfTrackM;
 
-        // doar pentru patrule
+        // patrols only
         public PatrolState State;
         public bool Orbiting;
         public double OrbitAngleDeg;
@@ -69,13 +79,13 @@ public sealed class DefenseEngine
 
     private enum PatrolState : byte
     {
-        /// <summary>In asteptare, pe cercul de patrulare (sau in drum spre el).</summary>
+        /// <summary>Waiting on the patrol circle (or on the way to it).</summary>
         Cap,
-        /// <summary>Urmareste o tinta alocata.</summary>
+        /// <summary>Chasing an assigned target.</summary>
         Intercept,
-        /// <summary>Se intoarce la baza.</summary>
+        /// <summary>Returning to base.</summary>
         Return,
-        /// <summary>La sol, se reincarca.</summary>
+        /// <summary>On the ground, rearming.</summary>
         Rearm
     }
 
@@ -93,7 +103,7 @@ public sealed class DefenseEngine
     private readonly double _cycleSeconds;
     private readonly bool _local;
     private readonly int[] _airbaseUnits;
-    private int[] _active = Array.Empty<int>(); // indicii dronelor in zbor la inceputul ciclului, crescator
+    private int[] _active = Array.Empty<int>(); // indices of drones in flight at the start of the cycle, ascending
     private int _activeCount;
     private Interceptor[] _interceptors = new Interceptor[16];
     private int _interceptorCount;
@@ -107,23 +117,23 @@ public sealed class DefenseEngine
     public int DestroyedCount { get; private set; }
     public int JammedCount { get; private set; }
 
-    /// <summary>Tiruri (si lansari de interceptoare) trase in momeli, si cate momeli au fost doborate.</summary>
+    /// <summary>Shots (and interceptor launches) fired at decoys, and how many decoys were shot down.</summary>
     public int DecoyShots { get; private set; }
     public int DecoysIntercepted { get; private set; }
 
-    /// <summary>Costul tirurilor (USD, dupa ShotCostUsd al fiecarui sistem), total si cel tras in momeli.</summary>
+    /// <summary>Cost of the shots (USD, from each system's ShotCostUsd), total and the part fired at decoys.</summary>
     public double SpentUsd { get; private set; }
     public double SpentOnDecoysUsd { get; private set; }
 
     /// <summary>
-    /// Saturarea bruiajului (doar sistemele cu JamCapacity): cicluri-bruior cu tinte in raza, cate dintre ele au depasit capacitatea
-    /// si cea mai mare incarcare (unitati in raza / capacitate) vazuta vreodata.
+    /// Jamming saturation (only systems with JamCapacity): jammer cycles with targets in range, how many of them exceeded capacity,
+    /// and the highest load (units in range / capacity) ever seen.
     /// </summary>
     public int EwActiveCycles { get; private set; }
     public int EwSaturatedCycles { get; private set; }
     public double EwPeakLoad { get; private set; }
 
-    /// <summary>Rachete / proiectile / interceptoare ramase, insumate pe toate unitatile.</summary>
+    /// <summary>Missiles / projectiles / interceptors left, summed over all units.</summary>
     public int MagazineLeft
     {
         get
@@ -135,10 +145,14 @@ public sealed class DefenseEngine
         }
     }
 
-    public DefenseEngine(IReadOnlyList<Defense> defenses, Rng root, bool cheapestFirst = false, double cycleSeconds = 1.0, bool localTracking = false)
+    private readonly double? _startUnixMs;
+    private readonly bool _timeOfDay;
+
+    public DefenseEngine(IReadOnlyList<Defense> defenses, Rng root, bool cheapestFirst = false, double cycleSeconds = 1.0, bool localTracking = false, double? startUnixMs = null, string? weather = null)
     {
         _cycleSeconds = cycleSeconds;
         _local = localTracking;
+        _startUnixMs = startUnixMs;
         _units = new Unit[defenses.Count];
         var bases = new List<int>();
 
@@ -152,18 +166,29 @@ public sealed class DefenseEngine
             bool shooter = d.Kind is not (DefenseKind.Radar or DefenseKind.Airbase or DefenseKind.Ew);
 
             var position = new GeoPoint(d.LatDeg, d.LonDeg, d.AltM);
-            double phase = (i * 137.5) % 360.0; // faze diferite => patrulele nu zboara suprapuse
+            double phase = (i * 137.5) % 360.0; // different phases => patrols do not fly on top of each other
             if (d.Kind == DefenseKind.Airbase)
                 bases.Add(i);
             if (d.Kind == DefenseKind.Patrol && d.PatrolRadiusKm > 0.0)
                 position = Wgs84.Destination(position, phase, d.PatrolRadiusKm * 1000.0);
 
+            var wx = Sim.Core.Climate.WeatherModel.ForDefense(weather, d.Kind); // static for the whole run
+            double rangeM = d.RangeKm * 1000.0 * wx.RangeScale;
+
             _units[i] = new Unit
             {
                 Config = d,
                 Position = position,
-                RangeM = d.RangeKm * 1000.0,
-                RangeLatDeg = d.RangeKm * 1000.0 / MetersPerLatDegreeLowerBound,
+                RangeM = rangeM,
+                RangeLatDeg = rangeM / MetersPerLatDegreeLowerBound,
+                BaseRangeM = rangeM,
+                BaseRangeLatDeg = rangeM / MetersPerLatDegreeLowerBound,
+                Night = DayNight.ForDefense(d.Kind),
+                PkScale = wx.PkScale,
+                WeatherPk = wx.PkScale,
+                AltAlt = d.PkAltitude?.Select(x => x.AltM).ToArray(),
+                AltFactor = d.PkAltitude?.Select(x => x.Factor).ToArray(),
+                NextLightS = 0.0,
                 Magazine = shooter ? d.Magazine : 0,
                 InitialMagazine = shooter ? d.Magazine : 0,
                 NextReadyS = 0.0,
@@ -189,15 +214,16 @@ public sealed class DefenseEngine
             BuildLinks();
 
         _airbaseUnits = bases.ToArray();
+        _timeOfDay = startUnixMs.HasValue && _units.Any(u => !u.Night.IsNeutral);
 
-        // ordinea de tragere: lista, sau cele mai ieftine intai (sortare stabila; cost necunoscut = la urma)
+        // firing order: the list order, or cheapest first (stable sort; unknown cost = last)
         var order = Enumerable.Range(0, _units.Length);
         if (cheapestFirst)
             order = order.OrderBy(i => defenses[i].ShotCostUsd > 0.0 ? defenses[i].ShotCostUsd : double.MaxValue);
         _fireOrder = order.ToArray();
     }
 
-    /// <summary>Pentru fiecare unitate care trage: radarele (indexuri) aflate in raza ei de legatura. Patrulele folosesc pozitia statiei.</summary>
+    /// <summary>For each firing unit: the radars (indices) within its link range. Patrols use the station position.</summary>
     private void BuildLinks()
     {
         var radars = new List<int>();
@@ -218,8 +244,8 @@ public sealed class DefenseEngine
     }
 
     /// <summary>
-    /// Are unitatea pista pe tinta? Fara LocalTracking: tinta a fost detectata vreodata. Cu LocalTracking: tinta e in raza radarului propriu
-    /// sau un radar intact din legatura o vede acum (raza si orizont).
+    /// Does the unit have a track on the target? Without LocalTracking: the target was ever detected. With LocalTracking: the target is within the unit's own radar range
+    /// or an intact linked radar sees it now (range and horizon).
     /// </summary>
     private bool Tracked(in Unit unit, in Drone d)
     {
@@ -287,8 +313,8 @@ public sealed class DefenseEngine
     };
 
     /// <summary>
-    /// Doctrina: o tinta principala se angajeaza mereu; una de oportunitate numai daca nu atinge rezerva de munitie
-    /// si (daca exista limita de cost) tirul nu e prea scump fata de tinta - cu exceptia scapatoarelor aproape de impact.
+    /// Doctrine: a primary target is always engaged; an opportunity target only if it does not touch the ammunition reserve
+    /// and (if there is a cost limit) the shot is not too expensive for the target - except for leakers close to impact.
     /// </summary>
     private static bool Allowed(in Unit unit, in Drone d, double timeS)
     {
@@ -299,7 +325,7 @@ public sealed class DefenseEngine
         if (cfg.ReserveRounds > 0 && unit.Magazine <= cfg.ReserveRounds)
             return false;
 
-        double believedCost = d.PerceivedCostUsd > 0.0 ? d.PerceivedCostUsd : d.CostUsd; // apararea nu stie costul real al unei momeli
+        double believedCost = d.PerceivedCostUsd > 0.0 ? d.PerceivedCostUsd : d.CostUsd; // the defense does not know the real cost of a decoy
         if (cfg.MaxCostRatio > 0.0 && cfg.ShotCostUsd > 0.0 && believedCost > 0.0
             && cfg.ShotCostUsd > cfg.MaxCostRatio * believedCost)
         {
@@ -330,6 +356,28 @@ public sealed class DefenseEngine
         return table;
     }
 
+    /// <summary>
+    /// Time of day: once a minute (simulated) per optical unit, range and Pk are scaled by the daylight at the unit's position.
+    /// A pure function of the position and the time, so it does not touch any random stream.
+    /// </summary>
+    private void RefreshLight(double timeS)
+    {
+        double startMs = _startUnixMs!.Value;
+        for (int u = 0; u < _units.Length; u++)
+        {
+            ref Unit unit = ref _units[u];
+            if (unit.Night.IsNeutral || timeS < unit.NextLightS)
+                continue;
+
+            double daylight = DayNight.DaylightAt(unit.Position.LatDeg, unit.Position.LonDeg, startMs + timeS * 1000.0);
+            double range = DayNight.Blend(unit.Night.RangeScale, daylight);
+            unit.RangeM = unit.BaseRangeM * range;
+            unit.RangeLatDeg = unit.BaseRangeLatDeg * range;
+            unit.PkScale = DayNight.Blend(unit.Night.PkScale, daylight) * unit.WeatherPk;
+            unit.NextLightS = timeS + 60.0;
+        }
+    }
+
     private static int MaskFor(Defense d)
     {
         if (d.Engages is { Count: > 0 })
@@ -345,14 +393,14 @@ public sealed class DefenseEngine
         const int cruise = 1 << (int)UnitKind.CruiseMissile;
         const int ballistic = 1 << (int)UnitKind.BallisticMissile;
         if (d.Kind == DefenseKind.Ew)
-            return drone | cruise; // ghidare prin satelit / inertiala: bruiajul nu afecteaza avioane cu pilot sau rachete balistice
+            return drone | cruise; // satellite / inertial guidance: jamming does not affect piloted aircraft or ballistic missiles
         return d.Kind == DefenseKind.Abm ? ballistic : drone | aircraft | cruise;
     }
 
-    /// <summary>Un ciclu de aparare. Intoarce cate drone au fost doborate (trebuie scazute din cele ramase).</summary>
+    /// <summary>One defense cycle. Returns how many drones were shot down (to be subtracted from the remaining ones).</summary>
     public int Update(Drone[] drones, long tick, double timeS, EventLog events)
     {
-        // doar dronele in zbor conteaza in acest ciclu: lista (in ordinea id-urilor, ca rezultatul sa ramana identic) se face o data
+        // only drones in flight count in this cycle: the list (in id order, so the result stays identical) is built once
         if (_active.Length < drones.Length)
             _active = new int[drones.Length];
         _activeCount = 0;
@@ -362,7 +410,10 @@ public sealed class DefenseEngine
         if (_activeCount == 0)
             return 0;
 
-        // 1) radarele detecteaza dronele aflate in zbor (in limita razei si a orizontului)
+        if (_timeOfDay)
+            RefreshLight(timeS);
+
+        // 1) radars detect the drones in flight (within range and horizon)
         for (int u = 0; u < _units.Length; u++)
         {
             ref Unit unit = ref _units[u];
@@ -386,7 +437,7 @@ public sealed class DefenseEngine
             }
         }
 
-        // 1b) razboiul electronic: fiecare unitate din raza are o sansa (exponentiala) sa-si piarda ghidarea in acest ciclu
+        // 1b) electronic warfare: every unit in range has an (exponential) chance of losing guidance in this cycle
         int jammed = 0;
         for (int u = 0; u < _units.Length; u++)
         {
@@ -396,7 +447,7 @@ public sealed class DefenseEngine
 
             double ratePerCycle = unit.Config.JamRatePerMinute / 60.0 * _cycleSeconds;
 
-            // saturare: peste JamCapacity unitati in raza, eficienta se imparte
+            // saturation: above JamCapacity units in range, efficiency is shared out
             double saturation = 1.0;
             if (unit.Config.JamCapacity > 0)
             {
@@ -429,14 +480,14 @@ public sealed class DefenseEngine
                 if (!unit.Rng.Chance(1.0 - Math.Exp(-ratePerCycle * strength)))
                     continue;
 
-                d.Status = EntityStatus.Impacted; // iese din joc fara sa loveasca tinta (ca o cadere)
+                d.Status = EntityStatus.Impacted; // leaves the game without hitting the target (like a crash)
                 JammedCount++;
                 jammed++;
                 events.Add(new SimEvent(tick, SimEventType.Jammed, d.Id, d.Position, unit.Config.Id));
             }
         }
 
-        // 2) patrulele in asteptare primesc o tinta detectata din raza lor de interventie
+        // 2) waiting patrols are given a detected target from within their intervention range
         for (int u = 0; u < _units.Length; u++)
         {
             ref Unit unit = ref _units[u];
@@ -453,7 +504,7 @@ public sealed class DefenseEngine
             drones[task].ChaseCount++;
         }
 
-        // 3) SAM / tunuri / ABM / patrule trag, bazele de interceptoare lanseaza: o singura tinta per unitate per ciclu
+        // 3) SAMs / guns / ABMs / patrols fire, interceptor bases launch: one target per unit per cycle
         int intercepted = 0;
         foreach (int u in _fireOrder)
         {
@@ -486,10 +537,10 @@ public sealed class DefenseEngine
                 continue;
             }
 
-            // tinta principala: pana la MaxRoundsPerTarget tiruri pe rand, oprire la prima lovitura
+            // primary target: up to MaxRoundsPerTarget shots in turn, stopping at the first hit
             bool primary = (unit.PrimaryMask & (1 << (int)target.Kind)) != 0;
             int rounds = primary ? Math.Clamp(unit.Config.MaxRoundsPerTarget, 1, unit.Magazine) : 1;
-            double pk = unit.PkByKind[(int)target.Kind];
+            double pk = unit.PkByKind[(int)target.Kind] * unit.PkScale * AltitudeFactor(in unit, target.Position.AltM);
 
             bool hit = false;
             int fired = 0;
@@ -531,13 +582,31 @@ public sealed class DefenseEngine
         return intercepted + jammed;
     }
 
+    /// <summary>Pk multiplier at a target altitude: linear interpolation on the unit's curve (1 when it has none).</summary>
+    private static double AltitudeFactor(in Unit unit, double altM)
+    {
+        var alts = unit.AltAlt;
+        if (alts is null)
+            return 1.0;
+
+        var f = unit.AltFactor!;
+        int last = alts.Length - 1;
+        if (altM <= alts[0]) return f[0];
+        if (altM >= alts[last]) return f[last];
+
+        int i = 1;
+        while (alts[i] < altM) i++; // alts[i - 1] < altM <= alts[i]
+        double t = (altM - alts[i - 1]) / (alts[i] - alts[i - 1]);
+        return f[i - 1] + (f[i] - f[i - 1]) * t;
+    }
+
     private static bool EwEligible(in Unit unit, in Drone d) =>
         d.Status == EntityStatus.Flying && d.JamFactor > 0.0
         && (unit.EngageMask & (1 << (int)d.Kind)) != 0
         && d.Position.AltM >= unit.MinAltM && d.Position.AltM <= unit.MaxAltM
         && InRange(in unit, d.Position, unit.RangeM);
 
-    /// <summary>Muta interceptoarele (la fiecare tick) si rezolva ajungerea din urma. Intoarce cate drone au fost doborate.</summary>
+    /// <summary>Moves the interceptors (every tick) and resolves catch-ups. Returns how many drones were shot down.</summary>
     public int MoveInterceptors(Drone[] drones, long tick, double timeS, double dt, EventLog events)
     {
         int intercepted = 0;
@@ -569,7 +638,7 @@ public sealed class DefenseEngine
                 ic.Active = false;
                 if (target.ChaseCount > 0) target.ChaseCount--;
 
-                if (unit.Rng.Chance(unit.PkByKind[(int)target.Kind]))
+                if (unit.Rng.Chance(unit.PkByKind[(int)target.Kind] * unit.PkScale * AltitudeFactor(in unit, target.Position.AltM)))
                 {
                     target.Status = EntityStatus.Intercepted;
                     InterceptedCount++;
@@ -585,7 +654,7 @@ public sealed class DefenseEngine
                 continue;
             }
 
-            // urmarire pura: spre pozitia curenta a tintei, urcand / coborand spre altitudinea ei
+            // pure pursuit: toward the target's current position, climbing / descending toward its altitude
             double ground = Wgs84.GreatCircleDistanceM(ic.Position, target.Position);
             double move = Math.Min(step, ground);
             var moved = ground > 0.0
@@ -601,7 +670,7 @@ public sealed class DefenseEngine
         return intercepted;
     }
 
-    /// <summary>Unitatile defensive aflate in aer la momentul dat: avioanele de patrula si interceptoarele active.</summary>
+    /// <summary>Defensive units in the air at the given time: patrol aircraft and active interceptors.</summary>
     public IReadOnlyList<Friendly> GetFriendlies(double timeS)
     {
         var list = new List<Friendly>();
@@ -642,7 +711,7 @@ public sealed class DefenseEngine
 
             double remaining = d.TotalDistM - (timeS - d.LaunchTimeS) * d.SpeedMps;
             int weight = byThreat ? ThreatWeight(d.Kind) : 0;
-            if (weight > bestWeight || (weight == bestWeight && remaining < bestRemaining)) // egalitate => ramane id-ul mai mic
+            if (weight > bestWeight || (weight == bestWeight && remaining < bestRemaining)) // tie => the lower id stays
             {
                 bestWeight = weight;
                 bestRemaining = remaining;
@@ -673,7 +742,7 @@ public sealed class DefenseEngine
         _interceptorCount++;
     }
 
-    /// <summary>Tinta detectata, inca nealocata, din raza de interventie a patrulei (distanta fata de centrul ei), cea mai apropiata de impact.</summary>
+    /// <summary>A detected, still unassigned target within the patrol's intervention range (distance from its center), the one closest to impact.</summary>
     private int FindTaskTarget(Drone[] drones, in Unit unit, double timeS)
     {
         var station = new GeoPoint(unit.Config.LatDeg, unit.Config.LonDeg);
@@ -710,8 +779,8 @@ public sealed class DefenseEngine
     }
 
     /// <summary>
-    /// Muta avioanele de patrula (la fiecare tick): asteptare pe cerc, urmarire, intoarcere la baza, reincarcare.
-    /// Avioanele nu pot fi doborate (deocamdata).
+    /// Moves the patrol aircraft (every tick): waiting on the circle, chasing, returning to base, rearming.
+    /// Aircraft cannot be shot down (for now).
     /// </summary>
     public void MovePatrols(Drone[] drones, long tick, double timeS, double dt, EventLog events)
     {
@@ -782,7 +851,7 @@ public sealed class DefenseEngine
         }
     }
 
-    /// <summary>Spre punctul de pe cerc (daca nu orbiteaza inca), apoi pe cerc.</summary>
+    /// <summary>Toward the point on the circle (if not orbiting yet), then along the circle.</summary>
     private static void FlyStation(ref Unit unit, double step, double dt)
     {
         var station = new GeoPoint(unit.Config.LatDeg, unit.Config.LonDeg, unit.Config.AltM);
@@ -822,13 +891,13 @@ public sealed class DefenseEngine
         }
         else
         {
-            StrandPatrol(ref unit); // nicio baza intreaga: avionul nu mai poate ateriza
+            StrandPatrol(ref unit); // no intact base: the aircraft can no longer land
         }
 
         events.Add(new SimEvent(tick, SimEventType.PatrolReturning, index, unit.Position, unit.Config.Id));
     }
 
-    /// <summary>Avion fara baza: ramane definitiv la sol (nu mai apare si nu mai trage).</summary>
+    /// <summary>Aircraft without a base: stays on the ground for good (no longer shown, no longer fires).</summary>
     private static void StrandPatrol(ref Unit unit)
     {
         unit.State = PatrolState.Rearm;
@@ -836,8 +905,8 @@ public sealed class DefenseEngine
     }
 
     /// <summary>
-    /// Un impact cu sarcina WarheadKg distruge fiecare sistem aflat la cel mult SizeM + raza letala de punctul de impact,
-    /// cu probabilitatea 1 - exp(-WarheadKg / HardnessKg). Sistemele se parcurg in ordinea listei (determinist).
+    /// An impact with a WarheadKg payload destroys every system within SizeM + lethal radius of the impact point,
+    /// with probability 1 - exp(-WarheadKg / HardnessKg). Systems are visited in list order (deterministic).
     /// </summary>
     public void ApplyImpact(in Drone d, long tick, EventLog events)
     {
@@ -869,7 +938,7 @@ public sealed class DefenseEngine
         }
     }
 
-    /// <summary>Avioanele care se reincarcau la baza distrusa sunt pierdute; cele care se indreptau spre ea cauta alta baza.</summary>
+    /// <summary>Aircraft that were rearming at the destroyed base are lost; those heading to it look for another base.</summary>
     private void OnAirbaseDestroyed(int baseUnit)
     {
         for (int u = 0; u < _units.Length; u++)
@@ -902,7 +971,7 @@ public sealed class DefenseEngine
         home = default;
         homeUnit = -1;
         double bestDist = double.MaxValue;
-        foreach (int b in _airbaseUnits) // egalitate => prima din lista
+        foreach (int b in _airbaseUnits) // tie => the first in the list
         {
             if (_units[b].Destroyed)
                 continue;
@@ -918,7 +987,7 @@ public sealed class DefenseEngine
         return homeUnit >= 0;
     }
 
-    /// <summary>Pas orizontal spre destinatie (fara depasire), la altitudine fixa.</summary>
+    /// <summary>Horizontal step toward the destination (no overshoot), at fixed altitude.</summary>
     private static GeoPoint MoveToward(GeoPoint from, GeoPoint to, double distanceM, double altM)
     {
         double ground = Wgs84.GreatCircleDistanceM(from, to);
@@ -931,7 +1000,7 @@ public sealed class DefenseEngine
 
     private static bool InRange(in Unit unit, GeoPoint p, double rangeM)
     {
-        // respingere rapida pe latitudine fata de pozitia curenta a unitatii (rangeM <= RangeM, deci limita e sigura)
+        // fast latitude rejection against the unit's current position (rangeM <= RangeM, so the bound is safe)
         if (Math.Abs(p.LatDeg - unit.Position.LatDeg) > unit.RangeLatDeg)
             return false;
         return Wgs84.SlantRangeM(unit.Position, p) <= rangeM;

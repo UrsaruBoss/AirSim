@@ -7,8 +7,8 @@ using Sim.Server.Models;
 namespace Sim.Server.Services;
 
 /// <summary>
-/// Incarca catalogul de tipuri (data/catalog) si il tine in cache pana se schimba fisierele
-/// (cheia = data ultimei modificari), deci editarea catalogului se vede fara repornirea serverului.
+/// Loads the type catalog (data/catalog) and caches it until the files change
+/// (key = last-modified time), so catalog edits show up without restarting the server.
 /// </summary>
 public sealed class CatalogProvider
 {
@@ -18,7 +18,7 @@ public sealed class CatalogProvider
 
     public CatalogProvider(SimPaths paths) => _paths = paths;
 
-    /// <summary>Poate arunca InvalidDataException daca fisierele din catalog sunt invalide.</summary>
+    /// <summary>May throw InvalidDataException if the catalog files are invalid.</summary>
     public UnitCatalog Get()
     {
         long stamp = Stamp();

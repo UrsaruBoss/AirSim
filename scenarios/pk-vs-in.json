@@ -1,5 +1,5 @@
 {
- "name": "Pakistan → India: salvă balistică și de croazieră asupra bazelor aeriene și orașelor din nord",
+ "name": "Pakistan → India: ballistic and cruise missile salvo on air bases and cities in the north",
  "dtSeconds": 0.5,
  "durationSeconds": 14400,
  "defenseIntervalSeconds": 1.0,
@@ -80,7 +80,7 @@
   },
   {
    "id": "T04",
-   "name": "Baza aeriana Pathankot",
+   "name": "Air base Pathankot",
    "kind": "military_base",
    "latDeg": 32.23,
    "lonDeg": 75.63,
@@ -89,7 +89,7 @@
   },
   {
    "id": "T05",
-   "name": "Baza aeriana Adampur",
+   "name": "Air base Adampur",
    "kind": "military_base",
    "latDeg": 31.43,
    "lonDeg": 75.76,
@@ -98,7 +98,7 @@
   },
   {
    "id": "T06",
-   "name": "Baza aeriana Ambala",
+   "name": "Air base Ambala",
    "kind": "military_base",
    "latDeg": 30.37,
    "lonDeg": 76.82,
@@ -107,7 +107,7 @@
   },
   {
    "id": "T07",
-   "name": "Baza aeriana Bhuj",
+   "name": "Air base Bhuj",
    "kind": "military_base",
    "latDeg": 23.29,
    "lonDeg": 69.67,
@@ -116,7 +116,7 @@
   },
   {
    "id": "T08",
-   "name": "Baza aeriana Jaisalmer",
+   "name": "Air base Jaisalmer",
    "kind": "military_base",
    "latDeg": 26.89,
    "lonDeg": 70.87,
@@ -125,7 +125,7 @@
   },
   {
    "id": "T09",
-   "name": "Baza aeriana Sirsa",
+   "name": "Air base Sirsa",
    "kind": "military_base",
    "latDeg": 29.55,
    "lonDeg": 75.0,
@@ -141,7 +141,7 @@
   },
   {
    "id": "T11",
-   "name": "Rafinaria Jamnagar",
+   "name": "Jamnagar refinery",
    "kind": "field",
    "latDeg": 22.47,
    "lonDeg": 70.07
@@ -419,105 +419,105 @@
   {
    "id": "MG01",
    "type": "mobile-fire-group",
-   "name": "Grup mobil India 01",
+   "name": "Mobile group India 01",
    "latDeg": 29.7169,
    "lonDeg": 76.9405
   },
   {
    "id": "MG02",
    "type": "mobile-fire-group",
-   "name": "Grup mobil India 02",
+   "name": "Mobile group India 02",
    "latDeg": 29.9536,
    "lonDeg": 75.7817
   },
   {
    "id": "MG03",
    "type": "mobile-fire-group",
-   "name": "Grup mobil India 03",
+   "name": "Mobile group India 03",
    "latDeg": 29.2708,
    "lonDeg": 75.3876
   },
   {
    "id": "MG04",
    "type": "mobile-fire-group",
-   "name": "Grup mobil India 04",
+   "name": "Mobile group India 04",
    "latDeg": 29.8664,
    "lonDeg": 74.9252
   },
   {
    "id": "MG05",
    "type": "mobile-fire-group",
-   "name": "Grup mobil India 05",
+   "name": "Mobile group India 05",
    "latDeg": 30.2756,
    "lonDeg": 73.4366
   },
   {
    "id": "MG06",
    "type": "mobile-fire-group",
-   "name": "Grup mobil India 06",
+   "name": "Mobile group India 06",
    "latDeg": 30.6624,
    "lonDeg": 75.0925
   },
   {
    "id": "MG07",
    "type": "mobile-fire-group",
-   "name": "Grup mobil India 07",
+   "name": "Mobile group India 07",
    "latDeg": 31.5629,
    "lonDeg": 74.7072
   },
   {
    "id": "MG08",
    "type": "mobile-fire-group",
-   "name": "Grup mobil India 08",
+   "name": "Mobile group India 08",
    "latDeg": 31.0329,
    "lonDeg": 75.5677
   },
   {
    "id": "MG09",
    "type": "mobile-fire-group",
-   "name": "Grup mobil India 09",
+   "name": "Mobile group India 09",
    "latDeg": 30.7149,
    "lonDeg": 75.7377
   },
   {
    "id": "MG10",
    "type": "mobile-fire-group",
-   "name": "Grup mobil India 10",
+   "name": "Mobile group India 10",
    "latDeg": 30.6879,
    "lonDeg": 77.2254
   },
   {
    "id": "AB01",
    "type": "airbase",
-   "name": "Baza Pathankot",
+   "name": "Base Pathankot",
    "latDeg": 32.23,
    "lonDeg": 75.63
   },
   {
    "id": "AB02",
    "type": "airbase",
-   "name": "Baza Ambala",
+   "name": "Base Ambala",
    "latDeg": 30.37,
    "lonDeg": 76.82
   },
   {
    "id": "AB03",
    "type": "airbase",
-   "name": "Baza Jaisalmer",
+   "name": "Base Jaisalmer",
    "latDeg": 26.89,
    "lonDeg": 70.87
   },
   {
    "id": "AB04",
    "type": "airbase",
-   "name": "Baza Bhuj",
+   "name": "Base Bhuj",
    "latDeg": 23.29,
    "lonDeg": 69.67
   },
   {
    "id": "PA01",
    "type": "su-30sm-patrol",
-   "name": "Su-30MKI / Rafale Nord",
+   "name": "Su-30MKI / Rafale North",
    "latDeg": 32.0,
    "lonDeg": 75.6
   },
@@ -531,14 +531,14 @@
   {
    "id": "PA03",
    "type": "su-30sm-patrol",
-   "name": "Su-30MKI Vest",
+   "name": "Su-30MKI West",
    "latDeg": 26.8,
    "lonDeg": 71.5
   },
   {
    "id": "PA04",
    "type": "su-30sm-patrol",
-   "name": "Su-30MKI Sud",
+   "name": "Su-30MKI South",
    "latDeg": 23.5,
    "lonDeg": 70.0
   }

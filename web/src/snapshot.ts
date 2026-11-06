@@ -4,8 +4,8 @@ const HEADER_SIZE = 24
 const RECORD_SIZE = 16
 
 /**
- * Decodeaza snapshot-ul binar produs de Sim.Server/Services/SnapshotWriter.cs (little-endian):
- *   0: int64 tick | 8: float64 timp | 16: int32 N | 20: int32 M | 24: N x drone, apoi M x unitate defensiva, fiecare { int32 id, f32 lat, f32 lon, f32 alt }
+ * Decodes the binary snapshot produced by Sim.Server/Services/SnapshotWriter.cs (little-endian):
+ *   0: int64 tick | 8: float64 time | 16: int32 N | 20: int32 M | 24: N x drone, then M x defensive unit, each { int32 id, f32 lat, f32 lon, f32 alt }
  */
 export function decodeSnapshot(bytes: Uint8Array): Snapshot {
   const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength)

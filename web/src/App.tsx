@@ -1,49 +1,81 @@
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import i18n from './i18n'
 import { api } from './api'
 import { initialSetup, toPayload } from './draft'
 import type { SetupState } from './draft'
 import Compare from './Compare'
 import Home from './Home'
-import ImmersiveView from './ImmersiveView'
 import { useConnection, useSimStatus } from './hooks'
 import Runs from './Runs'
 import Setup from './Setup'
 import SimView from './SimView'
+import Gallery from './Gallery'
+import { playback } from './playback'
+import { splitVariantId } from './solar'
+import type { Variant } from './solar'
 import { SimClient } from './SimClient'
-import type { Alliance, Catalog, Scenario, ScenarioInfo } from './types'
+import type { Alliance, Catalog, PrecomputedInfo, Scenario, ScenarioInfo } from './types'
 
-type View = 'home' | 'setup' | 'sim' | 'runs' | 'compare' | 'immersive'
+type View = 'home' | 'setup' | 'sim' | 'runs' | 'compare' | 'gallery'
 
+/** Finds out the server mode (local / public) before creating the client: in public mode there is no SignalR hub. */
 export default function App() {
-  const [client] = useState(() => new SimClient())
+  const { t } = useTranslation()
+  const [mode, setMode] = useState<'loading' | 'local' | 'public'>('loading')
+
+  useEffect(() => {
+    api
+      .mode()
+      .then((m) => {
+        playback.enabled = m === 'public'
+        setMode(m)
+      })
+      .catch(() => setMode('local')) // old or stopped server: stay in local mode (the client keeps retrying the connection)
+  }, [])
+
+  if (mode === 'loading')
+    return (
+      <div className="home">
+        <div className="home-inner muted">{t('common.loading')}</div>
+      </div>
+    )
+  return <AppInner publicMode={mode === 'public'} />
+}
+
+function AppInner({ publicMode }: { publicMode: boolean }) {
+  const [client] = useState<SimClient>(() => (publicMode ? playback : new SimClient()))
   const connection = useConnection(client)
   const status = useSimStatus(client)
 
   const [view, setView] = useState<View>('home')
   const [setup, setSetup] = useState<SetupState>(initialSetup)
   const [speed, setSpeed] = useState(100)
-  // scenariul desenat in vizualizarea simularii + rularea reluata (replay), daca e cazul
+  // the scenario drawn in the simulation view + the replayed run, if any
   const [simScenario, setSimScenario] = useState<Scenario | null>(null)
   const [replayId, setReplayId] = useState<string | null>(null)
-  // porneste din meniul Immersive: dupa configurare se intra in buncar, nu in vizualizarea 2D
-  const [immersive, setImmersive] = useState(false)
 
   const [scenarios, setScenarios] = useState<ScenarioInfo[]>([])
   const [catalog, setCatalog] = useState<Catalog | null>(null)
   const [alliances, setAlliances] = useState<Alliance[]>([])
 
-  // resursele statice (scenarii, catalog, aliante) se reincarca cand serverul devine disponibil
+  // static resources (scenarios, catalog, alliances) are reloaded when the server becomes available
   useEffect(() => {
-    if (connection !== 'connected') return
+    if (connection !== 'connected' || publicMode) return
     api.scenarios().then(setScenarios).catch(() => undefined)
     api.catalog().then(setCatalog).catch(() => undefined)
     api
       .alliances()
       .then((r) => setAlliances(r.alliances))
       .catch(() => undefined)
-  }, [connection])
+  }, [connection, publicMode])
 
   const startRun = async (seed: string, runSpeed: number) => {
+    if (publicMode) {
+      playback.restart()
+      playback.setSpeed(runSpeed)
+      return
+    }
     if (replayId) await api.replay(replayId)
     else await api.startCustom(toPayload(setup), seed ? Number(seed) : null)
     await api.setSpeed(runSpeed)
@@ -60,13 +92,64 @@ export default function App() {
   const onStartFromSetup = async () => {
     const trimmed = setup.seed.trim()
     if (trimmed && !/^\d{1,15}$/.test(trimmed)) {
-      throw new Error('Seed-ul trebuie să fie un număr întreg pozitiv.')
+      throw new Error(i18n.t('errors.seed'))
     }
     setReplayId(null)
     await api.startCustom(toPayload(setup), trimmed ? Number(trimmed) : null)
     await api.setSpeed(speed)
     setSimScenario(setup.scenario)
-    setView(immersive ? 'immersive' : 'sim')
+    setView('sim')
+  }
+
+  // public mode: the open run may have a day / night sibling ("id.day" / "id.night"); the viewer can switch between them
+  const [variantRuns, setVariantRuns] = useState<Partial<Record<Variant, PrecomputedInfo>>>({})
+  const [currentVariant, setCurrentVariant] = useState<Variant | null>(null)
+  const [switching, setSwitching] = useState<number | null>(null)
+
+  const switchVariant = async (v: Variant) => {
+    const target = variantRuns[v]
+    if (!target || switching !== null || v === currentVariant) return
+    const t = status?.simTimeS ?? 0
+    const wasPaused = status?.state === 'paused'
+    setSwitching(0)
+    try {
+      await playback.load(target, (fraction) => setSwitching(fraction))
+      setSimScenario(await api.scenario(target.id))
+      setCurrentVariant(v)
+      playback.seek(t) // same moment of the raid, other time of day
+      if (wasPaused) playback.pause()
+    } catch {
+      /* the previous run is still loaded if the download failed before playback.load replaced it */
+    } finally {
+      setSwitching(null)
+    }
+  }
+
+  const onOpenPrecomputed = async (info: PrecomputedInfo) => {
+    const scenario = await api.scenario(info.id)
+    const { baseId, variant } = splitVariantId(info.id)
+    setCurrentVariant(variant)
+    setVariantRuns(variant ? { [variant]: info } : {})
+    if (variant) {
+      playback
+        .list()
+        .then((list) => {
+          const siblings: Partial<Record<Variant, PrecomputedInfo>> = {}
+          for (const it of list) {
+            const sp = splitVariantId(it.id)
+            if (sp.baseId === baseId && sp.variant) siblings[sp.variant] = it
+          }
+          setVariantRuns(siblings)
+        })
+        .catch(() => undefined)
+    }
+    playback.setSpeed(speed)
+    setSimScenario(scenario)
+    setView('sim')
+  }
+
+  if (view === 'gallery') {
+    return <Gallery onOpen={onOpenPrecomputed} onBack={() => setView('home')} />
   }
 
   if (view === 'setup') {
@@ -81,31 +164,6 @@ export default function App() {
         setState={setSetup}
         onBack={() => setView('home')}
         onStart={onStartFromSetup}
-        immersive={immersive}
-      />
-    )
-  }
-
-  if (view === 'immersive') {
-    return (
-      <ImmersiveView
-        client={client}
-        connection={connection}
-        status={status}
-        scenario={simScenario ?? setup.scenario}
-        speed={speed}
-        onSpeed={(v) => {
-          setSpeed(v)
-          void api.setSpeed(v).catch(() => undefined)
-        }}
-        onRestart={() => startRun(setup.seed.trim(), speed)}
-        onMenu={() => {
-          void api.stop().catch(() => undefined)
-          setReplayId(null)
-          setImmersive(false)
-          setView('home')
-        }}
-        onTo2D={() => setView('sim')}
       />
     )
   }
@@ -138,7 +196,11 @@ export default function App() {
         speed={speed}
         onSpeed={setSpeed}
         onStart={startRun}
-        onBack={() => setView(replayId ? 'runs' : immersive ? 'immersive' : 'setup')}
+        onBack={() => setView(publicMode ? 'gallery' : replayId ? 'runs' : 'setup')}
+        readOnly={publicMode}
+        durationS={playback.durationS}
+        dayNight={publicMode && currentVariant && Object.keys(variantRuns).length > 1 ? { current: currentVariant, available: Object.keys(variantRuns) as Variant[], busy: switching, onSwitch: (v) => void switchVariant(v) } : undefined}
+        onSeek={(t) => void api.seek(t).catch(() => undefined)}
         onMenu={() => {
           void api.stop().catch(() => undefined)
           setReplayId(null)
@@ -153,16 +215,13 @@ export default function App() {
       connection={connection}
       status={status}
       onNormal={() => {
-        setImmersive(false)
-        setView('setup')
-      }}
-      onImmersive={() => {
-        setImmersive(true)
         setView('setup')
       }}
       onRuns={() => setView('runs')}
       onCompare={() => setView('compare')}
-      onResume={() => setView(immersive ? 'immersive' : 'sim')}
+      onResume={() => setView('sim')}
+      publicMode={publicMode}
+      onGallery={() => setView('gallery')}
     />
   )
 }

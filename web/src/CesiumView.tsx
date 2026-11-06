@@ -4,6 +4,14 @@ import {
   Cartesian3,
   Cartographic,
   Color,
+  ColorGeometryInstanceAttribute,
+  EllipsoidGeometry,
+  GeometryInstance,
+  Matrix3,
+  Matrix4,
+  PerInstanceColorAppearance,
+  Primitive,
+  Quaternion,
   GeoJsonDataSource,
   JulianDate,
   HorizontalOrigin,
@@ -21,14 +29,30 @@ import {
 } from 'cesium'
 import type { Entity, PointPrimitive } from 'cesium'
 import type { SimClient } from './SimClient'
+import { antisolarUnit, scenarioStartMs } from './solar'
 import { DEFENSE_COLORS, ROLE_COLORS, UNIT_COLORS } from './roles'
 import type { CountryRole, Scenario, UnitKind } from './types'
 
 interface Track {
   point: PointPrimitive
-  /** Pozitia la snapshot-ul anterior si la cel curent (ECEF), intre ele se interpoleaza. */
+  /** Position at the previous snapshot and at the current one (ECEF); interpolated in between. */
   from: Cartesian3
   to: Cartesian3
+  /** Colour at full opacity, altitude (m) at the last snapshot and the opacity currently applied (low flyers fade when altFade is on). */
+  base?: Color
+  altM?: number
+  alpha?: number
+}
+
+/** Opacity from altitude: 0.4 at ground level up to 1.0 from 1000 m, in steps of 0.05 (so the colour is rebuilt only when it visibly changes). */
+const altAlpha = (altM: number) => Math.round((0.4 + 0.6 * Math.min(1, Math.max(0, altM) / 1000)) * 20) / 20
+
+function applyFade(track: Track, on: boolean): void {
+  if (!track.base) return
+  const a = on ? altAlpha(track.altM ?? 0) : 1
+  if (a === (track.alpha ?? 1)) return
+  track.alpha = a
+  track.point.color = track.base.withAlpha(a)
 }
 
 const ALWAYS_VISIBLE = Number.POSITIVE_INFINITY
@@ -60,11 +84,11 @@ function createViewer(container: HTMLElement): Viewer {
   }
 
   if (token) {
-    // cu token Ion: teren si imagistica Cesium
+    // with an Ion token: Cesium terrain and imagery
     Ion.defaultAccessToken = token
     options.terrain = Terrain.fromWorldTerrain()
   } else {
-    // fara token: tile-uri intunecate gratuite (necesita atribuire, afisata de Cesium in colt)
+    // without a token: free dark tiles (require attribution, shown by Cesium in the corner)
     options.baseLayer = new ImageryLayer(
       new UrlTemplateImageryProvider({
         url: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
@@ -77,6 +101,8 @@ function createViewer(container: HTMLElement): Viewer {
 
   const viewer = new Viewer(container, options)
   viewer.scene.globe.enableLighting = false
+  // the clock is driven by the simulation (see the day/night effect), never by real time
+  viewer.clock.shouldAnimate = false
   return viewer
 }
 
@@ -97,30 +123,34 @@ function scenarioRectangle(scenario: Scenario): Rectangle | null {
   )
 }
 
-// vedere implicita cand scenariul nu are inca puncte (editor gol)
+// default view when the scenario has no points yet (empty editor)
 const EUROPE = Rectangle.fromDegrees(-12, 33, 52, 68)
 
 interface Props {
   client: SimClient
   scenario: Scenario | null
-  /** Daca e dat, un click stanga pe glob raporteaza coordonatele (editorul plaseaza sisteme / puncte). */
+  /** If given, a left click on the globe reports the coordinates (the editor places systems / points). */
   onMapClick?: (latDeg: number, lonDeg: number) => void
-  /** Cursor cruce cat timp se plaseaza ceva. */
+  /** Crosshair cursor while something is being placed. */
   placing?: boolean
-  /** Camera zboara spre scenariu doar cand se schimba cheia (implicit: la orice schimbare a scenariului). */
+  /** The camera flies to the scenario only when this key changes (default: on any change of the scenario). */
   fitKey?: string
-  /** Primeste viewer-ul Cesium cand e gata (null la demontare); folosit de modul immersive ca sa-l afiseze pe ecranul din buncar. */
+  /** Receives the Cesium viewer when it is ready (null on unmount). */
   onViewer?: (viewer: Viewer | null) => void
+  /** Sun lighting of the globe, driven by the scenario's start time + simulated time (ignored without startTimeUtc). */
+  lighting?: boolean
+  /** Offensive units become more transparent the lower they fly (opacity from altitude). */
+  altFade?: boolean
 }
 
-export default function CesiumView({ client, scenario, onMapClick, placing = false, fitKey, onViewer }: Props) {
+export default function CesiumView({ client, scenario, onMapClick, placing = false, fitKey, onViewer, lighting = false, altFade = false }: Props) {
   const containerRef = useRef<HTMLDivElement>(null)
   const clickRef = useRef(onMapClick)
   const clickable = onMapClick !== undefined
   const [viewer, setViewer] = useState<Viewer | null>(null)
   const wavesRef = useRef<WaveKinds>({ ends: [], kinds: [] })
 
-  // id-urile ofensive sunt atribuite in ordinea valurilor: din ele se deduce tipul unitatii
+  // offensive ids are assigned in wave order: the unit type is derived from them
   useEffect(() => {
     let total = 0
     const ends: number[] = []
@@ -134,9 +164,11 @@ export default function CesiumView({ client, scenario, onMapClick, placing = fal
   }, [scenario])
 
   const viewerCbRef = useRef(onViewer)
+  const altFadeRef = useRef(altFade)
   useEffect(() => {
     clickRef.current = onMapClick
     viewerCbRef.current = onViewer
+    altFadeRef.current = altFade
   })
 
   useEffect(() => {
@@ -144,7 +176,76 @@ export default function CesiumView({ client, scenario, onMapClick, placing = fal
     return () => viewerCbRef.current?.(null)
   }, [viewer])
 
-  // click pe glob => coordonate (pentru editor); callback-ul curent se citeste din ref
+  // day/night: the Cesium clock follows the simulated time; the night side is shaded by translucent spherical caps
+  // (not by globe.enableLighting: that one is pitch black at night; an imagery layer hid the ground-clamped overlays)
+  const startMs = scenarioStartMs(scenario)
+  const lit = lighting && startMs !== null
+  const startMsRef = useRef<number | null>(null)
+  const litRef = useRef(false)
+  useEffect(() => {
+    startMsRef.current = startMs
+    litRef.current = lit
+    if (!viewer || viewer.isDestroyed()) return
+    if (startMs !== null) viewer.clock.currentTime = JulianDate.fromDate(new Date(startMs))
+  }, [viewer, lit, startMs])
+
+  useEffect(() => {
+    if (!viewer || !lit) return
+    // Night = translucent spherical caps slightly above the ground, centred on the point opposite the sun.
+    // The cap angle is measured from that point: 90 deg = the terminator, below it the sun is under the horizon.
+    const caps: { angleDeg: number; alpha: number }[] = [96, 93, 90, 87, 84, 78].map((angleDeg) => ({ angleDeg, alpha: 0.1 }))
+    const radii = new Cartesian3(6378137 + 9000, 6378137 + 9000, 6356752.3 + 9000)
+    const primitives = caps.map((cap) => {
+      const prim = new Primitive({
+        geometryInstances: new GeometryInstance({
+          geometry: new EllipsoidGeometry({
+            radii,
+            minimumCone: 0,
+            maximumCone: CesiumMath.toRadians(cap.angleDeg),
+            slicePartitions: 72,
+            stackPartitions: 48,
+            vertexFormat: PerInstanceColorAppearance.VERTEX_FORMAT,
+          }),
+          attributes: { color: ColorGeometryInstanceAttribute.fromColor(new Color(0.01, 0.02, 0.08, cap.alpha)) },
+        }),
+        appearance: new PerInstanceColorAppearance({ translucent: true, closed: true, flat: true }),
+        asynchronous: false,
+        modelMatrix: Matrix4.IDENTITY.clone(),
+      })
+      viewer.scene.primitives.add(prim)
+      return prim
+    })
+
+    const z = new Cartesian3(0, 0, 1)
+    const axis = new Cartesian3()
+    const target = new Cartesian3()
+    const rot = new Matrix3()
+    const quat = new Quaternion()
+    const orient = () => {
+      const ms = JulianDate.toDate(viewer.clock.currentTime).getTime()
+      const [x, y, zz] = antisolarUnit(ms)
+      Cartesian3.fromElements(x, y, zz, target)
+      const dot = Cartesian3.dot(z, target)
+      if (dot > 0.999999) Matrix3.clone(Matrix3.IDENTITY, rot)
+      else if (dot < -0.999999) Matrix3.fromRotationX(Math.PI, rot)
+      else {
+        Cartesian3.cross(z, target, axis)
+        Cartesian3.normalize(axis, axis)
+        Quaternion.fromAxisAngle(axis, Math.acos(dot), quat)
+        Matrix3.fromQuaternion(quat, rot)
+      }
+      for (const prim of primitives) Matrix4.fromRotationTranslation(rot, Cartesian3.ZERO, prim.modelMatrix)
+    }
+    orient()
+    const off = viewer.scene.preRender.addEventListener(orient)
+
+    return () => {
+      off()
+      if (!viewer.isDestroyed()) for (const prim of primitives) viewer.scene.primitives.remove(prim)
+    }
+  }, [viewer, lit])
+
+  // click on the globe => coordinates (for the editor); the current callback is read from a ref
   useEffect(() => {
     if (!viewer || !clickable) return
     const handler = new ScreenSpaceEventHandler(viewer.scene.canvas)
@@ -162,7 +263,7 @@ export default function CesiumView({ client, scenario, onMapClick, placing = fal
     viewer.canvas.style.cursor = placing ? 'crosshair' : ''
   }, [viewer, placing])
 
-  // 1) viewer-ul Cesium: creat la montare, distrus la demontare
+  // 1) the Cesium viewer: created on mount, destroyed on unmount
   useEffect(() => {
     const container = containerRef.current
     if (!container) return
@@ -176,7 +277,7 @@ export default function CesiumView({ client, scenario, onMapClick, placing = fal
     }
   }, [])
 
-  // 2) drone + impacturi: primitive (nu entitati) si interpolare intre snapshot-uri
+  // 2) drones + impacts: primitives (not entities) and interpolation between snapshots
   useEffect(() => {
     if (!viewer) return
 
@@ -190,6 +291,7 @@ export default function CesiumView({ client, scenario, onMapClick, placing = fal
     let lastArrival = performance.now()
     let intervalMs = 100
     let lastEpoch = -1
+    let fadeOn = altFadeRef.current
 
     const reset = () => {
       droneLayer.removeAll()
@@ -197,12 +299,17 @@ export default function CesiumView({ client, scenario, onMapClick, placing = fal
       friendlyLayer.removeAll()
       tracks.clear()
       friendlyTracks.clear()
+      if (startMsRef.current !== null) viewer.clock.currentTime = JulianDate.fromDate(new Date(startMsRef.current))
     }
 
     const offSnapshots = client.snapshots.on((snap) => {
       const now = performance.now()
       intervalMs = Math.min(1000, Math.max(30, intervalMs * 0.7 + (now - lastArrival) * 0.3))
       lastArrival = now
+
+      if (litRef.current && startMsRef.current !== null) {
+        viewer.clock.currentTime = JulianDate.fromDate(new Date(startMsRef.current + snap.timeS * 1000))
+      }
 
       const seen = new Set<number>()
       for (let i = 0; i < snap.count; i++) {
@@ -213,16 +320,21 @@ export default function CesiumView({ client, scenario, onMapClick, placing = fal
         if (track) {
           Cartesian3.clone(track.to, track.from)
           Cartesian3.fromDegrees(snap.lon[i], snap.lat[i], snap.alt[i], undefined, track.to)
+          track.altM = snap.alt[i]
+          applyFade(track, fadeOn)
         } else {
           const position = Cartesian3.fromDegrees(snap.lon[i], snap.lat[i], snap.alt[i])
           const kind = kindOf(wavesRef.current, id)
+          const base = Color.fromCssColorString(UNIT_COLORS[kind])
           const point = droneLayer.add({
             position,
             pixelSize: kind === 'ballisticMissile' ? 7 : kind === 'aircraft' || kind === 'cruiseMissile' ? 6 : 4,
-            color: Color.fromCssColorString(UNIT_COLORS[kind]),
+            color: base,
             disableDepthTestDistance: ALWAYS_VISIBLE,
           })
-          tracks.set(id, { point, from: position.clone(), to: position })
+          const created: Track = { point, from: position.clone(), to: position, base, altM: snap.alt[i], alpha: 1 }
+          applyFade(created, fadeOn)
+          tracks.set(id, created)
         }
       }
 
@@ -233,7 +345,7 @@ export default function CesiumView({ client, scenario, onMapClick, placing = fal
         }
       }
 
-      // unitati defensive in aer (avioane de patrula, interceptoare)
+      // defensive units in the air (patrol aircraft, interceptors)
       const seenFriendly = new Set<number>()
       for (let i = 0; i < snap.friendlyCount; i++) {
         const id = snap.friendlyIds[i]
@@ -301,7 +413,7 @@ export default function CesiumView({ client, scenario, onMapClick, placing = fal
       }
     })
 
-    // rulare noua (epoch) sau Stop => curata scena
+    // new run (epoch) or Stop => clear the scene
     const offStatuses = client.statuses.on((status) => {
       if (status.epoch !== lastEpoch || status.state === 'idle') {
         lastEpoch = status.epoch
@@ -309,9 +421,13 @@ export default function CesiumView({ client, scenario, onMapClick, placing = fal
       }
     })
 
-    // la fiecare cadru: pozitia = interpolare intre ultimele doua snapshot-uri
+    // on every frame: position = interpolation between the last two snapshots
     const offPreRender = viewer.scene.preRender.addEventListener(() => {
       const alpha = Math.min(1, (performance.now() - lastArrival) / intervalMs)
+      if (altFadeRef.current !== fadeOn) {
+        fadeOn = altFadeRef.current
+        for (const track of tracks.values()) applyFade(track, fadeOn)
+      }
       for (const track of tracks.values()) {
         Cartesian3.lerp(track.from, track.to, alpha, scratch)
         track.point.position = scratch
@@ -335,7 +451,7 @@ export default function CesiumView({ client, scenario, onMapClick, placing = fal
     }
   }, [viewer, client])
 
-  // 3) tari colorate dupa rol (harta din /api/airspace/{map}, roluri din scenariu)
+  // 3) countries colored by role (map from /api/airspace/{map}, roles from the scenario)
   const airspaceMap = scenario?.airspaceMap ?? ''
   const countries = scenario?.countries
   useEffect(() => {
@@ -353,7 +469,7 @@ export default function CesiumView({ client, scenario, onMapClick, placing = fal
           if (!entity.polygon) continue
           const code = entity.properties?.iso2?.getValue(now) as string | undefined
           const role: CountryRole | undefined = code ? countries?.[code] : undefined
-          // harta lumii: tarile fara rol nu se deseneaza (sute de poligoane lipite de teren ar incetini glob-ul)
+          // world map: countries without a role are not drawn (hundreds of terrain-clamped polygons would slow the globe down)
           if (!role && many) {
             ds.entities.remove(entity)
             continue
@@ -362,7 +478,7 @@ export default function CesiumView({ client, scenario, onMapClick, placing = fal
           entity.polygon.material = base.withAlpha(role ? 0.28 : 0.04) as never
           entity.polygon.outline = false as never
 
-          // contururile poligoanelor "lipite de teren" nu se randeaza => polilinii lipite de teren
+          // outlines of "terrain-clamped" polygons are not rendered => terrain-clamped polylines
           const hierarchy = entity.polygon.hierarchy?.getValue(now) as { positions: Cartesian3[]; holes: { positions: Cartesian3[] }[] } | undefined
           if (!hierarchy) continue
           const rings = [hierarchy.positions, ...hierarchy.holes.map((h) => h.positions)]
@@ -380,7 +496,7 @@ export default function CesiumView({ client, scenario, onMapClick, placing = fal
         await viewer.dataSources.add(ds)
       })
       .catch(() => {
-        // harta indisponibila: simularea merge si fara ea
+        // map unavailable: the simulation works without it
       })
 
     return () => {
@@ -389,7 +505,7 @@ export default function CesiumView({ client, scenario, onMapClick, placing = fal
     }
   }, [viewer, airspaceMap, countries])
 
-  // 4) baze de lansare si tinte din scenariu + zoom pe zona
+  // 4) launch bases and targets from the scenario + zoom to the area
   useEffect(() => {
     if (!viewer || !scenario) return
 
@@ -470,12 +586,12 @@ export default function CesiumView({ client, scenario, onMapClick, placing = fal
     }
   }, [viewer, scenario])
 
-  // 5) camera: zboara spre scenariu cand se schimba cheia (sau scenariul, daca nu exista cheie)
+  // 5) camera: flies to the scenario when the key changes (or the scenario, if there is no key)
   const fitDependency = fitKey ?? scenario
   useEffect(() => {
     if (!viewer || !scenario) return
     viewer.camera.flyTo({ destination: scenarioRectangle(scenario) ?? EUROPE, duration: 1.5 })
-    // doar fitDependency declanseaza zborul; scenariul curent se citeste din inchidere
+    // only fitDependency triggers the flight; the current scenario is read from the closure
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [viewer, fitDependency])
 

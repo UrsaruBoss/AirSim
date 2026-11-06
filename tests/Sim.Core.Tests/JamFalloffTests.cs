@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Sim.Core.Tests;
 
-/// <summary>Bruiajul slabeste cu distanta fata de bruior.</summary>
+/// <summary>Jamming weakens with distance from the jammer.</summary>
 public class JamFalloffTests
 {
     private static Scenario Make(double falloff) => new()
@@ -18,7 +18,7 @@ public class JamFalloffTests
         {
             new() { Id = "W1", SiteId = "L1", TargetId = "T1", Count = 400, IntervalSeconds = 0.5, SpeedMps = 100, AltitudeM = 300 }
         },
-        // bruior in mijlocul traseului, raza 30 km: dronele trec prin centru
+        // jammer in the middle of the route, range 30 km: the drones pass through the center
         Defenses = new List<Defense>
         {
             new() { Id = "E1", Kind = DefenseKind.Ew, LatDeg = 44.0, LonDeg = 24.5, RangeKm = 30, JamRatePerMinute = 0.1, JamFalloff = falloff }

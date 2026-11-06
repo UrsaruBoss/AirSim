@@ -9,13 +9,13 @@ using Sim.Core.Scenarios;
 
 namespace Sim.Core.Analytics;
 
-/// <summary>Rezultatul unei singure rulari din serie.</summary>
+/// <summary>The result of a single run in the series.</summary>
 public sealed record BatchRunResult(
     ulong Seed, int Launched, int Intercepted, int Impacts, int Crashed, int Jammed,
     int DefensesDestroyed, int Violations, int ShotsFired, double Killed, int DecoyShots = 0, int Retargeted = 0,
     double DefenseSpentUsd = 0, double DecoySpentUsd = 0, double AttackCostUsd = 0, double SaturatedPct = 0, double PeakLoad = 0);
 
-/// <summary>Distributia unei metrici peste toate rularile (Sd = deviatia standard a esantionului).</summary>
+/// <summary>Distribution of a metric across all runs (Sd = sample standard deviation).</summary>
 public sealed record MetricStat(string Name, double Mean, double Sd, double Min, double P5, double P50, double P95, double Max);
 
 public sealed record BatchReport(
@@ -23,43 +23,43 @@ public sealed record BatchReport(
     IReadOnlyList<MetricStat> Metrics, IReadOnlyList<BatchRunResult> Results);
 
 /// <summary>
-/// Ruleaza acelasi scenariu cu mai multe seed-uri (baseSeed, baseSeed + 1, ...), fara interfata, in paralel,
-/// si rezuma distributia fiecarei metrici. Determinist: aceleasi argumente => acelasi raport, indiferent de numarul de fire.
+/// Runs the same scenario with several seeds (baseSeed, baseSeed + 1, ...), headless, in parallel,
+/// and summarizes the distribution of each metric. Deterministic: same arguments => same report, regardless of the thread count.
 /// </summary>
 public static class BatchRunner
 {
     public const int CasualtyTrials = 200;
 
-    /// <summary>Metricile raportate, in ordine; folosite si la compararea pereche a doua rapoarte.</summary>
+    /// <summary>The reported metrics, in order; also used when comparing two reports pairwise.</summary>
     public static readonly IReadOnlyList<(string Name, Func<BatchRunResult, double> Value)> Selectors = new (string, Func<BatchRunResult, double>)[]
     {
-        ("Interceptate", r => r.Intercepted),
-        ("Impacturi", r => r.Impacts),
-        ("Cazute pe traseu", r => r.Crashed),
-        ("Bruiate", r => r.Jammed),
-        ("Sisteme distruse", r => r.DefensesDestroyed),
-        ("Incalcari spatiu aerian", r => r.Violations),
-        ("Tiruri", r => r.ShotsFired),
-        ("Victime estimate", r => r.Killed),
-        ("Tiruri pe momeli", r => r.DecoyShots),
-        ("Redirectionate", r => r.Retargeted),
-        ("Cost aparare (mil USD)", r => r.DefenseSpentUsd / 1e6),
-        ("  din care pe momeli", r => r.DecoySpentUsd / 1e6),
-        ("Cost atac (mil USD)", r => r.AttackCostUsd / 1e6),
-        ("Bruiaj saturat (% cicluri)", r => r.SaturatedPct),
-        ("Incarcare max bruior (xcap)", r => r.PeakLoad)
+        ("Intercepted", r => r.Intercepted),
+        ("Impacts", r => r.Impacts),
+        ("Fell along the route", r => r.Crashed),
+        ("Jammed", r => r.Jammed),
+        ("Systems destroyed", r => r.DefensesDestroyed),
+        ("Airspace violations", r => r.Violations),
+        ("Shots", r => r.ShotsFired),
+        ("Estimated casualties", r => r.Killed),
+        ("Shots at decoys", r => r.DecoyShots),
+        ("Retargeted", r => r.Retargeted),
+        ("Defense cost (M USD)", r => r.DefenseSpentUsd / 1e6),
+        ("  of which on decoys", r => r.DecoySpentUsd / 1e6),
+        ("Attack cost (M USD)", r => r.AttackCostUsd / 1e6),
+        ("Jamming saturated (% of cycles)", r => r.SaturatedPct),
+        ("Peak jammer load (x capacity)", r => r.PeakLoad)
     };
 
-    /// <param name="airspace">Se apeleaza o data per rulare (modelul e doar citit, dar fiecare rulare primeste al ei).</param>
+    /// <param name="airspace">Called once per run (the model is only read, but each run gets its own).</param>
     public static BatchReport Run(Scenario scenario, ulong baseSeed, int runs, Func<AirspaceModel?>? airspace = null,
                                   int maxThreads = 0, Action<int>? progress = null)
     {
         if (runs <= 0)
-            throw new ArgumentOutOfRangeException(nameof(runs), "Numarul de rulari trebuie sa fie > 0.");
+            throw new ArgumentOutOfRangeException(nameof(runs), "The number of runs must be > 0.");
 
         var errors = ScenarioLoader.Validate(scenario);
         if (errors.Count > 0)
-            throw new ArgumentException("Scenariu invalid:" + Environment.NewLine + string.Join(Environment.NewLine, errors), nameof(scenario));
+            throw new ArgumentException("Invalid scenario:" + Environment.NewLine + string.Join(Environment.NewLine, errors), nameof(scenario));
 
         var results = new BatchRunResult[runs];
         int done = 0;
@@ -94,7 +94,7 @@ public static class BatchRunner
         return new MetricStat(name, mean, sd, v[0], Percentile(v, 0.05), Percentile(v, 0.50), Percentile(v, 0.95), v[^1]);
     }
 
-    /// <summary>Percentila cu interpolare liniara; <paramref name="sorted"/> trebuie sa fie nevida si sortata crescator.</summary>
+    /// <summary>Percentile with linear interpolation; <paramref name="sorted"/> must be non-empty and sorted ascending.</summary>
     public static double Percentile(double[] sorted, double p)
     {
         if (sorted.Length == 1)
@@ -127,15 +127,15 @@ public static class BatchRunner
         return sb.ToString();
     }
 
-    /// <summary>Tabel text pentru consola.</summary>
+    /// <summary>Text table for the console.</summary>
     public static string ToText(BatchReport report)
     {
         var f = CultureInfo.InvariantCulture;
         var sb = new StringBuilder();
-        sb.AppendLine($"{report.Scenario}  |  {report.Runs} rulari, seed {report.BaseSeed}..{report.BaseSeed + (ulong)report.Runs - 1}  |  motor {report.EngineVersion}");
-        sb.AppendLine($"{"Metrica",-26}{"Media",10}{"Sd",9}{"Min",9}{"P5",9}{"Mediana",9}{"P95",9}{"Max",9}");
+        sb.AppendLine($"{report.Scenario}  |  {report.Runs} runs, seed {report.BaseSeed}..{report.BaseSeed + (ulong)report.Runs - 1}  |  engine {report.EngineVersion}");
+        sb.AppendLine($"{"Metric",-34}{"Mean",10}{"Sd",9}{"Min",9}{"P5",9}{"Median",9}{"P95",9}{"Max",9}");
         foreach (var m in report.Metrics)
-            sb.AppendLine($"{m.Name,-26}{m.Mean.ToString("F1", f),10}{m.Sd.ToString("F1", f),9}{m.Min.ToString("F0", f),9}{m.P5.ToString("F0", f),9}{m.P50.ToString("F0", f),9}{m.P95.ToString("F0", f),9}{m.Max.ToString("F0", f),9}");
+            sb.AppendLine($"{m.Name,-34}{m.Mean.ToString("F1", f),10}{m.Sd.ToString("F1", f),9}{m.Min.ToString("F0", f),9}{m.P5.ToString("F0", f),9}{m.P50.ToString("F0", f),9}{m.P95.ToString("F0", f),9}{m.Max.ToString("F0", f),9}");
         return sb.ToString();
     }
 }

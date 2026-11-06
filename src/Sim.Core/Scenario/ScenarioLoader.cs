@@ -22,7 +22,7 @@ public static class ScenarioLoader
         Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) }
     };
 
-    // Forma canonica: compacta, ordine fixa a proprietatilor (cea din declaratia tipurilor).
+    // Canonical form: compact, fixed property order (the one from the type declarations).
     private static readonly JsonSerializerOptions CanonicalOptions = new()
     {
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
@@ -36,9 +36,9 @@ public static class ScenarioLoader
     };
 
     /// <summary>
-    /// Incarca un scenariu. Valurile pot referi un tip din catalog ("unit": "shahed-136") iar apararile la fel ("type": "iris-t-slm"):
-    /// campurile tipului se copiaza in intrare, iar ce scrie scenariul peste ele are prioritate. Rezultatul e complet rezolvat
-    /// (identitatea unei rulari depinde de valori, nu de catalogul de azi).
+    /// Loads a scenario. Waves may reference a catalog type ("unit": "shahed-136") and so may defenses ("type": "iris-t-slm"):
+    /// the type's fields are copied into the entry, and whatever the scenario writes on top takes precedence. The result is fully resolved
+    /// (a run's identity depends on values, not on today's catalog).
     /// </summary>
     public static Scenario FromJson(string json, UnitCatalog? catalog = null)
     {
@@ -52,24 +52,24 @@ public static class ScenarioLoader
             }) as JsonObject;
 
             if (root is null)
-                throw new InvalidDataException("Scenariu invalid: JSON gol sau nu e un obiect.");
+                throw new InvalidDataException("Invalid scenario: empty JSON or not an object.");
 
-            ResolveReferences(root, "waves", "unit", "unitType", catalog?.Offense, nameFromType: false, "tipul de unitate");
-            ResolveReferences(root, "defenses", "type", "typeId", catalog?.Defense, nameFromType: true, "tipul de aparare");
+            ResolveReferences(root, "waves", "unit", "unitType", catalog?.Offense, nameFromType: false, "the unit type");
+            ResolveReferences(root, "defenses", "type", "typeId", catalog?.Defense, nameFromType: true, "the defense type");
 
             scenario = JsonSerializer.Deserialize<Scenario>(root, ReadOptions);
         }
         catch (JsonException ex)
         {
-            throw new InvalidDataException($"Scenariu invalid (JSON): {ex.Message}", ex);
+            throw new InvalidDataException($"Invalid scenario (JSON): {ex.Message}", ex);
         }
 
         if (scenario is null)
-            throw new InvalidDataException("Scenariu invalid: JSON gol.");
+            throw new InvalidDataException("Invalid scenario: empty JSON.");
 
         var errors = Validate(scenario);
         if (errors.Count > 0)
-            throw new InvalidDataException("Scenariu invalid:" + Environment.NewLine + string.Join(Environment.NewLine, errors));
+            throw new InvalidDataException("Invalid scenario:" + Environment.NewLine + string.Join(Environment.NewLine, errors));
 
         return scenario;
     }
@@ -91,9 +91,9 @@ public static class ScenarioLoader
             string id = refNode.GetValueKind() == JsonValueKind.String ? refNode.GetValue<string>() : "";
             string where = $"{arrayName}[{i}]";
             if (types is null)
-                throw new InvalidDataException($"{where}: refera {what} '{id}', dar nu exista catalog.");
+                throw new InvalidDataException($"{where}: references {what} '{id}', but there is no catalog.");
             if (!types.TryGetValue(id, out var type))
-                throw new InvalidDataException($"{where}: {what} '{id}' nu exista in catalog.");
+                throw new InvalidDataException($"{where}: {what} '{id}' does not exist in the catalog.");
 
             var merged = new JsonObject();
             foreach (var (key, value) in type)
@@ -129,25 +129,25 @@ public static class ScenarioLoader
 
     public static string ToJson(Scenario scenario) => JsonSerializer.Serialize(scenario, PrettyOptions);
 
-    /// <summary>JSON canonic: aceeasi continuu logic => acelasi text, indiferent de spatii sau ordinea proprietatilor din fisier.</summary>
+    /// <summary>Canonical JSON: the same logical content => the same text, regardless of whitespace or property order in the file.</summary>
     public static string ToCanonicalJson(Scenario scenario)
     {
-        // deserializarea creeaza un SortedDictionary cu comparator implicit (dependent de cultura):
-        // il refacem cu ordine ordinala, ca hash-ul sa fie identic pe orice masina
+        // deserialization creates a SortedDictionary with the default (culture-dependent) comparer:
+        // rebuild it with ordinal order so the hash is identical on any machine
         var normalized = scenario with
         {
             Countries = new SortedDictionary<string, Sim.Core.Airspace.CountryRole>(scenario.Countries, StringComparer.Ordinal),
             Defenses = scenario.Defenses.Select(d => d with
             {
                 PkByKind = d.PkByKind is null ? null : new SortedDictionary<string, double>(d.PkByKind, StringComparer.Ordinal),
-                Engages = d.Engages?.Distinct().OrderBy(k => (int)k).ToList(), // ordinea nu conteaza semantic
+                Engages = d.Engages?.Distinct().OrderBy(k => (int)k).ToList(), // order does not matter semantically
                 PrimaryKinds = d.PrimaryKinds?.Distinct().OrderBy(k => (int)k).ToList()
             }).ToList()
         };
         return JsonSerializer.Serialize(normalized, CanonicalOptions);
     }
 
-    /// <summary>SHA-256 (hex, litere mici) al formei canonice. Face parte din identitatea unei rulari.</summary>
+    /// <summary>SHA-256 (lowercase hex) of the canonical form. Part of a run's identity.</summary>
     public static string Hash(Scenario scenario)
     {
         byte[] bytes = Encoding.UTF8.GetBytes(ToCanonicalJson(scenario));
@@ -159,9 +159,13 @@ public static class ScenarioLoader
         var errors = new List<string>();
 
         if (!(s.DtSeconds > 0.0) || double.IsInfinity(s.DtSeconds))
-            errors.Add("DtSeconds trebuie sa fie pozitiv si finit.");
+            errors.Add("DtSeconds must be positive and finite.");
         if (!(s.DurationSeconds > 0.0) || double.IsInfinity(s.DurationSeconds))
-            errors.Add("DurationSeconds trebuie sa fie pozitiv si finit.");
+            errors.Add("DurationSeconds must be positive and finite.");
+        if (s.StartTimeUtc is not null && !Sim.Core.Sun.DayNight.TryParseUtc(s.StartTimeUtc, out _))
+            errors.Add("StartTimeUtc is not a valid ISO 8601 date-time (e.g. 2026-03-01T22:30:00Z).");
+        if (s.Weather is not null && !Sim.Core.Climate.WeatherModel.IsKnown(s.Weather))
+            errors.Add($"Weather '{s.Weather}' is not a known preset ({string.Join(", ", Sim.Core.Climate.WeatherModel.Presets)}).");
 
         CheckUnique("LaunchSites", s.LaunchSites.Select(x => x.Id), errors);
         CheckUnique("Targets", s.Targets.Select(x => x.Id), errors);
@@ -173,8 +177,8 @@ public static class ScenarioLoader
             CheckCoords($"Target '{t.Id}'", t.LatDeg, t.LonDeg, errors);
         foreach (var t in s.Targets)
         {
-            if (!(t.RadiusM >= 0.0) || double.IsInfinity(t.RadiusM)) errors.Add($"Target '{t.Id}': RadiusM trebuie sa fie >= 0 si finit.");
-            if (t.ImpactsToDestroy < 0) errors.Add($"Target '{t.Id}': ImpactsToDestroy nu poate fi negativ.");
+            if (!(t.RadiusM >= 0.0) || double.IsInfinity(t.RadiusM)) errors.Add($"Target '{t.Id}': RadiusM must be >= 0 and finite.");
+            if (t.ImpactsToDestroy < 0) errors.Add($"Target '{t.Id}': ImpactsToDestroy cannot be negative.");
         }
 
         var siteIds = s.LaunchSites.Select(x => x.Id).ToHashSet();
@@ -189,27 +193,27 @@ public static class ScenarioLoader
             var waveTargets = w.TargetIds is { Count: > 0 } ? w.TargetIds : new List<string> { w.TargetId };
             foreach (string id in waveSites.Distinct())
             {
-                if (!siteIds.Contains(id)) errors.Add($"{who}: SiteId '{id}' nu exista.");
+                if (!siteIds.Contains(id)) errors.Add($"{who}: SiteId '{id}' does not exist.");
             }
             foreach (string id in waveTargets.Distinct())
             {
-                if (!targetIds.Contains(id)) errors.Add($"{who}: TargetId '{id}' nu exista.");
+                if (!targetIds.Contains(id)) errors.Add($"{who}: TargetId '{id}' does not exist.");
             }
-            if (!(w.FailureRate >= 0.0 && w.FailureRate <= 1.0)) errors.Add($"{who}: FailureRate trebuie sa fie intre 0 si 1.");
-            if (!(w.EwResistance >= 0.0 && w.EwResistance <= 1.0)) errors.Add($"{who}: EwResistance trebuie sa fie intre 0 si 1.");
-            if (!(w.PerceivedCostUsd >= 0.0) || double.IsInfinity(w.PerceivedCostUsd)) errors.Add($"{who}: PerceivedCostUsd trebuie sa fie >= 0 si finit.");
-            if (w.Retarget && w.Kind == UnitKind.BallisticMissile) errors.Add($"{who}: rachetele balistice nu se pot redirectiona.");
-            if (!(w.RetargetAtKm > 0.0) || double.IsInfinity(w.RetargetAtKm)) errors.Add($"{who}: RetargetAtKm trebuie sa fie > 0 si finit.");
-            if (!(w.RetargetRangeKm > 0.0) || double.IsInfinity(w.RetargetRangeKm)) errors.Add($"{who}: RetargetRangeKm trebuie sa fie > 0 si finit.");
-            if (w.Count <= 0) errors.Add($"{who}: Count trebuie sa fie > 0.");
-            if (w.StartTimeSeconds < 0.0) errors.Add($"{who}: StartTimeSeconds nu poate fi negativ.");
-            if (w.IntervalSeconds < 0.0) errors.Add($"{who}: IntervalSeconds nu poate fi negativ.");
-            if (!(w.SpeedMps > 0.0)) errors.Add($"{who}: SpeedMps trebuie sa fie > 0.");
-            if (w.SpreadMeters < 0.0) errors.Add($"{who}: SpreadMeters nu poate fi negativ.");
-            if (!(w.RangeKm >= 0.0) || double.IsInfinity(w.RangeKm)) errors.Add($"{who}: RangeKm trebuie sa fie >= 0 si finit.");
+            if (!(w.FailureRate >= 0.0 && w.FailureRate <= 1.0)) errors.Add($"{who}: FailureRate must be between 0 and 1.");
+            if (!(w.EwResistance >= 0.0 && w.EwResistance <= 1.0)) errors.Add($"{who}: EwResistance must be between 0 and 1.");
+            if (!(w.PerceivedCostUsd >= 0.0) || double.IsInfinity(w.PerceivedCostUsd)) errors.Add($"{who}: PerceivedCostUsd must be >= 0 and finite.");
+            if (w.Retarget && w.Kind == UnitKind.BallisticMissile) errors.Add($"{who}: ballistic missiles cannot be retargeted.");
+            if (!(w.RetargetAtKm > 0.0) || double.IsInfinity(w.RetargetAtKm)) errors.Add($"{who}: RetargetAtKm must be > 0 and finite.");
+            if (!(w.RetargetRangeKm > 0.0) || double.IsInfinity(w.RetargetRangeKm)) errors.Add($"{who}: RetargetRangeKm must be > 0 and finite.");
+            if (w.Count <= 0) errors.Add($"{who}: Count must be > 0.");
+            if (w.StartTimeSeconds < 0.0) errors.Add($"{who}: StartTimeSeconds cannot be negative.");
+            if (w.IntervalSeconds < 0.0) errors.Add($"{who}: IntervalSeconds cannot be negative.");
+            if (!(w.SpeedMps > 0.0)) errors.Add($"{who}: SpeedMps must be > 0.");
+            if (w.SpreadMeters < 0.0) errors.Add($"{who}: SpreadMeters cannot be negative.");
+            if (!(w.RangeKm >= 0.0) || double.IsInfinity(w.RangeKm)) errors.Add($"{who}: RangeKm must be >= 0 and finite.");
             if (w.RangeKm > 0.0)
             {
-                // toate perechile lansare -> tinta posibile; se raporteaza cea mai departata
+                // all possible launch -> target pairs; the farthest one is reported
                 double worstKm = 0.0;
                 foreach (string sid in waveSites.Distinct())
                 {
@@ -222,52 +226,65 @@ public static class ScenarioLoader
                     }
                 }
                 if (worstKm > w.RangeKm)
-                    errors.Add($"{who}: o tinta e la {worstKm:F0} km de punctul de lansare, peste raza de actiune de {w.RangeKm:F0} km.");
+                    errors.Add($"{who}: a target is {worstKm:F0} km from the launch point, beyond the operational range of {w.RangeKm:F0} km.");
             }
-            if (!(w.CostUsd >= 0.0) || double.IsInfinity(w.CostUsd)) errors.Add($"{who}: CostUsd trebuie sa fie >= 0 si finit.");
-            if (!(w.ApogeeM >= 0.0) || double.IsInfinity(w.ApogeeM)) errors.Add($"{who}: ApogeeM trebuie sa fie >= 0 si finit.");
-            if (!(w.WarheadKg >= 0.0) || double.IsInfinity(w.WarheadKg)) errors.Add($"{who}: WarheadKg trebuie sa fie >= 0 si finit.");
+            if (!(w.CostUsd >= 0.0) || double.IsInfinity(w.CostUsd)) errors.Add($"{who}: CostUsd must be >= 0 and finite.");
+            if (!(w.ApogeeM >= 0.0) || double.IsInfinity(w.ApogeeM)) errors.Add($"{who}: ApogeeM must be >= 0 and finite.");
+            if (!(w.WarheadKg >= 0.0) || double.IsInfinity(w.WarheadKg)) errors.Add($"{who}: WarheadKg must be >= 0 and finite.");
         }
 
         if (!(s.DefenseIntervalSeconds > 0.0) || double.IsInfinity(s.DefenseIntervalSeconds))
-            errors.Add("DefenseIntervalSeconds trebuie sa fie pozitiv si finit.");
+            errors.Add("DefenseIntervalSeconds must be positive and finite.");
 
         CheckUnique("Defenses", s.Defenses.Select(x => x.Id), errors);
         foreach (var d in s.Defenses)
         {
             string who = $"Defense '{d.Id}'";
             CheckCoords(who, d.LatDeg, d.LonDeg, errors);
-            if (!(d.RangeKm > 0.0) || double.IsInfinity(d.RangeKm)) errors.Add($"{who}: RangeKm trebuie sa fie pozitiv si finit.");
-            if (!(d.MinAltM >= 0.0) || !(d.MaxAltM >= 0.0)) errors.Add($"{who}: MinAltM / MaxAltM nu pot fi negative.");
-            if (d.MaxAltM > 0.0 && d.MinAltM > d.MaxAltM) errors.Add($"{who}: MinAltM nu poate depasi MaxAltM.");
+            if (!(d.RangeKm > 0.0) || double.IsInfinity(d.RangeKm)) errors.Add($"{who}: RangeKm must be positive and finite.");
+            if (!(d.MinAltM >= 0.0) || !(d.MaxAltM >= 0.0)) errors.Add($"{who}: MinAltM / MaxAltM cannot be negative.");
+            if (d.MaxAltM > 0.0 && d.MinAltM > d.MaxAltM) errors.Add($"{who}: MinAltM cannot exceed MaxAltM.");
             if (d.Kind == DefenseKind.Patrol)
             {
-                if (!(d.PatrolRadiusKm >= 0.0) || double.IsInfinity(d.PatrolRadiusKm)) errors.Add($"{who}: PatrolRadiusKm trebuie sa fie >= 0 si finit.");
-                if (!(d.PatrolSpeedMps > 0.0)) errors.Add($"{who}: PatrolSpeedMps trebuie sa fie > 0.");
-                if (!(d.EnduranceSeconds > 0.0)) errors.Add($"{who}: EnduranceSeconds trebuie sa fie > 0.");
-                if (!(d.TurnaroundSeconds >= 0.0) || double.IsInfinity(d.TurnaroundSeconds)) errors.Add($"{who}: TurnaroundSeconds trebuie sa fie >= 0 si finit.");
-                if (!(d.ScrambleRangeKm > 0.0)) errors.Add($"{who}: ScrambleRangeKm trebuie sa fie > 0.");
-                if (!s.Defenses.Any(x => x.Kind == DefenseKind.Airbase)) errors.Add($"{who}: patrula necesita cel putin o baza aeriana (kind: airbase).");
+                if (!(d.PatrolRadiusKm >= 0.0) || double.IsInfinity(d.PatrolRadiusKm)) errors.Add($"{who}: PatrolRadiusKm must be >= 0 and finite.");
+                if (!(d.PatrolSpeedMps > 0.0)) errors.Add($"{who}: PatrolSpeedMps must be > 0.");
+                if (!(d.EnduranceSeconds > 0.0)) errors.Add($"{who}: EnduranceSeconds must be > 0.");
+                if (!(d.TurnaroundSeconds >= 0.0) || double.IsInfinity(d.TurnaroundSeconds)) errors.Add($"{who}: TurnaroundSeconds must be >= 0 and finite.");
+                if (!(d.ScrambleRangeKm > 0.0)) errors.Add($"{who}: ScrambleRangeKm must be > 0.");
+                if (!s.Defenses.Any(x => x.Kind == DefenseKind.Airbase)) errors.Add($"{who}: a patrol requires at least one air base (kind: airbase).");
             }
             if (d.Kind == DefenseKind.InterceptorBase)
             {
-                if (!(d.InterceptorSpeedMps > 0.0)) errors.Add($"{who}: InterceptorSpeedMps trebuie sa fie > 0.");
-                if (!(d.MaxFlightSeconds > 0.0)) errors.Add($"{who}: MaxFlightSeconds trebuie sa fie > 0.");
+                if (!(d.InterceptorSpeedMps > 0.0)) errors.Add($"{who}: InterceptorSpeedMps must be > 0.");
+                if (!(d.MaxFlightSeconds > 0.0)) errors.Add($"{who}: MaxFlightSeconds must be > 0.");
             }
-            if (!(d.ShotCostUsd >= 0.0) || double.IsInfinity(d.ShotCostUsd)) errors.Add($"{who}: ShotCostUsd trebuie sa fie >= 0 si finit.");
-            if (!(d.CostUsd >= 0.0) || double.IsInfinity(d.CostUsd)) errors.Add($"{who}: CostUsd trebuie sa fie >= 0 si finit.");
-            if (!(d.MaxCostRatio >= 0.0) || double.IsInfinity(d.MaxCostRatio)) errors.Add($"{who}: MaxCostRatio trebuie sa fie >= 0 si finit.");
-            if (!(d.LeakerDistanceKm >= 0.0) || double.IsInfinity(d.LeakerDistanceKm)) errors.Add($"{who}: LeakerDistanceKm trebuie sa fie >= 0 si finit.");
-            if (!(d.JamRatePerMinute >= 0.0) || double.IsInfinity(d.JamRatePerMinute)) errors.Add($"{who}: JamRatePerMinute trebuie sa fie >= 0 si finit.");
-            if (d.JamCapacity < 0) errors.Add($"{who}: JamCapacity nu poate fi negativ.");
-            if (!(d.JamFalloff >= 0.0 && d.JamFalloff <= 1.0)) errors.Add($"{who}: JamFalloff trebuie sa fie intre 0 si 1.");
-            if (d.Kind == DefenseKind.Ew && !(d.JamRatePerMinute > 0.0)) errors.Add($"{who}: un sistem de razboi electronic (ew) cere JamRatePerMinute > 0.");
-            if (!(d.LinkRangeKm >= 0.0) || double.IsInfinity(d.LinkRangeKm)) errors.Add($"{who}: LinkRangeKm trebuie sa fie >= 0 si finit.");
-            if (!(d.SelfTrackKm >= 0.0) || double.IsInfinity(d.SelfTrackKm)) errors.Add($"{who}: SelfTrackKm trebuie sa fie >= 0 si finit.");
-            if (!(d.HardnessKg >= 0.0) || double.IsInfinity(d.HardnessKg)) errors.Add($"{who}: HardnessKg trebuie sa fie >= 0 si finit.");
-            if (!(d.SizeM >= 0.0) || double.IsInfinity(d.SizeM)) errors.Add($"{who}: SizeM trebuie sa fie >= 0 si finit.");
-            if (d.ReserveRounds < 0) errors.Add($"{who}: ReserveRounds nu poate fi negativ.");
-            if (d.MaxRoundsPerTarget < 1) errors.Add($"{who}: MaxRoundsPerTarget trebuie sa fie >= 1.");
+            if (!(d.ShotCostUsd >= 0.0) || double.IsInfinity(d.ShotCostUsd)) errors.Add($"{who}: ShotCostUsd must be >= 0 and finite.");
+            if (!(d.CostUsd >= 0.0) || double.IsInfinity(d.CostUsd)) errors.Add($"{who}: CostUsd must be >= 0 and finite.");
+            if (!(d.MaxCostRatio >= 0.0) || double.IsInfinity(d.MaxCostRatio)) errors.Add($"{who}: MaxCostRatio must be >= 0 and finite.");
+            if (!(d.LeakerDistanceKm >= 0.0) || double.IsInfinity(d.LeakerDistanceKm)) errors.Add($"{who}: LeakerDistanceKm must be >= 0 and finite.");
+            if (!(d.JamRatePerMinute >= 0.0) || double.IsInfinity(d.JamRatePerMinute)) errors.Add($"{who}: JamRatePerMinute must be >= 0 and finite.");
+            if (d.JamCapacity < 0) errors.Add($"{who}: JamCapacity cannot be negative.");
+            if (!(d.JamFalloff >= 0.0 && d.JamFalloff <= 1.0)) errors.Add($"{who}: JamFalloff must be between 0 and 1.");
+            if (d.Kind == DefenseKind.Ew && !(d.JamRatePerMinute > 0.0)) errors.Add($"{who}: an electronic warfare (ew) system requires JamRatePerMinute > 0.");
+            if (!(d.LinkRangeKm >= 0.0) || double.IsInfinity(d.LinkRangeKm)) errors.Add($"{who}: LinkRangeKm must be >= 0 and finite.");
+            if (!(d.SelfTrackKm >= 0.0) || double.IsInfinity(d.SelfTrackKm)) errors.Add($"{who}: SelfTrackKm must be >= 0 and finite.");
+            if (!(d.HardnessKg >= 0.0) || double.IsInfinity(d.HardnessKg)) errors.Add($"{who}: HardnessKg must be >= 0 and finite.");
+            if (!(d.SizeM >= 0.0) || double.IsInfinity(d.SizeM)) errors.Add($"{who}: SizeM must be >= 0 and finite.");
+            if (d.ReserveRounds < 0) errors.Add($"{who}: ReserveRounds cannot be negative.");
+            if (d.MaxRoundsPerTarget < 1) errors.Add($"{who}: MaxRoundsPerTarget must be >= 1.");
+            if (d.PkAltitude is { } curve)
+            {
+                if (curve.Count == 0) errors.Add($"{who}: PkAltitude cannot be empty.");
+                for (int k = 0; k < curve.Count; k++)
+                {
+                    if (double.IsNaN(curve[k].AltM) || double.IsInfinity(curve[k].AltM) || curve[k].AltM < 0.0)
+                        errors.Add($"{who}: PkAltitude[{k}].AltM must be >= 0 and finite.");
+                    if (!(curve[k].Factor >= 0.0 && curve[k].Factor <= 1.0))
+                        errors.Add($"{who}: PkAltitude[{k}].Factor must be between 0 and 1.");
+                    if (k > 0 && !(curve[k].AltM > curve[k - 1].AltM))
+                        errors.Add($"{who}: PkAltitude must be in strictly ascending order of altitude.");
+                }
+            }
             if (d.PkByKind is not null)
             {
                 foreach (var (kindName, pk) in d.PkByKind)
@@ -275,25 +292,25 @@ public static class ScenarioLoader
                     if (!Enum.TryParse<UnitKind>(kindName, ignoreCase: true, out _))
                         errors.Add($"{who}: PkByKind are un tip necunoscut '{kindName}'.");
                     if (!(pk >= 0.0 && pk <= 1.0))
-                        errors.Add($"{who}: PkByKind['{kindName}'] trebuie sa fie intre 0 si 1.");
+                        errors.Add($"{who}: PkByKind['{kindName}'] must be between 0 and 1.");
                 }
             }
             if (d.Kind != DefenseKind.Radar)
             {
-                if (d.Magazine < 0) errors.Add($"{who}: Magazine nu poate fi negativ.");
-                if (!(d.Pk >= 0.0 && d.Pk <= 1.0)) errors.Add($"{who}: Pk trebuie sa fie intre 0 si 1.");
-                if (!(d.ReloadSeconds >= 0.0) || double.IsInfinity(d.ReloadSeconds)) errors.Add($"{who}: ReloadSeconds trebuie sa fie >= 0 si finit.");
+                if (d.Magazine < 0) errors.Add($"{who}: Magazine cannot be negative.");
+                if (!(d.Pk >= 0.0 && d.Pk <= 1.0)) errors.Add($"{who}: Pk must be between 0 and 1.");
+                if (!(d.ReloadSeconds >= 0.0) || double.IsInfinity(d.ReloadSeconds)) errors.Add($"{who}: ReloadSeconds must be >= 0 and finite.");
             }
         }
 
         if (s.Countries.Count > 0 && string.IsNullOrWhiteSpace(s.AirspaceMap))
-            errors.Add("Countries cere AirspaceMap (numele hartii de tari).");
+            errors.Add("Countries requires AirspaceMap (the name of the country map).");
         if (!string.IsNullOrEmpty(s.AirspaceMap) && !IsSafeName(s.AirspaceMap))
-            errors.Add("AirspaceMap trebuie sa fie un nume simplu (litere, cifre, '-', '_', '.').");
+            errors.Add("AirspaceMap must be a simple name (letters, digits, '-', '_', '.').");
         foreach (string code in s.Countries.Keys)
         {
             if (code.Length is < 2 or > 3 || !code.All(c => c is >= 'A' and <= 'Z' or >= '0' and <= '9'))
-                errors.Add($"Countries: cod de tara invalid '{code}' (2-3 litere mari sau cifre, ex. RO).");
+                errors.Add($"Countries: invalid country code '{code}' (2-3 capital letters or digits, e.g. RO).");
         }
 
         return errors;
@@ -308,9 +325,9 @@ public static class ScenarioLoader
     private static void CheckUnique(string what, IEnumerable<string> ids, List<string> errors)
     {
         foreach (var group in ids.GroupBy(x => x).Where(g => g.Count() > 1))
-            errors.Add($"{what}: id duplicat '{group.Key}'.");
+            errors.Add($"{what}: duplicate id '{group.Key}'.");
         if (ids.Any(string.IsNullOrWhiteSpace))
-            errors.Add($"{what}: id gol.");
+            errors.Add($"{what}: empty id.");
     }
 
     private static void CheckCoords(string who, double lat, double lon, List<string> errors)

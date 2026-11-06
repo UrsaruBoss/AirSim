@@ -1,5 +1,5 @@
 {
- "name": "Iran → Israel (fără proxy-uri): salvă coordonată de drone, croazieră și balistice",
+ "name": "Iran → Israel (without proxies): coordinated salvo of drones, cruise and ballistic missiles",
  "dtSeconds": 0.5,
  "durationSeconds": 43200,
  "defenseIntervalSeconds": 1.0,
@@ -63,7 +63,7 @@
   },
   {
    "id": "T02",
-   "name": "Ierusalim",
+   "name": "Jerusalem",
    "kind": "city",
    "latDeg": 31.7683,
    "lonDeg": 35.2137
@@ -91,7 +91,7 @@
   },
   {
    "id": "T06",
-   "name": "Baza aeriana Nevatim",
+   "name": "Air base Nevatim",
    "kind": "military_base",
    "latDeg": 31.208,
    "lonDeg": 35.012,
@@ -100,7 +100,7 @@
   },
   {
    "id": "T07",
-   "name": "Baza aeriana Ramon",
+   "name": "Air base Ramon",
    "kind": "military_base",
    "latDeg": 30.776,
    "lonDeg": 34.667,
@@ -109,7 +109,7 @@
   },
   {
    "id": "T08",
-   "name": "Baza aeriana Tel Nof",
+   "name": "Air base Tel Nof",
    "kind": "military_base",
    "latDeg": 31.839,
    "lonDeg": 34.82,
@@ -118,7 +118,7 @@
   },
   {
    "id": "T09",
-   "name": "Baza aeriana Hatzerim",
+   "name": "Air base Hatzerim",
    "kind": "military_base",
    "latDeg": 31.234,
    "lonDeg": 34.66,
@@ -127,7 +127,7 @@
   },
   {
    "id": "T10",
-   "name": "Baza aeriana Ramat David",
+   "name": "Air base Ramat David",
    "kind": "military_base",
    "latDeg": 32.665,
    "lonDeg": 35.18,
@@ -136,7 +136,7 @@
   },
   {
    "id": "T11",
-   "name": "Dimona (centru nuclear)",
+   "name": "Dimona (nuclear center)",
    "kind": "military_base",
    "latDeg": 31.0,
    "lonDeg": 35.15,
@@ -145,7 +145,7 @@
   },
   {
    "id": "T12",
-   "name": "Kirya (Tel Aviv, comandament)",
+   "name": "Kirya (Tel Aviv, command)",
    "kind": "military_base",
    "latDeg": 32.07,
    "lonDeg": 34.79,
@@ -154,7 +154,7 @@
   },
   {
    "id": "T13",
-   "name": "Rafinaria Haifa",
+   "name": "Haifa refinery",
    "kind": "field",
    "latDeg": 32.8,
    "lonDeg": 35.05
@@ -295,7 +295,7 @@
   {
    "id": "R02",
    "type": "radar-ew-long",
-   "name": "Radar Muntele Meron",
+   "name": "Radar Mount Meron",
    "latDeg": 33.0,
    "lonDeg": 35.4
   },
@@ -358,7 +358,7 @@
   {
    "id": "ID05",
    "type": "iron-dome",
-   "name": "Iron Dome Ierusalim",
+   "name": "Iron Dome Jerusalem",
    "latDeg": 31.77,
    "lonDeg": 35.2
   },
@@ -386,35 +386,35 @@
   {
    "id": "DS01",
    "type": "davids-sling",
-   "name": "David's Sling centru",
+   "name": "David's Sling center",
    "latDeg": 32.0,
    "lonDeg": 34.9
   },
   {
    "id": "DS02",
    "type": "davids-sling",
-   "name": "David's Sling nord",
+   "name": "David's Sling north",
    "latDeg": 32.75,
    "lonDeg": 35.0
   },
   {
    "id": "DS03",
    "type": "davids-sling",
-   "name": "David's Sling sud",
+   "name": "David's Sling south",
    "latDeg": 31.3,
    "lonDeg": 34.85
   },
   {
    "id": "A301",
    "type": "arrow-3",
-   "name": "Arrow 3 centru",
+   "name": "Arrow 3 center",
    "latDeg": 31.9,
    "lonDeg": 34.85
   },
   {
    "id": "A302",
    "type": "arrow-3",
-   "name": "Arrow 3 nord",
+   "name": "Arrow 3 north",
    "latDeg": 32.7,
    "lonDeg": 35.1
   },
@@ -428,21 +428,21 @@
   {
    "id": "A201",
    "type": "arrow-2",
-   "name": "Arrow 2 centru",
+   "name": "Arrow 2 center",
    "latDeg": 32.1,
    "lonDeg": 34.9
   },
   {
    "id": "A202",
    "type": "arrow-2",
-   "name": "Arrow 2 Ierusalim",
+   "name": "Arrow 2 Jerusalem",
    "latDeg": 31.6,
    "lonDeg": 35.0
   },
   {
    "id": "A203",
    "type": "arrow-2",
-   "name": "Arrow 2 nord",
+   "name": "Arrow 2 north",
    "latDeg": 32.6,
    "lonDeg": 35.2
   },
@@ -470,63 +470,63 @@
   {
    "id": "TH01",
    "type": "thaad",
-   "name": "THAAD (SUA, Negev)",
+   "name": "THAAD (USA, Negev)",
    "latDeg": 31.05,
    "lonDeg": 34.85
   },
   {
    "id": "AB01",
    "type": "airbase",
-   "name": "Baza Tel Nof",
+   "name": "Base Tel Nof",
    "latDeg": 31.839,
    "lonDeg": 34.82
   },
   {
    "id": "AB02",
    "type": "airbase",
-   "name": "Baza Nevatim",
+   "name": "Base Nevatim",
    "latDeg": 31.208,
    "lonDeg": 35.012
   },
   {
    "id": "AB03",
    "type": "airbase",
-   "name": "Baza Ramon",
+   "name": "Base Ramon",
    "latDeg": 30.776,
    "lonDeg": 34.667
   },
   {
    "id": "AB04",
    "type": "airbase",
-   "name": "Baza Ramat David",
+   "name": "Base Ramat David",
    "latDeg": 32.665,
    "lonDeg": 35.18
   },
   {
    "id": "PA01",
    "type": "f-16-patrol",
-   "name": "Patrula F-16/F-15 centru",
+   "name": "Patrol F-16/F-15 center",
    "latDeg": 31.8,
    "lonDeg": 34.9
   },
   {
    "id": "PA02",
    "type": "f-16-patrol",
-   "name": "Patrula F-35I Negev",
+   "name": "Patrol F-35I Negev",
    "latDeg": 31.2,
    "lonDeg": 35.1
   },
   {
    "id": "PA03",
    "type": "f-16-patrol",
-   "name": "Patrula F-16 nord",
+   "name": "Patrol F-16 north",
    "latDeg": 32.5,
    "lonDeg": 35.2
   },
   {
    "id": "PA04",
    "type": "f-16-patrol",
-   "name": "Patrula F-35I sud",
+   "name": "Patrol F-35I south",
    "latDeg": 30.6,
    "lonDeg": 34.8
   }

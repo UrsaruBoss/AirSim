@@ -12,7 +12,7 @@ using Sim.Server.Models;
 
 namespace Sim.Server.Services;
 
-/// <param name="NoRetarget">Dezactiveaza redirectionarea in zbor in toate valurile (pentru a testa efectul ei).</param>
+/// <param name="NoRetarget">Disables in-flight retargeting in all waves (to test its effect).</param>
 public sealed record CompareSide(string? Id, JsonElement? Scenario, bool NoRetarget = false);
 
 public sealed record CompareRequest(CompareSide A, CompareSide B, int Runs, ulong? Seed);
@@ -23,8 +23,8 @@ public sealed record CompareJobDto(
     IReadOnlyList<ComparisonRow>? Rows, IReadOnlyList<MetricStat>? MetricsA, IReadOnlyList<MetricStat>? MetricsB);
 
 /// <summary>
-/// Ruleaza in fundal doua loturi (A si B) cu aceleasi seed-uri si le compara pe perechi.
-/// Un singur job la un moment dat, ca sa nu sufoce simularea live.
+/// Runs two batches (A and B) in the background with the same seeds and compares them pairwise.
+/// Only one job at a time, so it does not starve the live simulation.
 /// </summary>
 public sealed class CompareService
 {
@@ -73,24 +73,24 @@ public sealed class CompareService
         if (side.Scenario is { } json && json.ValueKind == JsonValueKind.Object)
             return ScenarioLoader.FromJson(json.GetRawText(), _catalog.Get());
         if (string.IsNullOrWhiteSpace(side.Id))
-            throw new ArgumentException("Fiecare parte a comparatiei cere un scenariu (id sau JSON).");
+            throw new ArgumentException("Each side of the comparison needs a scenario (id or JSON).");
         string path = Path.Combine(_paths.ScenariosDir, side.Id + ".json");
         if (!File.Exists(path))
-            throw new FileNotFoundException($"Scenariul '{side.Id}' nu exista.");
+            throw new FileNotFoundException($"Scenario '{side.Id}' does not exist.");
         return ScenarioLoader.FromFile(path, _catalog.Get());
     }
 
     public CompareJobDto Start(CompareRequest req)
     {
         if (req.Runs < 1 || req.Runs > MaxRuns)
-            throw new ArgumentException($"Numarul de rulari trebuie sa fie intre 1 si {MaxRuns}.");
+            throw new ArgumentException($"The number of runs must be between 1 and {MaxRuns}.");
 
         var a = Resolve(req.A);
         var b = Resolve(req.B);
         var errA = ScenarioLoader.Validate(a);
         var errB = ScenarioLoader.Validate(b);
-        if (errA.Count > 0) throw new ArgumentException("Scenariul A invalid: " + string.Join("; ", errA));
-        if (errB.Count > 0) throw new ArgumentException("Scenariul B invalid: " + string.Join("; ", errB));
+        if (errA.Count > 0) throw new ArgumentException("Scenario A is invalid: " + string.Join("; ", errA));
+        if (errB.Count > 0) throw new ArgumentException("Scenario B is invalid: " + string.Join("; ", errB));
 
         ulong seed = req.Seed ?? (ulong)Random.Shared.NextInt64(1L << 40);
         var job = new Job { Id = Guid.NewGuid().ToString("N")[..10], Total = req.Runs * 2, NameA = a.Name, NameB = b.Name, Runs = req.Runs, Seed = seed };
@@ -98,7 +98,7 @@ public sealed class CompareService
         lock (_gate)
         {
             if (_activeId != "" && _jobs.TryGetValue(_activeId, out var running) && running.State == "running")
-                throw new InvalidOperationException("O comparatie ruleaza deja; asteapta sa se termine.");
+                throw new InvalidOperationException("A comparison is already running; wait for it to finish.");
             _activeId = job.Id;
             _jobs[job.Id] = job;
             _order.Enqueue(job.Id);
@@ -106,7 +106,7 @@ public sealed class CompareService
                 _jobs.TryRemove(old, out _);
         }
 
-        // jumatate din fire, ca simularea live sa ramana fluida
+        // half of the threads, so the live simulation stays smooth
         int threads = Math.Max(1, Environment.ProcessorCount / 2);
         Func<Sim.Core.Airspace.AirspaceModel?>? air(Scenario s)
         {
@@ -141,7 +141,7 @@ public sealed class CompareService
     public CompareJobDto Get(string id)
     {
         if (!_jobs.TryGetValue(id, out var job))
-            throw new FileNotFoundException("Comparatia nu exista (poate a expirat).");
+            throw new FileNotFoundException("The comparison does not exist (it may have expired).");
         return ToDto(job);
     }
 

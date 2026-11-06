@@ -1,11 +1,13 @@
 import { useMemo, useState } from 'react'
 import type { CSSProperties } from 'react'
-import { CLASS_LABEL, formatEstimate } from './format'
+import { useTranslation } from 'react-i18next'
+import { classLabel, formatEstimate } from './format'
+import ChartsTab from './charts/ChartsTab'
 import Icon from './Icons'
-import { DEFENSE_COLORS, DEFENSE_LABELS } from './roles'
+import { DEFENSE_COLORS, defenseLabel } from './roles'
 import type { DefenseKind, DefenseStat, RunSummary, SimStatus } from './types'
 
-type Tab = 'summary' | 'defense' | 'terrain'
+type Tab = 'summary' | 'charts' | 'defense' | 'terrain'
 type SortKey = 'name' | 'shots' | 'hits' | 'rate' | 'magazineStart'
 
 interface Props {
@@ -18,6 +20,7 @@ interface Props {
 const rate = (d: DefenseStat) => (d.kind !== 'ew' && d.shots > 0 ? d.hits / d.shots : -1)
 
 export default function ResultsModal({ summary, status, partial, onClose }: Props) {
+  const { t } = useTranslation()
   const [tab, setTab] = useState<Tab>('summary')
   const [search, setSearch] = useState('')
   const [kinds, setKinds] = useState<Set<DefenseKind>>(new Set())
@@ -61,29 +64,32 @@ export default function ResultsModal({ summary, status, partial, onClose }: Prop
 
   const destroyed = summary.defenses.filter((d) => d.destroyed)
   const cards: { label: string; value: string; color?: string }[] = [
-    { label: 'Lansate', value: `${summary.launched} / ${summary.total}` },
-    { label: 'Doborâte', value: String(summary.intercepted), color: '#3ddc97' },
-    { label: 'Impacturi', value: String(summary.impacted), color: '#ff6b6b' },
-    ...((summary.jammed ?? 0) > 0 ? [{ label: 'Bruiate', value: String(summary.jammed), color: '#2dd4bf' }] : []),
-    ...((summary.failed ?? 0) > 0 ? [{ label: 'Căzute pe traseu', value: String(summary.failed), color: '#c4a574' }] : []),
-    { label: 'Victime (est.)', value: formatEstimate(summary.killed) },
-    { label: 'Răniți (est.)', value: formatEstimate(summary.injured) },
-    ...(status ? [{ label: 'Tiruri', value: `${status.shotsFired}` }] : []),
-    ...(status && status.interceptorsLaunched > 0 ? [{ label: 'Interceptoare', value: `${status.interceptorsLaunched} (pierdute ${status.interceptorsLost})` }] : []),
+    { label: t('results.launched'), value: `${summary.launched} / ${summary.total}` },
+    { label: t('results.intercepted'), value: String(summary.intercepted), color: '#3ddc97' },
+    { label: t('results.impacts'), value: String(summary.impacted), color: '#ff6b6b' },
+    ...((summary.jammed ?? 0) > 0 ? [{ label: t('results.jammed'), value: String(summary.jammed), color: '#2dd4bf' }] : []),
+    ...((summary.failed ?? 0) > 0 ? [{ label: t('results.crashed'), value: String(summary.failed), color: '#c4a574' }] : []),
+    { label: t('results.killed'), value: formatEstimate(summary.killed) },
+    { label: t('results.injured'), value: formatEstimate(summary.injured) },
+    ...(status ? [{ label: t('results.shots'), value: `${status.shotsFired}` }] : []),
+    ...(status && status.interceptorsLaunched > 0 ? [{ label: t('results.interceptors'), value: t('results.interceptorsVal', { launched: status.interceptorsLaunched, lost: status.interceptorsLost }) }] : []),
   ]
 
   return (
     <div className="modal-back" onClick={onClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
         <div className="title">
-          <span>Rezultat{partial ? ' (parțial)' : ''}</span>
-          <button className="icon-btn" onClick={onClose} title="Închide">
+          <span>
+            {t('results.title')}
+            {partial ? t('results.partial') : ''}
+          </span>
+          <button className="icon-btn" onClick={onClose} title={t('results.close')}>
             <Icon name="close" size={18} />
           </button>
         </div>
 
         <div className="tabs">
-          {([['summary', 'Sumar'], ['defense', `Apărare (${defenses.length})`], ['terrain', 'Pe tipuri de țintă']] as [Tab, string][]).map(([k, label]) => (
+          {([['summary', t('results.tabSummary')], ['charts', t('results.tabCharts')], ['defense', t('results.tabDefense', { n: defenses.length })], ['terrain', t('results.tabTerrain')]] as [Tab, string][]).map(([k, label]) => (
             <button key={k} className={tab === k ? 'on' : ''} onClick={() => setTab(k)}>
               {label}
             </button>
@@ -91,6 +97,8 @@ export default function ResultsModal({ summary, status, partial, onClose }: Prop
         </div>
 
         <div className="modal-body">
+          {tab === 'charts' && <ChartsTab summary={summary} />}
+
           {tab === 'summary' && (
             <>
               <div className="cards">
@@ -104,7 +112,7 @@ export default function ResultsModal({ summary, status, partial, onClose }: Prop
 
               {summary.violationsByCountry.length > 0 && (
                 <div className="block">
-                  <h4>Încălcări de spațiu aerian</h4>
+                  <h4>{t('results.violations')}</h4>
                   <div className="tags">
                     {summary.violationsByCountry.map((v) => (
                       <span className="tag" key={v.code}>
@@ -117,7 +125,7 @@ export default function ResultsModal({ summary, status, partial, onClose }: Prop
 
               {destroyed.length > 0 && (
                 <div className="block">
-                  <h4>Sisteme distruse ({destroyed.length})</h4>
+                  <h4>{t('results.destroyed', { n: destroyed.length })}</h4>
                   <div className="tags">
                     {destroyed.map((d) => (
                       <span className="tag" key={d.id}>
@@ -135,16 +143,16 @@ export default function ResultsModal({ summary, status, partial, onClose }: Prop
               <div className="toolbar">
                 <label className="search">
                   <Icon name="search" size={15} />
-                  <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="caută sistem…" />
+                  <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder={t('results.searchSystem')} />
                 </label>
                 <label className="check">
-                  <input type="checkbox" checked={onlyActive} onChange={(e) => setOnlyActive(e.target.checked)} /> doar cele active
+                  <input type="checkbox" checked={onlyActive} onChange={(e) => setOnlyActive(e.target.checked)} /> {t('results.onlyActive')}
                 </label>
               </div>
               <div className="chips wrap">
                 {kindCounts.map(([k, n]) => (
                   <button key={k} className={`chip text ${kinds.has(k) ? 'on' : ''}`} style={{ '--c': DEFENSE_COLORS[k] } as CSSProperties} onClick={() => toggleKind(k)}>
-                    {DEFENSE_LABELS[k].split(' (')[0]} <span>{n}</span>
+                    {defenseLabel(k).split(' (')[0]} <span>{n}</span>
                   </button>
                 ))}
               </div>
@@ -152,11 +160,11 @@ export default function ResultsModal({ summary, status, partial, onClose }: Prop
                 <table className="data">
                   <thead>
                     <tr>
-                      <th onClick={() => sortBy('name')}>Sistem{arrow('name')}</th>
-                      <th onClick={() => sortBy('shots')}>Trageri{arrow('shots')}</th>
-                      <th onClick={() => sortBy('hits')}>Lovituri{arrow('hits')}</th>
-                      <th onClick={() => sortBy('rate')}>Rată{arrow('rate')}</th>
-                      <th onClick={() => sortBy('magazineStart')}>Muniție{arrow('magazineStart')}</th>
+                      <th onClick={() => sortBy('name')}>{t('results.system')}{arrow('name')}</th>
+                      <th onClick={() => sortBy('shots')}>{t('results.fired')}{arrow('shots')}</th>
+                      <th onClick={() => sortBy('hits')}>{t('results.hits')}{arrow('hits')}</th>
+                      <th onClick={() => sortBy('rate')}>{t('results.rate')}{arrow('rate')}</th>
+                      <th onClick={() => sortBy('magazineStart')}>{t('results.magazine')}{arrow('magazineStart')}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -176,7 +184,7 @@ export default function ResultsModal({ summary, status, partial, onClose }: Prop
                     {rows.length === 0 && (
                       <tr>
                         <td colSpan={5} className="muted">
-                          Niciun sistem pentru filtrele alese.
+                          {t('results.noSystems')}
                         </td>
                       </tr>
                     )}
@@ -190,23 +198,23 @@ export default function ResultsModal({ summary, status, partial, onClose }: Prop
             <table className="data">
               <thead>
                 <tr>
-                  <th>Țintă</th>
-                  <th>Impacturi</th>
-                  <th>Morți</th>
-                  <th>Răniți</th>
+                  <th>{t('results.target')}</th>
+                  <th>{t('results.impacts')}</th>
+                  <th>{t('results.killedCol')}</th>
+                  <th>{t('results.injuredCol')}</th>
                 </tr>
               </thead>
               <tbody>
                 {summary.classes.map((c) => (
                   <tr key={c.class}>
-                    <td>{CLASS_LABEL[c.class] ?? c.class}</td>
+                    <td>{classLabel(c.class)}</td>
                     <td>{c.impacts}</td>
                     <td>{formatEstimate(c.killed)}</td>
                     <td>{formatEstimate(c.injured)}</td>
                   </tr>
                 ))}
                 <tr className="total">
-                  <td>Total</td>
+                  <td>{t('results.total')}</td>
                   <td>{summary.impacted}</td>
                   <td>{formatEstimate(summary.killed)}</td>
                   <td>{formatEstimate(summary.injured)}</td>
@@ -217,7 +225,7 @@ export default function ResultsModal({ summary, status, partial, onClose }: Prop
         </div>
 
         <div className="muted small modal-foot">
-          Medie (interval 5–95%, {summary.trials} simulări Monte Carlo). Estimare cu parametri ilustrativi, nu o predicție reală.
+          {t('results.foot', { n: summary.trials })}
         </div>
       </div>
     </div>

@@ -1,22 +1,23 @@
-// Starea editorului de scenarii si calculele pure din jurul ei (costuri, durata, payload-ul trimis serverului).
+// State of the scenario editor and the pure calculations around it (costs, duration, the payload sent to the server).
 
 import type { CountryRole, Defense, DefenseType, LaunchSite, OffenseType, Scenario, Target, Wave } from './types'
+import i18n from './i18n'
 
 export type Mode = 'sandbox' | 'budget'
 
 export const BLANK_ID = '__blank__'
 
-/** Scenariile prestabilite afisate implicit; restul (exemple / teste) sunt ascunse in spatele unei casete. */
+/** The preset scenarios shown by default; the rest (examples / tests) are hidden behind a checkbox. */
 export const PRESET_IDS = ['ru-vs-ua', 'ua-vs-ru', 'kp-vs-kr', 'cn-vs-tw', 'ir-vs-il', 'ir-vs-il-proxies', 'il-vs-ir', 'kr-vs-kp', 'in-vs-pk', 'pk-vs-in', 'ru-vs-baltic', 'ru-vs-natose']
 
 export interface SetupState {
   presetId: string
   scenario: Scenario
-  /** Id-urile elementelor adaugate de utilizator (doar acestea se platesc din buget). */
+  /** Ids of the elements added by the user (only these are paid for from the budget). */
   addedDefenses: string[]
   addedWaves: string[]
   mode: Mode
-  /** Bugete in milioane USD. */
+  /** Budgets in millions of USD. */
   budgetDefenderM: number
   budgetAttackerM: number
   seed: string
@@ -24,7 +25,7 @@ export interface SetupState {
 
 export function blankScenario(): Scenario {
   return {
-    name: 'Scenariu personalizat',
+    name: i18n.t('draft.custom'),
     airspaceMap: 'world',
     countries: {},
     dtSeconds: 0.5,
@@ -60,7 +61,7 @@ export function haversineKm(aLat: number, aLon: number, bLat: number, bLon: numb
   return 2 * 6371.0088 * Math.asin(Math.min(1, Math.sqrt(h)))
 }
 
-/** Primul `prefix + numar` care nu exista deja. */
+/** The first `prefix + number` that does not exist yet. */
 export function uniqueId(prefix: string, existing: readonly string[]): string {
   const used = new Set(existing)
   let n = existing.length + 1
@@ -99,7 +100,7 @@ export function makeDefense(type: DefenseType, latDeg: number, lonDeg: number, s
 
 export function makeLaunchSite(latDeg: number, lonDeg: number, scenario: Scenario): LaunchSite {
   const id = uniqueId('L', scenario.launchSites.map((s) => s.id))
-  return { id, name: `Lansare ${id.slice(1)}`, latDeg: round4(latDeg), lonDeg: round4(lonDeg), altM: 0 }
+  return { id, name: i18n.t('draft.site', { n: id.slice(1) }), latDeg: round4(latDeg), lonDeg: round4(lonDeg), altM: 0 }
 }
 
 export function makeTarget(kind: 'city' | 'military_base', latDeg: number, lonDeg: number, scenario: Scenario): Target {
@@ -107,7 +108,7 @@ export function makeTarget(kind: 'city' | 'military_base', latDeg: number, lonDe
   const base = kind === 'city'
   return {
     id,
-    name: `${base ? 'Oraș' : 'Bază'} ${id.slice(1)}`,
+    name: i18n.t(base ? 'draft.city' : 'draft.base', { n: id.slice(1) }),
     kind,
     latDeg: round4(latDeg),
     lonDeg: round4(lonDeg),
@@ -151,7 +152,7 @@ function round4(v: number): number {
   return Math.round(v * 10000) / 10000
 }
 
-// ---- costuri ----
+// ---- costs ----
 
 export const defenseCost = (d: Defense): number => d.costUsd ?? 0
 export const waveCost = (w: Wave): number => w.count * (w.costUsd ?? 0)
@@ -161,10 +162,10 @@ export function sum<T>(items: readonly T[], f: (item: T) => number): number {
 }
 
 export interface Costs {
-  /** Costul elementelor adaugate de utilizator. */
+  /** Cost of the elements added by the user. */
   defenderAdded: number
   attackerAdded: number
-  /** Costul intregului scenariu. */
+  /** Cost of the whole scenario. */
   defenderTotal: number
   attackerTotal: number
 }
@@ -181,10 +182,11 @@ export function costs(state: SetupState): Costs {
   }
 }
 
+/** Compact USD amount: "$1.20B", "$25.0M", "$300K" (the same in every language: only the symbol placement differs from RO usage). */
 export const formatMoney = (usd: number): string =>
-  usd >= 1e9 ? `${(usd / 1e9).toFixed(2)} mld $` : usd >= 1e6 ? `${(usd / 1e6).toFixed(1)} mil $` : `${Math.round(usd / 1e3)} mii $`
+  usd >= 1e9 ? `$${(usd / 1e9).toFixed(2)}B` : usd >= 1e6 ? `$${(usd / 1e6).toFixed(1)}M` : `$${Math.round(usd / 1e3)}K`
 
-// ---- valuri ----
+// ---- waves ----
 
 export function waveSiteIds(w: Wave): string[] {
   return w.siteIds && w.siteIds.length > 0 ? w.siteIds : [w.siteId]
@@ -194,7 +196,7 @@ export function waveTargetIds(w: Wave): string[] {
   return w.targetIds && w.targetIds.length > 0 ? w.targetIds : [w.targetId]
 }
 
-/** Cea mai lunga pereche lansare -> tinta (km), ca la validarea de pe server. */
+/** The longest launch -> target pair (km), as in the server-side validation. */
 export function maxPairDistanceKm(siteIds: readonly string[], targetIds: readonly string[], scenario: Scenario): number {
   let max = 0
   for (const sid of siteIds) {
@@ -208,7 +210,7 @@ export function maxPairDistanceKm(siteIds: readonly string[], targetIds: readonl
   return max
 }
 
-/** Durata minima ca toate valurile sa ajunga: ultima lansare + zborul cel mai lung, cu rezerva. */
+/** Minimum duration for all waves to arrive: the last launch + the longest flight, with a margin. */
 export function neededDurationS(scenario: Scenario): number {
   let end = 0
   for (const w of scenario.waves) {
@@ -220,8 +222,8 @@ export function neededDurationS(scenario: Scenario): number {
 }
 
 /**
- * Scenariul trimis serverului. Elementele adaugate din catalog pleaca minimal (tip + pozitie), iar serverul le rezolva din catalog,
- * ca orice scenariu; restul (din scenariul prestabilit) pleaca asa cum au fost primite.
+ * The scenario sent to the server. Elements added from the catalog go out minimal (type + position), and the server resolves them from the catalog,
+ * like any scenario; the rest (from the preset scenario) go out as they were received.
  */
 export function toPayload(state: SetupState): Scenario {
   const { scenario } = state

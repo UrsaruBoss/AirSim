@@ -1,5 +1,5 @@
 {
- "name": "China → Taiwan: salvă balistică și de croazieră, cu lovitură inițială asupra radarelor și bateriilor",
+ "name": "China → Taiwan: ballistic and cruise missile salvo, with an opening strike on radars and batteries",
  "dtSeconds": 0.5,
  "durationSeconds": 21600,
  "defenseIntervalSeconds": 1.0,
@@ -60,7 +60,7 @@
  "targets": [
   {
    "id": "T01",
-   "name": "Taipei - centru",
+   "name": "Taipei - center",
    "kind": "city",
    "latDeg": 25.033,
    "lonDeg": 121.565
@@ -74,7 +74,7 @@
   },
   {
    "id": "T03",
-   "name": "Hsinchu (parc stiintific)",
+   "name": "Hsinchu (science park)",
    "kind": "city",
    "latDeg": 24.78,
    "lonDeg": 121.0
@@ -102,7 +102,7 @@
   },
   {
    "id": "T07",
-   "name": "Baza aeriana Songshan",
+   "name": "Air base Songshan",
    "kind": "military_base",
    "latDeg": 25.07,
    "lonDeg": 121.55,
@@ -111,7 +111,7 @@
   },
   {
    "id": "T08",
-   "name": "Baza aeriana Taoyuan",
+   "name": "Air base Taoyuan",
    "kind": "military_base",
    "latDeg": 25.07,
    "lonDeg": 121.23,
@@ -120,7 +120,7 @@
   },
   {
    "id": "T09",
-   "name": "Baza aeriana Ching Chuan Kang",
+   "name": "Air base Ching Chuan Kang",
    "kind": "military_base",
    "latDeg": 24.26,
    "lonDeg": 120.62,
@@ -129,7 +129,7 @@
   },
   {
    "id": "T10",
-   "name": "Baza aeriana Chiayi",
+   "name": "Air base Chiayi",
    "kind": "military_base",
    "latDeg": 23.46,
    "lonDeg": 120.39,
@@ -138,7 +138,7 @@
   },
   {
    "id": "T11",
-   "name": "Baza aeriana Tainan",
+   "name": "Air base Tainan",
    "kind": "military_base",
    "latDeg": 22.95,
    "lonDeg": 120.21,
@@ -147,7 +147,7 @@
   },
   {
    "id": "T12",
-   "name": "Baza aeriana Hualien",
+   "name": "Air base Hualien",
    "kind": "military_base",
    "latDeg": 24.02,
    "lonDeg": 121.62,
@@ -156,7 +156,7 @@
   },
   {
    "id": "T13",
-   "name": "Baza aeriana Taitung",
+   "name": "Air base Taitung",
    "kind": "military_base",
    "latDeg": 22.75,
    "lonDeg": 121.1,
@@ -165,7 +165,7 @@
   },
   {
    "id": "T14",
-   "name": "Baza navala Zuoying",
+   "name": "Naval base Zuoying",
    "kind": "military_base",
    "latDeg": 22.68,
    "lonDeg": 120.27,
@@ -174,7 +174,7 @@
   },
   {
    "id": "T15",
-   "name": "Baza navala Suao",
+   "name": "Naval base Suao",
    "kind": "military_base",
    "latDeg": 24.6,
    "lonDeg": 121.86,
@@ -183,7 +183,7 @@
   },
   {
    "id": "X01",
-   "name": "Lovitura asupra: Radar Leshan",
+   "name": "Strike on: Radar Leshan",
    "kind": "military_base",
    "latDeg": 24.7,
    "lonDeg": 121.1,
@@ -192,7 +192,7 @@
   },
   {
    "id": "X02",
-   "name": "Lovitura asupra: Radar Taipei Nord",
+   "name": "Strike on: Radar Taipei North",
    "kind": "military_base",
    "latDeg": 25.2,
    "lonDeg": 121.6,
@@ -201,7 +201,7 @@
   },
   {
    "id": "X03",
-   "name": "Lovitura asupra: Radar Taichung",
+   "name": "Strike on: Radar Taichung",
    "kind": "military_base",
    "latDeg": 24.2,
    "lonDeg": 120.8,
@@ -210,7 +210,7 @@
   },
   {
    "id": "X04",
-   "name": "Lovitura asupra: Radar Kaohsiung",
+   "name": "Strike on: Radar Kaohsiung",
    "kind": "military_base",
    "latDeg": 22.9,
    "lonDeg": 120.4,
@@ -219,7 +219,7 @@
   },
   {
    "id": "X05",
-   "name": "Lovitura asupra: Radar Hualien",
+   "name": "Strike on: Radar Hualien",
    "kind": "military_base",
    "latDeg": 23.95,
    "lonDeg": 121.5,
@@ -228,7 +228,7 @@
   },
   {
    "id": "X06",
-   "name": "Lovitura asupra: Radar Taitung",
+   "name": "Strike on: Radar Taitung",
    "kind": "military_base",
    "latDeg": 22.75,
    "lonDeg": 121.1,
@@ -237,7 +237,7 @@
   },
   {
    "id": "X07",
-   "name": "Lovitura asupra: Patriot Taipei 01",
+   "name": "Strike on: Patriot Taipei 01",
    "kind": "military_base",
    "latDeg": 25.0628,
    "lonDeg": 121.6674,
@@ -246,7 +246,7 @@
   },
   {
    "id": "X08",
-   "name": "Lovitura asupra: Patriot Taipei 02",
+   "name": "Strike on: Patriot Taipei 02",
    "kind": "military_base",
    "latDeg": 24.9692,
    "lonDeg": 121.6505,
@@ -255,7 +255,7 @@
   },
   {
    "id": "X09",
-   "name": "Lovitura asupra: Tien Kung Taipei 01",
+   "name": "Strike on: Tien Kung Taipei 01",
    "kind": "military_base",
    "latDeg": 24.8083,
    "lonDeg": 121.4935,
@@ -264,7 +264,7 @@
   },
   {
    "id": "X10",
-   "name": "Lovitura asupra: Tien Kung Taipei 02",
+   "name": "Strike on: Tien Kung Taipei 02",
    "kind": "military_base",
    "latDeg": 24.9675,
    "lonDeg": 121.3814,
@@ -408,7 +408,7 @@
   {
    "id": "R02",
    "type": "radar-ew-long",
-   "name": "Radar Taipei Nord",
+   "name": "Radar Taipei North",
    "latDeg": 25.2,
    "lonDeg": 121.6
   },
@@ -618,63 +618,63 @@
   {
    "id": "MG01",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Taipei 01",
+   "name": "Mobile group Taipei 01",
    "latDeg": 25.0427,
    "lonDeg": 121.4668
   },
   {
    "id": "MG02",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Taipei 02",
+   "name": "Mobile group Taipei 02",
    "latDeg": 25.1433,
    "lonDeg": 121.4755
   },
   {
    "id": "MG03",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Taipei 03",
+   "name": "Mobile group Taipei 03",
    "latDeg": 25.1381,
    "lonDeg": 121.653
   },
   {
    "id": "MG04",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Taipei 04",
+   "name": "Mobile group Taipei 04",
    "latDeg": 25.0354,
    "lonDeg": 121.6576
   },
   {
    "id": "MG05",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Taipei 05",
+   "name": "Mobile group Taipei 05",
    "latDeg": 24.9975,
    "lonDeg": 121.5632
   },
   {
    "id": "MG06",
    "type": "mobile-fire-group",
-   "name": "Grup mobil Taipei 06",
+   "name": "Mobile group Taipei 06",
    "latDeg": 24.9681,
    "lonDeg": 121.5126
   },
   {
    "id": "AB01",
    "type": "airbase",
-   "name": "Baza Chiayi",
+   "name": "Base Chiayi",
    "latDeg": 23.46,
    "lonDeg": 120.39
   },
   {
    "id": "AB02",
    "type": "airbase",
-   "name": "Baza Hualien",
+   "name": "Base Hualien",
    "latDeg": 24.02,
    "lonDeg": 121.62
   },
   {
    "id": "AB03",
    "type": "airbase",
-   "name": "Baza Taitung",
+   "name": "Base Taitung",
    "latDeg": 22.75,
    "lonDeg": 121.1
   },

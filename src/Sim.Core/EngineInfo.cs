@@ -3,8 +3,8 @@ namespace Sim.Core;
 public static class EngineInfo
 {
     /// <summary>
-    /// Creste cand se schimba orice logica care afecteaza rezultatele simularii.
-    /// Face parte din identitatea unei rulari: scenariu + seed + versiune de motor.
+    /// Bump whenever any logic that affects simulation results changes.
+    /// Part of a run's identity: scenario + seed + engine version.
     /// </summary>
-    public const string Version = "0.3.0";
+    public const string Version = "0.6.0";
 }

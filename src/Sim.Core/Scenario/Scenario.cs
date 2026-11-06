@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using Sim.Core.Airspace;
 
 namespace Sim.Core.Scenarios;
@@ -9,11 +10,11 @@ public enum UnitKind
     Drone,
     BallisticMissile,
     Aircraft,
-    /// <summary>Racheta de croaziera: zboara ca o drona (altitudine constanta), dar e tratata separat de aparare.</summary>
+    /// <summary>Cruise missile: flies like a drone (constant altitude), but is treated separately by the defense.</summary>
     CruiseMissile
 }
 
-/// <summary>Punct de lansare (ofensiv). Locatia e in grade WGS84, altitudine in metri.</summary>
+/// <summary>Launch point (offensive). Location in WGS84 degrees, altitude in meters.</summary>
 public sealed record LaunchSite
 {
     public string Id { get; init; } = "";
@@ -23,7 +24,7 @@ public sealed record LaunchSite
     public double AltM { get; init; }
 }
 
-/// <summary>Tinta. Kind e liber deocamdata ("city", "military_base", "field"); devine clasa de teren mai tarziu.</summary>
+/// <summary>Target. Kind is free-form for now ("city", "military_base", "field"); it becomes the terrain class later.</summary>
 public sealed record Target
 {
     public string Id { get; init; } = "";
@@ -33,16 +34,16 @@ public sealed record Target
     public double LonDeg { get; init; }
     public double AltM { get; init; }
 
-    /// <summary>Raza zonei tintei (m): impacturile din interior iau clasa tintei, restul cad pe camp. 0 = implicit dupa tip (oras 3000, baza 600).</summary>
+    /// <summary>Radius of the target's area (m): impacts inside take the target's class, the rest land in the field. 0 = default by type (city 3000, base 600).</summary>
     public double RadiusM { get; init; }
 
-    /// <summary>Cate impacturi (care ajung la tinta) o distrug. 0 = nu se distruge niciodata. O tinta distrusa poate fi parasita de valurile cu Retarget.</summary>
+    /// <summary>How many impacts (that reach the target) destroy it. 0 = never destroyed. A destroyed target may be abandoned by waves with Retarget.</summary>
     public int ImpactsToDestroy { get; init; }
 }
 
 /// <summary>
-/// Val de lansare: Count unitati din SiteId catre TargetId, lansate la fiecare IntervalSeconds
-/// incepand cu StartTimeSeconds. SpreadMeters = dispersia punctului de tintire (deviatie standard).
+/// Launch wave: Count units from SiteId toward TargetId, launched every IntervalSeconds
+/// starting at StartTimeSeconds. SpreadMeters = dispersion of the aim point (standard deviation).
 /// </summary>
 public sealed record Wave
 {
@@ -51,29 +52,29 @@ public sealed record Wave
     public string TargetId { get; init; } = "";
 
     /// <summary>
-    /// Mai multe puncte de lansare: fiecare unitate isi alege unul la intamplare (ordinea conteaza pentru reproductibilitate;
-    /// un id repetat de mai multe ori = pondere mai mare). Daca lista nu e goala, inlocuieste SiteId.
+    /// Several launch points: each unit picks one at random (order matters for reproducibility;
+    /// an id repeated several times = higher weight). If the list is not empty, it replaces SiteId.
     /// </summary>
     public List<string>? SiteIds { get; init; }
 
-    /// <summary>La fel pentru tinte: fiecare unitate isi alege una din lista (ex. mai multe puncte intr-un oras). Inlocuieste TargetId.</summary>
+    /// <summary>Same for targets: each unit picks one from the list (e.g. several points in a city). Replaces TargetId.</summary>
     public List<string>? TargetIds { get; init; }
 
-    /// <summary>Probabilitatea ca o unitate sa nu ajunga la tinta (defectiune, lipsa de combustibil): cade la un punct aleator al traseului (5%-95%).</summary>
+    /// <summary>Probability that a unit does not reach its target (malfunction, out of fuel): it falls at a random point of the route (5%-95%).</summary>
     public double FailureRate { get; init; }
 
-    /// <summary>Rezistenta la bruiaj (0-1): 0 = complet sensibila (GPS civil), 1 = imuna (ghidare inertiala / antene CRPA / racheta balistica).</summary>
+    /// <summary>Jamming resistance (0-1): 0 = fully susceptible (civil GPS), 1 = immune (inertial guidance / CRPA antennas / ballistic missile).</summary>
     public double EwResistance { get; init; }
 
-    /// <summary>Momeala: nu face pagube reale, dar apararea nu o deosebeste de o arma. Folosita doar la statistici (tiruri irosite pe momeli).</summary>
+    /// <summary>Decoy: does no real damage, but the defense cannot tell it from a weapon. Used only for statistics (shots wasted on decoys).</summary>
     public bool Decoy { get; init; }
 
-    /// <summary>Costul pe care apararea CREDE ca il are unitatea (USD): o momeala ieftina care arata ca o arma scumpa atrage tiruri scumpe. 0 = costul real.</summary>
+    /// <summary>The cost the defense BELIEVES the unit has (USD): a cheap decoy that looks like an expensive weapon draws expensive shots. 0 = the real cost.</summary>
     public double PerceivedCostUsd { get; init; }
 
     /// <summary>
-    /// Redirectionare in zbor: cand unitatea e la cel mult RetargetAtKm de tinta si tinta e deja distrusa (Target.ImpactsToDestroy),
-    /// alege la intamplare alta tinta nedistrusa din lista valului, aflata la cel mult RetargetRangeKm de pozitia ei. O singura data per unitate.
+    /// In-flight retargeting: when the unit is at most RetargetAtKm from its target and the target is already destroyed (Target.ImpactsToDestroy),
+    /// it picks another non-destroyed target at random from the wave's list, at most RetargetRangeKm from its position. Once per unit.
     /// </summary>
     public bool Retarget { get; init; }
     public double RetargetAtKm { get; init; } = 40.0;
@@ -82,13 +83,13 @@ public sealed record Wave
     public UnitKind Kind { get; init; } = UnitKind.Drone;
     public int Count { get; init; } = 1;
 
-    /// <summary>Id-ul tipului din catalog din care provine valul (informativ; valorile sunt deja rezolvate in camp).</summary>
+    /// <summary>Id of the catalog type the wave comes from (informational; the values are already resolved into the fields).</summary>
     public string UnitType { get; init; } = "";
 
-    /// <summary>Costul unei unitati (USD), pentru raportul de cost.</summary>
+    /// <summary>Cost of one unit (USD), for the cost ratio.</summary>
     public double CostUsd { get; init; }
 
-    /// <summary>Raza de actiune a tipului (km). 0 = necunoscuta / fara limita; altfel scenariul nu poate trimite unitatea mai departe.</summary>
+    /// <summary>Operational range of the type (km). 0 = unknown / unlimited; otherwise the scenario cannot send the unit farther.</summary>
     public double RangeKm { get; init; }
     public double StartTimeSeconds { get; init; }
     public double IntervalSeconds { get; init; }
@@ -96,44 +97,44 @@ public sealed record Wave
     public double AltitudeM { get; init; } = 500.0;
     public double SpreadMeters { get; init; }
 
-    /// <summary>Altitudinea maxima a traiectoriei balistice (m). 0 = automat: 25% din distanta, intre 20 si 300 km. Ignorat la celelalte tipuri.</summary>
+    /// <summary>Maximum altitude of the ballistic trajectory (m). 0 = automatic: 25% of the distance, between 20 and 300 km. Ignored for other types.</summary>
     public double ApogeeM { get; init; }
 
-    /// <summary>Masa sarcinii explozive (kg); determina raza letala la estimarea victimelor.</summary>
+    /// <summary>Mass of the explosive payload (kg); determines the lethal radius when estimating casualties.</summary>
     public double WarheadKg { get; init; } = 40.0;
 }
 
 public enum DefenseKind
 {
-    /// <summary>Detecteaza (cu limita orizontului radar); nu trage.</summary>
+    /// <summary>Detects (limited by the radar horizon); does not fire.</summary>
     Radar,
-    /// <summary>Racheta sol-aer: trage in drone / avioane detectate de un radar.</summary>
+    /// <summary>Surface-to-air missile: fires at drones / aircraft detected by a radar.</summary>
     Sam,
-    /// <summary>Tun antiaerian: isi vede singur tintele din raza (fara radar), tavan implicit 4000 m.</summary>
+    /// <summary>Anti-aircraft gun: sees its targets within range on its own (no radar), default ceiling 4000 m.</summary>
     AaGun,
-    /// <summary>Aparare anti-balistica: trage in rachete balistice detectate de un radar.</summary>
+    /// <summary>Anti-ballistic defense: fires at ballistic missiles detected by a radar.</summary>
     Abm,
     /// <summary>
-    /// Avion de vanatoare. Sta in asteptare pe un cerc (centru = Lat/Lon, raza PatrolRadiusKm, altitudine AltM), e trimis pe tintele detectate
-    /// din raza ScrambleRangeKm, trage in raza armei (RangeKm), iar cand ramane fara munitie sau combustibil se intoarce la cea mai apropiata
-    /// baza aeriana, se reincarca (TurnaroundSeconds) si revine. Cere cel putin o unitate Airbase in scenariu.
+    /// Fighter aircraft. Waits on a circle (center = Lat/Lon, radius PatrolRadiusKm, altitude AltM), is sent against detected targets
+    /// within ScrambleRangeKm, fires within weapon range (RangeKm), and when it runs out of ammunition or fuel it returns to the nearest
+    /// airbase, rearms (TurnaroundSeconds) and comes back. Requires at least one Airbase unit in the scenario.
     /// </summary>
     Patrol,
-    /// <summary>Baza de drone interceptoare: lanseaza (Magazine) drone care urmaresc tinte detectate din raza RangeKm.</summary>
+    /// <summary>Interceptor drone base: launches (Magazine) drones that chase detected targets within RangeKm.</summary>
     InterceptorBase,
-    /// <summary>Baza aeriana: doar pozitie. Avioanele de patrula se intorc aici sa se reincarce.</summary>
+    /// <summary>Airbase: position only. Patrol aircraft return here to rearm.</summary>
     Airbase,
     /// <summary>
-    /// Razboi electronic (bruiaj / falsificare GPS): fiecare unitate aflata in raza (RangeKm) este pierduta cu o rata de JamRatePerMinute
-    /// (inmultita cu sensibilitatea ei, vezi Wave.EwResistance). Nu are nevoie de radar si nu foloseste munitie. Afecteaza implicit drone si rachete de croaziera.
+    /// Electronic warfare (jamming / GPS spoofing): every unit within range (RangeKm) is lost at a rate of JamRatePerMinute
+    /// (multiplied by its susceptibility, see Wave.EwResistance). Needs no radar and uses no ammunition. By default it affects drones and cruise missiles.
     /// </summary>
     Ew
 }
 
 /// <summary>
-/// Sistem defensiv. RangeKm = raza de detectie (radar), de angajare (SAM / tun / ABM / patrula) sau de lansare (baza de interceptoare).
-/// Magazine = rachete / proiectile / interceptoare; Pk = probabilitatea de lovire per tir;
-/// ReloadSeconds = timpul minim intre doua tiruri / lansari ale aceleiasi unitati.
+/// Defensive system. RangeKm = detection range (radar), engagement range (SAM / gun / ABM / patrol) or launch range (interceptor base).
+/// Magazine = missiles / projectiles / interceptors; Pk = probability of a hit per shot;
+/// ReloadSeconds = minimum time between two shots / launches of the same unit.
 /// </summary>
 public sealed record Defense
 {
@@ -148,99 +149,110 @@ public sealed record Defense
     public double Pk { get; init; } = 0.7;
     public double ReloadSeconds { get; init; } = 2.0;
 
-    /// <summary>Id-ul tipului din catalog din care provine unitatea (informativ; valorile sunt deja rezolvate in camp).</summary>
+    /// <summary>Id of the catalog type the unit comes from (informational; the values are already resolved into the fields).</summary>
     public string TypeId { get; init; } = "";
 
-    /// <summary>Costul unui tir / unei lansari (USD), pentru raportul de cost.</summary>
+    /// <summary>
+    /// Pk as a function of the target's altitude: points (altitude m, factor 0..1), ascending by altitude, linear in between and constant beyond the ends.
+    /// The Pk of every shot is multiplied by the factor at the target's altitude (e.g. a gun group hits low targets best; a long-range SAM struggles against very low ones).
+    /// Absent = no effect (the property is left out of the canonical form, so existing scenarios keep their hash).
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public List<AltitudePoint>? PkAltitude { get; init; }
+
+    /// <summary>Cost of one shot / launch (USD), for the cost ratio.</summary>
     public double ShotCostUsd { get; init; }
 
-    /// <summary>Costul de achizitie al sistemului (USD, ilustrativ), folosit la modul cu buget. 0 = necunoscut.</summary>
+    /// <summary>Acquisition cost of the system (USD, illustrative), used in budget mode. 0 = unknown.</summary>
     public double CostUsd { get; init; }
 
-    /// <summary>Pk specific pe tip de tinta (cheie: numele tipului, ex. "ballisticMissile"); tipurile nementionate folosesc Pk.</summary>
+    /// <summary>Pk per target type (key: the type name, e.g. "ballisticMissile"); types not listed use Pk.</summary>
     public SortedDictionary<string, double>? PkByKind { get; init; }
 
-    /// <summary>Tipurile de tinte pe care le poate angaja. Gol / lipsa = implicit dupa tip (SAM, tun, patrula, interceptoare: drone + avioane; ABM: rachete balistice).</summary>
+    /// <summary>Target types it can engage. Empty / missing = default by type (SAM, gun, patrol, interceptors: drones + aircraft; ABM: ballistic missiles).</summary>
     public List<UnitKind>? Engages { get; init; }
 
-    /// <summary>Intervalul de altitudini al tintelor angajabile (m). MaxAltM = 0: nelimitat (la tun: 4000 m).</summary>
+    /// <summary>Altitude band of engageable targets (m). MaxAltM = 0: unlimited (for guns: 4000 m).</summary>
     public double MinAltM { get; init; }
     public double MaxAltM { get; init; }
 
-    /// <summary>Patrula: raza cercului de patrulare (km, 0 = stationeaza) si viteza avionului (m/s).</summary>
+    /// <summary>Patrol: radius of the patrol circle (km, 0 = stationary) and aircraft speed (m/s).</summary>
     public double PatrolRadiusKm { get; init; }
     public double PatrolSpeedMps { get; init; } = 200.0;
 
-    /// <summary>Patrula: cat zboara (s) inainte sa se intoarca la baza, cat sta la sol la reincarcare (s) si pana unde (km de la centru) accepta sa urmareasca o tinta detectata.</summary>
+    /// <summary>Patrol: how long it flies (s) before returning to base, how long it stays on the ground rearming (s), and how far (km from the center) it will chase a detected target.</summary>
     public double EnduranceSeconds { get; init; } = 3600.0;
     public double TurnaroundSeconds { get; init; } = 600.0;
     public double ScrambleRangeKm { get; init; } = 100.0;
 
-    /// <summary>Baza de interceptoare: viteza dronelor interceptoare (m/s) si durata maxima de zbor (s).</summary>
+    /// <summary>Interceptor base: speed of the interceptor drones (m/s) and maximum flight time (s).</summary>
     public double InterceptorSpeedMps { get; init; } = 120.0;
     public double MaxFlightSeconds { get; init; } = 600.0;
 
-    /// <summary>Razboi electronic: rata de pierdere pe minut (λ) pentru o unitate complet sensibila aflata in raza. Probabilitatea de pierdere intr-un minut = 1 - exp(-λ).</summary>
+    /// <summary>Electronic warfare: loss rate per minute (λ) for a fully susceptible unit in range. Probability of loss within one minute = 1 - exp(-λ).</summary>
     public double JamRatePerMinute { get; init; }
 
-    /// <summary>Razboi electronic: scaderea eficientei cu distanta. Rata efectiva = JamRatePerMinute * (1 - JamFalloff * distanta / RangeKm); 0 = constanta in toata raza, 1 = zero la marginea razei.</summary>
+    /// <summary>Electronic warfare: efficiency drop with distance. Effective rate = JamRatePerMinute * (1 - JamFalloff * distance / RangeKm); 0 = constant across the range, 1 = zero at the edge of the range.</summary>
     public double JamFalloff { get; init; }
 
-    /// <summary>Razboi electronic: cate unitati poate bruia simultan. Peste aceasta valoare, eficienta se imparte (capacitate / unitati in raza). 0 = fara limita.</summary>
+    /// <summary>Electronic warfare: how many units it can jam at once. Above this value, efficiency is shared out (capacity / units in range). 0 = unlimited.</summary>
     public int JamCapacity { get; init; }
 
-    // ---- Retea de radare (doar cand Scenario.LocalTracking = true) ----
+    // ---- Radar network (only when Scenario.LocalTracking = true) ----
 
-    /// <summary>Distanta maxima (km) pana la un radar de la care unitatea primeste piste (legatura de date). Implicit 150 km.</summary>
+    /// <summary>Maximum distance (km) to a radar from which the unit receives tracks (data link). Default 150 km.</summary>
     public double LinkRangeKm { get; init; } = 150.0;
 
-    /// <summary>Raza (km) in care unitatea isi vede singura tintele, cu radarul propriu, fara retea (Pantsir, Tor, grupuri mobile). 0 = fara radar propriu.</summary>
+    /// <summary>Radius (km) within which the unit sees targets on its own, with its own radar, without the network (Pantsir, Tor, mobile groups). 0 = no own radar.</summary>
     public double SelfTrackKm { get; init; }
 
-    // ---- Vulnerabilitate (contra-jocul atacatorului): un impact in apropiere poate distruge sistemul ----
+    // ---- Vulnerability (the attacker's counterplay): a nearby impact can destroy the system ----
 
     /// <summary>
-    /// Cat explozibil (kg) e nevoie, in medie, ca sa distruga sistemul: o lovitura de W kg il distruge cu probabilitatea 1 - exp(-W / HardnessKg).
-    /// 0 = implicit dupa tip (radar 40, SAM 80, tun 60, ABM 100, baza de interceptoare 50, baza aeriana 5000); avioanele de patrula nu pot fi distruse.
+    /// How much explosive (kg) it takes, on average, to destroy the system: a strike of W kg destroys it with probability 1 - exp(-W / HardnessKg).
+    /// 0 = default by type (radar 40, SAM 80, gun 60, ABM 100, interceptor base 50, airbase 5000); patrol aircraft cannot be destroyed.
     /// </summary>
     public double HardnessKg { get; init; }
 
-    /// <summary>Marimea sistemului (m): un impact cu raza letala R lovește daca e la cel mult SizeM + R. 0 = implicit (baza aeriana 600, ABM 40, restul 30).</summary>
+    /// <summary>Size of the system (m): an impact with lethal radius R hits if it is at most SizeM + R away. 0 = default (airbase 600, ABM 40, the rest 30).</summary>
     public double SizeM { get; init; }
 
-    // ---- Doctrina de angajare (toate optionale; valorile implicite = comportamentul simplu: trage in tot ce poate) ----
+    // ---- Engagement doctrine (all optional; defaults = the simple behavior: fire at everything it can) ----
 
     /// <summary>
-    /// Tintele "principale" ale sistemului: le angajeaza mereu (indiferent de cost), pot folosi si munitia rezervata si primesc
-    /// pana la MaxRoundsPerTarget tiruri. Restul sunt "tinte de oportunitate", supuse regulilor de mai jos.
-    /// Gol / lipsa = implicit: ABM = rachete balistice; restul = tot ce nu e drona (avion, racheta de croaziera, racheta balistica).
+    /// The system's "primary" targets: always engaged (regardless of cost), may also use the reserved ammunition, and receive
+    /// up to MaxRoundsPerTarget shots. The rest are "opportunity targets", subject to the rules below.
+    /// Empty / missing = default: ABM = ballistic missiles; the rest = everything that is not a drone (aircraft, cruise missile, ballistic missile).
     /// </summary>
     public List<UnitKind>? PrimaryKinds { get; init; }
 
     /// <summary>
-    /// Cost maxim acceptat: un tir de ShotCostUsd se foloseste pe o tinta de oportunitate doar daca ShotCostUsd &lt;= MaxCostRatio * costul tintei.
-    /// 0 = fara limita. (Nu se aplica daca ShotCostUsd sau costul tintei sunt necunoscute, adica 0.)
+    /// Maximum accepted cost: a shot of ShotCostUsd is used on an opportunity target only if ShotCostUsd &lt;= MaxCostRatio * the target's cost.
+    /// 0 = no limit. (Not applied if ShotCostUsd or the target's cost is unknown, i.e. 0.)
     /// </summary>
     public double MaxCostRatio { get; init; }
 
-    /// <summary>"Scapatoarele": o tinta de oportunitate prea ieftina totusi se angajeaza daca mai are cel mult atatia km pana la impact. 0 = niciodata.</summary>
+    /// <summary>"Leakers": an opportunity target that is too cheap is still engaged if it has at most this many km left to impact. 0 = never.</summary>
     public double LeakerDistanceKm { get; init; }
 
-    /// <summary>Ultimele ReserveRounds tiruri se pastreaza doar pentru tintele principale.</summary>
+    /// <summary>The last ReserveRounds shots are kept for primary targets only.</summary>
     public int ReserveRounds { get; init; }
 
-    /// <summary>Cate tiruri (maxim) se trag intr-o tinta principala: tirurile se trag pe rand, se opreste la prima lovitura (trage-priveste-trage).</summary>
+    /// <summary>How many shots (at most) are fired at one primary target: shots are fired in turn, stopping at the first hit (shoot-look-shoot).</summary>
     public int MaxRoundsPerTarget { get; init; } = 1;
 
-    /// <summary>Cum alege tinta: cea mai aproape de impact, sau intai tipul cel mai periculos (balistic &gt; croaziera &gt; avion &gt; drona), apoi cea mai aproape de impact.</summary>
+    /// <summary>How it picks a target: the one closest to impact, or the most dangerous type first (ballistic &gt; cruise &gt; aircraft &gt; drone), then the one closest to impact.</summary>
     public TargetPriority Priority { get; init; } = TargetPriority.Imminent;
 }
 
+/// <summary>A point of an altitude curve: the factor applied at that altitude (m).</summary>
+public sealed record AltitudePoint(double AltM, double Factor);
+
 public enum TargetPriority
 {
-    /// <summary>Tinta care ajunge prima la impact.</summary>
+    /// <summary>The target that reaches impact first.</summary>
     Imminent,
-    /// <summary>Tipul cel mai periculos intai; la egalitate, cea mai apropiata de impact.</summary>
+    /// <summary>The most dangerous type first; on a tie, the one closest to impact.</summary>
     Threat
 }
 
@@ -250,12 +262,35 @@ public sealed record Scenario
     public double DtSeconds { get; init; } = 0.1;
     public double DurationSeconds { get; init; } = 3600.0;
 
-    /// <summary>Numele hartii de tari (fisier data/countries/&lt;nume&gt;.geojson). Gol = fara spatiu aerian.</summary>
+    /// <summary>
+    /// Instant at which the scenario starts (ISO 8601, e.g. "2026-03-01T22:30:00Z"). Sets the time of day, hence the sun position at each place:
+    /// optical defenses and the people exposed to impacts depend on it (see Sim.Core.Sun.DayNight). Absent = no time of day (the model stays neutral;
+    /// the property is left out of the canonical form, so existing scenarios keep their hash).
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? StartTimeUtc { get; init; }
+
+    /// <summary>
+    /// Weather preset: "clear", "overcast", "rain", "fog" or "storm" (see Sim.Core.Climate.WeatherModel). Optics, radars and small drones are affected differently.
+    /// Absent = neutral, same as "clear" (the property is left out of the canonical form, so existing scenarios keep their hash).
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Weather { get; init; }
+
+    /// <summary>
+    /// Public warning system (sirens / phone alerts triggered by the first detection of a threat): people who have time to reach shelter before an impact
+    /// are less likely to die (see CasualtyModel). Absent = on; false = no warning at all. Only the casualty estimate depends on it.
+    /// (Left out of the canonical form when absent, so existing scenarios keep their hash.)
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? PublicWarning { get; init; }
+
+    /// <summary>Name of the country map (file data/countries/&lt;name&gt;.geojson). Empty = no airspace.</summary>
     public string AirspaceMap { get; init; } = "";
 
     /// <summary>
-    /// Cod ISO2 -> rol. SortedDictionary (ordine ordinala) ca forma canonica si hash-ul sa nu depinda de ordinea din fisier.
-    /// Tarile nementionate sunt Neutral.
+    /// ISO2 code -> role. SortedDictionary (ordinal order) so the canonical form and the hash do not depend on the order in the file.
+    /// Countries not mentioned are Neutral.
     /// </summary>
     public SortedDictionary<string, CountryRole> Countries { get; init; } = new(StringComparer.Ordinal);
 
@@ -265,19 +300,19 @@ public sealed record Scenario
 
     public List<Defense> Defenses { get; init; } = new();
 
-    /// <summary>Cat de des (in secunde simulate) detecteaza si trage sistemele defensive. Fiecare unitate trage cel mult o data per ciclu.</summary>
+    /// <summary>How often (in simulated seconds) the defensive systems detect and fire. Each unit fires at most once per cycle.</summary>
     public double DefenseIntervalSeconds { get; init; } = 1.0;
 
     /// <summary>
-    /// Ordinea in care trag unitatile intr-un ciclu: false = ordinea din lista; true = cele mai ieftine intai (cost per tir crescator,
-    /// cost necunoscut la urma), ca straturile ieftine sa incerce inaintea celor scumpe.
+    /// Order in which units fire in a cycle: false = list order; true = cheapest first (cost per shot ascending,
+    /// unknown cost last), so cheap layers try before expensive ones.
     /// </summary>
     public bool CheapestFirst { get; init; }
 
     /// <summary>
-    /// false = detectia e globala si permanenta (orice radar care a vazut o tinta o arata tuturor, pentru totdeauna).
-    /// true = retea: un sistem care are nevoie de pista trage doar daca un radar INTACT din raza lui de legatura (LinkRangeKm) vede tinta in acest moment,
-    /// sau daca tinta e in raza radarului propriu (SelfTrackKm). Radarele distruse sau depasite de tinta nu mai conteaza.
+    /// false = detection is global and permanent (any radar that has seen a target shows it to everyone, forever).
+    /// true = network: a system that needs a track fires only if an INTACT radar within its link range (LinkRangeKm) sees the target right now,
+    /// or if the target is within its own radar range (SelfTrackKm). Destroyed radars or radars the target has flown past no longer count.
     /// </summary>
     public bool LocalTracking { get; init; }
 }

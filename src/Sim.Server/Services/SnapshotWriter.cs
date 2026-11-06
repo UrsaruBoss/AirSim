@@ -7,20 +7,20 @@ using Sim.Core.Entities;
 namespace Sim.Server.Services;
 
 /// <summary>
-/// Format binar al snapshot-ului (little-endian), cu toate dronele aflate in zbor:
+/// Binary snapshot format (little-endian), with all drones in flight:
 ///
-///   offset  tip       camp
+///   offset  type      field
 ///   0       int64     tick
-///   8       float64   timp simulare (secunde)
-///   16      int32     numar de drone (N)
-///   20      int32     numar de unitati defensive in aer (M): avioane de patrula (id = indexul unitatii) si interceptoare (id >= 1000000)
-///   24      N x 16 octeti (drone), apoi M x 16 octeti (unitati defensive), fiecare:
+///   8       float64   simulation time (seconds)
+///   16      int32     number of drones (N)
+///   20      int32     number of defensive units in the air (M): patrol aircraft (id = unit index) and interceptors (id >= 1000000)
+///   24      N x 16 bytes (drones), then M x 16 bytes (defensive units), each:
 ///             int32   id
-///             float32 lat (grade)
-///             float32 lon (grade)
-///             float32 alt (metri)
+///             float32 lat (degrees)
+///             float32 lon (degrees)
+///             float32 alt (meters)
 ///
-/// float32 la lat/lon da rezolutie de ~1-2 m, suficient pentru vizualizare (starea exacta ramane in nucleu).
+/// float32 for lat/lon gives ~1-2 m resolution, enough for visualization (the exact state stays in the core).
 /// </summary>
 public static class SnapshotWriter
 {

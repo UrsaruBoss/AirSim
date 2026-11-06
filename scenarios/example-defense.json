@@ -1,5 +1,5 @@
 {
-  "name": "Exemplu - aparare (radar + SAM + tunuri)",
+  "name": "Example - defense (radar + SAM + guns)",
   "dtSeconds": 0.1,
   "durationSeconds": 21600,
   "defenseIntervalSeconds": 1.0,
@@ -17,14 +17,14 @@
   "launchSites": [
     {
       "id": "L1",
-      "name": "Lansare Marea Neagră Nord",
+      "name": "Launch Black Sea North",
       "latDeg": 43.2,
       "lonDeg": 31.5,
       "altM": 0
     },
     {
       "id": "L2",
-      "name": "Lansare Marea Neagră Sud",
+      "name": "Launch Black Sea South",
       "latDeg": 42.5,
       "lonDeg": 30.0,
       "altM": 0
@@ -33,7 +33,7 @@
   "targets": [
     {
       "id": "T1",
-      "name": "Tinta oras",
+      "name": "Target city",
       "kind": "city",
       "latDeg": 44.43,
       "lonDeg": 26.1,
@@ -41,7 +41,7 @@
     },
     {
       "id": "T2",
-      "name": "Baza aeriană",
+      "name": "Air base",
       "kind": "military_base",
       "latDeg": 44.36,
       "lonDeg": 28.49,
@@ -52,7 +52,7 @@
   "defenses": [
     {
       "id": "R1",
-      "name": "Radar Constanța",
+      "name": "Radar Constanta",
       "kind": "radar",
       "latDeg": 44.2,
       "lonDeg": 28.6,
@@ -60,7 +60,7 @@
     },
     {
       "id": "S1",
-      "name": "SAM București",
+      "name": "SAM Bucharest",
       "kind": "sam",
       "latDeg": 44.43,
       "lonDeg": 26.1,
@@ -71,7 +71,7 @@
     },
     {
       "id": "S2",
-      "name": "SAM Est",
+      "name": "SAM East",
       "kind": "sam",
       "latDeg": 44.3,
       "lonDeg": 27.2,
@@ -82,7 +82,7 @@
     },
     {
       "id": "G1",
-      "name": "Tun AA Nord",
+      "name": "Tun AA North",
       "kind": "aaGun",
       "latDeg": 44.445,
       "lonDeg": 26.12,
@@ -93,7 +93,7 @@
     },
     {
       "id": "G2",
-      "name": "Tun AA Sud",
+      "name": "Tun AA South",
       "kind": "aaGun",
       "latDeg": 44.415,
       "lonDeg": 26.07,

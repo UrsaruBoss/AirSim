@@ -1,5 +1,5 @@
 {
-  "name": "Exemplu contra-joc - atacatorul loveste radarele, bateriile si baza aeriana (SEAD) inainte de val",
+  "name": "Counterplay example - the attacker hits the radars, batteries and air base (SEAD) before the wave",
   "dtSeconds": 0.1,
   "durationSeconds": 21600,
   "defenseIntervalSeconds": 1.0,
@@ -18,21 +18,21 @@
   "launchSites": [
     {
       "id": "L1",
-      "name": "Lansare Marea Neagră Nord",
+      "name": "Launch Black Sea North",
       "latDeg": 43.2,
       "lonDeg": 31.5,
       "altM": 0
     },
     {
       "id": "L2",
-      "name": "Lansare Marea Neagră Sud",
+      "name": "Launch Black Sea South",
       "latDeg": 42.5,
       "lonDeg": 30.0,
       "altM": 0
     },
     {
       "id": "L3",
-      "name": "Lansare balistice",
+      "name": "Ballistic launch",
       "latDeg": 44.9,
       "lonDeg": 31.0,
       "altM": 0
@@ -41,7 +41,7 @@
   "targets": [
     {
       "id": "T1",
-      "name": "Tinta oras",
+      "name": "Target city",
       "kind": "city",
       "latDeg": 44.43,
       "lonDeg": 26.1,
@@ -49,7 +49,7 @@
     },
     {
       "id": "T2",
-      "name": "Baza aeriana",
+      "name": "Air base",
       "kind": "military_base",
       "latDeg": 44.36,
       "lonDeg": 28.49,
@@ -58,7 +58,7 @@
     },
     {
       "id": "T3",
-      "name": "Radar Constanța",
+      "name": "Radar Constanta",
       "kind": "military_base",
       "latDeg": 44.2,
       "lonDeg": 28.6,
@@ -67,7 +67,7 @@
     },
     {
       "id": "T4",
-      "name": "Radar București",
+      "name": "Radar Bucharest",
       "kind": "military_base",
       "latDeg": 44.45,
       "lonDeg": 26.0,
@@ -76,7 +76,7 @@
     },
     {
       "id": "T5",
-      "name": "IRIS-T Est",
+      "name": "IRIS-T East",
       "kind": "military_base",
       "latDeg": 44.3,
       "lonDeg": 27.2,
@@ -85,7 +85,7 @@
     },
     {
       "id": "T6",
-      "name": "Baza Otopeni",
+      "name": "Base Otopeni",
       "kind": "military_base",
       "latDeg": 44.57,
       "lonDeg": 26.08,
@@ -201,35 +201,35 @@
       "type": "trml-4d",
       "latDeg": 44.2,
       "lonDeg": 28.6,
-      "name": "Radar Constanța"
+      "name": "Radar Constanta"
     },
     {
       "id": "R2",
       "type": "an-mpq-65",
       "latDeg": 44.45,
       "lonDeg": 26.0,
-      "name": "Radar București"
+      "name": "Radar Bucharest"
     },
     {
       "id": "S1",
       "type": "patriot-pac3-mse",
       "latDeg": 44.43,
       "lonDeg": 26.1,
-      "name": "Patriot București"
+      "name": "Patriot Bucharest"
     },
     {
       "id": "S2",
       "type": "iris-t-slm",
       "latDeg": 44.3,
       "lonDeg": 27.2,
-      "name": "IRIS-T Est"
+      "name": "IRIS-T East"
     },
     {
       "id": "S3",
       "type": "iris-t-slm",
       "latDeg": 44.5,
       "lonDeg": 26.0,
-      "name": "IRIS-T București",
+      "name": "IRIS-T Bucharest",
       "magazine": 16
     },
     {
@@ -237,42 +237,42 @@
       "type": "gepard-35mm",
       "latDeg": 44.445,
       "lonDeg": 26.12,
-      "name": "Gepard Nord"
+      "name": "Gepard North"
     },
     {
       "id": "G2",
       "type": "gepard-35mm",
       "latDeg": 44.415,
       "lonDeg": 26.07,
-      "name": "Gepard Sud"
+      "name": "Gepard South"
     },
     {
       "id": "K1",
       "type": "skynex-35mm",
       "latDeg": 44.37,
       "lonDeg": 28.45,
-      "name": "Skynex bază"
+      "name": "Skynex base"
     },
     {
       "id": "P1",
       "type": "f-16-patrol",
       "latDeg": 44.3,
       "lonDeg": 27.6,
-      "name": "F-16 Est"
+      "name": "F-16 East"
     },
     {
       "id": "P2",
       "type": "f-16-patrol",
       "latDeg": 44.5,
       "lonDeg": 27.0,
-      "name": "F-16 Centru"
+      "name": "F-16 Center"
     },
     {
       "id": "B1",
       "type": "sting-interceptor",
       "latDeg": 44.25,
       "lonDeg": 27.9,
-      "name": "Sting Est",
+      "name": "Sting East",
       "rangeKm": 50
     },
     {
@@ -280,7 +280,7 @@
       "type": "sting-interceptor",
       "latDeg": 44.5,
       "lonDeg": 26.5,
-      "name": "Sting București",
+      "name": "Sting Bucharest",
       "rangeKm": 50
     },
     {
@@ -288,14 +288,14 @@
       "type": "airbase",
       "latDeg": 44.36,
       "lonDeg": 28.49,
-      "name": "Baza Kogălniceanu"
+      "name": "Base Kogălniceanu"
     },
     {
       "id": "AB2",
       "type": "airbase",
       "latDeg": 44.57,
       "lonDeg": 26.08,
-      "name": "Baza Otopeni"
+      "name": "Base Otopeni"
     }
   ]
 }

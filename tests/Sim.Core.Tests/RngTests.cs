@@ -29,8 +29,8 @@ public class RngTests
         Assert.NotEqual(first, second);
     }
 
-    // Valori de referinta calculate cu o implementare independenta (Python) a xoshiro256** + SplitMix64.
-    // Daca testul asta pica, s-a schimbat algoritmul => toate rularile salvate devin irepetabile (creste EngineInfo.Version).
+    // Reference values computed with an independent (Python) implementation of xoshiro256** + SplitMix64.
+    // If this test fails, the algorithm changed => all saved runs become unreproducible (bump EngineInfo.Version).
     [Fact]
     public void Golden_values_for_seed_42()
     {
@@ -54,7 +54,7 @@ public class RngTests
     {
         var parent1 = new Rng(99);
         var parent2 = new Rng(99);
-        for (int i = 0; i < 500; i++) parent2.NextUInt64(); // parinte "consumat"
+        for (int i = 0; i < 500; i++) parent2.NextUInt64(); // "consumed" parent
 
         var d1 = parent1.Derive(7);
         var d2 = parent2.Derive(7);

@@ -4,15 +4,15 @@ using System.Collections.Generic;
 namespace Sim.Core.Airspace;
 
 /// <summary>
-/// Grila lat/lon in care fiecare celula retine indexul tarii. Se construieste o singura data (scanline,
-/// regula par-impar), apoi "in ce tara e punctul (lat, lon)" e un acces direct in array: O(1), fara alocari.
-/// Precizia granitelor e de ordinul marimii celulei (0.05 grade ~ 5 km), suficient pentru spatiul aerian.
+/// Lat/lon grid where each cell stores the index of its country. Built once (scanline, even-odd rule),
+/// after which "which country is point (lat, lon) in" is a direct array lookup: O(1), no allocations.
+/// Border precision is on the order of the cell size (0.05 degrees ~ 5 km), enough for airspace.
 /// </summary>
 public sealed class CountryRaster
 {
     private const long MaxCells = 64_000_000;
 
-    private readonly ushort[] _cells; // 0 = nicio tara, k = tara cu indexul k - 1
+    private readonly ushort[] _cells; // 0 = no country, k = country with index k - 1
 
     public double West { get; }
     public double North { get; }
@@ -30,7 +30,7 @@ public sealed class CountryRaster
         _cells = new ushort[(long)width * height];
     }
 
-    /// <summary>Indexul tarii in punctul dat, sau -1 (in afara hartii, pe mare etc.).</summary>
+    /// <summary>Index of the country at the given point, or -1 (outside the map, at sea, etc.).</summary>
     public int IndexAt(double latDeg, double lonDeg)
     {
         int col = (int)Math.Floor((lonDeg - West) / CellDeg);
@@ -44,18 +44,18 @@ public sealed class CountryRaster
     public static CountryRaster Build(CountryMap map, double cellDeg = 0.05)
     {
         if (!(cellDeg > 0.0))
-            throw new ArgumentOutOfRangeException(nameof(cellDeg), "Marimea celulei trebuie sa fie pozitiva.");
+            throw new ArgumentOutOfRangeException(nameof(cellDeg), "The cell size must be positive.");
 
         int width = (int)Math.Ceiling((map.East - map.West) / cellDeg);
         int height = (int)Math.Ceiling((map.North - map.South) / cellDeg);
         if (width <= 0 || height <= 0)
-            throw new ArgumentException("Harta are extindere zero.");
+            throw new ArgumentException("The map has zero extent.");
         if ((long)width * height > MaxCells)
-            throw new ArgumentException($"Raster prea mare ({width} x {height}); mareste celula.");
+            throw new ArgumentException($"Raster too large ({width} x {height}); increase the cell size.");
 
         var raster = new CountryRaster(map.West, map.North, cellDeg, width, height);
 
-        // intersectiile muchiilor cu centrul fiecarui rand; liste reutilizate de la o tara la alta
+        // edge intersections with each row center; lists are reused from one country to the next
         var rowXs = new List<double>?[height];
 
         for (int k = 0; k < map.Countries.Count; k++)
@@ -76,8 +76,8 @@ public sealed class CountryRaster
 
                     double yLo = Math.Min(y0, y1), yHi = Math.Max(y0, y1);
 
-                    // randurile al caror centru c satisface yLo <= c < yHi (interval semi-deschis:
-                    // un varf comun a doua muchii nu se numara de doua ori)
+                    // rows whose center c satisfies yLo <= c < yHi (half-open interval:
+                    // a vertex shared by two edges is not counted twice)
                     int rMin = (int)Math.Floor((map.North - yHi) / cellDeg - 0.5) + 1;
                     int rMax = (int)Math.Floor((map.North - yLo) / cellDeg - 0.5);
                     if (rMin < 0) rMin = 0;
@@ -108,7 +108,7 @@ public sealed class CountryRaster
                 xs.Sort();
                 for (int p = 0; p + 1 < xs.Count; p += 2)
                 {
-                    // celulele al caror centru e intre cele doua intersectii
+                    // cells whose center lies between the two intersections
                     int colStart = (int)Math.Ceiling((xs[p] - map.West) / cellDeg - 0.5);
                     int colEnd = (int)Math.Floor((xs[p + 1] - map.West) / cellDeg - 0.5);
                     if (colStart < 0) colStart = 0;

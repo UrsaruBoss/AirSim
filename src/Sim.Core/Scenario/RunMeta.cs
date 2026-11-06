@@ -3,8 +3,8 @@ using System;
 namespace Sim.Core.Scenarios;
 
 /// <summary>
-/// Identitatea unei rulari: scenariu (prin hash) + seed + versiune de motor.
-/// CreatedUtc e doar informativ si nu intra niciodata in logica de simulare sau in hash.
+/// The identity of a run: scenario (by hash) + seed + engine version.
+/// CreatedUtc is informational only and never enters the simulation logic or the hash.
 /// </summary>
 public sealed record RunMeta
 {
@@ -13,7 +13,7 @@ public sealed record RunMeta
     public string EngineVersion { get; init; } = "";
     public string ScenarioHash { get; init; } = "";
 
-    /// <summary>Hash-ul log-ului de evenimente. Gol pana se termina rularea.</summary>
+    /// <summary>Hash of the event log. Empty until the run finishes.</summary>
     public string EventLogHash { get; init; } = "";
 
     public DateTimeOffset CreatedUtc { get; init; }

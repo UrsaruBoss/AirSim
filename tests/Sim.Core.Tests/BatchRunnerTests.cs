@@ -59,10 +59,10 @@ public class BatchRunnerTests
     public void Different_seeds_give_a_spread()
     {
         var report = BatchRunner.Run(Make(), 1, 12);
-        var crashed = report.Metrics.Single(m => m.Name == "Cazute pe traseu");
+        var crashed = report.Metrics.Single(m => m.Name == "Fell along the route");
 
         Assert.True(crashed.Sd > 0);
-        Assert.InRange(crashed.Mean, 10, 40); // ~ 30% din 80
+        Assert.InRange(crashed.Mean, 10, 40); // ~ 30% of 80
         Assert.True(crashed.Min <= crashed.P5 && crashed.P5 <= crashed.P50 && crashed.P50 <= crashed.P95 && crashed.P95 <= crashed.Max);
     }
 

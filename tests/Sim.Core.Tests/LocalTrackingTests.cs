@@ -6,10 +6,10 @@ using Xunit;
 
 namespace Sim.Core.Tests;
 
-/// <summary>Retea de radare: pista exista doar cat un radar intact, aflat in legatura, vede tinta.</summary>
+/// <summary>Radar network: a track exists only while an intact, linked radar sees the target.</summary>
 public class LocalTrackingTests
 {
-    // Lansare L1 (44, 24) -> T1 (44, 26), ~160 km, 100 m/s. 1 grad de longitudine ~ 80 km la lat 44.
+    // Launch L1 (44, 24) -> T1 (44, 26), ~160 km, 100 m/s. 1 degree of longitude ~ 80 km at lat 44.
     private static Wave W(string id, string targetId, int count = 1, double start = 0, double warheadKg = 0) =>
         new() { Id = id, SiteId = "L1", TargetId = targetId, Count = count, SpeedMps = 100, AltitudeM = 300, StartTimeSeconds = start, WarheadKg = warheadKg };
 
@@ -45,7 +45,7 @@ public class LocalTrackingTests
     [Fact]
     public void Global_detection_remembers_a_target_the_radar_has_lost_but_the_network_does_not()
     {
-        // radarul de la lon 24.2 vede drona doar pana la ~lon 25.25; racheta trage de la lon 25.38
+        // the radar at lon 24.2 sees the drone only up to ~lon 25.25; the missile fires from lon 25.38
         var waves = new[] { W("W1", "T1") };
 
         var global = Run(Make(false, waves, Radar(24.2), Sam(linkKm: 300)));
@@ -54,13 +54,13 @@ public class LocalTrackingTests
         var local = Run(Make(true, waves, Radar(24.2), Sam(linkKm: 300)));
         Assert.Equal(0, local.InterceptedCount);
         Assert.Equal(1, local.ImpactCount);
-        Assert.Equal(1, local.DetectedCount); // evenimentul Detected ramane unul singur per tinta
+        Assert.Equal(1, local.DetectedCount); // the Detected event stays a single one per target
     }
 
     [Fact]
     public void A_radar_inside_the_link_range_gives_a_track()
     {
-        // radarul la lon 25.0 (~80 km de rachete) vede drona pe tot drumul pana in raza rachetei
+        // the radar at lon 25.0 (~80 km from the missiles) sees the drone all the way into the missile range
         var sim = Run(Make(true, new[] { W("W1", "T1") }, Radar(25.0), Sam(linkKm: 100)));
 
         Assert.Equal(1, sim.InterceptedCount);
@@ -86,12 +86,12 @@ public class LocalTrackingTests
     [Fact]
     public void A_destroyed_radar_no_longer_gives_tracks()
     {
-        // W1 loveste radarul (lon 25.0, in afara razei rachetei); W2 vine mult mai tarziu spre T1
+        // W1 hits the radar (lon 25.0, outside the missile range); W2 comes much later toward T1
         var waves = new[] { W("W1", "TR", warheadKg: 400), W("W2", "T1", start: 3000) };
 
         var intact = Run(Make(true, waves, Radar(25.0), Sam(linkKm: 100)));
         Assert.Equal(0, intact.DefensesDestroyed);
-        Assert.Equal(1, intact.InterceptedCount); // W1 nu ajunge in raza rachetei; W2 da, si e urmarita de radar
+        Assert.Equal(1, intact.InterceptedCount); // W1 does not reach missile range; W2 does, and is tracked by the radar
         Assert.Equal(1, intact.ImpactCount);
 
         var destroyed = Run(Make(true, waves, Radar(25.0, hardness: 1), Sam(linkKm: 100)));
