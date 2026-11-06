@@ -11,11 +11,11 @@
 ![xUnit](https://img.shields.io/badge/tests-xUnit-5E2D91)
 ![Deterministic](https://img.shields.io/badge/runs-deterministic-2ea44f)
 
-**Live demo:** https://airsim.rusin.ro (precomputed runs, day and night variants of 18 scenarios)
-
 A deterministic simulator of drone, cruise-missile and ballistic-missile attacks against layered air defenses, with a 3D globe, a time-of-day and weather model, and a statistical after-action report.
 
 The scenarios are loosely based on public reporting on recent conflicts. **All parameters are illustrative, not calibrated against real events** (see [Assumptions and limits](#assumptions-and-limits)). This is a portfolio project: the point is the engineering (determinism, an analysis pipeline, a precomputed public mode), not a prediction of any real outcome.
+
+**[Live demo](https://airsim.rusin.ro)** (precomputed runs of 18 scenarios, day and night variants, with the full after-action report). For the complete feature set (live simulation, your own scenarios, A/B comparison, batch runs) [run it locally](#quick-start); see [the comparison below](#live-demo-vs-running-it-locally).
 
 ![China to Taiwan scenario paused at 0:18:28: missiles in flight, radar and SAM coverage rings, legend, state panel and event log](docs/img/map.png)
 
@@ -30,6 +30,7 @@ The scenarios are loosely based on public reporting on recent conflicts. **All p
 ## Contents
 
 - [What it does](#what-it-does)
+- [Live demo vs running it locally](#live-demo-vs-running-it-locally)
 - [How the model works](#how-the-model-works)
 - [Scenarios](#scenarios)
 - [Determinism](#determinism)
@@ -156,9 +157,27 @@ flowchart LR
 
 **Charts** are plain SVG (no charting library), each with a table view, a legend, a hover tooltip and light and dark themes.
 
+## Live demo vs running it locally
+
+The hosted demo is a **public mode** on purpose: it has no live simulation and no user-supplied input, so there is nothing on the server for a visitor to abuse. It plays back runs that were computed in advance, so the result is identical every time. The full application is the one you run yourself.
+
+| | Live demo (public mode) | Local (full) |
+|---|---|---|
+| Shipped scenarios | all 18, each with a day and a night run | all 18 |
+| Playback | pause, speed from 1x to 500x, seek | pause, speed from 1x to 500x |
+| 3D globe, coverage rings, event log | yes | yes |
+| After-action charts, casualty estimate, public warning, sensitivity | yes, precomputed (seed 1) | yes, computed for each run |
+| Build your own scenario in the editor | no | yes |
+| Choose seed, time of day, weather, public warning | no | yes |
+| Live simulation | no, stored frames | yes, streamed over SignalR |
+| A/B comparison, batch runs, sweeps | no | yes (UI and CLI) |
+| Saved runs with exact replay | no | yes |
+
+Frames in the demo are stored at a fixed step (1 to 30 s, chosen to fit a size budget), so on very large scenarios trajectories are interpolated between frames. Locally the simulation runs at its own step of 0.1 s.
+
 ## Quick start
 
-Requirements: .NET 10 SDK and Node 22.
+Requirements: .NET 10 SDK and Node 22. This starts the full local application, with every feature listed above.
 
 ```bash
 # backend (local mode, live simulation) on http://localhost:5080
@@ -204,7 +223,7 @@ dotnet run -c Release --project src/Sim.Server -- batch scenario=ru-vs-ua runs=3
 
 ## Public mode and deployment
 
-The public build serves the 18 scenarios, each with a day and a night run, as precomputed playback. There is no live simulation and no user-supplied scenario, so there is no server-side compute to abuse.
+This is how the live demo is hosted. The public build serves the 18 scenarios, each with a day and a night run, as precomputed playback. There is no live simulation and no user-supplied scenario, so there is no server-side compute to abuse.
 
 ```bash
 Sim__Mode=public   # no simulation routes, no hub, read-only API, rate limit 300 requests/min per IP
